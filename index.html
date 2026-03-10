@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supply Chain KPI Dashboard — Paragon Corp</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f0f2f5;
+      color: #1a1d23;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: #0f172a;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo-icon {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      border-radius: 8px; display: grid; place-items: center; flex-shrink: 0;
+    }
+    .logo-icon svg { width: 18px; height: 18px; fill: #fff; }
+    header h1 { font-size: 1.25rem; font-weight: 600; color: #f8fafc; letter-spacing: .01em; }
+    .header-sub { font-size: 0.7rem; color: #475569; margin-top: 2px; }
+    .header-right { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .last-updated {
+      font-size: 0.73rem; color: #64748b;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .last-updated svg { width: 12px; height: 12px; }
+    .btn-export {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      color: #fff; font-size: 0.76rem; font-weight: 600;
+      padding: 7px 14px; border: none; border-radius: 7px;
+      cursor: pointer; white-space: nowrap; transition: opacity .15s, transform .1s;
+    }
+    .btn-export:hover { opacity: .88; }
+    .btn-export:active { transform: scale(.97); }
+    .btn-export svg { width: 13px; height: 13px; }
+
+    /* ── Tab Navigation ── */
+    .tab-nav {
+      background: #0f172a;
+      border-top: 1px solid #1e293b;
+      padding: 0 40px;
+      display: flex;
+      gap: 4px;
+    }
+    .tab-btn {
+      padding: 10px 20px;
+      font-size: 0.8rem; font-weight: 600;
+      color: #64748b;
+      background: none; border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer; transition: color .15s, border-color .15s;
+      white-space: nowrap;
+    }
+    .tab-btn:hover { color: #94a3b8; }
+    .tab-btn.active { color: #f8fafc; border-bottom-color: #6366f1; }
+    .tab-btn svg { width: 13px; height: 13px; vertical-align: -2px; margin-right: 6px; }
+
+    /* ── Tab Panels ── */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── Month Selector Bar ── */
+    .month-bar {
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .month-bar-label {
+      font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .08em;
+      color: #64748b; white-space: nowrap;
+    }
+    .month-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .month-chip {
+      padding: 5px 14px;
+      font-size: 0.75rem; font-weight: 600;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 999px;
+      background: #f8fafc;
+      color: #64748b;
+      cursor: pointer;
+      transition: background .12s, color .12s, border-color .12s;
+    }
+    .month-chip:hover { background: #f1f5f9; color: #374151; }
+    .month-chip.active {
+      background: #6366f1; color: #fff;
+      border-color: #6366f1;
+    }
+    .month-chip.ytd {
+      background: #f0f9ff; color: #0369a1;
+      border-color: #bae6fd;
+    }
+    .month-chip.ytd.active {
+      background: #0369a1; color: #fff;
+      border-color: #0369a1;
+    }
+
+    /* ── Main ── */
+    main { max-width: 1240px; margin: 0 auto; padding: 32px 24px; }
+
+    .section-block { margin-bottom: 36px; }
+
+    .section-hdr {
+      display: flex; align-items: center;
+      justify-content: space-between; margin-bottom: 16px;
+    }
+    .section-label {
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; color: #64748b;
+    }
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #e0f2fe; color: #0369a1;
+      font-size: 0.68rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 999px;
+    }
+    .section-tag.wh { background: #ede9fe; color: #6d28d9; }
+    .section-tag.fin { background: #fef3c7; color: #92400e; }
+    .section-tag.plan { background: #dcfce7; color: #166534; }
+
+    /* ── Scorecard ── */
+    .scorecard {
+      background: #fff; border-radius: 16px;
+      padding: 28px 32px; box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+    }
+    .sc-gauge { flex-shrink: 0; }
+    .sc-gauge svg text { font-family: inherit; }
+    .sc-info { flex: 1; min-width: 220px; }
+    .sc-title { font-size: 0.72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #64748b; margin-bottom: 6px; }
+    .sc-message { font-size: 0.9rem; font-weight: 500; color: #374151; margin-bottom: 14px; line-height: 1.45; }
+    .sc-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .sc-pill {
+      font-size: 0.72rem; font-weight: 700;
+      padding: 4px 12px; border-radius: 999px;
+    }
+    .pill-green  { background: #dcfce7; color: #15803d; }
+    .pill-yellow { background: #fef9c3; color: #a16207; }
+    .pill-red    { background: #fee2e2; color: #b91c1c; }
+    .sc-divider { width: 1px; background: #e2e8f0; align-self: stretch; margin: 0 8px; }
+    .sc-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; flex: 1; min-width: 260px; }
+    .sc-stat { text-align: center; }
+    .sc-stat-val { font-size: 1.9rem; font-weight: 700; line-height: 1; }
+    .sc-stat-lbl { font-size: 0.7rem; color: #9ca3af; margin-top: 4px; }
+
+    /* ── Data table ── */
+    .btn-sm {
+      font-size: 0.7rem; font-weight: 600; padding: 4px 12px;
+      border: 1.5px solid #e2e8f0; background: #fff; border-radius: 6px;
+      cursor: pointer; color: #64748b; transition: background .12s;
+    }
+    .btn-sm:hover { background: #f8fafc; }
+    .table-scroll { overflow-x: auto; border-radius: 12px; }
+    .data-table {
+      width: 100%; border-collapse: collapse;
+      background: #fff; border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      font-size: 0.8rem;
+    }
+    .data-table thead th {
+      background: #f8fafc; color: #64748b;
+      font-size: 0.68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .06em;
+      padding: 11px 14px; text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .data-table thead th:first-child { border-radius: 12px 0 0 0; }
+    .data-table thead th:last-child  { border-radius: 0 12px 0 0; }
+    .data-table tbody tr { border-bottom: 1px solid #f1f5f9; }
+    .data-table tbody tr:last-child { border-bottom: none; }
+    .data-table tbody tr:hover { background: #fafbfc; }
+    .data-table td { padding: 9px 14px; vertical-align: middle; }
+    .td-name { font-weight: 600; color: #374151; white-space: nowrap; }
+    .td-section { white-space: nowrap; }
+    .td-unit { font-size: 0.7rem; color: #9ca3af; white-space: nowrap; }
+    .td-status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      display: inline-block; flex-shrink: 0;
+    }
+    .dot-g { background: #22c55e; }
+    .dot-y { background: #eab308; }
+    .dot-r { background: #ef4444; }
+    .td-val { font-weight: 700; }
+    .td-val.green  { color: #16a34a; }
+    .td-val.yellow { color: #ca8a04; }
+    .td-val.red    { color: #dc2626; }
+    .td-trend { font-size: 0.72rem; color: #9ca3af; white-space: nowrap; }
+    .td-trend.up-good   { color: #16a34a; }
+    .td-trend.down-good { color: #16a34a; }
+    .td-trend.up-bad    { color: #dc2626; }
+    .td-trend.down-bad  { color: #dc2626; }
+
+    /* ── KPI Cards ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 18px;
+    }
+    .kpi-card {
+      background: #fff; border-radius: 14px;
+      padding: 22px 24px; box-shadow: 0 1px 3px rgba(0,0,0,.06);
+      border-top: 4px solid transparent; transition: box-shadow .15s;
+    }
+    .kpi-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,.08); }
+    .kpi-card.green  { border-top-color: #22c55e; }
+    .kpi-card.yellow { border-top-color: #eab308; }
+    .kpi-card.red    { border-top-color: #ef4444; }
+
+    .kpi-header {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; margin-bottom: 16px;
+    }
+    .kpi-name { font-size: 0.88rem; font-weight: 600; color: #374151; max-width: 68%; line-height: 1.35; }
+    .kpi-category {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: .04em;
+      text-transform: uppercase; color: #9ca3af; margin-top: 3px;
+    }
+    .status-badge {
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: .05em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 999px;
+    }
+    .badge-green  { background: #dcfce7; color: #15803d; }
+    .badge-yellow { background: #fef9c3; color: #a16207; }
+    .badge-red    { background: #fee2e2; color: #b91c1c; }
+
+    .kpi-values { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .kpi-value-group { display: flex; align-items: baseline; gap: 3px; }
+    .kpi-current {
+      font-size: 2.2rem; font-weight: 700; line-height: 1;
+      letter-spacing: -.02em;
+    }
+    .kpi-prefix { font-size: 1.3rem; font-weight: 700; color: #6b7280; align-self: center; }
+    .kpi-unit { font-size: 1rem; font-weight: 600; color: #6b7280; }
+
+    .trend-arrow svg { width: 26px; height: 26px; }
+
+    .kpi-target { font-size: 0.75rem; color: #9ca3af; margin-bottom: 14px; }
+    .kpi-target strong { color: #6b7280; }
+
+    /* ── Bar chart ── */
+    .bc-wrap { margin-bottom: 12px; }
+    .bc-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+    .bc-label { width: 48px; font-size: 0.66rem; color: #9ca3af; font-weight: 600; flex-shrink: 0; }
+    .bc-track {
+      flex: 1; height: 13px; background: #f1f5f9;
+      border-radius: 4px; overflow: hidden;
+    }
+    .bc-fill { height: 100%; border-radius: 4px; transition: width .55s cubic-bezier(.4,0,.2,1); }
+    .bc-val { width: 58px; font-size: 0.7rem; font-weight: 700; text-align: right; flex-shrink: 0; }
+
+    /* ── Trend chip ── */
+    .trend-chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.7rem; font-weight: 600;
+      padding: 3px 8px; border-radius: 6px;
+      background: #f8fafc; color: #64748b;
+    }
+    .trend-chip svg { width: 11px; height: 11px; }
+
+    /* ── Benchmark bar ── */
+    .kpi-bench {
+      font-size: 0.68rem; color: #9ca3af; margin-top: 6px;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: #1e293b; color: #f8fafc;
+      font-size: 0.76rem; font-weight: 500;
+      padding: 9px 16px; border-radius: 9px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.18);
+      opacity: 0; transform: translateY(8px);
+      transition: opacity .2s, transform .2s; pointer-events: none; z-index: 100;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ── Warehouse Log ── */
+    .wh-meta {
+      background: #fff; border-radius: 12px;
+      padding: 16px 24px; margin-bottom: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      display: flex; gap: 32px; flex-wrap: wrap;
+    }
+    .wh-meta-item { }
+    .wh-meta-lbl { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #94a3b8; margin-bottom: 3px; }
+    .wh-meta-val { font-size: 0.88rem; font-weight: 600; color: #374151; }
+
+    .wh-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .wh-card {
+      background: #fff; border-radius: 12px;
+      padding: 16px 18px; box-shadow: 0 1px 3px rgba(0,0,0,.06);
+      border-left: 4px solid #e2e8f0;
+    }
+    .wh-card.blue   { border-left-color: #3b82f6; }
+    .wh-card.green  { border-left-color: #22c55e; }
+    .wh-card.purple { border-left-color: #a855f7; }
+    .wh-card.orange { border-left-color: #f97316; }
+    .wh-card-val  { font-size: 1.6rem; font-weight: 700; color: #1a1d23; line-height: 1; }
+    .wh-card-lbl  { font-size: 0.68rem; color: #9ca3af; margin-top: 4px; }
+    .wh-card-sub  { font-size: 0.72rem; color: #64748b; margin-top: 2px; font-weight: 500; }
+
+    .wh-log-table {
+      width: 100%; border-collapse: collapse;
+      background: #fff; border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      font-size: 0.8rem; overflow: hidden;
+    }
+    .wh-log-table thead th {
+      background: #f8fafc; color: #64748b;
+      font-size: 0.67rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .06em;
+      padding: 11px 14px; text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .wh-log-table thead th:first-child { border-radius: 12px 0 0 0; }
+    .wh-log-table thead th:last-child  { border-radius: 0 12px 0 0; }
+    .wh-log-table tbody tr { border-bottom: 1px solid #f1f5f9; }
+    .wh-log-table tbody tr:last-child { border-bottom: none; }
+    .wh-log-table tbody tr:hover { background: #fafbfc; }
+    .wh-log-table td { padding: 10px 14px; vertical-align: middle; }
+    .wh-log-table tr.total-row { background: #f8fafc; font-weight: 700; }
+    .wh-log-table tr.total-row td { border-top: 2px solid #e2e8f0; color: #374151; }
+    .note-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.67rem; color: #6366f1; background: #eef2ff;
+      padding: 2px 8px; border-radius: 999px; font-weight: 600;
+      white-space: nowrap;
+    }
+    .acc-badge {
+      padding: 2px 8px; border-radius: 999px;
+      font-size: 0.7rem; font-weight: 700;
+    }
+    .acc-badge.good { background: #dcfce7; color: #15803d; }
+    .acc-badge.warn { background: #fef9c3; color: #a16207; }
+    .acc-badge.bad  { background: #fee2e2; color: #b91c1c; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; padding: 28px;
+      font-size: 0.73rem; color: #9ca3af;
+    }
+
+    /* ── Print ── */
+    @media print {
+      body { background: #fff; font-size: 11px; }
+      header {
+        background: #0f172a !important;
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+        padding: 14px 24px;
+      }
+      .tab-nav, .month-bar, .btn-export, .btn-sm, .toast { display: none !important; }
+      .tab-panel { display: block !important; }
+      main { padding: 16px; max-width: 100%; }
+      .scorecard { box-shadow: none; border: 1px solid #e2e8f0; padding: 18px; }
+      .data-table, .wh-log-table { box-shadow: none; font-size: 9px; }
+      .kpi-card {
+        box-shadow: none; border: 1px solid #e2e8f0;
+        break-inside: avoid; border-top-width: 3px;
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+      }
+      .kpi-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .kpi-current { font-size: 1.6rem; }
+      .bc-fill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .kpi-card.green  { border-top-color: #22c55e !important; }
+      .kpi-card.yellow { border-top-color: #eab308 !important; }
+      .kpi-card.red    { border-top-color: #ef4444 !important; }
+      .section-block { margin-bottom: 20px; }
+      footer { display: none; }
+    }
+
+    @media (max-width: 700px) {
+      header { padding: 16px 18px; }
+      .tab-nav { padding: 0 18px; }
+      .month-bar { padding: 10px 18px; }
+      main { padding: 20px 14px; }
+      .scorecard { gap: 20px; }
+      .sc-stats { grid-template-columns: repeat(3,1fr); gap: 10px; }
+      .kpi-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zm0 11h7v7H3zm11-11h7v7h-7zm0 11h7v7h-7z"/></svg>
+    </div>
+    <div>
+      <h1>Supply Chain KPI Dashboard</h1>
+      <div class="header-sub">Paragon Corp — Odyssey Program &nbsp;|&nbsp; Source: SAP S/4HANA Export</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="last-updated">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      Updated: March 2025
+    </div>
+    <button class="btn-export" onclick="exportPDF()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="12" y1="11" x2="12" y2="17"/>
+        <polyline points="9 14 12 17 15 14"/>
+      </svg>
+      Export PDF
+    </button>
+  </div>
+</header>
+
+<!-- ── Tab Navigation ── -->
+<nav class="tab-nav">
+  <button class="tab-btn active" id="tab-kpi" onclick="switchTab('kpi')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+    </svg>
+    KPI Dashboard
+  </button>
+  <button class="tab-btn" id="tab-wh" onclick="switchTab('wh')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+      <line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+    </svg>
+    Warehouse Log
+  </button>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     TAB 1: KPI DASHBOARD
+══════════════════════════════════════════ -->
+<div class="tab-panel active" id="panel-kpi">
+
+  <!-- Month Selector -->
+  <div class="month-bar">
+    <span class="month-bar-label">Month:</span>
+    <div class="month-chips" id="month-chips"></div>
+  </div>
+
+  <main>
+
+    <!-- ── Scorecard ── -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label">Overall Health Scorecard</p>
+        <span id="scorecard-month-label" style="font-size:0.72rem;color:#94a3b8;font-weight:600;"></span>
+      </div>
+      <div class="scorecard" id="scorecard"></div>
+    </div>
+
+    <!-- ── Summary Table ── -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label">KPI Summary</p>
+        <button class="btn-sm" id="table-toggle" onclick="toggleTable()">Hide</button>
+      </div>
+      <div id="table-wrap">
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>KPI</th>
+                <th>Category</th>
+                <th>Actual</th>
+                <th>Target</th>
+                <th>vs Prev Month</th>
+                <th>Industry Benchmark</th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Distribution KPIs ── -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label"><span class="section-tag">Distribution</span></p>
+      </div>
+      <div class="kpi-grid" id="grid-distribution"></div>
+    </div>
+
+    <!-- ── Warehouse KPIs ── -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label"><span class="section-tag wh">Warehouse Operations</span></p>
+      </div>
+      <div class="kpi-grid" id="grid-warehouse"></div>
+    </div>
+
+    <!-- ── Planning & Finance KPIs ── -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label"><span class="section-tag plan">Planning & Finance</span></p>
+      </div>
+      <div class="kpi-grid" id="grid-planning"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 2: WAREHOUSE LOG
+══════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-wh">
+  <main>
+
+    <!-- Metadata -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label">Warehouse Operations — Daily Log</p>
+      </div>
+      <div class="wh-meta">
+        <div class="wh-meta-item">
+          <div class="wh-meta-lbl">Warehouse</div>
+          <div class="wh-meta-val">NDC Jakarta</div>
+        </div>
+        <div class="wh-meta-item">
+          <div class="wh-meta-lbl">Shift</div>
+          <div class="wh-meta-val">Day</div>
+        </div>
+        <div class="wh-meta-item">
+          <div class="wh-meta-lbl">System</div>
+          <div class="wh-meta-val">Heron WMS</div>
+        </div>
+        <div class="wh-meta-item">
+          <div class="wh-meta-lbl">Period</div>
+          <div class="wh-meta-val">Sample Week — March 2025</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary cards -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label">Week Summary</p>
+      </div>
+      <div class="wh-summary" id="wh-summary"></div>
+    </div>
+
+    <!-- Daily log table -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label">Daily Activity Log</p>
+      </div>
+      <div class="table-scroll">
+        <table class="wh-log-table" id="wh-log-table"></table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  Paragon Corp — Odyssey Program &nbsp;|&nbsp; KPI data: SAP S/4HANA Export 2025 &nbsp;|&nbsp; Targets: Walmart SC Report, DHL Logistics Benchmark, FMCG Industry Standards
+</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   REAL DATA FROM SC_KPI_Data_Paragon.xlsx
+═══════════════════════════════════════════════════════════ */
+
+const MONTHS = ['Jan-25','Feb-25','Mar-25','Apr-25','May-25','Jun-25','Jul-25','Aug-25','Sep-25'];
+const MONTHS_FULL = ['January 2025','February 2025','March 2025','April 2025','May 2025',
+                     'June 2025','July 2025','August 2025','September 2025'];
+
+// monthly values indexed 0..8 (Jan..Sep), matching MONTHS array
+const KPI_DEFS = [
+  {
+    id: 'otd', name: 'On Time Delivery Rate', category: 'Distribution',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 95,
+    monthly: [91.2, 92.5, 93.1, 94.0, 93.8, 94.5, 93.2, 92.8, 93.5],
+    greenFn: v => v >= 95, yellowFn: v => v >= 92 && v < 95,
+    benchmark: 'Walmart: 97% | DHL: 95%'
+  },
+  {
+    id: 'ofr', name: 'Order Fill Rate', category: 'Distribution',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 98,
+    monthly: [96.1, 96.8, 97.2, 97.5, 97.1, 97.8, 97.4, 96.9, 97.0],
+    greenFn: v => v >= 98, yellowFn: v => v >= 95 && v < 98,
+    benchmark: 'FMCG avg: 97% | Best: 99%'
+  },
+  {
+    id: 'por', name: 'Perfect Order Rate', category: 'Distribution',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 95,
+    monthly: [88.2, 89.1, 89.8, 90.5, 90.8, 91.2, 90.8, 90.1, 90.3],
+    greenFn: v => v >= 95, yellowFn: v => v >= 90 && v < 95,
+    benchmark: 'Best-in-class: 98%'
+  },
+  {
+    id: 'rr', name: 'Return Rate', category: 'Distribution',
+    unit: '%', prefix: '', lowerIsBetter: true, decimals: 1,
+    target: 2,
+    monthly: [3.1, 2.9, 2.7, 2.5, 2.4, 2.2, 2.1, 2.3, 2.5],
+    greenFn: v => v < 2, yellowFn: v => v >= 2 && v <= 4,
+    benchmark: 'E-commerce avg: 3%'
+  },
+  {
+    id: 'ia', name: 'Inventory Accuracy', category: 'Warehouse',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 99,
+    monthly: [98.2, 98.5, 98.8, 99.1, 99.3, 99.4, 99.4, 99.2, 99.1],
+    greenFn: v => v >= 99, yellowFn: v => v >= 97 && v < 99,
+    benchmark: 'Best-in-class: 99.5%'
+  },
+  {
+    id: 'wpa', name: 'Warehouse Picking Accuracy', category: 'Warehouse',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 99.5,
+    monthly: [97.8, 98.1, 98.3, 98.5, 98.7, 98.9, 98.7, 98.4, 98.5],
+    greenFn: v => v >= 99.5, yellowFn: v => v >= 97 && v < 99.5,
+    benchmark: 'Industry: 99.5%'
+  },
+  {
+    id: 'dts', name: 'Dock to Stock Time', category: 'Warehouse',
+    unit: ' hrs', prefix: '', lowerIsBetter: true, decimals: 1,
+    target: 2,
+    monthly: [2.8, 2.6, 2.5, 2.3, 2.2, 2.1, 2.0, 2.1, 2.2],
+    greenFn: v => v < 2, yellowFn: v => v >= 2 && v <= 3,
+    benchmark: 'Best practice: 1.5 hrs'
+  },
+  {
+    id: 'lu', name: 'Labor Utilization', category: 'Warehouse',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 85,
+    monthly: [78.2, 79.5, 80.1, 81.3, 82.0, 83.1, 83.5, 82.8, 81.8],
+    greenFn: v => v >= 85, yellowFn: v => v >= 75 && v < 85,
+    benchmark: 'Industry: 80–90%'
+  },
+  {
+    id: 'mape', name: 'Forecast Accuracy (MAPE)', category: 'Planning',
+    unit: '%', prefix: '', lowerIsBetter: true, decimals: 1,
+    target: 10,
+    monthly: [12.1, 11.5, 10.8, 10.2, 9.8, 9.1, 8.5, 8.8, 9.5],
+    greenFn: v => v < 10, yellowFn: v => v >= 10 && v <= 15,
+    benchmark: 'FMCG avg: 12% | Best: 8%'
+  },
+  {
+    id: 'cpo', name: 'Cost per Order', category: 'Finance',
+    unit: '', prefix: '$', lowerIsBetter: true, decimals: 2,
+    target: 5,
+    monthly: [6.8, 6.5, 6.2, 5.9, 5.7, 5.5, 5.4, 5.6, 5.8],
+    greenFn: v => v < 5, yellowFn: v => v >= 5 && v <= 7,
+    benchmark: 'FMCG avg: $6'
+  },
+];
+
+// YTD averages
+KPI_DEFS.forEach(k => {
+  k.ytd = +(k.monthly.reduce((a,b) => a+b, 0) / k.monthly.length).toFixed(k.decimals);
+});
+
+// Warehouse Daily Log data
+const WH_HEADERS = ['Date','Orders Received','Orders Picked','Orders Shipped','Pick Accuracy %','On-Time Ship %','Returns','Labor Hours','Notes'];
+const WH_DATA = [
+  { date:'Mon, Mar 3', received:450, picked:438, shipped:435, pickAcc:98.5, onTimeShip:96.7, returns:8, laborHrs:42, notes:'Normal operations' },
+  { date:'Tue, Mar 4', received:512, picked:498, shipped:495, pickAcc:98.2, onTimeShip:96.3, returns:11, laborHrs:45, notes:'High volume — promo day' },
+  { date:'Wed, Mar 5', received:389, picked:381, shipped:378, pickAcc:99.1, onTimeShip:97.2, returns:6,  laborHrs:40, notes:'' },
+  { date:'Thu, Mar 6', received:601, picked:575, shipped:568, pickAcc:97.8, onTimeShip:94.5, returns:15, laborHrs:52, notes:'Partial system downtime 2 hrs' },
+  { date:'Fri, Mar 7', received:478, picked:468, shipped:465, pickAcc:98.7, onTimeShip:97.3, returns:9,  laborHrs:43, notes:'' },
+  { date:'Mon, Mar 10',received:425, picked:416, shipped:413, pickAcc:98.9, onTimeShip:97.5, returns:7,  laborHrs:41, notes:'' },
+  { date:'Tue, Mar 11',received:534, picked:521, shipped:518, pickAcc:98.3, onTimeShip:96.9, returns:12, laborHrs:46, notes:'New staff onboarding' },
+];
+
+/* ═══════════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════════ */
+let selectedMonthIdx = 8; // default: Sep-25 (most recent)
+const IS_YTD = -1;
+
+/* ═══════════════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════════════ */
+function getVal(kpi, idx) {
+  return idx === IS_YTD ? kpi.ytd : kpi.monthly[idx];
+}
+function getPrevVal(kpi, idx) {
+  if (idx === IS_YTD) return null;
+  if (idx === 0) return null;
+  return kpi.monthly[idx - 1];
+}
+function getStatus(kpi, val) {
+  if (kpi.greenFn(val))  return 'green';
+  if (kpi.yellowFn(val)) return 'yellow';
+  return 'red';
+}
+function statusColor(s) {
+  return { green:'#16a34a', yellow:'#ca8a04', red:'#dc2626' }[s];
+}
+function badgeLabel(s) {
+  return { green:'On Target', yellow:'Near Target', red:'Off Target' }[s];
+}
+function fmt(kpi, val) {
+  return kpi.prefix + Number(val).toFixed(kpi.decimals) + kpi.unit;
+}
+function computeScore(kpi, val) {
+  const t = kpi.target;
+  if (kpi.lowerIsBetter) {
+    if (val <= 0) return 100;
+    return Math.min(100, Math.max(0, (t / val) * 100));
+  }
+  return Math.min(100, Math.max(0, (val / t) * 100));
+}
+function healthMessage(score) {
+  if (score >= 95) return 'Supply chain performing excellently — all critical metrics on track.';
+  if (score >= 85) return 'Supply chain in good health — a few areas need attention.';
+  if (score >= 70) return 'Supply chain performing adequately — several KPIs require focused improvement.';
+  if (score >= 55) return 'Supply chain under pressure — immediate action needed on key metrics.';
+  return 'Supply chain in critical state — urgent intervention required across key areas.';
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MONTH CHIPS
+═══════════════════════════════════════════════════════════ */
+function renderMonthChips() {
+  const container = document.getElementById('month-chips');
+  let html = '';
+  MONTHS.forEach((m, i) => {
+    html += `<button class="month-chip${i === selectedMonthIdx ? ' active' : ''}" onclick="selectMonth(${i})">${m}</button>`;
+  });
+  html += `<button class="month-chip ytd${selectedMonthIdx === IS_YTD ? ' active' : ''}" onclick="selectMonth(${IS_YTD})">YTD Avg</button>`;
+  container.innerHTML = html;
+}
+
+function selectMonth(idx) {
+  selectedMonthIdx = idx;
+  renderMonthChips();
+  renderAll();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCORECARD
+═══════════════════════════════════════════════════════════ */
+function renderScorecard() {
+  const idx = selectedMonthIdx;
+  const vals = KPI_DEFS.map(k => ({ kpi: k, val: getVal(k, idx) }));
+  const avg = vals.map(({kpi,val}) => computeScore(kpi,val)).reduce((a,b)=>a+b,0) / vals.length;
+  const health = Math.round(avg);
+  let cg=0, cy=0, cr=0;
+  vals.forEach(({kpi,val}) => {
+    const s = getStatus(kpi, val);
+    if (s==='green') cg++; else if (s==='yellow') cy++; else cr++;
+  });
+
+  const label = idx === IS_YTD ? 'YTD Average' : MONTHS_FULL[idx];
+  document.getElementById('scorecard-month-label').textContent = label;
+
+  const hColor = health >= 85 ? '#16a34a' : health >= 70 ? '#ca8a04' : '#dc2626';
+  const hBg    = health >= 85 ? '#dcfce7' : health >= 70 ? '#fef9c3' : '#fee2e2';
+  const circ   = 2 * Math.PI * 46;
+  const dash   = (health / 100 * circ).toFixed(2);
+
+  document.getElementById('scorecard').innerHTML = `
+    <div class="sc-gauge">
+      <svg width="110" height="110" viewBox="0 0 110 110">
+        <circle cx="55" cy="55" r="46" fill="${hBg}" stroke="#e2e8f0" stroke-width="9"/>
+        <circle cx="55" cy="55" r="46" fill="none" stroke="${hColor}" stroke-width="9"
+          stroke-dasharray="${dash} ${circ.toFixed(2)}"
+          stroke-linecap="round" transform="rotate(-90 55 55)"
+          style="-webkit-print-color-adjust:exact;print-color-adjust:exact"/>
+        <text x="55" y="50" text-anchor="middle" fill="${hColor}"
+          font-size="21" font-weight="700" font-family="inherit">${health}</text>
+        <text x="55" y="65" text-anchor="middle" fill="#94a3b8"
+          font-size="8.5" font-family="inherit">/ 100</text>
+      </svg>
+    </div>
+    <div class="sc-info">
+      <div class="sc-title">Overall Health Score</div>
+      <div class="sc-message">${healthMessage(health)}</div>
+      <div class="sc-pills">
+        <span class="sc-pill pill-green">${cg} On Target</span>
+        <span class="sc-pill pill-yellow">${cy} Near Target</span>
+        <span class="sc-pill pill-red">${cr} Off Target</span>
+      </div>
+    </div>
+    <div class="sc-divider"></div>
+    <div class="sc-stats">
+      <div class="sc-stat">
+        <div class="sc-stat-val" style="color:#16a34a">${cg}</div>
+        <div class="sc-stat-lbl">On Target</div>
+      </div>
+      <div class="sc-stat">
+        <div class="sc-stat-val" style="color:#ca8a04">${cy}</div>
+        <div class="sc-stat-lbl">Near Target</div>
+      </div>
+      <div class="sc-stat">
+        <div class="sc-stat-val" style="color:#dc2626">${cr}</div>
+        <div class="sc-stat-lbl">Off Target</div>
+      </div>
+    </div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SUMMARY TABLE
+═══════════════════════════════════════════════════════════ */
+function renderTable() {
+  const idx = selectedMonthIdx;
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '';
+  KPI_DEFS.forEach(kpi => {
+    const val  = getVal(kpi, idx);
+    const prev = getPrevVal(kpi, idx);
+    const status = getStatus(kpi, val);
+    const dotCls = {green:'dot-g', yellow:'dot-y', red:'dot-r'}[status];
+
+    let trendHtml = '<span style="color:#d1d5db">—</span>';
+    if (prev !== null) {
+      const delta = val - prev;
+      const absDelta = Math.abs(delta).toFixed(kpi.decimals);
+      const up = delta > 0;
+      const good = kpi.lowerIsBetter ? !up : up;
+      const cls = up ? (good ? 'up-good' : 'up-bad') : (good ? 'down-good' : 'down-bad');
+      const arrow = up ? '▲' : '▼';
+      trendHtml = `<span class="td-trend ${cls}">${arrow} ${kpi.prefix}${absDelta}${kpi.unit}</span>`;
+    }
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span class="td-status-dot ${dotCls}"></span></td>
+      <td class="td-name">${kpi.name}</td>
+      <td class="td-section">
+        <span class="section-tag ${kpi.category==='Warehouse'?'wh':kpi.category==='Planning'||kpi.category==='Finance'?'plan':''}"
+          style="font-size:.62rem;padding:2px 8px">${kpi.category}</span>
+      </td>
+      <td class="td-val ${status}">${fmt(kpi, val)}</td>
+      <td style="color:#6b7280;font-weight:600">${kpi.lowerIsBetter?'< ':'≥ '}${fmt(kpi, kpi.target)}</td>
+      <td>${trendHtml}</td>
+      <td style="font-size:0.72rem;color:#6b7280">${kpi.benchmark}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   KPI CARDS
+═══════════════════════════════════════════════════════════ */
+function renderBarChart(kpi, val) {
+  const status = getStatus(kpi, val);
+  const color  = statusColor(status);
+  const scale  = Math.max(val, kpi.target) * 1.12;
+  const aPct   = Math.min((val / scale) * 100, 100).toFixed(1);
+  const tPct   = Math.min((kpi.target / scale) * 100, 100).toFixed(1);
+  const tLabel = (kpi.lowerIsBetter ? '< ' : '') + fmt(kpi, kpi.target);
+  return `
+    <div class="bc-wrap">
+      <div class="bc-row">
+        <span class="bc-label">Actual</span>
+        <div class="bc-track"><div class="bc-fill" style="width:${aPct}%;background:${color}"></div></div>
+        <span class="bc-val" style="color:${color}">${fmt(kpi, val)}</span>
+      </div>
+      <div class="bc-row">
+        <span class="bc-label">Target</span>
+        <div class="bc-track"><div class="bc-fill" style="width:${tPct}%;background:#94a3b8"></div></div>
+        <span class="bc-val" style="color:#6b7280">${tLabel}</span>
+      </div>
+    </div>`;
+}
+
+function trendArrowSVG(kpi, val, prev) {
+  if (prev === null) return '';
+  const delta = val - prev;
+  if (Math.abs(delta) < 0.001) {
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
+  }
+  const up = delta > 0;
+  const good = kpi.lowerIsBetter ? !up : up;
+  const c = good ? '#22c55e' : '#ef4444';
+  return up
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>`;
+}
+
+function trendChipHTML(kpi, val, prev) {
+  if (prev === null) return `<span class="trend-chip">No prior month data</span>`;
+  const delta = val - prev;
+  const absDelta = Math.abs(delta).toFixed(kpi.decimals);
+  if (Math.abs(delta) < 0.001) return `<span class="trend-chip">Stable vs last month</span>`;
+  const up = delta > 0;
+  const good = kpi.lowerIsBetter ? !up : up;
+  const c = good ? '#22c55e' : '#ef4444';
+  const sign = up ? '+' : '-';
+  const arrow = up
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+  return `<span class="trend-chip">${arrow} ${sign}${kpi.prefix}${absDelta}${kpi.unit} vs last month</span>`;
+}
+
+function renderCards() {
+  const idx = selectedMonthIdx;
+  const grids = {
+    'Distribution': document.getElementById('grid-distribution'),
+    'Warehouse':    document.getElementById('grid-warehouse'),
+    'Planning':     document.getElementById('grid-planning'),
+    'Finance':      document.getElementById('grid-planning'),
+  };
+  document.getElementById('grid-distribution').innerHTML = '';
+  document.getElementById('grid-warehouse').innerHTML    = '';
+  document.getElementById('grid-planning').innerHTML     = '';
+
+  KPI_DEFS.forEach(kpi => {
+    const val    = getVal(kpi, idx);
+    const prev   = getPrevVal(kpi, idx);
+    const status = getStatus(kpi, val);
+    const color  = statusColor(status);
+    const tgtLabel = (kpi.lowerIsBetter ? 'below ' : '') + fmt(kpi, kpi.target);
+
+    const card = document.createElement('div');
+    card.className = `kpi-card ${status}`;
+    card.innerHTML = `
+      <div class="kpi-header">
+        <div>
+          <div class="kpi-name">${kpi.name}</div>
+          <div class="kpi-category">${kpi.category}</div>
+        </div>
+        <span class="status-badge badge-${status}">${badgeLabel(status)}</span>
+      </div>
+      <div class="kpi-values">
+        <div class="kpi-value-group">
+          ${kpi.prefix ? `<span class="kpi-prefix" style="color:${color}">${kpi.prefix}</span>` : ''}
+          <span class="kpi-current" style="color:${color}">${val.toFixed(kpi.decimals)}</span>
+          ${kpi.unit.trim() ? `<span class="kpi-unit">${kpi.unit.trim()}</span>` : ''}
+        </div>
+        <div class="trend-arrow">${trendArrowSVG(kpi, val, prev)}</div>
+      </div>
+      <div class="kpi-target">Target: <strong>${tgtLabel}</strong></div>
+      ${renderBarChart(kpi, val)}
+      ${trendChipHTML(kpi, val, prev)}
+      <div class="kpi-bench">Benchmark: ${kpi.benchmark}</div>`;
+
+    const gridKey = (kpi.category === 'Finance') ? 'Planning' : kpi.category;
+    grids[gridKey].appendChild(card);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   WAREHOUSE LOG
+═══════════════════════════════════════════════════════════ */
+function renderWarehouseLog() {
+  // Summary cards
+  const totalReceived = WH_DATA.reduce((s,r) => s+r.received, 0);
+  const totalShipped  = WH_DATA.reduce((s,r) => s+r.shipped, 0);
+  const totalReturns  = WH_DATA.reduce((s,r) => s+r.returns, 0);
+  const avgPickAcc    = (WH_DATA.reduce((s,r) => s+r.pickAcc, 0) / WH_DATA.length).toFixed(1);
+  const avgOnTime     = (WH_DATA.reduce((s,r) => s+r.onTimeShip, 0) / WH_DATA.length).toFixed(1);
+  const totalLabor    = WH_DATA.reduce((s,r) => s+r.laborHrs, 0);
+
+  document.getElementById('wh-summary').innerHTML = `
+    <div class="wh-card blue">
+      <div class="wh-card-val">${totalReceived.toLocaleString()}</div>
+      <div class="wh-card-lbl">Orders Received</div>
+      <div class="wh-card-sub">Week total</div>
+    </div>
+    <div class="wh-card green">
+      <div class="wh-card-val">${totalShipped.toLocaleString()}</div>
+      <div class="wh-card-lbl">Orders Shipped</div>
+      <div class="wh-card-sub">${((totalShipped/totalReceived)*100).toFixed(1)}% ship rate</div>
+    </div>
+    <div class="wh-card purple">
+      <div class="wh-card-val">${avgPickAcc}%</div>
+      <div class="wh-card-lbl">Avg Pick Accuracy</div>
+      <div class="wh-card-sub">Target: ≥ 99.5%</div>
+    </div>
+    <div class="wh-card purple">
+      <div class="wh-card-val">${avgOnTime}%</div>
+      <div class="wh-card-lbl">Avg On-Time Ship</div>
+      <div class="wh-card-sub">Target: ≥ 97%</div>
+    </div>
+    <div class="wh-card orange">
+      <div class="wh-card-val">${totalReturns}</div>
+      <div class="wh-card-lbl">Total Returns</div>
+      <div class="wh-card-sub">${((totalReturns/totalReceived)*100).toFixed(1)}% return rate</div>
+    </div>
+    <div class="wh-card blue">
+      <div class="wh-card-val">${totalLabor}</div>
+      <div class="wh-card-lbl">Total Labor Hours</div>
+      <div class="wh-card-sub">${(totalLabor/WH_DATA.length).toFixed(1)} hrs/day avg</div>
+    </div>`;
+
+  // Log table
+  const table = document.getElementById('wh-log-table');
+  let html = `<thead><tr>`;
+  ['Date','Received','Picked','Shipped','Pick Acc.','On-Time Ship','Returns','Labor Hrs','Notes'].forEach(h => {
+    html += `<th>${h}</th>`;
+  });
+  html += `</tr></thead><tbody>`;
+
+  WH_DATA.forEach(row => {
+    const pickCls = row.pickAcc >= 99.5 ? 'good' : row.pickAcc >= 97 ? 'warn' : 'bad';
+    const onTimeCls = row.onTimeShip >= 97 ? 'good' : row.onTimeShip >= 94 ? 'warn' : 'bad';
+    const noteHtml = row.notes
+      ? `<span class="note-badge">📋 ${row.notes}</span>`
+      : `<span style="color:#d1d5db">—</span>`;
+    html += `<tr>
+      <td style="font-weight:600;color:#374151;white-space:nowrap">${row.date}</td>
+      <td>${row.received.toLocaleString()}</td>
+      <td>${row.picked.toLocaleString()}</td>
+      <td>${row.shipped.toLocaleString()}</td>
+      <td><span class="acc-badge ${pickCls}">${row.pickAcc}%</span></td>
+      <td><span class="acc-badge ${onTimeCls}">${row.onTimeShip}%</span></td>
+      <td>${row.returns}</td>
+      <td>${row.laborHrs}</td>
+      <td>${noteHtml}</td>
+    </tr>`;
+  });
+
+  // Totals row
+  html += `<tr class="total-row">
+    <td>Week Total / Avg</td>
+    <td>${totalReceived.toLocaleString()}</td>
+    <td>${WH_DATA.reduce((s,r)=>s+r.picked,0).toLocaleString()}</td>
+    <td>${totalShipped.toLocaleString()}</td>
+    <td><span class="acc-badge ${parseFloat(avgPickAcc)>=99.5?'good':parseFloat(avgPickAcc)>=97?'warn':'bad'}">${avgPickAcc}%</span></td>
+    <td><span class="acc-badge ${parseFloat(avgOnTime)>=97?'good':parseFloat(avgOnTime)>=94?'warn':'bad'}">${avgOnTime}%</span></td>
+    <td>${totalReturns}</td>
+    <td>${totalLabor}</td>
+    <td></td>
+  </tr>`;
+
+  html += `</tbody>`;
+  table.innerHTML = html;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TAB SWITCHING
+═══════════════════════════════════════════════════════════ */
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('panel-' + tab).classList.add('active');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE TOGGLE
+═══════════════════════════════════════════════════════════ */
+let tableVisible = true;
+function toggleTable() {
+  const wrap = document.getElementById('table-wrap');
+  const btn  = document.getElementById('table-toggle');
+  tableVisible = !tableVisible;
+  wrap.style.display = tableVisible ? '' : 'none';
+  btn.textContent = tableVisible ? 'Hide' : 'Show';
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TOAST & PDF
+═══════════════════════════════════════════════════════════ */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+function exportPDF() {
+  showToast('Opening print dialog…');
+  setTimeout(() => window.print(), 300);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER ALL KPI TAB
+═══════════════════════════════════════════════════════════ */
+function renderAll() {
+  renderScorecard();
+  renderTable();
+  renderCards();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════ */
+renderMonthChips();
+renderAll();
+renderWarehouseLog();
+</script>
+</body>
+</html>
