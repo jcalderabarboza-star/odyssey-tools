@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supply Chain KPI Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f0f2f5;
+      color: #1a1d23;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: #0f172a;
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header h1 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #f8fafc;
+      letter-spacing: 0.01em;
+    }
+    header span {
+      font-size: 0.78rem;
+      color: #64748b;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+    }
+    .logo-icon svg { width: 20px; height: 20px; fill: #fff; }
+
+    /* ── Main layout ── */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 36px 24px;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 20px;
+    }
+
+    /* ── Summary row ── */
+    .summary-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+    .summary-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    }
+    .summary-dot {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .dot-green  { background: #dcfce7; color: #16a34a; }
+    .dot-yellow { background: #fef9c3; color: #ca8a04; }
+    .dot-red    { background: #fee2e2; color: #dc2626; }
+    .summary-info p { font-size: 0.78rem; color: #64748b; }
+    .summary-info strong { font-size: 1.35rem; font-weight: 700; display: block; }
+
+    /* ── KPI grid ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+
+    .kpi-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 26px 28px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+      border-top: 4px solid transparent;
+      transition: box-shadow .15s;
+    }
+    .kpi-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,.09); }
+    .kpi-card.green  { border-top-color: #22c55e; }
+    .kpi-card.yellow { border-top-color: #eab308; }
+    .kpi-card.red    { border-top-color: #ef4444; }
+
+    .kpi-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .kpi-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #374151;
+      max-width: 70%;
+      line-height: 1.35;
+    }
+    .status-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .badge-green  { background: #dcfce7; color: #15803d; }
+    .badge-yellow { background: #fef9c3; color: #a16207; }
+    .badge-red    { background: #fee2e2; color: #b91c1c; }
+
+    .kpi-values {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 16px;
+    }
+    .kpi-current {
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .kpi-unit { font-size: 1.1rem; font-weight: 600; color: #6b7280; }
+
+    .kpi-target {
+      font-size: 0.78rem;
+      color: #9ca3af;
+      margin-bottom: 14px;
+    }
+    .kpi-target strong { color: #6b7280; }
+
+    /* ── Progress bar ── */
+    .bar-track {
+      height: 8px;
+      background: #f1f5f9;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width .6s cubic-bezier(.4,0,.2,1);
+    }
+    .fill-green  { background: linear-gradient(90deg, #4ade80, #22c55e); }
+    .fill-yellow { background: linear-gradient(90deg, #fde047, #eab308); }
+    .fill-red    { background: linear-gradient(90deg, #fca5a5, #ef4444); }
+
+    .bar-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.68rem;
+      color: #9ca3af;
+    }
+    .bar-labels span:last-child { color: #6b7280; font-weight: 600; }
+
+    /* ── Trend chip ── */
+    .trend {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      margin-top: 14px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: #f8fafc;
+      color: #64748b;
+    }
+    .trend svg { width: 12px; height: 12px; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 32px;
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+
+    @media (max-width: 680px) {
+      header { padding: 18px 20px; }
+      main { padding: 24px 16px; }
+      .summary-row { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zm0 11h7v7H3zm11-11h7v7h-7zm0 11h7v7h-7z"/></svg>
+    </div>
+    <h1>Supply Chain KPI Dashboard</h1>
+  </div>
+  <span id="timestamp"></span>
+</header>
+
+<main>
+  <p class="section-label">Overview</p>
+  <div class="summary-row">
+    <div class="summary-card">
+      <div class="summary-dot dot-green">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="summary-info">
+        <strong id="count-green">—</strong>
+        <p>On Target</p>
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-dot dot-yellow">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ca8a04" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/><circle cx="12" cy="12" r="10"/></svg>
+      </div>
+      <div class="summary-info">
+        <strong id="count-yellow">—</strong>
+        <p>Needs Attention</p>
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-dot dot-red">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+      <div class="summary-info">
+        <strong id="count-red">—</strong>
+        <p>Below Target</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-label">Key Performance Indicators</p>
+  <div class="kpi-grid" id="kpi-grid"></div>
+</main>
+
+<footer>Data refreshed &mdash; <span id="footer-date"></span> &nbsp;|&nbsp; Q1 2026 Reporting Period</footer>
+
+<script>
+  const kpis = [
+    {
+      name: "On Time Delivery Rate",
+      current: 93.2,
+      target: 95,
+      unit: "%",
+      lowerIsBetter: false,
+      yellowThreshold: 2,   // within 2% of target
+      trend: "+1.4% vs last month",
+      trendUp: true,
+    },
+    {
+      name: "Order Fill Rate",
+      current: 97.4,
+      target: 98,
+      unit: "%",
+      lowerIsBetter: false,
+      yellowThreshold: 1,
+      trend: "+0.6% vs last month",
+      trendUp: true,
+    },
+    {
+      name: "Inventory Accuracy",
+      current: 99.4,
+      target: 99,
+      unit: "%",
+      lowerIsBetter: false,
+      yellowThreshold: 0.5,
+      trend: "Stable vs last month",
+      trendUp: null,
+    },
+    {
+      name: "Forecast Accuracy (MAPE)",
+      current: 8.5,
+      target: 10,
+      unit: "%",
+      lowerIsBetter: true,
+      yellowThreshold: 1.5,  // within 1.5pp of target
+      trend: "-0.9% vs last month",
+      trendUp: true,          // down is good here
+    },
+    {
+      name: "Warehouse Picking Accuracy",
+      current: 98.7,
+      target: 99.5,
+      unit: "%",
+      lowerIsBetter: false,
+      yellowThreshold: 0.5,
+      trend: "-0.2% vs last month",
+      trendUp: false,
+    },
+    {
+      name: "Perfect Order Rate",
+      current: 90.8,
+      target: 95,
+      unit: "%",
+      lowerIsBetter: false,
+      yellowThreshold: 3,
+      trend: "+2.1% vs last month",
+      trendUp: true,
+    },
+  ];
+
+  function getStatus(kpi) {
+    const { current, target, lowerIsBetter, yellowThreshold } = kpi;
+    if (lowerIsBetter) {
+      if (current <= target) return "green";
+      if (current <= target + yellowThreshold) return "yellow";
+      return "red";
+    } else {
+      if (current >= target) return "green";
+      if (current >= target - yellowThreshold) return "yellow";
+      return "red";
+    }
+  }
+
+  function barWidth(kpi) {
+    const { current, target, lowerIsBetter } = kpi;
+    if (lowerIsBetter) {
+      // 0% MAPE = full bar; at 2× target = empty
+      const max = target * 2;
+      const pct = Math.max(0, (max - current) / max * 100);
+      return Math.min(pct, 100).toFixed(1);
+    } else {
+      const pct = Math.min((current / target) * 100, 100);
+      return pct.toFixed(1);
+    }
+  }
+
+  function badgeLabel(status) {
+    return { green: "On Target", yellow: "Near Target", red: "Off Target" }[status];
+  }
+
+  function trendIcon(kpi) {
+    if (kpi.trendUp === null) {
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
+    }
+    return kpi.trendUp
+      ? `<svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>`
+      : `<svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+  }
+
+  const grid = document.getElementById("kpi-grid");
+  let counts = { green: 0, yellow: 0, red: 0 };
+
+  kpis.forEach(kpi => {
+    const status = getStatus(kpi);
+    counts[status]++;
+    const width = barWidth(kpi);
+    const displayCurrent = kpi.current.toFixed(1);
+    const displayTarget = kpi.target.toFixed(1);
+
+    const card = document.createElement("div");
+    card.className = `kpi-card ${status}`;
+    card.innerHTML = `
+      <div class="kpi-header">
+        <div class="kpi-name">${kpi.name}</div>
+        <span class="status-badge badge-${status}">${badgeLabel(status)}</span>
+      </div>
+      <div class="kpi-values">
+        <span class="kpi-current" style="color:${status==='green'?'#16a34a':status==='yellow'?'#ca8a04':'#dc2626'}">${displayCurrent}</span>
+        <span class="kpi-unit">${kpi.unit}</span>
+      </div>
+      <div class="kpi-target">
+        Target: <strong>${kpi.lowerIsBetter ? "below " : ""}${displayTarget}${kpi.unit}</strong>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill fill-${status}" style="width:${width}%"></div>
+      </div>
+      <div class="bar-labels">
+        <span>0${kpi.unit}</span>
+        <span>Target ${displayTarget}${kpi.unit}</span>
+      </div>
+      <div class="trend">
+        ${trendIcon(kpi)}
+        ${kpi.trend}
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+
+  document.getElementById("count-green").textContent  = counts.green;
+  document.getElementById("count-yellow").textContent = counts.yellow;
+  document.getElementById("count-red").textContent    = counts.red;
+
+  const now = new Date();
+  const fmt = now.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+  document.getElementById("timestamp").textContent = fmt;
+  document.getElementById("footer-date").textContent = fmt;
+</script>
+</body>
+</html>
