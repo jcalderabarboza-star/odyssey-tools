@@ -21,16 +21,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
     }
     header h1 {
       font-size: 1.4rem;
       font-weight: 600;
       color: #f8fafc;
       letter-spacing: 0.01em;
-    }
-    header span {
-      font-size: 0.78rem;
-      color: #64748b;
     }
     .logo {
       display: flex;
@@ -44,8 +42,44 @@
       border-radius: 8px;
       display: grid;
       place-items: center;
+      flex-shrink: 0;
     }
     .logo-icon svg { width: 20px; height: 20px; fill: #fff; }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .last-updated {
+      font-size: 0.75rem;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .last-updated svg { width: 13px; height: 13px; opacity: .7; }
+
+    /* ── Export button ── */
+    .btn-export {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity .15s, transform .1s;
+      white-space: nowrap;
+    }
+    .btn-export:hover { opacity: .88; }
+    .btn-export:active { transform: scale(.97); }
+    .btn-export svg { width: 14px; height: 14px; }
 
     /* ── Main layout ── */
     main {
@@ -86,12 +120,10 @@
       display: grid;
       place-items: center;
       flex-shrink: 0;
-      font-size: 1.15rem;
-      font-weight: 700;
     }
-    .dot-green  { background: #dcfce7; color: #16a34a; }
-    .dot-yellow { background: #fef9c3; color: #ca8a04; }
-    .dot-red    { background: #fee2e2; color: #dc2626; }
+    .dot-green  { background: #dcfce7; }
+    .dot-yellow { background: #fef9c3; }
+    .dot-red    { background: #fee2e2; }
     .summary-info p { font-size: 0.78rem; color: #64748b; }
     .summary-info strong { font-size: 1.35rem; font-weight: 700; display: block; }
 
@@ -140,19 +172,53 @@
     .badge-yellow { background: #fef9c3; color: #a16207; }
     .badge-red    { background: #fee2e2; color: #b91c1c; }
 
+    /* ── KPI value + trend arrow row ── */
     .kpi-values {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .kpi-value-group {
       display: flex;
       align-items: baseline;
       gap: 4px;
-      margin-bottom: 16px;
     }
     .kpi-current {
       font-size: 2.4rem;
       font-weight: 700;
       line-height: 1;
       letter-spacing: -0.02em;
+      cursor: pointer;
+      border-bottom: 2px dashed transparent;
+      transition: border-color .15s;
+      outline: none;
+    }
+    .kpi-current:hover { border-bottom-color: currentColor; }
+    .kpi-current[contenteditable="true"] {
+      border-bottom-color: currentColor;
+      background: rgba(0,0,0,.03);
+      border-radius: 4px;
+      padding: 0 4px;
     }
     .kpi-unit { font-size: 1.1rem; font-weight: 600; color: #6b7280; }
+
+    /* ── Trend arrow (large, next to value) ── */
+    .trend-arrow {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .trend-arrow svg { width: 28px; height: 28px; }
+
+    .edit-hint {
+      font-size: 0.65rem;
+      color: #cbd5e1;
+      margin-left: 2px;
+      user-select: none;
+      align-self: flex-end;
+      padding-bottom: 2px;
+    }
 
     .kpi-target {
       font-size: 0.78rem;
@@ -186,8 +252,8 @@
     }
     .bar-labels span:last-child { color: #6b7280; font-weight: 600; }
 
-    /* ── Trend chip ── */
-    .trend {
+    /* ── Trend chip (bottom, month-over-month text) ── */
+    .trend-chip {
       display: inline-flex;
       align-items: center;
       gap: 4px;
@@ -199,7 +265,7 @@
       background: #f8fafc;
       color: #64748b;
     }
-    .trend svg { width: 12px; height: 12px; }
+    .trend-chip svg { width: 12px; height: 12px; }
 
     /* ── Footer ── */
     footer {
@@ -207,6 +273,37 @@
       padding: 32px;
       font-size: 0.75rem;
       color: #9ca3af;
+    }
+
+    /* ── Toast notification ── */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: #1e293b;
+      color: #f8fafc;
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 10px 18px;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.18);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .2s, transform .2s;
+      pointer-events: none;
+      z-index: 100;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ── Print / PDF styles ── */
+    @media print {
+      body { background: #fff; }
+      header { background: #0f172a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .btn-export { display: none !important; }
+      .edit-hint  { display: none !important; }
+      .kpi-card { break-inside: avoid; box-shadow: none; border: 1px solid #e2e8f0; }
+      footer { display: none; }
+      main { padding: 20px; }
     }
 
     @media (max-width: 680px) {
@@ -226,7 +323,23 @@
     </div>
     <h1>Supply Chain KPI Dashboard</h1>
   </div>
-  <span id="timestamp"></span>
+  <div class="header-right">
+    <div class="last-updated">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      Last updated: <span id="last-updated-time"></span>
+    </div>
+    <button class="btn-export" onclick="exportPDF()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="12" y1="11" x2="12" y2="17"/>
+        <polyline points="9 14 12 17 15 14"/>
+      </svg>
+      Export PDF
+    </button>
+  </div>
 </header>
 
 <main>
@@ -234,7 +347,7 @@
   <div class="summary-row">
     <div class="summary-card">
       <div class="summary-dot dot-green">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <div class="summary-info">
         <strong id="count-green">—</strong>
@@ -243,7 +356,7 @@
     </div>
     <div class="summary-card">
       <div class="summary-dot dot-yellow">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ca8a04" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/><circle cx="12" cy="12" r="10"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ca8a04" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/><circle cx="12" cy="12" r="10"/></svg>
       </div>
       <div class="summary-info">
         <strong id="count-yellow">—</strong>
@@ -252,7 +365,7 @@
     </div>
     <div class="summary-card">
       <div class="summary-dot dot-red">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </div>
       <div class="summary-info">
         <strong id="count-red">—</strong>
@@ -261,11 +374,13 @@
     </div>
   </div>
 
-  <p class="section-label">Key Performance Indicators</p>
+  <p class="section-label">Key Performance Indicators &nbsp;<span style="font-weight:400;text-transform:none;letter-spacing:0;color:#94a3b8">— click any value to edit</span></p>
   <div class="kpi-grid" id="kpi-grid"></div>
 </main>
 
-<footer>Data refreshed &mdash; <span id="footer-date"></span> &nbsp;|&nbsp; Q1 2026 Reporting Period</footer>
+<footer>Q1 2026 Reporting Period &nbsp;|&nbsp; Values are editable — click any KPI number to update</footer>
+
+<div class="toast" id="toast"></div>
 
 <script>
   const kpis = [
@@ -275,7 +390,7 @@
       target: 95,
       unit: "%",
       lowerIsBetter: false,
-      yellowThreshold: 2,   // within 2% of target
+      yellowThreshold: 2,
       trend: "+1.4% vs last month",
       trendUp: true,
     },
@@ -305,9 +420,9 @@
       target: 10,
       unit: "%",
       lowerIsBetter: true,
-      yellowThreshold: 1.5,  // within 1.5pp of target
+      yellowThreshold: 1.5,
       trend: "-0.9% vs last month",
-      trendUp: true,          // down is good here
+      trendUp: true,
     },
     {
       name: "Warehouse Picking Accuracy",
@@ -331,8 +446,9 @@
     },
   ];
 
-  function getStatus(kpi) {
-    const { current, target, lowerIsBetter, yellowThreshold } = kpi;
+  /* ── Helpers ── */
+  function getStatus(current, kpi) {
+    const { target, lowerIsBetter, yellowThreshold } = kpi;
     if (lowerIsBetter) {
       if (current <= target) return "green";
       if (current <= target + yellowThreshold) return "yellow";
@@ -344,79 +460,178 @@
     }
   }
 
-  function barWidth(kpi) {
-    const { current, target, lowerIsBetter } = kpi;
+  function barWidth(current, kpi) {
+    const { target, lowerIsBetter } = kpi;
     if (lowerIsBetter) {
-      // 0% MAPE = full bar; at 2× target = empty
       const max = target * 2;
-      const pct = Math.max(0, (max - current) / max * 100);
-      return Math.min(pct, 100).toFixed(1);
-    } else {
-      const pct = Math.min((current / target) * 100, 100);
-      return pct.toFixed(1);
+      return Math.min(Math.max(0, (max - current) / max * 100), 100).toFixed(1);
     }
+    return Math.min((current / target) * 100, 100).toFixed(1);
   }
 
-  function badgeLabel(status) {
-    return { green: "On Target", yellow: "Near Target", red: "Off Target" }[status];
+  function statusColor(status) {
+    return { green: "#16a34a", yellow: "#ca8a04", red: "#dc2626" }[status];
   }
 
-  function trendIcon(kpi) {
-    if (kpi.trendUp === null) {
+  function trendArrowSVG(trendUp) {
+    if (trendUp === null) {
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
+    }
+    return trendUp
+      ? `<svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>`
+      : `<svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>`;
+  }
+
+  function chipArrowSVG(trendUp) {
+    if (trendUp === null) {
       return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
     }
-    return kpi.trendUp
+    return trendUp
       ? `<svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>`
       : `<svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
   }
 
+  /* ── Toast ── */
+  let toastTimer;
+  function showToast(msg) {
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove("show"), 2500);
+  }
+
+  /* ── Refresh summary counts ── */
+  function refreshSummary() {
+    const cards = document.querySelectorAll(".kpi-card");
+    let counts = { green: 0, yellow: 0, red: 0 };
+    cards.forEach(c => {
+      if (c.classList.contains("green"))  counts.green++;
+      else if (c.classList.contains("yellow")) counts.yellow++;
+      else counts.red++;
+    });
+    document.getElementById("count-green").textContent  = counts.green;
+    document.getElementById("count-yellow").textContent = counts.yellow;
+    document.getElementById("count-red").textContent    = counts.red;
+  }
+
+  /* ── Update a card after value edit ── */
+  function updateCard(card, kpi, newValue) {
+    const status = getStatus(newValue, kpi);
+    const width  = barWidth(newValue, kpi);
+    const color  = statusColor(status);
+
+    card.className = `kpi-card ${status}`;
+
+    card.querySelector(".kpi-current").style.color = color;
+    card.querySelector(".status-badge").className = `status-badge badge-${status}`;
+    card.querySelector(".status-badge").textContent = { green: "On Target", yellow: "Near Target", red: "Off Target" }[status];
+
+    const fill = card.querySelector(".bar-fill");
+    fill.className = `bar-fill fill-${status}`;
+    fill.style.width = width + "%";
+
+    refreshSummary();
+  }
+
+  /* ── Build cards ── */
   const grid = document.getElementById("kpi-grid");
-  let counts = { green: 0, yellow: 0, red: 0 };
 
   kpis.forEach(kpi => {
-    const status = getStatus(kpi);
-    counts[status]++;
-    const width = barWidth(kpi);
-    const displayCurrent = kpi.current.toFixed(1);
-    const displayTarget = kpi.target.toFixed(1);
+    const status = getStatus(kpi.current, kpi);
+    const width  = barWidth(kpi.current, kpi);
+    const color  = statusColor(status);
+    const badgeText = { green: "On Target", yellow: "Near Target", red: "Off Target" }[status];
 
     const card = document.createElement("div");
     card.className = `kpi-card ${status}`;
     card.innerHTML = `
       <div class="kpi-header">
         <div class="kpi-name">${kpi.name}</div>
-        <span class="status-badge badge-${status}">${badgeLabel(status)}</span>
+        <span class="status-badge badge-${status}">${badgeText}</span>
       </div>
       <div class="kpi-values">
-        <span class="kpi-current" style="color:${status==='green'?'#16a34a':status==='yellow'?'#ca8a04':'#dc2626'}">${displayCurrent}</span>
-        <span class="kpi-unit">${kpi.unit}</span>
+        <div class="kpi-value-group">
+          <span class="kpi-current" style="color:${color}" contenteditable="false" title="Click to edit">${kpi.current.toFixed(1)}</span>
+          <span class="kpi-unit">${kpi.unit}</span>
+        </div>
+        <div class="trend-arrow">${trendArrowSVG(kpi.trendUp)}</div>
+        <span class="edit-hint">✎ click to edit</span>
       </div>
       <div class="kpi-target">
-        Target: <strong>${kpi.lowerIsBetter ? "below " : ""}${displayTarget}${kpi.unit}</strong>
+        Target: <strong>${kpi.lowerIsBetter ? "below " : ""}${kpi.target.toFixed(1)}${kpi.unit}</strong>
       </div>
       <div class="bar-track">
         <div class="bar-fill fill-${status}" style="width:${width}%"></div>
       </div>
       <div class="bar-labels">
         <span>0${kpi.unit}</span>
-        <span>Target ${displayTarget}${kpi.unit}</span>
+        <span>Target ${kpi.target.toFixed(1)}${kpi.unit}</span>
       </div>
-      <div class="trend">
-        ${trendIcon(kpi)}
+      <div class="trend-chip">
+        ${chipArrowSVG(kpi.trendUp)}
         ${kpi.trend}
       </div>
     `;
+
+    /* ── Inline editing ── */
+    const valueEl = card.querySelector(".kpi-current");
+
+    valueEl.addEventListener("click", () => {
+      valueEl.contentEditable = "true";
+      valueEl.focus();
+      // select all text
+      const range = document.createRange();
+      range.selectNodeContents(valueEl);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+    });
+
+    valueEl.addEventListener("keydown", e => {
+      if (e.key === "Enter") { e.preventDefault(); valueEl.blur(); }
+      if (e.key === "Escape") {
+        valueEl.textContent = kpi.current.toFixed(1);
+        valueEl.contentEditable = "false";
+      }
+      // Only allow digits, dot, backspace, arrows, delete
+      if (!/[\d.]|Backspace|Delete|Arrow/.test(e.key)) e.preventDefault();
+    });
+
+    valueEl.addEventListener("blur", () => {
+      valueEl.contentEditable = "false";
+      const raw = parseFloat(valueEl.textContent);
+      if (isNaN(raw) || raw < 0 || raw > 999) {
+        valueEl.textContent = kpi.current.toFixed(1);
+        showToast("Invalid value — reverted");
+        return;
+      }
+      const rounded = Math.round(raw * 10) / 10;
+      kpi.current = rounded;
+      valueEl.textContent = rounded.toFixed(1);
+      updateCard(card, kpi, rounded);
+
+      // update last-updated timestamp
+      const now = new Date();
+      document.getElementById("last-updated-time").textContent = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+      showToast(`${kpi.name} updated to ${rounded.toFixed(1)}${kpi.unit}`);
+    });
+
     grid.appendChild(card);
   });
 
-  document.getElementById("count-green").textContent  = counts.green;
-  document.getElementById("count-yellow").textContent = counts.yellow;
-  document.getElementById("count-red").textContent    = counts.red;
+  /* ── Initial summary & timestamp ── */
+  refreshSummary();
 
   const now = new Date();
-  const fmt = now.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-  document.getElementById("timestamp").textContent = fmt;
-  document.getElementById("footer-date").textContent = fmt;
+  const timeFmt = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+  const dateFmt = now.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+  document.getElementById("last-updated-time").textContent = `${dateFmt}, ${timeFmt}`;
+
+  /* ── Export PDF ── */
+  function exportPDF() {
+    showToast("Opening print dialog…");
+    setTimeout(() => window.print(), 300);
+  }
 </script>
 </body>
 </html>
