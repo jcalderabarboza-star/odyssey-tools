@@ -17,299 +17,272 @@
     /* ── Header ── */
     header {
       background: #0f172a;
-      padding: 24px 40px;
+      padding: 20px 40px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
       flex-wrap: wrap;
     }
-    header h1 {
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: #f8fafc;
-      letter-spacing: 0.01em;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .logo { display: flex; align-items: center; gap: 12px; }
     .logo-icon {
-      width: 36px;
-      height: 36px;
+      width: 34px; height: 34px;
       background: linear-gradient(135deg, #3b82f6, #6366f1);
-      border-radius: 8px;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
+      border-radius: 8px; display: grid; place-items: center; flex-shrink: 0;
     }
-    .logo-icon svg { width: 20px; height: 20px; fill: #fff; }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
+    .logo-icon svg { width: 18px; height: 18px; fill: #fff; }
+    header h1 { font-size: 1.25rem; font-weight: 600; color: #f8fafc; letter-spacing: .01em; }
+    .header-right { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
     .last-updated {
-      font-size: 0.75rem;
-      color: #64748b;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      font-size: 0.73rem; color: #64748b;
+      display: flex; align-items: center; gap: 5px;
     }
-    .last-updated svg { width: 13px; height: 13px; opacity: .7; }
-
-    /* ── Export button ── */
+    .last-updated svg { width: 12px; height: 12px; }
     .btn-export {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
+      display: inline-flex; align-items: center; gap: 6px;
       background: linear-gradient(135deg, #3b82f6, #6366f1);
-      color: #fff;
-      font-size: 0.78rem;
-      font-weight: 600;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: opacity .15s, transform .1s;
-      white-space: nowrap;
+      color: #fff; font-size: 0.76rem; font-weight: 600;
+      padding: 7px 14px; border: none; border-radius: 7px;
+      cursor: pointer; white-space: nowrap; transition: opacity .15s, transform .1s;
     }
     .btn-export:hover { opacity: .88; }
     .btn-export:active { transform: scale(.97); }
-    .btn-export svg { width: 14px; height: 14px; }
+    .btn-export svg { width: 13px; height: 13px; }
 
-    /* ── Main layout ── */
-    main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 36px 24px;
+    /* ── Main ── */
+    main { max-width: 1240px; margin: 0 auto; padding: 32px 24px; }
+
+    .section-block { margin-bottom: 36px; }
+
+    .section-hdr {
+      display: flex; align-items: center;
+      justify-content: space-between; margin-bottom: 16px;
     }
-
     .section-label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #64748b;
-      margin-bottom: 20px;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; color: #64748b;
     }
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #e0f2fe; color: #0369a1;
+      font-size: 0.68rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 999px;
+    }
+    .section-tag.wh { background: #ede9fe; color: #6d28d9; }
 
-    /* ── Summary row ── */
-    .summary-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 36px;
+    /* ── Scorecard ── */
+    .scorecard {
+      background: #fff; border-radius: 16px;
+      padding: 28px 32px; box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
     }
-    .summary-card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 20px 24px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    .sc-gauge { flex-shrink: 0; }
+    .sc-gauge svg text { font-family: inherit; }
+    .sc-info { flex: 1; min-width: 220px; }
+    .sc-title { font-size: 0.72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #64748b; margin-bottom: 6px; }
+    .sc-message { font-size: 0.9rem; font-weight: 500; color: #374151; margin-bottom: 14px; line-height: 1.45; }
+    .sc-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .sc-pill {
+      font-size: 0.72rem; font-weight: 700;
+      padding: 4px 12px; border-radius: 999px;
     }
-    .summary-dot {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-    }
-    .dot-green  { background: #dcfce7; }
-    .dot-yellow { background: #fef9c3; }
-    .dot-red    { background: #fee2e2; }
-    .summary-info p { font-size: 0.78rem; color: #64748b; }
-    .summary-info strong { font-size: 1.35rem; font-weight: 700; display: block; }
+    .pill-green  { background: #dcfce7; color: #15803d; }
+    .pill-yellow { background: #fef9c3; color: #a16207; }
+    .pill-red    { background: #fee2e2; color: #b91c1c; }
+    .sc-divider { width: 1px; background: #e2e8f0; align-self: stretch; margin: 0 8px; }
+    .sc-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; flex: 1; min-width: 260px; }
+    .sc-stat { text-align: center; }
+    .sc-stat-val { font-size: 1.9rem; font-weight: 700; line-height: 1; }
+    .sc-stat-lbl { font-size: 0.7rem; color: #9ca3af; margin-top: 4px; }
 
-    /* ── KPI grid ── */
+    /* ── Data table ── */
+    .btn-sm {
+      font-size: 0.7rem; font-weight: 600; padding: 4px 12px;
+      border: 1.5px solid #e2e8f0; background: #fff; border-radius: 6px;
+      cursor: pointer; color: #64748b; transition: background .12s;
+    }
+    .btn-sm:hover { background: #f8fafc; }
+    .table-scroll { overflow-x: auto; border-radius: 12px; }
+    .data-table {
+      width: 100%; border-collapse: collapse;
+      background: #fff; border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      font-size: 0.8rem;
+    }
+    .data-table thead th {
+      background: #f8fafc; color: #64748b;
+      font-size: 0.68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .06em;
+      padding: 11px 14px; text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .data-table thead th:first-child { border-radius: 12px 0 0 0; }
+    .data-table thead th:last-child  { border-radius: 0 12px 0 0; }
+    .data-table tbody tr { border-bottom: 1px solid #f1f5f9; }
+    .data-table tbody tr:last-child { border-bottom: none; }
+    .data-table tbody tr:hover { background: #fafbfc; }
+    .data-table td { padding: 9px 14px; vertical-align: middle; }
+    .td-name { font-weight: 600; color: #374151; white-space: nowrap; }
+    .td-section { white-space: nowrap; }
+    .td-input-wrap { display: flex; align-items: center; gap: 4px; }
+    .td-input {
+      width: 72px; padding: 5px 8px;
+      border: 1.5px solid #e2e8f0; border-radius: 6px;
+      font-size: 0.8rem; font-family: inherit;
+      color: #1a1d23; transition: border-color .15s;
+      -moz-appearance: textfield;
+    }
+    .td-input::-webkit-outer-spin-button,
+    .td-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .td-input:focus { outline: none; border-color: #6366f1; }
+    .td-unit { font-size: 0.7rem; color: #9ca3af; white-space: nowrap; }
+    .td-notes {
+      width: 100%; padding: 5px 8px;
+      border: 1.5px solid #e2e8f0; border-radius: 6px;
+      font-size: 0.78rem; font-family: inherit;
+      color: #374151; transition: border-color .15s;
+      min-width: 160px;
+    }
+    .td-notes:focus { outline: none; border-color: #6366f1; }
+    .td-status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      display: inline-block; flex-shrink: 0;
+    }
+    .dot-g { background: #22c55e; }
+    .dot-y { background: #eab308; }
+    .dot-r { background: #ef4444; }
+
+    /* ── KPI Cards ── */
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 20px;
+      gap: 18px;
     }
-
     .kpi-card {
-      background: #fff;
-      border-radius: 14px;
-      padding: 26px 28px;
-      box-shadow: 0 1px 3px rgba(0,0,0,.06);
-      border-top: 4px solid transparent;
-      transition: box-shadow .15s;
+      background: #fff; border-radius: 14px;
+      padding: 22px 24px; box-shadow: 0 1px 3px rgba(0,0,0,.06);
+      border-top: 4px solid transparent; transition: box-shadow .15s;
     }
-    .kpi-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,.09); }
+    .kpi-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,.08); }
     .kpi-card.green  { border-top-color: #22c55e; }
     .kpi-card.yellow { border-top-color: #eab308; }
     .kpi-card.red    { border-top-color: #ef4444; }
 
     .kpi-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 20px;
+      display: flex; align-items: flex-start;
+      justify-content: space-between; margin-bottom: 16px;
     }
-    .kpi-name {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #374151;
-      max-width: 70%;
-      line-height: 1.35;
-    }
+    .kpi-name { font-size: 0.88rem; font-weight: 600; color: #374151; max-width: 68%; line-height: 1.35; }
     .status-badge {
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: 999px;
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: .05em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 999px;
     }
     .badge-green  { background: #dcfce7; color: #15803d; }
     .badge-yellow { background: #fef9c3; color: #a16207; }
     .badge-red    { background: #fee2e2; color: #b91c1c; }
 
-    /* ── KPI value + trend arrow row ── */
-    .kpi-values {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .kpi-value-group {
-      display: flex;
-      align-items: baseline;
-      gap: 4px;
-    }
+    /* value + arrow row */
+    .kpi-values { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .kpi-value-group { display: flex; align-items: baseline; gap: 3px; }
     .kpi-current {
-      font-size: 2.4rem;
-      font-weight: 700;
-      line-height: 1;
-      letter-spacing: -0.02em;
-      cursor: pointer;
-      border-bottom: 2px dashed transparent;
-      transition: border-color .15s;
-      outline: none;
+      font-size: 2.2rem; font-weight: 700; line-height: 1;
+      letter-spacing: -.02em; cursor: pointer;
+      border-bottom: 2px dashed transparent; transition: border-color .15s; outline: none;
     }
     .kpi-current:hover { border-bottom-color: currentColor; }
     .kpi-current[contenteditable="true"] {
       border-bottom-color: currentColor;
-      background: rgba(0,0,0,.03);
-      border-radius: 4px;
-      padding: 0 4px;
+      background: rgba(0,0,0,.03); border-radius: 4px; padding: 0 4px;
     }
-    .kpi-unit { font-size: 1.1rem; font-weight: 600; color: #6b7280; }
+    .kpi-prefix { font-size: 1.3rem; font-weight: 700; color: #6b7280; align-self: center; }
+    .kpi-unit { font-size: 1rem; font-weight: 600; color: #6b7280; }
 
-    /* ── Trend arrow (large, next to value) ── */
-    .trend-arrow {
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-    }
-    .trend-arrow svg { width: 28px; height: 28px; }
+    .trend-arrow svg { width: 26px; height: 26px; }
 
-    .edit-hint {
-      font-size: 0.65rem;
-      color: #cbd5e1;
-      margin-left: 2px;
-      user-select: none;
-      align-self: flex-end;
-      padding-bottom: 2px;
-    }
-
-    .kpi-target {
-      font-size: 0.78rem;
-      color: #9ca3af;
-      margin-bottom: 14px;
-    }
+    .kpi-target { font-size: 0.75rem; color: #9ca3af; margin-bottom: 14px; }
     .kpi-target strong { color: #6b7280; }
 
-    /* ── Progress bar ── */
-    .bar-track {
-      height: 8px;
-      background: #f1f5f9;
-      border-radius: 999px;
-      overflow: hidden;
-      margin-bottom: 8px;
+    /* ── Bar chart ── */
+    .bc-wrap { margin-bottom: 12px; }
+    .bc-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+    .bc-label { width: 48px; font-size: 0.66rem; color: #9ca3af; font-weight: 600; flex-shrink: 0; }
+    .bc-track {
+      flex: 1; height: 13px; background: #f1f5f9;
+      border-radius: 4px; overflow: hidden;
     }
-    .bar-fill {
-      height: 100%;
-      border-radius: 999px;
-      transition: width .6s cubic-bezier(.4,0,.2,1);
-    }
-    .fill-green  { background: linear-gradient(90deg, #4ade80, #22c55e); }
-    .fill-yellow { background: linear-gradient(90deg, #fde047, #eab308); }
-    .fill-red    { background: linear-gradient(90deg, #fca5a5, #ef4444); }
+    .bc-fill { height: 100%; border-radius: 4px; transition: width .55s cubic-bezier(.4,0,.2,1); }
+    .bc-val { width: 58px; font-size: 0.7rem; font-weight: 700; text-align: right; flex-shrink: 0; }
 
-    .bar-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.68rem;
-      color: #9ca3af;
-    }
-    .bar-labels span:last-child { color: #6b7280; font-weight: 600; }
-
-    /* ── Trend chip (bottom, month-over-month text) ── */
+    /* ── Trend chip ── */
     .trend-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      margin-top: 14px;
-      padding: 3px 8px;
-      border-radius: 6px;
-      background: #f8fafc;
-      color: #64748b;
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.7rem; font-weight: 600;
+      padding: 3px 8px; border-radius: 6px;
+      background: #f8fafc; color: #64748b;
     }
-    .trend-chip svg { width: 12px; height: 12px; }
+    .trend-chip svg { width: 11px; height: 11px; }
 
-    /* ── Footer ── */
-    footer {
-      text-align: center;
-      padding: 32px;
-      font-size: 0.75rem;
-      color: #9ca3af;
+    /* ── Card notes ── */
+    .card-notes {
+      font-size: 0.7rem; color: #9ca3af; margin-top: 10px;
+      font-style: italic; border-top: 1px solid #f1f5f9; padding-top: 8px;
+      min-height: 0; display: none;
     }
+    .card-notes.visible { display: block; }
 
-    /* ── Toast notification ── */
+    /* ── Toast ── */
     .toast {
-      position: fixed;
-      bottom: 28px;
-      right: 28px;
-      background: #1e293b;
-      color: #f8fafc;
-      font-size: 0.78rem;
-      font-weight: 500;
-      padding: 10px 18px;
-      border-radius: 10px;
+      position: fixed; bottom: 24px; right: 24px;
+      background: #1e293b; color: #f8fafc;
+      font-size: 0.76rem; font-weight: 500;
+      padding: 9px 16px; border-radius: 9px;
       box-shadow: 0 4px 16px rgba(0,0,0,.18);
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity .2s, transform .2s;
-      pointer-events: none;
-      z-index: 100;
+      opacity: 0; transform: translateY(8px);
+      transition: opacity .2s, transform .2s; pointer-events: none; z-index: 100;
     }
     .toast.show { opacity: 1; transform: translateY(0); }
 
-    /* ── Print / PDF styles ── */
-    @media print {
-      body { background: #fff; }
-      header { background: #0f172a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .btn-export { display: none !important; }
-      .edit-hint  { display: none !important; }
-      .kpi-card { break-inside: avoid; box-shadow: none; border: 1px solid #e2e8f0; }
-      footer { display: none; }
-      main { padding: 20px; }
+    /* ── Footer ── */
+    footer {
+      text-align: center; padding: 28px;
+      font-size: 0.73rem; color: #9ca3af;
     }
 
-    @media (max-width: 680px) {
-      header { padding: 18px 20px; }
-      main { padding: 24px 16px; }
-      .summary-row { grid-template-columns: 1fr; }
+    /* ── Print layout ── */
+    @media print {
+      body { background: #fff; font-size: 11px; }
+      header {
+        background: #0f172a !important;
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+        padding: 14px 24px;
+      }
+      .btn-export, .btn-sm, .toast { display: none !important; }
+      main { padding: 16px; max-width: 100%; }
+      .scorecard { box-shadow: none; border: 1px solid #e2e8f0; padding: 18px; }
+      .data-table { box-shadow: none; font-size: 9px; }
+      .data-table thead th, .data-table td { padding: 6px 10px; }
+      .td-input, .td-notes { border: none; font-size: 9px; width: auto; padding: 0; }
+      .kpi-card {
+        box-shadow: none; border: 1px solid #e2e8f0;
+        break-inside: avoid; border-top-width: 3px;
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+      }
+      .kpi-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .kpi-current { font-size: 1.6rem; }
+      .bc-fill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .kpi-card.green  { border-top-color: #22c55e !important; }
+      .kpi-card.yellow { border-top-color: #eab308 !important; }
+      .kpi-card.red    { border-top-color: #ef4444 !important; }
+      .section-block { margin-bottom: 20px; }
+      footer { display: none; }
+    }
+
+    @media (max-width: 700px) {
+      header { padding: 16px 18px; }
+      main { padding: 20px 14px; }
+      .scorecard { gap: 20px; }
+      .sc-stats { grid-template-columns: repeat(3,1fr); gap: 10px; }
       .kpi-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -343,295 +316,477 @@
 </header>
 
 <main>
-  <p class="section-label">Overview</p>
-  <div class="summary-row">
-    <div class="summary-card">
-      <div class="summary-dot dot-green">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <div class="summary-info">
-        <strong id="count-green">—</strong>
-        <p>On Target</p>
-      </div>
+
+  <!-- ── Scorecard ── -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">Overall Health Scorecard</p>
     </div>
-    <div class="summary-card">
-      <div class="summary-dot dot-yellow">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ca8a04" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/><circle cx="12" cy="12" r="10"/></svg>
-      </div>
-      <div class="summary-info">
-        <strong id="count-yellow">—</strong>
-        <p>Needs Attention</p>
-      </div>
+    <div class="scorecard" id="scorecard"></div>
+  </div>
+
+  <!-- ── Data Entry Table ── -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">Data Entry Table</p>
+      <button class="btn-sm" id="table-toggle" onclick="toggleTable()">Hide</button>
     </div>
-    <div class="summary-card">
-      <div class="summary-dot dot-red">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </div>
-      <div class="summary-info">
-        <strong id="count-red">—</strong>
-        <p>Below Target</p>
+    <div id="table-wrap">
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>KPI</th>
+              <th>Section</th>
+              <th>Actual Value</th>
+              <th>Target Value</th>
+              <th>Prev Month</th>
+              <th>Notes / Comments</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
       </div>
     </div>
   </div>
 
-  <p class="section-label">Key Performance Indicators &nbsp;<span style="font-weight:400;text-transform:none;letter-spacing:0;color:#94a3b8">— click any value to edit</span></p>
-  <div class="kpi-grid" id="kpi-grid"></div>
+  <!-- ── Supply Chain KPIs ── -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">
+        <span class="section-tag">Supply Chain</span>
+      </p>
+    </div>
+    <div class="kpi-grid" id="grid-supply-chain"></div>
+  </div>
+
+  <!-- ── Warehouse Operations ── -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">
+        <span class="section-tag wh">Warehouse Operations</span>
+      </p>
+    </div>
+    <div class="kpi-grid" id="grid-warehouse"></div>
+  </div>
+
 </main>
 
-<footer>Q1 2026 Reporting Period &nbsp;|&nbsp; Values are editable — click any KPI number to update</footer>
-
+<footer>Q1 2026 Reporting Period &nbsp;|&nbsp; Edit values in the table or click any KPI number directly</footer>
 <div class="toast" id="toast"></div>
 
 <script>
-  const kpis = [
-    {
-      name: "On Time Delivery Rate",
-      current: 93.2,
-      target: 95,
-      unit: "%",
-      lowerIsBetter: false,
-      yellowThreshold: 2,
-      trend: "+1.4% vs last month",
-      trendUp: true,
-    },
-    {
-      name: "Order Fill Rate",
-      current: 97.4,
-      target: 98,
-      unit: "%",
-      lowerIsBetter: false,
-      yellowThreshold: 1,
-      trend: "+0.6% vs last month",
-      trendUp: true,
-    },
-    {
-      name: "Inventory Accuracy",
-      current: 99.4,
-      target: 99,
-      unit: "%",
-      lowerIsBetter: false,
-      yellowThreshold: 0.5,
-      trend: "Stable vs last month",
-      trendUp: null,
-    },
-    {
-      name: "Forecast Accuracy (MAPE)",
-      current: 8.5,
-      target: 10,
-      unit: "%",
-      lowerIsBetter: true,
-      yellowThreshold: 1.5,
-      trend: "-0.9% vs last month",
-      trendUp: true,
-    },
-    {
-      name: "Warehouse Picking Accuracy",
-      current: 98.7,
-      target: 99.5,
-      unit: "%",
-      lowerIsBetter: false,
-      yellowThreshold: 0.5,
-      trend: "-0.2% vs last month",
-      trendUp: false,
-    },
-    {
-      name: "Perfect Order Rate",
-      current: 90.8,
-      target: 95,
-      unit: "%",
-      lowerIsBetter: false,
-      yellowThreshold: 3,
-      trend: "+2.1% vs last month",
-      trendUp: true,
-    },
-  ];
+/* ═══════════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════════ */
+const allKpis = [
+  // Supply Chain
+  { id:'otd',  section:'supply-chain', name:'On Time Delivery Rate',       current:93.5, target:95,   prevMonth:91.2, notes:'', unit:'%',   prefix:'',  lowerIsBetter:false, yellowThreshold:2,   decimals:1 },
+  { id:'ofr',  section:'supply-chain', name:'Order Fill Rate',             current:97.4, target:98,   prevMonth:95.8, notes:'', unit:'%',   prefix:'',  lowerIsBetter:false, yellowThreshold:1,   decimals:1 },
+  { id:'ia',   section:'supply-chain', name:'Inventory Accuracy',          current:99.4, target:99,   prevMonth:99.1, notes:'', unit:'%',   prefix:'',  lowerIsBetter:false, yellowThreshold:0.5, decimals:1 },
+  { id:'mape', section:'supply-chain', name:'Forecast Accuracy (MAPE)',    current:11.2, target:10,   prevMonth:13.4, notes:'', unit:'%',   prefix:'',  lowerIsBetter:true,  yellowThreshold:2,   decimals:1 },
+  { id:'wpa',  section:'supply-chain', name:'Warehouse Picking Accuracy',  current:98.8, target:99.5, prevMonth:98.3, notes:'', unit:'%',   prefix:'',  lowerIsBetter:false, yellowThreshold:0.8, decimals:1 },
+  { id:'por',  section:'supply-chain', name:'Perfect Order Rate',          current:86.0, target:95,   prevMonth:83.5, notes:'', unit:'%',   prefix:'',  lowerIsBetter:false, yellowThreshold:4,   decimals:1 },
+  // Warehouse Operations
+  { id:'dts',  section:'warehouse',    name:'Dock to Stock Time',          current:1.8,  target:2,    prevMonth:2.2,  notes:'', unit:' hrs',prefix:'',  lowerIsBetter:true,  yellowThreshold:0.3, decimals:1 },
+  { id:'rr',   section:'warehouse',    name:'Return Rate',                 current:3.5,  target:2,    prevMonth:4.1,  notes:'', unit:'%',   prefix:'',  lowerIsBetter:true,  yellowThreshold:0.8, decimals:1 },
+  { id:'cpo',  section:'warehouse',    name:'Cost per Order',              current:4.60, target:5,    prevMonth:5.20, notes:'', unit:'',    prefix:'$', lowerIsBetter:true,  yellowThreshold:1,   decimals:2 },
+  { id:'lu',   section:'warehouse',    name:'Labor Utilization',           current:79.0, target:85,   prevMonth:75.0, notes:'', unit:'%',   prefix:'',  lowerIsBetter:false, yellowThreshold:5,   decimals:1 },
+];
 
-  /* ── Helpers ── */
-  function getStatus(current, kpi) {
-    const { target, lowerIsBetter, yellowThreshold } = kpi;
-    if (lowerIsBetter) {
-      if (current <= target) return "green";
-      if (current <= target + yellowThreshold) return "yellow";
-      return "red";
-    } else {
-      if (current >= target) return "green";
-      if (current >= target - yellowThreshold) return "yellow";
-      return "red";
-    }
+/* ═══════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════ */
+function fmt(kpi, val) {
+  return kpi.prefix + Number(val).toFixed(kpi.decimals) + kpi.unit;
+}
+
+function getStatus(current, kpi) {
+  const { target, lowerIsBetter, yellowThreshold } = kpi;
+  if (lowerIsBetter) {
+    if (current <= target) return 'green';
+    if (current <= target + yellowThreshold) return 'yellow';
+    return 'red';
   }
+  if (current >= target) return 'green';
+  if (current >= target - yellowThreshold) return 'yellow';
+  return 'red';
+}
 
-  function barWidth(current, kpi) {
-    const { target, lowerIsBetter } = kpi;
-    if (lowerIsBetter) {
-      const max = target * 2;
-      return Math.min(Math.max(0, (max - current) / max * 100), 100).toFixed(1);
-    }
-    return Math.min((current / target) * 100, 100).toFixed(1);
+function statusColor(s) {
+  return { green:'#16a34a', yellow:'#ca8a04', red:'#dc2626' }[s];
+}
+
+function badgeLabel(s) {
+  return { green:'On Target', yellow:'Near Target', red:'Off Target' }[s];
+}
+
+function computeScore(kpi) {
+  const c = kpi.current, t = kpi.target;
+  if (kpi.lowerIsBetter) {
+    if (c <= 0) return 100;
+    return Math.min(100, Math.max(0, (t / c) * 100));
   }
+  return Math.min(100, Math.max(0, (c / t) * 100));
+}
 
-  function statusColor(status) {
-    return { green: "#16a34a", yellow: "#ca8a04", red: "#dc2626" }[status];
-  }
+function trendInfo(kpi) {
+  const delta   = kpi.current - kpi.prevMonth;
+  const rawUp   = delta > 0;
+  const isGood  = kpi.lowerIsBetter ? !rawUp : rawUp;
+  const stable  = Math.abs(delta) < 0.005;
+  const absDelta = Math.abs(delta).toFixed(kpi.decimals);
+  const sign    = delta > 0 ? '+' : '-';
+  const text    = stable ? 'Stable vs last month'
+                         : `${sign}${absDelta}${kpi.unit} vs last month`;
+  return { rawUp, isGood, stable, text };
+}
 
-  function trendArrowSVG(trendUp) {
-    if (trendUp === null) {
-      return `<svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
-    }
-    return trendUp
-      ? `<svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>`
-      : `<svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>`;
-  }
+function healthMessage(score) {
+  if (score >= 95) return 'Supply chain performing excellently — all critical metrics on track.';
+  if (score >= 85) return 'Supply chain in good health — a few areas need attention.';
+  if (score >= 70) return 'Supply chain performing adequately — several KPIs require focused improvement.';
+  if (score >= 55) return 'Supply chain under pressure — immediate action needed on key metrics.';
+  return 'Supply chain in critical state — urgent intervention required across key areas.';
+}
 
-  function chipArrowSVG(trendUp) {
-    if (trendUp === null) {
-      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
-    }
-    return trendUp
-      ? `<svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>`
-      : `<svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
-  }
-
-  /* ── Toast ── */
-  let toastTimer;
-  function showToast(msg) {
-    const t = document.getElementById("toast");
-    t.textContent = msg;
-    t.classList.add("show");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove("show"), 2500);
-  }
-
-  /* ── Refresh summary counts ── */
-  function refreshSummary() {
-    const cards = document.querySelectorAll(".kpi-card");
-    let counts = { green: 0, yellow: 0, red: 0 };
-    cards.forEach(c => {
-      if (c.classList.contains("green"))  counts.green++;
-      else if (c.classList.contains("yellow")) counts.yellow++;
-      else counts.red++;
-    });
-    document.getElementById("count-green").textContent  = counts.green;
-    document.getElementById("count-yellow").textContent = counts.yellow;
-    document.getElementById("count-red").textContent    = counts.red;
-  }
-
-  /* ── Update a card after value edit ── */
-  function updateCard(card, kpi, newValue) {
-    const status = getStatus(newValue, kpi);
-    const width  = barWidth(newValue, kpi);
-    const color  = statusColor(status);
-
-    card.className = `kpi-card ${status}`;
-
-    card.querySelector(".kpi-current").style.color = color;
-    card.querySelector(".status-badge").className = `status-badge badge-${status}`;
-    card.querySelector(".status-badge").textContent = { green: "On Target", yellow: "Near Target", red: "Off Target" }[status];
-
-    const fill = card.querySelector(".bar-fill");
-    fill.className = `bar-fill fill-${status}`;
-    fill.style.width = width + "%";
-
-    refreshSummary();
-  }
-
-  /* ── Build cards ── */
-  const grid = document.getElementById("kpi-grid");
-
-  kpis.forEach(kpi => {
-    const status = getStatus(kpi.current, kpi);
-    const width  = barWidth(kpi.current, kpi);
-    const color  = statusColor(status);
-    const badgeText = { green: "On Target", yellow: "Near Target", red: "Off Target" }[status];
-
-    const card = document.createElement("div");
-    card.className = `kpi-card ${status}`;
-    card.innerHTML = `
-      <div class="kpi-header">
-        <div class="kpi-name">${kpi.name}</div>
-        <span class="status-badge badge-${status}">${badgeText}</span>
-      </div>
-      <div class="kpi-values">
-        <div class="kpi-value-group">
-          <span class="kpi-current" style="color:${color}" contenteditable="false" title="Click to edit">${kpi.current.toFixed(1)}</span>
-          <span class="kpi-unit">${kpi.unit}</span>
+/* ── Bar chart ── */
+function renderBarChart(kpi) {
+  const status = getStatus(kpi.current, kpi);
+  const color  = statusColor(status);
+  const scale  = Math.max(kpi.current, kpi.target) * (kpi.lowerIsBetter && kpi.current > kpi.target ? 1.1 : 1.12);
+  const aPct   = Math.min((kpi.current / scale) * 100, 100).toFixed(1);
+  const tPct   = Math.min((kpi.target  / scale) * 100, 100).toFixed(1);
+  const tLabel = (kpi.lowerIsBetter ? '< ' : '') + fmt(kpi, kpi.target);
+  return `
+    <div class="bc-wrap">
+      <div class="bc-row">
+        <span class="bc-label">Actual</span>
+        <div class="bc-track">
+          <div class="bc-fill" style="width:${aPct}%;background:${color}"></div>
         </div>
-        <div class="trend-arrow">${trendArrowSVG(kpi.trendUp)}</div>
-        <span class="edit-hint">✎ click to edit</span>
+        <span class="bc-val" style="color:${color}">${fmt(kpi, kpi.current)}</span>
       </div>
-      <div class="kpi-target">
-        Target: <strong>${kpi.lowerIsBetter ? "below " : ""}${kpi.target.toFixed(1)}${kpi.unit}</strong>
+      <div class="bc-row">
+        <span class="bc-label">Target</span>
+        <div class="bc-track">
+          <div class="bc-fill" style="width:${tPct}%;background:#94a3b8"></div>
+        </div>
+        <span class="bc-val" style="color:#6b7280">${tLabel}</span>
       </div>
-      <div class="bar-track">
-        <div class="bar-fill fill-${status}" style="width:${width}%"></div>
-      </div>
-      <div class="bar-labels">
-        <span>0${kpi.unit}</span>
-        <span>Target ${kpi.target.toFixed(1)}${kpi.unit}</span>
-      </div>
-      <div class="trend-chip">
-        ${chipArrowSVG(kpi.trendUp)}
-        ${kpi.trend}
-      </div>
-    `;
+    </div>`;
+}
 
-    /* ── Inline editing ── */
-    const valueEl = card.querySelector(".kpi-current");
+/* ── Trend arrow (large, next to value) ── */
+function trendArrowSVG(kpi) {
+  const { rawUp, isGood, stable } = trendInfo(kpi);
+  if (stable) {
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
+  }
+  const c = isGood ? '#22c55e' : '#ef4444';
+  return rawUp
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>`;
+}
 
-    valueEl.addEventListener("click", () => {
-      valueEl.contentEditable = "true";
-      valueEl.focus();
-      // select all text
-      const range = document.createRange();
-      range.selectNodeContents(valueEl);
-      window.getSelection().removeAllRanges();
-      window.getSelection().addRange(range);
-    });
+/* ── Chip arrow (small, bottom) ── */
+function chipArrowSVG(kpi) {
+  const { rawUp, isGood, stable } = trendInfo(kpi);
+  if (stable) {
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
+  }
+  const c = isGood ? '#22c55e' : '#ef4444';
+  return rawUp
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+}
 
-    valueEl.addEventListener("keydown", e => {
-      if (e.key === "Enter") { e.preventDefault(); valueEl.blur(); }
-      if (e.key === "Escape") {
-        valueEl.textContent = kpi.current.toFixed(1);
-        valueEl.contentEditable = "false";
-      }
-      // Only allow digits, dot, backspace, arrows, delete
-      if (!/[\d.]|Backspace|Delete|Arrow/.test(e.key)) e.preventDefault();
-    });
+/* ═══════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════ */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
 
-    valueEl.addEventListener("blur", () => {
-      valueEl.contentEditable = "false";
-      const raw = parseFloat(valueEl.textContent);
-      if (isNaN(raw) || raw < 0 || raw > 999) {
-        valueEl.textContent = kpi.current.toFixed(1);
-        showToast("Invalid value — reverted");
-        return;
-      }
-      const rounded = Math.round(raw * 10) / 10;
-      kpi.current = rounded;
-      valueEl.textContent = rounded.toFixed(1);
-      updateCard(card, kpi, rounded);
-
-      // update last-updated timestamp
-      const now = new Date();
-      document.getElementById("last-updated-time").textContent = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
-      showToast(`${kpi.name} updated to ${rounded.toFixed(1)}${kpi.unit}`);
-    });
-
-    grid.appendChild(card);
+/* ═══════════════════════════════════════════════
+   SCORECARD
+═══════════════════════════════════════════════ */
+function renderScorecard() {
+  const avg    = allKpis.map(computeScore).reduce((a, b) => a + b, 0) / allKpis.length;
+  const health = Math.round(avg);
+  let cg = 0, cy = 0, cr = 0;
+  allKpis.forEach(k => {
+    const s = getStatus(k.current, k);
+    if (s === 'green') cg++;
+    else if (s === 'yellow') cy++;
+    else cr++;
   });
 
-  /* ── Initial summary & timestamp ── */
-  refreshSummary();
+  const hColor = health >= 85 ? '#16a34a' : health >= 70 ? '#ca8a04' : '#dc2626';
+  const hBg    = health >= 85 ? '#dcfce7' : health >= 70 ? '#fef9c3' : '#fee2e2';
+  const circ   = 2 * Math.PI * 46;
+  const dash   = (health / 100 * circ).toFixed(2);
+  const msg    = healthMessage(health);
 
-  const now = new Date();
-  const timeFmt = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
-  const dateFmt = now.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-  document.getElementById("last-updated-time").textContent = `${dateFmt}, ${timeFmt}`;
+  document.getElementById('scorecard').innerHTML = `
+    <div class="sc-gauge">
+      <svg width="110" height="110" viewBox="0 0 110 110">
+        <circle cx="55" cy="55" r="46" fill="${hBg}" stroke="#e2e8f0" stroke-width="9"/>
+        <circle cx="55" cy="55" r="46" fill="none" stroke="${hColor}" stroke-width="9"
+          stroke-dasharray="${dash} ${circ.toFixed(2)}"
+          stroke-linecap="round"
+          transform="rotate(-90 55 55)"
+          style="-webkit-print-color-adjust:exact;print-color-adjust:exact"/>
+        <text x="55" y="50" text-anchor="middle" fill="${hColor}"
+          font-size="21" font-weight="700" font-family="inherit">${health}</text>
+        <text x="55" y="65" text-anchor="middle" fill="#94a3b8"
+          font-size="8.5" font-family="inherit">/ 100</text>
+      </svg>
+    </div>
+    <div class="sc-info">
+      <div class="sc-title">Overall Health Score</div>
+      <div class="sc-message">${msg}</div>
+      <div class="sc-pills">
+        <span class="sc-pill pill-green">${cg} On Target</span>
+        <span class="sc-pill pill-yellow">${cy} Near Target</span>
+        <span class="sc-pill pill-red">${cr} Off Target</span>
+      </div>
+    </div>
+    <div class="sc-divider"></div>
+    <div class="sc-stats">
+      <div class="sc-stat">
+        <div class="sc-stat-val" style="color:#16a34a">${cg}</div>
+        <div class="sc-stat-lbl">On Target</div>
+      </div>
+      <div class="sc-stat">
+        <div class="sc-stat-val" style="color:#ca8a04">${cy}</div>
+        <div class="sc-stat-lbl">Near Target</div>
+      </div>
+      <div class="sc-stat">
+        <div class="sc-stat-val" style="color:#dc2626">${cr}</div>
+        <div class="sc-stat-lbl">Off Target</div>
+      </div>
+    </div>`;
+}
 
-  /* ── Export PDF ── */
-  function exportPDF() {
-    showToast("Opening print dialog…");
-    setTimeout(() => window.print(), 300);
+/* ═══════════════════════════════════════════════
+   DATA TABLE
+═══════════════════════════════════════════════ */
+function renderTable() {
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '';
+
+  allKpis.forEach(kpi => {
+    const status = getStatus(kpi.current, kpi);
+    const dotCls = { green:'dot-g', yellow:'dot-y', red:'dot-r' }[status];
+    const sectionLabel = kpi.section === 'supply-chain' ? 'Supply Chain' : 'Warehouse';
+
+    const tr = document.createElement('tr');
+    tr.dataset.id = kpi.id;
+    tr.innerHTML = `
+      <td><span class="td-status-dot ${dotCls}"></span></td>
+      <td class="td-name">${kpi.name}</td>
+      <td class="td-section"><span class="section-tag ${kpi.section === 'warehouse' ? 'wh' : ''}" style="font-size:.62rem;padding:2px 8px">${sectionLabel}</span></td>
+      <td>
+        <div class="td-input-wrap">
+          <input class="td-input" type="number" step="any" data-field="current" data-id="${kpi.id}" value="${kpi.current}">
+          <span class="td-unit">${kpi.prefix}${kpi.unit.trim() || ''}</span>
+        </div>
+      </td>
+      <td>
+        <div class="td-input-wrap">
+          <input class="td-input" type="number" step="any" data-field="target" data-id="${kpi.id}" value="${kpi.target}">
+          <span class="td-unit">${kpi.prefix}${kpi.unit.trim() || ''}</span>
+        </div>
+      </td>
+      <td>
+        <div class="td-input-wrap">
+          <input class="td-input" type="number" step="any" data-field="prevMonth" data-id="${kpi.id}" value="${kpi.prevMonth}">
+          <span class="td-unit">${kpi.prefix}${kpi.unit.trim() || ''}</span>
+        </div>
+      </td>
+      <td>
+        <input class="td-notes" type="text" data-field="notes" data-id="${kpi.id}" value="${kpi.notes}" placeholder="Add a comment…">
+      </td>`;
+    tbody.appendChild(tr);
+  });
+
+  // Wire up table inputs
+  tbody.querySelectorAll('input').forEach(input => {
+    input.addEventListener('change', () => {
+      const kpi = allKpis.find(k => k.id === input.dataset.id);
+      if (!kpi) return;
+      const field = input.dataset.field;
+      if (field === 'notes') {
+        kpi.notes = input.value;
+      } else {
+        const val = parseFloat(input.value);
+        if (isNaN(val) || val < 0) { input.value = kpi[field]; return; }
+        kpi[field] = val;
+      }
+      refreshAll(kpi.id);
+      touchTimestamp();
+      if (field !== 'notes') showToast(`${kpi.name} updated`);
+    });
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   KPI CARDS
+═══════════════════════════════════════════════ */
+const cardMap = {}; // id → DOM element
+
+function renderCards() {
+  const grids = {
+    'supply-chain': document.getElementById('grid-supply-chain'),
+    'warehouse':    document.getElementById('grid-warehouse'),
+  };
+  Object.values(grids).forEach(g => g.innerHTML = '');
+
+  allKpis.forEach(kpi => {
+    const card = document.createElement('div');
+    card.dataset.id = kpi.id;
+    cardMap[kpi.id] = card;
+    grids[kpi.section].appendChild(card);
+    updateCard(kpi);
+  });
+}
+
+function updateCard(kpi) {
+  const card   = cardMap[kpi.id];
+  if (!card) return;
+  const status = getStatus(kpi.current, kpi);
+  const color  = statusColor(status);
+  const { text: trendText } = trendInfo(kpi);
+  const tgtLabel = (kpi.lowerIsBetter ? 'below ' : '') + fmt(kpi, kpi.target);
+
+  card.className = `kpi-card ${status}`;
+  card.innerHTML = `
+    <div class="kpi-header">
+      <div class="kpi-name">${kpi.name}</div>
+      <span class="status-badge badge-${status}">${badgeLabel(status)}</span>
+    </div>
+    <div class="kpi-values">
+      <div class="kpi-value-group">
+        ${kpi.prefix ? `<span class="kpi-prefix" style="color:${color}">${kpi.prefix}</span>` : ''}
+        <span class="kpi-current" style="color:${color}" contenteditable="false" title="Click to edit">${kpi.current.toFixed(kpi.decimals)}</span>
+        ${kpi.unit.trim() ? `<span class="kpi-unit">${kpi.unit.trim()}</span>` : ''}
+      </div>
+      <div class="trend-arrow">${trendArrowSVG(kpi)}</div>
+    </div>
+    <div class="kpi-target">Target: <strong>${tgtLabel}</strong></div>
+    ${renderBarChart(kpi)}
+    <div class="trend-chip">
+      ${chipArrowSVG(kpi)}
+      ${trendText}
+    </div>
+    ${kpi.notes ? `<div class="card-notes visible">${kpi.notes}</div>` : '<div class="card-notes"></div>'}`;
+
+  // Inline edit on the card value
+  const valEl = card.querySelector('.kpi-current');
+  valEl.addEventListener('click', () => {
+    valEl.contentEditable = 'true';
+    valEl.focus();
+    const r = document.createRange();
+    r.selectNodeContents(valEl);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(r);
+  });
+  valEl.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); valEl.blur(); }
+    if (e.key === 'Escape') { valEl.textContent = kpi.current.toFixed(kpi.decimals); valEl.contentEditable = 'false'; }
+    if (!/[\d.]|Backspace|Delete|Arrow/.test(e.key)) e.preventDefault();
+  });
+  valEl.addEventListener('blur', () => {
+    valEl.contentEditable = 'false';
+    const raw = parseFloat(valEl.textContent);
+    if (isNaN(raw) || raw < 0 || raw > 99999) {
+      valEl.textContent = kpi.current.toFixed(kpi.decimals);
+      showToast('Invalid value — reverted');
+      return;
+    }
+    kpi.current = Math.round(raw * Math.pow(10, kpi.decimals)) / Math.pow(10, kpi.decimals);
+    refreshAll(kpi.id);
+    syncTableRow(kpi);
+    touchTimestamp();
+    showToast(`${kpi.name} → ${fmt(kpi, kpi.current)}`);
+  });
+}
+
+/* Sync a table row's "current" input after card edit */
+function syncTableRow(kpi) {
+  const row = document.querySelector(`#table-body tr[data-id="${kpi.id}"]`);
+  if (!row) return;
+  const input = row.querySelector(`input[data-field="current"]`);
+  if (input) input.value = kpi.current;
+  // update status dot
+  const dot = row.querySelector('.td-status-dot');
+  if (dot) {
+    dot.className = `td-status-dot ${{ green:'dot-g', yellow:'dot-y', red:'dot-r' }[getStatus(kpi.current, kpi)]}`;
   }
+}
+
+/* ═══════════════════════════════════════════════
+   FULL REFRESH
+═══════════════════════════════════════════════ */
+function refreshAll(changedId) {
+  if (changedId) {
+    const kpi = allKpis.find(k => k.id === changedId);
+    if (kpi) updateCard(kpi);
+  } else {
+    allKpis.forEach(updateCard);
+  }
+  renderScorecard();
+  // Update table status dots for all rows
+  allKpis.forEach(kpi => {
+    const dot = document.querySelector(`#table-body tr[data-id="${kpi.id}"] .td-status-dot`);
+    if (dot) dot.className = `td-status-dot ${{ green:'dot-g', yellow:'dot-y', red:'dot-r' }[getStatus(kpi.current, kpi)]}`;
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   TABLE TOGGLE
+═══════════════════════════════════════════════ */
+let tableVisible = true;
+function toggleTable() {
+  const wrap = document.getElementById('table-wrap');
+  const btn  = document.getElementById('table-toggle');
+  tableVisible = !tableVisible;
+  wrap.style.display = tableVisible ? '' : 'none';
+  btn.textContent = tableVisible ? 'Hide' : 'Show';
+}
+
+/* ═══════════════════════════════════════════════
+   TIMESTAMP
+═══════════════════════════════════════════════ */
+function touchTimestamp() {
+  const now = new Date();
+  document.getElementById('last-updated-time').textContent =
+    now.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }) + ', ' +
+    now.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+}
+
+/* ═══════════════════════════════════════════════
+   PDF EXPORT
+═══════════════════════════════════════════════ */
+function exportPDF() {
+  showToast('Opening print dialog…');
+  setTimeout(() => window.print(), 300);
+}
+
+/* ═══════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════ */
+renderScorecard();
+renderTable();
+renderCards();
+touchTimestamp();
 </script>
 </body>
 </html>
