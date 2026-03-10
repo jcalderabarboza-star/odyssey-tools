@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Supply Chain KPI Dashboard — Paragon Corp</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -403,6 +404,69 @@
       .sc-stats { grid-template-columns: repeat(3,1fr); gap: 10px; }
       .kpi-grid { grid-template-columns: 1fr; }
     }
+
+    /* ── Chart Cards ── */
+    .chart-card {
+      background: #fff; border-radius: 16px;
+      padding: 24px 28px; box-shadow: 0 1px 4px rgba(0,0,0,.07);
+    }
+    .chart-card-title {
+      font-size: 0.68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .1em;
+      color: #64748b; margin-bottom: 16px;
+    }
+    .chart-canvas-wrap { position: relative; }
+
+    /* ── Trend Toggle Buttons ── */
+    .trend-toggles {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;
+    }
+    .trend-toggle-btn {
+      padding: 4px 11px;
+      font-size: 0.69rem; font-weight: 600;
+      border: 1.5px solid var(--tc);
+      border-radius: 999px;
+      background: var(--tc); color: #fff;
+      cursor: pointer; transition: opacity .15s, background .15s;
+    }
+    .trend-toggle-btn.off {
+      background: transparent; color: var(--tc); opacity: .65;
+    }
+
+    /* ── Scorecard + Charts side grid ── */
+    .sc-charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 18px; align-items: start;
+    }
+    .sc-right-col { display: flex; flex-direction: column; gap: 18px; }
+
+    /* ── Donut layout ── */
+    .donut-layout {
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    }
+    .donut-canvas-wrap { width: 130px; flex-shrink: 0; }
+    .dct-table { flex: 1; min-width: 140px; }
+    .dct-row {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 5px 0; border-bottom: 1px solid #f1f5f9;
+      font-size: 0.72rem;
+    }
+    .dct-row:last-child { border-bottom: none; }
+    .dct-name { font-weight: 600; color: #374151; }
+    .dct-dots { display: flex; gap: 6px; }
+    .dct-dot {
+      display: inline-flex; align-items: center; gap: 3px;
+      font-size: 0.67rem; font-weight: 700;
+    }
+
+    @media (max-width: 960px) {
+      .sc-charts-grid { grid-template-columns: 1fr; }
+    }
+    @media print {
+      .chart-card, .trend-toggles { display: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -466,13 +530,46 @@
 
   <main>
 
+    <!-- ── Trend Line Chart ── -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label">KPI Trend — Jan to Sep 2025</p>
+        <span style="font-size:0.69rem;color:#94a3b8;font-weight:600">Click legend to show/hide</span>
+      </div>
+      <div class="chart-card">
+        <div class="trend-toggles" id="trend-toggles"></div>
+        <div class="chart-canvas-wrap" style="height:300px">
+          <canvas id="chart-trend"></canvas>
+        </div>
+      </div>
+    </div>
+
     <!-- ── Scorecard ── -->
     <div class="section-block">
       <div class="section-hdr">
         <p class="section-label">Overall Health Scorecard</p>
         <span id="scorecard-month-label" style="font-size:0.72rem;color:#94a3b8;font-weight:600;"></span>
       </div>
-      <div class="scorecard" id="scorecard"></div>
+      <div class="sc-charts-grid">
+        <!-- Left: existing scorecard -->
+        <div class="scorecard" id="scorecard"></div>
+        <!-- Right: Radar + Donut stacked -->
+        <div class="sc-right-col">
+          <div class="chart-card">
+            <div class="chart-card-title">Performance vs Target</div>
+            <div class="chart-canvas-wrap" style="height:240px">
+              <canvas id="chart-radar"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-card-title">Status by Category</div>
+            <div class="donut-layout">
+              <div class="donut-canvas-wrap"><canvas id="chart-donut"></canvas></div>
+              <div class="dct-table" id="dct-table"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ── Summary Table ── -->
@@ -497,6 +594,19 @@
             </thead>
             <tbody id="table-body"></tbody>
           </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Bar Chart: Actual vs Target ── -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label">Actual vs Target — All KPIs</p>
+        <span style="font-size:0.69rem;color:#94a3b8;font-weight:600">Color = performance status</span>
+      </div>
+      <div class="chart-card">
+        <div class="chart-canvas-wrap" style="height:380px">
+          <canvas id="chart-bar"></canvas>
         </div>
       </div>
     </div>
@@ -1091,12 +1201,295 @@ function exportPDF() {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   CHART.JS — SHARED CONFIG
+═══════════════════════════════════════════════════════════ */
+const KPI_COLORS = [
+  '#3b82f6','#6366f1','#22c55e','#ef4444','#f59e0b',
+  '#ec4899','#14b8a6','#8b5cf6','#f97316','#06b6d4'
+];
+const KPI_SHORT = { otd:'OTD', ofr:'OFR', por:'POR', rr:'Return %', ia:'Inv. Acc.', wpa:'Pick Acc.', dts:'Dock-Stock', lu:'Labor Util.', mape:'MAPE', cpo:'Cost/Order' };
+
+let chartTrend = null, chartRadar = null, chartBar = null, chartDonut = null;
+const hiddenLines = new Set();
+
+/* ── 1. TREND LINE CHART ── */
+function buildTrendChart() {
+  const ctx = document.getElementById('chart-trend').getContext('2d');
+  if (chartTrend) chartTrend.destroy();
+
+  const datasets = KPI_DEFS.map((kpi, i) => ({
+    label: kpi.name,
+    data: kpi.monthly,
+    borderColor: KPI_COLORS[i],
+    backgroundColor: KPI_COLORS[i] + '18',
+    borderWidth: 2.2,
+    pointRadius: 3.5,
+    pointHoverRadius: 5,
+    tension: 0.35,
+    fill: false,
+  }));
+
+  chartTrend = new Chart(ctx, {
+    type: 'line',
+    data: { labels: MONTHS, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}`
+          }
+        }
+      },
+      scales: {
+        y: { grid: { color: '#f1f5f9' }, ticks: { font: { size: 10 } } },
+        x: { grid: { color: '#f1f5f9' }, ticks: { font: { size: 10 } } }
+      }
+    }
+  });
+
+  // restore hidden state
+  hiddenLines.forEach(i => chartTrend.hide(i));
+  buildTrendToggles();
+}
+
+function buildTrendToggles() {
+  const el = document.getElementById('trend-toggles');
+  if (!el || !chartTrend) return;
+  el.innerHTML = KPI_DEFS.map((kpi, i) =>
+    `<button class="trend-toggle-btn${hiddenLines.has(i) ? ' off' : ''}"
+      style="--tc:${KPI_COLORS[i]}"
+      onclick="toggleTrendLine(${i})">${kpi.name}</button>`
+  ).join('');
+}
+
+function toggleTrendLine(idx) {
+  if (!chartTrend) return;
+  if (hiddenLines.has(idx)) {
+    hiddenLines.delete(idx);
+    chartTrend.show(idx);
+  } else {
+    hiddenLines.add(idx);
+    chartTrend.hide(idx);
+  }
+  buildTrendToggles();
+}
+
+/* ── 2. RADAR CHART ── */
+function buildRadarChart() {
+  const ctx = document.getElementById('chart-radar').getContext('2d');
+  if (chartRadar) chartRadar.destroy();
+
+  const idx = selectedMonthIdx;
+  chartRadar = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: KPI_DEFS.map(k => KPI_SHORT[k.id] || k.id.toUpperCase()),
+      datasets: [
+        {
+          label: 'Actual',
+          data: KPI_DEFS.map(k => computeScore(k, getVal(k, idx))),
+          borderColor: '#6366f1', backgroundColor: '#6366f120',
+          borderWidth: 2.2, pointBackgroundColor: '#6366f1', pointRadius: 3,
+        },
+        {
+          label: 'Target',
+          data: KPI_DEFS.map(() => 100),
+          borderColor: '#94a3b8', backgroundColor: '#94a3b810',
+          borderWidth: 1.5, borderDash: [4, 4], pointRadius: 0,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 10 }, padding: 10, boxWidth: 12 } }
+      },
+      scales: {
+        r: {
+          min: 0, max: 100,
+          ticks: { stepSize: 25, font: { size: 9 }, backdropColor: 'transparent' },
+          grid: { color: '#e2e8f0' }, angleLines: { color: '#e2e8f0' },
+          pointLabels: { font: { size: 9 } }
+        }
+      }
+    }
+  });
+}
+
+function updateRadarChart() {
+  if (!chartRadar) return;
+  const idx = selectedMonthIdx;
+  chartRadar.data.datasets[0].data = KPI_DEFS.map(k => computeScore(k, getVal(k, idx)));
+  chartRadar.update();
+}
+
+/* ── 3. BAR CHART ── */
+function buildBarChart() {
+  const ctx = document.getElementById('chart-bar').getContext('2d');
+  if (chartBar) chartBar.destroy();
+
+  const idx = selectedMonthIdx;
+  chartBar = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: KPI_DEFS.map(k => k.name),
+      datasets: [
+        {
+          label: 'Actual',
+          data: KPI_DEFS.map(k => getVal(k, idx)),
+          backgroundColor: KPI_DEFS.map(k => {
+            const s = getStatus(k, getVal(k, idx));
+            return s === 'green' ? '#22c55e' : s === 'yellow' ? '#eab308' : '#ef4444';
+          }),
+          borderRadius: 4, borderSkipped: false,
+        },
+        {
+          label: 'Target',
+          data: KPI_DEFS.map(k => k.target),
+          backgroundColor: '#94a3b840',
+          borderColor: '#94a3b8', borderWidth: 1.5,
+          borderRadius: 4, borderSkipped: false,
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top', labels: { font: { size: 11 }, padding: 14, boxWidth: 14 } },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const kpi = KPI_DEFS[ctx.dataIndex];
+              return ` ${ctx.dataset.label}: ${fmt(kpi, ctx.parsed.x)}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { grid: { color: '#f1f5f9' }, ticks: { font: { size: 10 } } },
+        y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+function updateBarChart() {
+  if (!chartBar) return;
+  const idx = selectedMonthIdx;
+  KPI_DEFS.forEach((k, i) => {
+    chartBar.data.datasets[0].data[i] = getVal(k, idx);
+    const s = getStatus(k, getVal(k, idx));
+    chartBar.data.datasets[0].backgroundColor[i] =
+      s === 'green' ? '#22c55e' : s === 'yellow' ? '#eab308' : '#ef4444';
+  });
+  chartBar.update();
+}
+
+/* ── 4. DONUT CHART ── */
+const CATEGORIES = ['Distribution','Warehouse','Planning','Finance'];
+const CAT_KPIS = {
+  Distribution: ['otd','ofr','por','rr'],
+  Warehouse:    ['ia','wpa','dts','lu'],
+  Planning:     ['mape'],
+  Finance:      ['cpo'],
+};
+
+function getCatCounts(idx) {
+  const counts = {};
+  CATEGORIES.forEach(cat => {
+    let g=0, y=0, r=0;
+    CAT_KPIS[cat].forEach(id => {
+      const kpi = KPI_DEFS.find(k => k.id === id);
+      const s = getStatus(kpi, getVal(kpi, idx));
+      if (s === 'green') g++; else if (s === 'yellow') y++; else r++;
+    });
+    counts[cat] = { g, y, r };
+  });
+  return counts;
+}
+
+function buildDonutChart() {
+  const ctx = document.getElementById('chart-donut').getContext('2d');
+  if (chartDonut) chartDonut.destroy();
+
+  const idx = selectedMonthIdx;
+  let cg=0, cy=0, cr=0;
+  KPI_DEFS.forEach(k => {
+    const s = getStatus(k, getVal(k, idx));
+    if (s==='green') cg++; else if (s==='yellow') cy++; else cr++;
+  });
+
+  chartDonut = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['On Target','Near Target','Off Target'],
+      datasets: [{
+        data: [cg, cy, cr],
+        backgroundColor: ['#22c55e','#eab308','#ef4444'],
+        borderWidth: 0, hoverOffset: 4,
+      }]
+    },
+    options: {
+      responsive: true, cutout: '68%',
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => ` ${c.label}: ${c.parsed} KPIs` } }
+      }
+    }
+  });
+
+  updateCategoryTable(idx);
+}
+
+function updateDonutChart() {
+  if (!chartDonut) return;
+  const idx = selectedMonthIdx;
+  let cg=0, cy=0, cr=0;
+  KPI_DEFS.forEach(k => {
+    const s = getStatus(k, getVal(k, idx));
+    if (s==='green') cg++; else if (s==='yellow') cy++; else cr++;
+  });
+  chartDonut.data.datasets[0].data = [cg, cy, cr];
+  chartDonut.update();
+  updateCategoryTable(idx);
+}
+
+function updateCategoryTable(idx) {
+  const el = document.getElementById('dct-table');
+  if (!el) return;
+  const counts = getCatCounts(idx);
+  el.innerHTML = CATEGORIES.map(cat => {
+    const { g, y, r } = counts[cat];
+    return `<div class="dct-row">
+      <span class="dct-name">${cat}</span>
+      <span class="dct-dots">
+        ${g ? `<span class="dct-dot" style="color:#16a34a">●${g}</span>` : ''}
+        ${y ? `<span class="dct-dot" style="color:#ca8a04">●${y}</span>` : ''}
+        ${r ? `<span class="dct-dot" style="color:#dc2626">●${r}</span>` : ''}
+      </span>
+    </div>`;
+  }).join('');
+}
+
+/* ── UPDATE ALL CHARTS ── */
+function updateCharts() {
+  updateRadarChart();
+  updateBarChart();
+  updateDonutChart();
+}
+
+/* ═══════════════════════════════════════════════════════════
    RENDER ALL KPI TAB
 ═══════════════════════════════════════════════════════════ */
 function renderAll() {
   renderScorecard();
   renderTable();
   renderCards();
+  updateCharts();
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1105,6 +1498,12 @@ function renderAll() {
 renderMonthChips();
 renderAll();
 renderWarehouseLog();
+
+// Build charts after DOM + data are ready
+buildTrendChart();
+buildRadarChart();
+buildBarChart();
+buildDonutChart();
 </script>
 </body>
 </html>
