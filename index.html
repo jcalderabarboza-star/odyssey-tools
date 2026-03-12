@@ -135,9 +135,12 @@
       font-size: 0.68rem; font-weight: 700;
       padding: 3px 10px; border-radius: 999px;
     }
-    .section-tag.wh { background: #271a38; color: #c084fc; }
-    .section-tag.fin { background: #2d1f0a; color: #f59e0b; }
+    .section-tag.wh   { background: #271a38; color: #c084fc; }
+    .section-tag.fin  { background: #2d1f0a; color: #f59e0b; }
     .section-tag.plan { background: #0d2e1a; color: #4ade80; }
+    .section-tag.mfg-s { background: #0b2d2a; color: #2dd4bf; }
+    .section-tag.mfg-t { background: #2d1a08; color: #fb923c; }
+    .section-tag.mfg-o { background: #1a0a2e; color: #c084fc; }
 
     /* ── Scorecard ── */
     .scorecard {
@@ -475,6 +478,151 @@
     @media print {
       .chart-card, .trend-toggles { display: none !important; }
     }
+
+    /* ══════════════════════════════════════════
+       MANUFACTURING TAB STYLES
+    ══════════════════════════════════════════ */
+
+    /* Formula tooltip */
+    .formula-wrap { position: relative; display: inline-flex; align-items: center; }
+    .formula-icon {
+      width: 15px; height: 15px; border-radius: 50%;
+      background: #21262d; color: #8b949e;
+      font-size: 0.6rem; font-weight: 800; font-style: normal;
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: help; margin-left: 5px; flex-shrink: 0;
+      border: 1px solid #30363d;
+    }
+    .formula-tip {
+      display: none; position: absolute;
+      bottom: calc(100% + 8px); left: 0;
+      transform: translateX(-20%);
+      background: #161b22; border: 1px solid #30363d;
+      color: #c9d1d9; font-size: 0.7rem; line-height: 1.55;
+      padding: 9px 13px; border-radius: 8px;
+      min-width: 220px; max-width: 310px;
+      white-space: normal; z-index: 60;
+      box-shadow: 0 8px 28px rgba(0,0,0,.65);
+      pointer-events: none; font-weight: 400;
+    }
+    .formula-tip strong { color: #a5b4fc; }
+    .formula-wrap:hover .formula-tip { display: block; }
+
+    /* OEE sub-metrics strip */
+    .oee-sub { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .oee-sub-item {
+      flex: 1; min-width: 68px; text-align: center;
+      background: #0d1117; border-radius: 7px;
+      padding: 7px 10px; border: 1px solid #21262d;
+    }
+    .oee-sub-val { font-size: 1rem; font-weight: 700; color: #a5b4fc; }
+    .oee-sub-lbl { font-size: 0.58rem; color: #6e7681; margin-top: 2px; text-transform: uppercase; letter-spacing: .04em; }
+
+    /* Linked badge */
+    .linked-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      font-size: 0.61rem; color: #fbbf24; background: #2d1f00;
+      padding: 2px 8px; border-radius: 999px; font-weight: 600;
+      white-space: nowrap; margin-left: 6px; vertical-align: middle;
+    }
+
+    /* Tactical week-on-week trend */
+    .wtd { font-size: 0.72rem; font-weight: 700; white-space: nowrap; }
+    .wtd.up   { color: #4ade80; }
+    .wtd.down { color: #f87171; }
+    .wtd.flat { color: #8b949e; }
+
+    /* ── Operational Layout ── */
+    .ops-grid { display: grid; gap: 18px; grid-template-columns: 1fr 1fr; }
+    .ops-panel {
+      background: #161b22; border-radius: 14px;
+      border: 1px solid #21262d; padding: 20px 22px;
+    }
+    .ops-panel-title {
+      font-size: 0.67rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .1em;
+      color: #8b949e; margin-bottom: 14px;
+    }
+
+    /* Line status */
+    .line-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .line-card { border-radius: 10px; padding: 13px 14px; border: 1px solid #21262d; }
+    .line-card.running { background: #0d2e1a; border-color: #22c55e30; }
+    .line-card.at-risk { background: #2d1f00; border-color: #f59e0b40; }
+    .line-card.stopped { background: #2d0a0a; border-color: #ef444430; }
+    .line-name { font-size: 0.68rem; font-weight: 700; color: #6e7681; margin-bottom: 6px; }
+    .line-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.73rem; font-weight: 700; padding: 3px 10px; border-radius: 999px;
+    }
+    .line-pill.running { background: #22c55e20; color: #4ade80; }
+    .line-pill.at-risk  { background: #f59e0b20; color: #fbbf24; }
+    .line-pill.stopped  { background: #ef444420; color: #f87171; }
+    .line-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+    .line-dot.running { background: #22c55e; animation: blink-g 1.4s infinite; }
+    .line-dot.at-risk  { background: #eab308; animation: blink-g 2s infinite; }
+    .line-dot.stopped  { background: #ef4444; }
+    @keyframes blink-g { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    /* Op counters */
+    .ops-counters { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .ops-count-card {
+      background: #0d1117; border-radius: 10px;
+      border: 1px solid #21262d; padding: 14px 16px;
+    }
+    .ops-count-card.alert-card { border-color: #f8717140; background: #2d0a0a18; }
+    .ops-count-lbl { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #8b949e; margin-bottom: 5px; }
+    .ops-count-val { font-size: 2.2rem; font-weight: 800; line-height: 1; }
+    .ops-count-val.red-val   { color: #f87171; }
+    .ops-count-val.ok-val    { color: #4ade80; }
+    .ops-count-val.amber-val { color: #fbbf24; }
+    .ops-count-sub { font-size: 0.67rem; color: #6e7681; margin-top: 3px; }
+
+    /* Output progress */
+    .ops-prog-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; margin-top: 12px; }
+    .ops-prog-label { font-size: 0.72rem; font-weight: 600; color: #c9d1d9; }
+    .ops-prog-pct { font-size: 1.5rem; font-weight: 800; line-height: 1; }
+    .ops-prog-track { height: 20px; background: #21262d; border-radius: 10px; overflow: hidden; margin-bottom: 6px; }
+    .ops-prog-fill {
+      height: 100%; border-radius: 10px;
+      background: linear-gradient(90deg, #f97316, #fbbf24);
+      transition: width .6s cubic-bezier(.4,0,.2,1);
+    }
+    .ops-prog-fill.on-track { background: linear-gradient(90deg, #22c55e, #4ade80); }
+    .ops-prog-sub { font-size: 0.68rem; color: #6e7681; line-height: 1.5; }
+
+    /* ── Downstream panel ── */
+    .ds-panel {
+      background: #161b22; border-radius: 14px;
+      border: 1px solid #21262d; padding: 22px 26px;
+    }
+    .ds-title {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: #8b949e; margin-bottom: 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .ds-title svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .ds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
+    .ds-flag {
+      display: flex; gap: 10px;
+      background: #0d1117; border-radius: 9px; padding: 12px 14px;
+      border: 1px solid #21262d; border-left-width: 3px;
+    }
+    .ds-flag.ds-warn    { border-left-color: #f87171; }
+    .ds-flag.ds-caution { border-left-color: #fbbf24; }
+    .ds-flag.ds-ok      { border-left-color: #4ade80; }
+    .ds-flag-ico  { font-size: 1rem; flex-shrink: 0; line-height: 1.4; }
+    .ds-flag-node { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #6e7681; margin-bottom: 2px; }
+    .ds-flag-msg  { font-size: 0.76rem; font-weight: 600; color: #c9d1d9; line-height: 1.35; }
+    .ds-flag-sub  { font-size: 0.67rem; color: #6e7681; margin-top: 3px; }
+
+    /* Mfg charts 2-col row */
+    .mfg-charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 36px; }
+
+    @media (max-width: 960px) {
+      .ops-grid { grid-template-columns: 1fr; }
+      .mfg-charts-2col { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -522,6 +670,13 @@
       <line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
     </svg>
     Warehouse Log
+  </button>
+  <button class="tab-btn" id="tab-mfg" onclick="switchTab('mfg')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 20h20"/><path d="M6 20V10l6-6 6 6v10"/><path d="M10 20v-6h4v6"/>
+      <circle cx="12" cy="6" r="1" fill="currentColor"/>
+    </svg>
+    Manufacturing
   </button>
 </nav>
 
@@ -692,6 +847,156 @@
       </div>
       <div class="table-scroll">
         <table class="wh-log-table" id="wh-log-table"></table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 3: MANUFACTURING
+══════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-mfg">
+
+  <!-- Month Selector (mirrors KPI tab, synced via shared selectedMonthIdx) -->
+  <div class="month-bar">
+    <span class="month-bar-label">Month:</span>
+    <div class="month-chips" id="month-chips-mfg"></div>
+  </div>
+
+  <main>
+
+    <!-- ── SECTION 1: STRATEGIC KPIs ── -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label">
+          <span class="section-tag mfg-s">Strategic KPIs — Monthly</span>
+        </p>
+        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Hover <em>ƒ</em> for formula · Driven by month selector above</span>
+      </div>
+      <div class="kpi-grid" id="mfg-strategic-grid"></div>
+    </div>
+
+    <!-- ── OEE TREND CHART ── -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label">OEE Trend — Jan to Sep 2025</p>
+        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Availability · Performance · Quality · Target 85%</span>
+      </div>
+      <div class="chart-card">
+        <div class="chart-canvas-wrap" style="height:280px">
+          <canvas id="chart-mfg-oee"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PRODUCTION PLAN vs ACTUAL + DOWNTIME BREAKDOWN ── -->
+    <div class="mfg-charts-2col">
+      <div>
+        <div class="section-hdr" style="margin-bottom:14px">
+          <p class="section-label">Production Plan vs Actual — 2025</p>
+          <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Red = &lt;90% adherence</span>
+        </div>
+        <div class="chart-card">
+          <div class="chart-canvas-wrap" style="height:260px">
+            <canvas id="chart-mfg-prod"></canvas>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-hdr" style="margin-bottom:14px">
+          <p class="section-label">Downtime Breakdown — YTD</p>
+          <span style="font-size:0.69rem;color:#8b949e;font-weight:600">% of total downtime hours</span>
+        </div>
+        <div class="chart-card">
+          <div class="chart-canvas-wrap" style="height:260px">
+            <canvas id="chart-mfg-downtime"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION 2: TACTICAL KPIs ── -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label">
+          <span class="section-tag mfg-t">Tactical KPIs — Weekly</span>
+        </p>
+        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Current week · W/W trend vs previous week</span>
+      </div>
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>KPI</th>
+              <th>Formula</th>
+              <th>Actual</th>
+              <th>Target</th>
+              <th>Status</th>
+              <th>W/W Trend</th>
+            </tr>
+          </thead>
+          <tbody id="mfg-tactical-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── SECTION 3: OPERATIONAL KPIs ── -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label">
+          <span class="section-tag mfg-o">Operational KPIs — Shift / Real-time</span>
+        </p>
+        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Day Shift · Cikarang Plant</span>
+      </div>
+      <div class="ops-grid">
+
+        <!-- Line Status -->
+        <div class="ops-panel">
+          <div class="ops-panel-title">
+            <svg style="width:12px;height:12px;display:inline-block;vertical-align:-1px;margin-right:5px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Line Status — Production Lines
+          </div>
+          <div class="line-grid" id="mfg-line-grid"></div>
+          <div style="margin-top:12px;font-size:0.67rem;color:#6e7681">
+            Formula: Real-time status per line &nbsp;·&nbsp; Target: All lines Running
+          </div>
+        </div>
+
+        <!-- Alerts & Performance -->
+        <div class="ops-panel">
+          <div class="ops-panel-title">
+            <svg style="width:12px;height:12px;display:inline-block;vertical-align:-1px;margin-right:5px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            Alerts &amp; Output Performance
+          </div>
+          <div class="ops-counters" id="mfg-ops-counters"></div>
+          <div id="mfg-ops-progress"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── DOWNSTREAM IMPACT PANEL ── -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label">Downstream Impact</p>
+        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Auto-calculated from current KPI values · For future live data integration</span>
+      </div>
+      <div class="ds-panel">
+        <div class="ds-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8b949e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+            <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+          </svg>
+          Node Connection Indicators
+        </div>
+        <div class="ds-grid" id="mfg-ds-grid"></div>
       </div>
     </div>
 
@@ -876,7 +1181,9 @@ function renderMonthChips() {
 function selectMonth(idx) {
   selectedMonthIdx = idx;
   renderMonthChips();
+  renderMonthChipsMfg();
   renderAll();
+  renderMfgStrategic();
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1504,17 +1811,538 @@ function renderAll() {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   MANUFACTURING TAB — DATA
+═══════════════════════════════════════════════════════════ */
+
+/* ── Strategic KPI definitions (monthly, Jan-Sep 2025) ── */
+const MFG_STRATEGIC = [
+  {
+    id: 'ppa', name: 'Production Plan Adherence',
+    formula: 'Actual Output ÷ Planned Output × 100',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 95, responsible: 'Manufacturing',
+    monthly: [88.5, 90.2, 91.5, 93.1, 92.8, 94.2, 95.1, 94.5, 93.8],
+    greenFn: v => v >= 95, yellowFn: v => v >= 90 && v < 95,
+  },
+  {
+    id: 'oee', name: 'OEE (Overall Equipment Effectiveness)',
+    formula: 'Availability × Performance × Quality',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 85, responsible: 'Manufacturing',
+    monthly: [72.4, 74.8, 76.2, 78.5, 80.1, 82.3, 85.2, 84.8, 83.6],
+    greenFn: v => v >= 85, yellowFn: v => v >= 75 && v < 85,
+    oeeAvail: [88.2, 89.5, 90.1, 91.2, 91.8, 92.3, 93.5, 92.8, 91.9],
+    oeePerf:  [85.1, 86.4, 87.2, 88.5, 89.1, 90.2, 92.1, 91.5, 90.8],
+    oeeQual:  [96.2, 96.8, 97.1, 97.5, 97.8, 98.2, 98.5, 98.1, 97.9],
+  },
+  {
+    id: 'mlt', name: 'Manufacturing Lead Time',
+    formula: 'Production End Date – Production Start Date',
+    unit: ' days', prefix: '', lowerIsBetter: true, decimals: 1,
+    target: 5, responsible: 'Manufacturing',
+    monthly: [6.8, 6.4, 6.1, 5.8, 5.5, 5.2, 4.8, 4.5, 4.2],
+    greenFn: v => v <= 5, yellowFn: v => v > 5 && v <= 6.5,
+  },
+  {
+    id: 'yield', name: 'Yield (First Pass)',
+    formula: 'Good Units ÷ Total Units Produced × 100',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 98, responsible: 'Manufacturing / Quality',
+    monthly: [94.2, 95.1, 95.8, 96.5, 97.0, 97.5, 98.1, 98.5, 97.8],
+    greenFn: v => v >= 98, yellowFn: v => v >= 95 && v < 98,
+  },
+  {
+    id: 'cu', name: 'Capacity Utilization',
+    formula: 'Actual Output ÷ Max Capacity × 100',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 85, responsible: 'Manufacturing',
+    monthly: [71.2, 73.5, 75.8, 78.2, 80.5, 82.8, 85.5, 87.2, 86.1],
+    greenFn: v => v >= 85, yellowFn: v => v >= 75 && v < 85,
+  },
+  {
+    id: 'cpu', name: 'Cost per Unit Produced',
+    formula: 'Total Manufacturing Cost ÷ Total Units Produced',
+    unit: '', prefix: 'IDR ', lowerIsBetter: true, decimals: 0,
+    target: 12500, responsible: 'Manufacturing',
+    monthly: [14200, 13800, 13400, 13100, 12900, 12700, 12400, 12200, 11800],
+    greenFn: v => v <= 12500, yellowFn: v => v > 12500 && v <= 13500,
+  },
+];
+MFG_STRATEGIC.forEach(k => {
+  k.ytd = +(k.monthly.reduce((a,b) => a+b, 0) / k.monthly.length).toFixed(k.decimals);
+});
+
+/* ── Tactical KPI data (weekly, static mock) ── */
+const MFG_TACTICAL = [
+  {
+    id: 'sa', name: 'Schedule Adherence',
+    formula: 'Executed Orders ÷ Scheduled Orders × 100',
+    unit: '%', lowerIsBetter: false, decimals: 1,
+    target: 95, current: 91.3, prevWeek: 89.8,
+    greenFn: v => v >= 95, yellowFn: v => v >= 88 && v < 95,
+    linked: null,
+  },
+  {
+    id: 'dtr', name: 'Downtime Rate',
+    formula: 'Downtime Hours ÷ Available Time × 100',
+    unit: '%', lowerIsBetter: true, decimals: 1,
+    target: 5, current: 7.2, prevWeek: 8.1,
+    greenFn: v => v < 5, yellowFn: v => v >= 5 && v <= 8,
+    linked: null,
+  },
+  {
+    id: 'rmpm', name: 'RM/PM Availability',
+    formula: 'Available RM/PM ÷ Required RM/PM × 100',
+    unit: '%', lowerIsBetter: false, decimals: 1,
+    target: 98, current: 94.6, prevWeek: 96.2,
+    greenFn: v => v >= 98, yellowFn: v => v >= 92 && v < 98,
+    linked: '⚠ Linked to Procurement',
+  },
+  {
+    id: 'wip', name: 'WIP vs Plan',
+    formula: 'Actual WIP ÷ Planned WIP × 100',
+    unit: '%', lowerIsBetter: false, decimals: 1,
+    target: 100, current: 103.2, prevWeek: 101.5,
+    greenFn: v => v >= 100 && v <= 110, yellowFn: v => (v >= 90 && v < 100) || (v > 110 && v <= 120),
+    linked: null,
+  },
+  {
+    id: 'cot', name: 'Changeover Time',
+    formula: 'Total Changeover Time ÷ Number of Changeovers',
+    unit: ' min', lowerIsBetter: true, decimals: 0,
+    target: 45, current: 52, prevWeek: 55,
+    greenFn: v => v <= 45, yellowFn: v => v > 45 && v <= 55,
+    linked: null,
+  },
+];
+
+/* ── Operational data (current shift, static mock) ── */
+const MFG_LINES = [
+  { name: 'Line 1', status: 'running', product: 'Shampoo 250ml' },
+  { name: 'Line 2', status: 'at-risk', product: 'Conditioner 180ml', note: 'Overheating sensor' },
+  { name: 'Line 3', status: 'running', product: 'Body Lotion 300ml' },
+  { name: 'Line 4', status: 'stopped', product: 'Lip Balm 15g', note: 'Material shortage' },
+];
+const MFG_OPS = {
+  stopLineIncidents: 3, qcHoldUnits: 847,
+  maintenanceAlerts: 5, outputVsTargetPct: 87.4,
+  shiftTarget: 48000, shiftActual: 41952,
+};
+
+/* ── Chart data ── */
+const MFG_PLANNED  = [220000,225000,230000,235000,240000,245000,248000,250000,252000];
+const MFG_ACTUAL_P = MFG_PLANNED.map((p,i) => Math.round(p * MFG_STRATEGIC[0].monthly[i] / 100));
+const MFG_DT_CATS  = ['Planned Maint.','Unplanned Breakdown','Changeover','Material Shortage','Quality Hold'];
+const MFG_DT_DATA  = [38, 27, 20, 10, 5];
+const MFG_DT_COLS  = ['#3b82f6','#f87171','#fbbf24','#fb923c','#c084fc'];
+
+let chartMfgOee = null, chartMfgProd = null, chartMfgDowntime = null;
+
+/* ═══════════════════════════════════════════════════════════
+   MFG HELPERS
+═══════════════════════════════════════════════════════════ */
+function mfgGetVal(kpi, idx) { return idx === IS_YTD ? kpi.ytd : kpi.monthly[idx]; }
+function mfgGetPrev(kpi, idx) { return (idx === IS_YTD || idx === 0) ? null : kpi.monthly[idx - 1]; }
+function mfgStatus(kpi, val) {
+  if (kpi.greenFn(val)) return 'green';
+  if (kpi.yellowFn(val)) return 'yellow';
+  return 'red';
+}
+function mfgFmt(kpi, val) {
+  if (kpi.id === 'cpu') return 'IDR\u00a0' + Math.round(val).toLocaleString('en-US');
+  return kpi.prefix + Number(val).toFixed(kpi.decimals) + kpi.unit;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MFG MONTH CHIPS (mirrors KPI tab)
+═══════════════════════════════════════════════════════════ */
+function renderMonthChipsMfg() {
+  const el = document.getElementById('month-chips-mfg');
+  if (!el) return;
+  let html = '';
+  MONTHS.forEach((m, i) => {
+    html += `<button class="month-chip${i === selectedMonthIdx ? ' active' : ''}" onclick="selectMonth(${i})">${m}</button>`;
+  });
+  html += `<button class="month-chip ytd${selectedMonthIdx === IS_YTD ? ' active' : ''}" onclick="selectMonth(${IS_YTD})">YTD Avg</button>`;
+  el.innerHTML = html;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER: STRATEGIC KPI CARDS
+═══════════════════════════════════════════════════════════ */
+function renderMfgStrategic() {
+  const idx = selectedMonthIdx;
+  const grid = document.getElementById('mfg-strategic-grid');
+  if (!grid) return;
+
+  grid.innerHTML = MFG_STRATEGIC.map(kpi => {
+    const val    = mfgGetVal(kpi, idx);
+    const prev   = mfgGetPrev(kpi, idx);
+    const status = mfgStatus(kpi, val);
+    const color  = statusColor(status);
+
+    // Score pct for bar
+    let scorePct;
+    if (kpi.lowerIsBetter) {
+      scorePct = val <= 0 ? 100 : Math.min(100, (kpi.target / val) * 100);
+    } else {
+      scorePct = Math.min(100, (val / kpi.target) * 100);
+    }
+    scorePct = scorePct.toFixed(1);
+
+    const tgtLabel = (kpi.lowerIsBetter ? '≤\u00a0' : '≥\u00a0') +
+      (kpi.id === 'cpu' ? 'IDR\u00a0' + kpi.target.toLocaleString() : kpi.prefix + kpi.target + kpi.unit);
+
+    // Trend arrow
+    let trendSvg = '';
+    if (prev !== null) {
+      const delta = val - prev;
+      if (Math.abs(delta) > 0.001) {
+        const up = delta > 0;
+        const good = kpi.lowerIsBetter ? !up : up;
+        const c = good ? '#4ade80' : '#f87171';
+        const path = up
+          ? '<line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>'
+          : '<line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>';
+        trendSvg = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">${path}</svg>`;
+      }
+    }
+
+    // Display value
+    let displayVal;
+    if (kpi.id === 'cpu') {
+      displayVal = `<span class="kpi-prefix" style="color:${color}">IDR</span>
+        <span class="kpi-current" style="color:${color};font-size:1.6rem;letter-spacing:-.01em">${Math.round(val).toLocaleString('en-US')}</span>`;
+    } else {
+      displayVal = `${kpi.prefix ? `<span class="kpi-prefix" style="color:${color}">${kpi.prefix}</span>` : ''}
+        <span class="kpi-current" style="color:${color}">${val.toFixed(kpi.decimals)}</span>
+        ${kpi.unit.trim() ? `<span class="kpi-unit">${kpi.unit.trim()}</span>` : ''}`;
+    }
+
+    // OEE sub-metrics
+    let oeeSubHtml = '';
+    if (kpi.id === 'oee') {
+      const sub = (arr) => idx === IS_YTD
+        ? (arr.reduce((a,b)=>a+b,0)/arr.length).toFixed(1)
+        : arr[idx].toFixed(1);
+      oeeSubHtml = `<div class="oee-sub">
+        <div class="oee-sub-item"><div class="oee-sub-val">${sub(kpi.oeeAvail)}%</div><div class="oee-sub-lbl">Avail.</div></div>
+        <div class="oee-sub-item"><div class="oee-sub-val">${sub(kpi.oeePerf)}%</div><div class="oee-sub-lbl">Perf.</div></div>
+        <div class="oee-sub-item"><div class="oee-sub-val">${sub(kpi.oeeQual)}%</div><div class="oee-sub-lbl">Quality</div></div>
+      </div>`;
+    }
+
+    return `
+      <div class="kpi-card ${status}">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name" style="display:flex;align-items:flex-start;flex-wrap:wrap;gap:4px;max-width:none">
+              <span>${kpi.name}</span>
+              <span class="formula-wrap">
+                <em class="formula-icon">ƒ</em>
+                <span class="formula-tip">
+                  <strong>Formula:</strong> ${kpi.formula}<br>
+                  <strong>Responsible:</strong> ${kpi.responsible}<br>
+                  <strong>Target:</strong> ${tgtLabel}
+                </span>
+              </span>
+            </div>
+            <div class="kpi-category">Manufacturing · ${kpi.responsible}</div>
+          </div>
+          <span class="status-badge badge-${status}">${badgeLabel(status)}</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">${displayVal}</div>
+          <div class="trend-arrow">${trendSvg}</div>
+        </div>
+        <div class="kpi-target">Target: <strong>${tgtLabel}</strong></div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <span class="bc-label">Score</span>
+            <div class="bc-track"><div class="bc-fill" style="width:${scorePct}%;background:${color}"></div></div>
+            <span class="bc-val" style="color:${color}">${scorePct}%</span>
+          </div>
+        </div>
+        ${oeeSubHtml}
+      </div>`;
+  }).join('');
+
+  renderMfgDownstream();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER: TACTICAL KPI TABLE
+═══════════════════════════════════════════════════════════ */
+function renderMfgTactical() {
+  const tbody = document.getElementById('mfg-tactical-body');
+  if (!tbody) return;
+
+  tbody.innerHTML = MFG_TACTICAL.map(kpi => {
+    const status = mfgStatus(kpi, kpi.current);
+    const dotCls = { green:'dot-g', yellow:'dot-y', red:'dot-r' }[status];
+    const tgtLabel = (kpi.lowerIsBetter ? '< ' : '≥ ') + kpi.target + kpi.unit;
+    const currFmt  = kpi.current.toFixed(kpi.decimals) + kpi.unit;
+
+    const delta = kpi.current - kpi.prevWeek;
+    const up    = delta > 0;
+    const good  = kpi.lowerIsBetter ? !up : up;
+    const absDelta = Math.abs(delta).toFixed(kpi.decimals);
+    const trendColor = good ? '#4ade80' : '#f87171';
+    const trendArrow = up ? '▲' : '▼';
+    const wowHtml = `<span style="color:${trendColor};font-size:0.73rem;font-weight:700">${trendArrow} ${absDelta}${kpi.unit}</span>`;
+    const linkedHtml = kpi.linked ? `<span class="linked-badge">${kpi.linked}</span>` : '';
+
+    return `<tr>
+      <td><span class="td-status-dot ${dotCls}"></span></td>
+      <td class="td-name">${kpi.name}${linkedHtml}</td>
+      <td style="font-size:0.69rem;color:#6e7681;max-width:180px;white-space:normal">${kpi.formula}</td>
+      <td class="td-val ${status}">${currFmt}</td>
+      <td style="color:#8b949e;font-weight:600">${tgtLabel}</td>
+      <td><span class="status-badge badge-${status}">${badgeLabel(status)}</span></td>
+      <td>${wowHtml}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER: OPERATIONAL PANEL
+═══════════════════════════════════════════════════════════ */
+function renderMfgOperational() {
+  // Line status grid
+  const lineGrid = document.getElementById('mfg-line-grid');
+  if (lineGrid) {
+    lineGrid.innerHTML = MFG_LINES.map(line => {
+      const label = line.status === 'running' ? 'Running' : line.status === 'at-risk' ? 'At Risk' : 'Stopped';
+      return `<div class="line-card ${line.status}">
+        <div class="line-name">${line.name}</div>
+        <div class="line-pill ${line.status}">
+          <span class="line-dot ${line.status}"></span>${label}
+        </div>
+        <div style="font-size:0.64rem;color:#6e7681;margin-top:5px">${line.product}</div>
+        ${line.note ? `<div style="font-size:0.63rem;color:#fbbf24;margin-top:3px">⚠ ${line.note}</div>` : ''}
+      </div>`;
+    }).join('');
+  }
+
+  // Alert counters
+  const counters = document.getElementById('mfg-ops-counters');
+  if (counters) {
+    const { stopLineIncidents, qcHoldUnits, maintenanceAlerts } = MFG_OPS;
+    counters.innerHTML = `
+      <div class="ops-count-card ${stopLineIncidents > 0 ? 'alert-card' : ''}">
+        <div class="ops-count-lbl">Stop-Line Incidents</div>
+        <div class="ops-count-val ${stopLineIncidents > 0 ? 'red-val' : 'ok-val'}">${stopLineIncidents}</div>
+        <div class="ops-count-sub">Formula: Count of stop events · Target: 0 per shift</div>
+      </div>
+      <div class="ops-count-card ${qcHoldUnits > 0 ? 'alert-card' : ''}">
+        <div class="ops-count-lbl">In-Process QC Hold</div>
+        <div class="ops-count-val ${qcHoldUnits > 0 ? 'amber-val' : 'ok-val'}">${qcHoldUnits.toLocaleString()}</div>
+        <div class="ops-count-sub">Units on hold · Formula: Count of QC hold units · Target: 0</div>
+      </div>
+      <div class="ops-count-card ${maintenanceAlerts > 0 ? 'alert-card' : ''}" style="grid-column:1/-1">
+        <div class="ops-count-lbl">Maintenance Alert Count <span style="color:#6e7681;font-weight:400;font-size:0.59rem;text-transform:none">(Responsible: Maintenance)</span></div>
+        <div class="ops-count-val ${maintenanceAlerts > 0 ? 'amber-val' : 'ok-val'}">${maintenanceAlerts}</div>
+        <div class="ops-count-sub">Open alerts · Formula: Count of open maintenance alerts · Target: 0</div>
+      </div>`;
+  }
+
+  // Output vs target progress bar
+  const progWrap = document.getElementById('mfg-ops-progress');
+  if (progWrap) {
+    const { outputVsTargetPct, shiftTarget, shiftActual } = MFG_OPS;
+    const onTrack = outputVsTargetPct >= 95;
+    const pctColor = onTrack ? '#4ade80' : outputVsTargetPct >= 85 ? '#fbbf24' : '#f87171';
+    progWrap.innerHTML = `
+      <div class="ops-prog-header">
+        <span class="ops-prog-label">Output vs Shift Target</span>
+        <span class="ops-prog-pct" style="color:${pctColor}">${outputVsTargetPct}%</span>
+      </div>
+      <div class="ops-prog-track">
+        <div class="ops-prog-fill${onTrack ? ' on-track' : ''}" style="width:${outputVsTargetPct}%"></div>
+      </div>
+      <div class="ops-prog-sub">
+        ${shiftActual.toLocaleString()} / ${shiftTarget.toLocaleString()} units produced
+        &nbsp;·&nbsp; Formula: Actual Output ÷ Shift Target × 100
+        &nbsp;·&nbsp; <span style="color:#6e7681">Shift ends in ~3h 20min</span>
+      </div>`;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER: DOWNSTREAM IMPACT
+═══════════════════════════════════════════════════════════ */
+function renderMfgDownstream() {
+  const grid = document.getElementById('mfg-ds-grid');
+  if (!grid) return;
+
+  const idx   = selectedMonthIdx;
+  const oeeV  = mfgGetVal(MFG_STRATEGIC.find(k => k.id === 'oee'),  idx);
+  const ppaV  = mfgGetVal(MFG_STRATEGIC.find(k => k.id === 'ppa'),  idx);
+  const dtrV  = MFG_TACTICAL.find(k => k.id === 'dtr').current;
+  const rmpmV = MFG_TACTICAL.find(k => k.id === 'rmpm').current;
+
+  const flags = [
+    {
+      node: 'Distribution',
+      icon: oeeV < 80 ? '⚠' : '✅', cls: oeeV < 80 ? 'ds-warn' : 'ds-ok',
+      msg:  oeeV < 80 ? 'Stock Risk — OEE below 80%' : 'Production output stable',
+      sub: `OEE: ${oeeV.toFixed(1)}% · threshold < 80%`,
+    },
+    {
+      node: 'Warehousing',
+      icon: ppaV < 90 ? '⚠' : '✅', cls: ppaV < 90 ? 'ds-warn' : 'ds-ok',
+      msg:  ppaV < 90 ? 'Inbound Volume Change — Plan Adherence < 90%' : 'Inbound volume on plan',
+      sub: `Plan Adherence: ${ppaV.toFixed(1)}% · threshold < 90%`,
+    },
+    {
+      node: 'Procurement',
+      icon: rmpmV < 95 ? '⚠' : '✅', cls: rmpmV < 95 ? 'ds-caution' : 'ds-ok',
+      msg:  rmpmV < 95 ? 'Material Shortage Alert — RM/PM Availability < 95%' : 'Raw materials sufficient',
+      sub: `RM/PM Availability: ${rmpmV}% · threshold < 95%`,
+    },
+    {
+      node: 'Transport',
+      icon: dtrV > 5 ? '⚠' : '✅', cls: dtrV > 5 ? 'ds-caution' : 'ds-ok',
+      msg:  dtrV > 5 ? 'Dispatch Delay Risk — Downtime Rate > 5%' : 'Dispatch schedule intact',
+      sub: `Downtime Rate: ${dtrV}% · threshold > 5%`,
+    },
+  ];
+
+  const allOk = flags.every(f => f.cls === 'ds-ok');
+  if (allOk) {
+    grid.innerHTML = `<div class="ds-flag ds-ok" style="grid-column:1/-1">
+      <div class="ds-flag-ico">✅</div>
+      <div>
+        <div class="ds-flag-msg">All downstream nodes stable — no active alerts</div>
+        <div class="ds-flag-sub">OEE ${oeeV.toFixed(1)}% · Plan ${ppaV.toFixed(1)}% · RM/PM ${rmpmV}% · Downtime ${dtrV}%</div>
+      </div>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = flags.map(f => `
+    <div class="ds-flag ${f.cls}">
+      <div class="ds-flag-ico">${f.icon}</div>
+      <div>
+        <div class="ds-flag-node">${f.node}</div>
+        <div class="ds-flag-msg">${f.msg}</div>
+        <div class="ds-flag-sub">${f.sub}</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MFG CHARTS
+═══════════════════════════════════════════════════════════ */
+function buildMfgOeeChart() {
+  const el = document.getElementById('chart-mfg-oee');
+  if (!el) return;
+  if (chartMfgOee) chartMfgOee.destroy();
+  const k = MFG_STRATEGIC.find(k => k.id === 'oee');
+  chartMfgOee = new Chart(el, {
+    type: 'line',
+    data: {
+      labels: MONTHS,
+      datasets: [
+        { label: 'OEE (Overall)', data: k.monthly, borderColor: '#6366f1', backgroundColor: '#6366f120', borderWidth: 2.5, pointRadius: 4, tension: 0.35 },
+        { label: 'Availability',  data: k.oeeAvail, borderColor: '#22c55e', backgroundColor: 'transparent', borderWidth: 1.8, borderDash: [5,3], pointRadius: 2.5, tension: 0.35 },
+        { label: 'Performance',   data: k.oeePerf,  borderColor: '#3b82f6', backgroundColor: 'transparent', borderWidth: 1.8, borderDash: [5,3], pointRadius: 2.5, tension: 0.35 },
+        { label: 'Quality',       data: k.oeeQual,  borderColor: '#a78bfa', backgroundColor: 'transparent', borderWidth: 1.8, borderDash: [5,3], pointRadius: 2.5, tension: 0.35 },
+        { label: 'Target (85%)',  data: Array(9).fill(85), borderColor: '#f87171', backgroundColor: 'transparent', borderWidth: 1.5, borderDash: [4,4], pointRadius: 0 },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 10 }, padding: 10, boxWidth: 12, color: '#8b949e' } },
+        tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}%` } },
+      },
+      scales: {
+        y: { min: 60, max: 100, grid: { color: '#21262d' }, ticks: { font: { size: 10 }, color: '#8b949e', callback: v => v + '%' } },
+        x: { grid: { color: '#21262d' }, ticks: { font: { size: 10 }, color: '#8b949e' } },
+      },
+    },
+  });
+}
+
+function buildMfgProdChart() {
+  const el = document.getElementById('chart-mfg-prod');
+  if (!el) return;
+  if (chartMfgProd) chartMfgProd.destroy();
+  const barColors = MFG_ACTUAL_P.map((a, i) => (a / MFG_PLANNED[i]) < 0.9 ? '#f87171' : '#4ade80');
+  chartMfgProd = new Chart(el, {
+    type: 'bar',
+    data: {
+      labels: MONTHS,
+      datasets: [
+        { label: 'Planned', data: MFG_PLANNED, backgroundColor: '#30363d', borderRadius: 4 },
+        { label: 'Actual',  data: MFG_ACTUAL_P, backgroundColor: barColors, borderRadius: 4 },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 10 }, padding: 10, boxWidth: 12, color: '#8b949e' } },
+        tooltip: {
+          callbacks: {
+            label: c => ` ${c.dataset.label}: ${c.parsed.y.toLocaleString()} units`,
+            afterBody: items => {
+              const i = items[0].dataIndex;
+              return [` Plan Adherence: ${((MFG_ACTUAL_P[i]/MFG_PLANNED[i])*100).toFixed(1)}%`];
+            },
+          },
+        },
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#8b949e' } },
+        y: { grid: { color: '#21262d' }, ticks: { font: { size: 10 }, color: '#8b949e', callback: v => (v/1000)+'k' } },
+      },
+    },
+  });
+}
+
+function buildMfgDowntimeChart() {
+  const el = document.getElementById('chart-mfg-downtime');
+  if (!el) return;
+  if (chartMfgDowntime) chartMfgDowntime.destroy();
+  chartMfgDowntime = new Chart(el, {
+    type: 'doughnut',
+    data: {
+      labels: MFG_DT_CATS,
+      datasets: [{ data: MFG_DT_DATA, backgroundColor: MFG_DT_COLS, borderWidth: 0, hoverOffset: 5 }],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '58%',
+      plugins: {
+        legend: { position: 'right', labels: { font: { size: 10 }, padding: 10, boxWidth: 12, color: '#8b949e' } },
+        tooltip: { callbacks: { label: c => ` ${c.label}: ${c.parsed}%` } },
+      },
+    },
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
    INIT
 ═══════════════════════════════════════════════════════════ */
 renderMonthChips();
 renderAll();
 renderWarehouseLog();
 
-// Build charts after DOM + data are ready
+// Build KPI tab charts
 buildTrendChart();
 buildRadarChart();
 buildBarChart();
 buildDonutChart();
+
+// Build Manufacturing tab
+renderMonthChipsMfg();
+renderMfgStrategic();
+renderMfgTactical();
+renderMfgOperational();
+buildMfgOeeChart();
+buildMfgProdChart();
+buildMfgDowntimeChart();
 </script>
 </body>
 </html>
