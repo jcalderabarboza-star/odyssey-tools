@@ -623,6 +623,78 @@
       .ops-grid { grid-template-columns: 1fr; }
       .mfg-charts-2col { grid-template-columns: 1fr; }
     }
+
+    /* ══════════════════════════════════════════
+       DISTRIBUTION & WAREHOUSE TAB STYLES
+    ══════════════════════════════════════════ */
+
+    /* Responsible badge */
+    .resp-badge {
+      display: inline-flex; align-items: center;
+      font-size: 0.58rem; color: #8b949e; background: #21262d;
+      padding: 2px 7px; border-radius: 999px; font-weight: 600;
+      white-space: nowrap; margin-top: 3px;
+      border: 1px solid #30363d; letter-spacing: .02em;
+    }
+
+    /* Operational status board */
+    .ops-board { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+    .ops-tile {
+      border-radius: 12px; padding: 15px 16px;
+      border: 1px solid #21262d;
+    }
+    .ops-tile.green  { background: #0d2e1a; border-color: #22c55e28; }
+    .ops-tile.yellow { background: #2d1f00; border-color: #f59e0b28; }
+    .ops-tile.red    { background: #2d0a0a; border-color: #ef444428; }
+    .ops-tile-name   { font-size: 0.66rem; font-weight: 700; color: #8b949e; margin-bottom: 6px; }
+    .ops-tile-val    { font-size: 1.75rem; font-weight: 800; line-height: 1; margin-bottom: 3px; }
+    .ops-tile-target { font-size: 0.65rem; color: #6e7681; margin-bottom: 8px; }
+    .ops-tile-status {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+    }
+    .ops-tile-status.green  { background: #22c55e18; color: #4ade80; }
+    .ops-tile-status.yellow { background: #f59e0b18; color: #fbbf24; }
+    .ops-tile-status.red    { background: #ef444418; color: #f87171; }
+
+    /* Gauge row */
+    .gauge-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .gauge-card {
+      background: #161b22; border-radius: 14px;
+      border: 1px solid #21262d; padding: 20px 16px 14px; text-align: center;
+    }
+    .gauge-card-title { font-size: 0.67rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #8b949e; margin-bottom: 10px; }
+    .gauge-canvas-wrap { position: relative; height: 120px; }
+    .gauge-val-overlay {
+      position: absolute; bottom: 6px; left: 50%;
+      transform: translateX(-50%); text-align: center; pointer-events: none;
+    }
+    .gauge-val { font-size: 1.4rem; font-weight: 800; line-height: 1; }
+    .gauge-sub { font-size: 0.63rem; color: #6e7681; margin-top: 2px; white-space: nowrap; }
+
+    /* Warehouse Log enhancements */
+    .wh-sparkline-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .wh-sparkline-card {
+      background: #161b22; border-radius: 12px;
+      border: 1px solid #21262d; padding: 16px 18px;
+    }
+    .wh-sparkline-title { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #8b949e; margin-bottom: 10px; }
+    .wh-sparkline-wrap { height: 90px; }
+    .wh-tactical-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+    /* Shift performance score */
+    .shift-score { font-size: 0.71rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+    .shift-score.great { background: #0d2e1a; color: #4ade80; }
+    .shift-score.ok    { background: #2d1f00; color: #fbbf24; }
+    .shift-score.poor  { background: #2d0a0a; color: #f87171; }
+
+    @media (max-width: 960px) {
+      .gauge-row { grid-template-columns: 1fr; }
+      .wh-sparkline-row, .wh-tactical-charts { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 700px) {
+      .ops-board { grid-template-columns: 1fr 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -662,7 +734,7 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
     </svg>
-    KPI Dashboard
+    Distribution &amp; Warehouse
   </button>
   <button class="tab-btn" id="tab-wh" onclick="switchTab('wh')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -681,7 +753,7 @@
 </nav>
 
 <!-- ══════════════════════════════════════════
-     TAB 1: KPI DASHBOARD
+     TAB 1: DISTRIBUTION & WAREHOUSE
 ══════════════════════════════════════════ -->
 <div class="tab-panel active" id="panel-kpi">
 
@@ -693,109 +765,119 @@
 
   <main>
 
-    <!-- ── Trend Line Chart ── -->
+    <!-- ── SECTION 1: STRATEGIC KPIs ── -->
     <div class="section-block">
       <div class="section-hdr">
-        <p class="section-label">KPI Trend — Jan to Sep 2025</p>
-        <span style="font-size:0.69rem;color:#94a3b8;font-weight:600">Click legend to show/hide</span>
+        <p class="section-label">
+          <span class="section-tag">Strategic KPIs — Monthly</span>
+        </p>
+        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Hover <em>ƒ</em> for formula · Driven by month selector above</span>
+      </div>
+      <div class="kpi-grid" id="dw-strategic-grid"></div>
+    </div>
+
+    <!-- ── D&W TREND CHART ── -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label">Distribution &amp; Warehouse — KPI Trend Jan–Sep 2025</p>
+        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Click legend to toggle lines</span>
       </div>
       <div class="chart-card">
-        <div class="trend-toggles" id="trend-toggles"></div>
-        <div class="chart-canvas-wrap" style="height:300px">
-          <canvas id="chart-trend"></canvas>
+        <div class="chart-canvas-wrap" style="height:280px">
+          <canvas id="chart-dw-trend"></canvas>
         </div>
       </div>
     </div>
 
-    <!-- ── Scorecard ── -->
+    <!-- ── SECTION 2: TACTICAL KPIs ── -->
     <div class="section-block">
       <div class="section-hdr">
-        <p class="section-label">Overall Health Scorecard</p>
-        <span id="scorecard-month-label" style="font-size:0.72rem;color:#94a3b8;font-weight:600;"></span>
+        <p class="section-label">
+          <span class="section-tag" style="background:#2d1a08;color:#fb923c">Tactical KPIs — Weekly</span>
+        </p>
+        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Current week vs prior week · W/W trend</span>
       </div>
-      <div class="sc-charts-grid">
-        <!-- Left: existing scorecard -->
-        <div class="scorecard" id="scorecard"></div>
-        <!-- Right: Radar + Donut stacked -->
-        <div class="sc-right-col">
-          <div class="chart-card">
-            <div class="chart-card-title">Performance vs Target</div>
-            <div class="chart-canvas-wrap" style="height:240px">
-              <canvas id="chart-radar"></canvas>
+      <div class="table-scroll" style="margin-bottom:18px">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>KPI</th>
+              <th>Responsible</th>
+              <th>Current Week</th>
+              <th>Prior Week</th>
+              <th>W/W Trend</th>
+              <th>Target</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="dw-tactical-body"></tbody>
+        </table>
+      </div>
+      <!-- Tactical Gauge Panel -->
+      <div class="gauge-row">
+        <div class="gauge-card">
+          <div class="chart-card-title" style="margin-bottom:8px">Inventory Coverage Days</div>
+          <div class="gauge-canvas-wrap">
+            <canvas id="chart-dw-gauge-icd"></canvas>
+            <div class="gauge-val-overlay">
+              <div id="gauge-val-icd" style="font-size:1.3rem;font-weight:700;color:#c9d1d9"></div>
+              <div style="font-size:0.62rem;color:#8b949e">days</div>
             </div>
           </div>
-          <div class="chart-card">
-            <div class="chart-card-title">Status by Category</div>
-            <div class="donut-layout">
-              <div class="donut-canvas-wrap"><canvas id="chart-donut"></canvas></div>
-              <div class="dct-table" id="dct-table"></div>
+          <div style="font-size:0.65rem;color:#6e7681;margin-top:6px">Target: ≥ 30 days</div>
+        </div>
+        <div class="gauge-card">
+          <div class="chart-card-title" style="margin-bottom:8px">Warehouse Utilization</div>
+          <div class="gauge-canvas-wrap">
+            <canvas id="chart-dw-gauge-wu"></canvas>
+            <div class="gauge-val-overlay">
+              <div id="gauge-val-wu" style="font-size:1.3rem;font-weight:700;color:#c9d1d9"></div>
+              <div style="font-size:0.62rem;color:#8b949e">%</div>
             </div>
           </div>
+          <div style="font-size:0.65rem;color:#6e7681;margin-top:6px">Target: 75–90%</div>
+        </div>
+        <div class="gauge-card">
+          <div class="chart-card-title" style="margin-bottom:8px">Case Fill Rate</div>
+          <div class="gauge-canvas-wrap">
+            <canvas id="chart-dw-gauge-cfr"></canvas>
+            <div class="gauge-val-overlay">
+              <div id="gauge-val-cfr" style="font-size:1.3rem;font-weight:700;color:#c9d1d9"></div>
+              <div style="font-size:0.62rem;color:#8b949e">%</div>
+            </div>
+          </div>
+          <div style="font-size:0.65rem;color:#6e7681;margin-top:6px">Target: ≥ 97%</div>
         </div>
       </div>
     </div>
 
-    <!-- ── Summary Table ── -->
+    <!-- ── SECTION 3: OPERATIONAL KPIs ── -->
     <div class="section-block">
       <div class="section-hdr">
-        <p class="section-label">KPI Summary</p>
-        <button class="btn-sm" id="table-toggle" onclick="toggleTable()">Hide</button>
+        <p class="section-label">
+          <span class="section-tag" style="background:#1a0a2e;color:#c084fc">Operational KPIs — Daily / Shift</span>
+        </p>
+        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Live shift metrics · NDC Jakarta — Day Shift</span>
       </div>
-      <div id="table-wrap">
-        <div class="table-scroll">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th></th>
-                <th>KPI</th>
-                <th>Category</th>
-                <th>Actual</th>
-                <th>Target</th>
-                <th>vs Prev Month</th>
-                <th>Industry Benchmark</th>
-              </tr>
-            </thead>
-            <tbody id="table-body"></tbody>
-          </table>
+      <div class="ops-board" id="dw-ops-board"></div>
+    </div>
+
+    <!-- ── NODE CONNECTION PANEL ── -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label">Downstream Impact</p>
+        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Auto-calculated from current KPI values</span>
+      </div>
+      <div class="ds-panel">
+        <div class="ds-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8b949e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+            <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+          </svg>
+          Node Connection Indicators
         </div>
+        <div class="ds-grid" id="dw-node-grid"></div>
       </div>
-    </div>
-
-    <!-- ── Bar Chart: Actual vs Target ── -->
-    <div class="section-block">
-      <div class="section-hdr">
-        <p class="section-label">Actual vs Target — All KPIs</p>
-        <span style="font-size:0.69rem;color:#94a3b8;font-weight:600">Color = performance status</span>
-      </div>
-      <div class="chart-card">
-        <div class="chart-canvas-wrap" style="height:380px">
-          <canvas id="chart-bar"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── Distribution KPIs ── -->
-    <div class="section-block">
-      <div class="section-hdr">
-        <p class="section-label"><span class="section-tag">Distribution</span></p>
-      </div>
-      <div class="kpi-grid" id="grid-distribution"></div>
-    </div>
-
-    <!-- ── Warehouse KPIs ── -->
-    <div class="section-block">
-      <div class="section-hdr">
-        <p class="section-label"><span class="section-tag wh">Warehouse Operations</span></p>
-      </div>
-      <div class="kpi-grid" id="grid-warehouse"></div>
-    </div>
-
-    <!-- ── Planning & Finance KPIs ── -->
-    <div class="section-block">
-      <div class="section-hdr">
-        <p class="section-label"><span class="section-tag plan">Planning & Finance</span></p>
-      </div>
-      <div class="kpi-grid" id="grid-planning"></div>
     </div>
 
   </main>
@@ -806,6 +888,44 @@
 ══════════════════════════════════════════ -->
 <div class="tab-panel" id="panel-wh">
   <main>
+
+    <!-- ── STRATEGIC SUMMARY ── -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label"><span class="section-tag">Strategic Summary — Monthly Trends</span></p>
+        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Jan–Sep 2025 · Last 9 months</span>
+      </div>
+      <div class="wh-sparkline-row">
+        <div class="wh-sparkline-card">
+          <div class="wh-sparkline-title">Perfect Order Rate</div>
+          <div class="wh-sparkline-wrap"><canvas id="chart-wh-por"></canvas></div>
+          <div id="wh-spark-por-val" style="font-size:0.78rem;font-weight:700;margin-top:6px;color:#c9d1d9"></div>
+        </div>
+        <div class="wh-sparkline-card">
+          <div class="wh-sparkline-title">Pick Accuracy Trend</div>
+          <div class="wh-sparkline-wrap"><canvas id="chart-wh-pick"></canvas></div>
+          <div id="wh-spark-pick-val" style="font-size:0.78rem;font-weight:700;margin-top:6px;color:#c9d1d9"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TACTICAL SUMMARY ── -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label"><span class="section-tag" style="background:#2d1a08;color:#fb923c">Tactical Summary — Weekly</span></p>
+        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Plan vs Actual gap + daily throughput</span>
+      </div>
+      <div class="wh-tactical-charts">
+        <div class="chart-card">
+          <div class="chart-card-title">Orders: Plan vs Actual Gap</div>
+          <div class="chart-canvas-wrap" style="height:200px"><canvas id="chart-wh-gap"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Daily Throughput (Received vs Shipped)</div>
+          <div class="chart-canvas-wrap" style="height:200px"><canvas id="chart-wh-throughput"></canvas></div>
+        </div>
+      </div>
+    </div>
 
     <!-- Metadata -->
     <div class="section-block">
@@ -843,7 +963,8 @@
     <!-- Daily log table -->
     <div class="section-block">
       <div class="section-hdr">
-        <p class="section-label">Daily Activity Log</p>
+        <p class="section-label"><span class="section-tag" style="background:#1a0a2e;color:#c084fc">Operational — Daily Activity Log</span></p>
+        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Row color = daily performance · Shift score = composite index</span>
       </div>
       <div class="table-scroll">
         <table class="wh-log-table" id="wh-log-table"></table>
@@ -1017,105 +1138,143 @@ const MONTHS = ['Jan-25','Feb-25','Mar-25','Apr-25','May-25','Jun-25','Jul-25','
 const MONTHS_FULL = ['January 2025','February 2025','March 2025','April 2025','May 2025',
                      'June 2025','July 2025','August 2025','September 2025'];
 
-// monthly values indexed 0..8 (Jan..Sep), matching MONTHS array
-const KPI_DEFS = [
+/* ─── STRATEGIC KPIs — Monthly (Jan–Sep 2025) ─── */
+const DW_STRATEGIC = [
   {
-    id: 'otd', name: 'On Time Delivery Rate', category: 'Distribution',
+    id: 'por', name: 'Perfect Order Rate',
+    formula: '(Orders Delivered On Time, In Full, Without Damage, Correctly Invoiced) ÷ Total Orders × 100',
     unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
-    target: 95,
-    monthly: [91.2, 92.5, 93.1, 94.0, 93.8, 94.5, 93.2, 92.8, 93.5],
-    greenFn: v => v >= 95, yellowFn: v => v >= 92 && v < 95,
-    benchmark: 'Walmart: 97% | DHL: 95%'
-  },
-  {
-    id: 'ofr', name: 'Order Fill Rate', category: 'Distribution',
-    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
-    target: 98,
-    monthly: [96.1, 96.8, 97.2, 97.5, 97.1, 97.8, 97.4, 96.9, 97.0],
-    greenFn: v => v >= 98, yellowFn: v => v >= 95 && v < 98,
-    benchmark: 'FMCG avg: 97% | Best: 99%'
-  },
-  {
-    id: 'por', name: 'Perfect Order Rate', category: 'Distribution',
-    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
-    target: 95,
+    target: 95, responsible: 'Distribution',
     monthly: [88.2, 89.1, 89.8, 90.5, 90.8, 91.2, 90.8, 90.1, 90.3],
     greenFn: v => v >= 95, yellowFn: v => v >= 90 && v < 95,
-    benchmark: 'Best-in-class: 98%'
+    benchmark: 'Best-in-class: 98%',
   },
   {
-    id: 'rr', name: 'Return Rate', category: 'Distribution',
-    unit: '%', prefix: '', lowerIsBetter: true, decimals: 1,
-    target: 2,
-    monthly: [3.1, 2.9, 2.7, 2.5, 2.4, 2.2, 2.1, 2.3, 2.5],
-    greenFn: v => v < 2, yellowFn: v => v >= 2 && v <= 4,
-    benchmark: 'E-commerce avg: 3%'
-  },
-  {
-    id: 'ia', name: 'Inventory Accuracy', category: 'Warehouse',
+    id: 'ofr', name: 'Order Fill Rate',
+    formula: 'Units Shipped ÷ Units Ordered × 100',
     unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
-    target: 99,
+    target: 98, responsible: 'Distribution',
+    monthly: [96.1, 96.8, 97.2, 97.5, 97.1, 97.8, 97.4, 96.9, 97.0],
+    greenFn: v => v >= 98, yellowFn: v => v >= 95 && v < 98,
+    benchmark: 'FMCG avg: 97% | Best: 99%',
+  },
+  {
+    id: 'otd', name: 'On-Time Delivery Rate',
+    formula: 'On-Time Deliveries ÷ Total Deliveries × 100',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 95, responsible: 'Distribution',
+    monthly: [91.2, 92.5, 93.1, 94.0, 93.8, 94.5, 93.2, 92.8, 93.5],
+    greenFn: v => v >= 95, yellowFn: v => v >= 92 && v < 95,
+    benchmark: 'Walmart: 97% | DHL: 95%',
+  },
+  {
+    id: 'ia', name: 'Inventory Accuracy',
+    formula: 'System Count Matches ÷ Total SKUs Counted × 100',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 99, responsible: 'Warehouse',
     monthly: [98.2, 98.5, 98.8, 99.1, 99.3, 99.4, 99.4, 99.2, 99.1],
     greenFn: v => v >= 99, yellowFn: v => v >= 97 && v < 99,
-    benchmark: 'Best-in-class: 99.5%'
+    benchmark: 'Best-in-class: 99.5%',
   },
   {
-    id: 'wpa', name: 'Warehouse Picking Accuracy', category: 'Warehouse',
-    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
-    target: 99.5,
-    monthly: [97.8, 98.1, 98.3, 98.5, 98.7, 98.9, 98.7, 98.4, 98.5],
-    greenFn: v => v >= 99.5, yellowFn: v => v >= 97 && v < 99.5,
-    benchmark: 'Industry: 99.5%'
+    id: 'lcpo', name: 'Logistics Cost per Order',
+    formula: 'Total Logistics Cost (IDR) ÷ Total Orders Fulfilled',
+    unit: '', prefix: 'Rp ', lowerIsBetter: true, decimals: 0,
+    target: 45000, responsible: 'Finance / Distribution',
+    monthly: [58200, 55800, 53100, 51400, 49800, 47500, 46100, 47200, 48300],
+    greenFn: v => v < 45000, yellowFn: v => v >= 45000 && v <= 60000,
+    benchmark: 'FMCG SEA avg: Rp 52,000',
   },
   {
-    id: 'dts', name: 'Dock to Stock Time', category: 'Warehouse',
-    unit: ' hrs', prefix: '', lowerIsBetter: true, decimals: 1,
-    target: 2,
-    monthly: [2.8, 2.6, 2.5, 2.3, 2.2, 2.1, 2.0, 2.1, 2.2],
-    greenFn: v => v < 2, yellowFn: v => v >= 2 && v <= 3,
-    benchmark: 'Best practice: 1.5 hrs'
-  },
-  {
-    id: 'lu', name: 'Labor Utilization', category: 'Warehouse',
-    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
-    target: 85,
-    monthly: [78.2, 79.5, 80.1, 81.3, 82.0, 83.1, 83.5, 82.8, 81.8],
-    greenFn: v => v >= 85, yellowFn: v => v >= 75 && v < 85,
-    benchmark: 'Industry: 80–90%'
-  },
-  {
-    id: 'mape', name: 'Forecast Accuracy (MAPE)', category: 'Planning',
+    id: 'mape', name: 'Forecast Accuracy (MAPE)',
+    formula: 'Mean Absolute Percentage Error — lower is better',
     unit: '%', prefix: '', lowerIsBetter: true, decimals: 1,
-    target: 10,
+    target: 10, responsible: 'Planning',
     monthly: [12.1, 11.5, 10.8, 10.2, 9.8, 9.1, 8.5, 8.8, 9.5],
     greenFn: v => v < 10, yellowFn: v => v >= 10 && v <= 15,
-    benchmark: 'FMCG avg: 12% | Best: 8%'
-  },
-  {
-    id: 'cpo', name: 'Cost per Order', category: 'Finance',
-    unit: '', prefix: '$', lowerIsBetter: true, decimals: 2,
-    target: 5,
-    monthly: [6.8, 6.5, 6.2, 5.9, 5.7, 5.5, 5.4, 5.6, 5.8],
-    greenFn: v => v < 5, yellowFn: v => v >= 5 && v <= 7,
-    benchmark: 'FMCG avg: $6'
+    benchmark: 'FMCG avg: 12% | Best: 8%',
   },
 ];
-
-// YTD averages
-KPI_DEFS.forEach(k => {
+DW_STRATEGIC.forEach(k => {
   k.ytd = +(k.monthly.reduce((a,b) => a+b, 0) / k.monthly.length).toFixed(k.decimals);
 });
 
+/* ─── TACTICAL KPIs — Weekly (current vs prior week) ─── */
+const DW_TACTICAL = [
+  {
+    id: 'icd', name: 'Inventory Coverage Days',
+    formula: 'On-Hand Inventory ÷ Avg Daily Demand',
+    unit: ' days', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 30, responsible: 'Warehouse / Planning',
+    current: 27.4, prevWeek: 29.1,
+    greenFn: v => v >= 30, yellowFn: v => v >= 22 && v < 30,
+  },
+  {
+    id: 'ra', name: 'Replenishment Accuracy',
+    formula: 'Orders Replenished Correctly ÷ Total Replenishment Orders × 100',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 97, responsible: 'Warehouse',
+    current: 95.8, prevWeek: 94.5,
+    greenFn: v => v >= 97, yellowFn: v => v >= 93 && v < 97,
+  },
+  {
+    id: 'wu', name: 'Warehouse Utilization',
+    formula: 'Used Capacity ÷ Total Capacity × 100',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 82, responsible: 'Warehouse',
+    current: 78.5, prevWeek: 76.2,
+    greenFn: v => v >= 75 && v <= 90, yellowFn: v => (v >= 65 && v < 75) || (v > 90 && v <= 95),
+  },
+  {
+    id: 'cfr', name: 'Case Fill Rate',
+    formula: 'Cases Shipped ÷ Cases Ordered × 100',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 97, responsible: 'Distribution',
+    current: 96.2, prevWeek: 95.8,
+    greenFn: v => v >= 97, yellowFn: v => v >= 94 && v < 97,
+  },
+  {
+    id: 'oct', name: 'Outbound Cycle Time',
+    formula: 'Order Receipt Timestamp to Goods-Out Scan',
+    unit: ' hrs', prefix: '', lowerIsBetter: true, decimals: 1,
+    target: 4, responsible: 'Warehouse / Distribution',
+    current: 4.8, prevWeek: 5.2,
+    greenFn: v => v <= 4, yellowFn: v => v > 4 && v <= 6,
+  },
+  {
+    id: 'dct', name: 'Dispatch Completion Timeliness',
+    formula: 'On-Schedule Dispatches ÷ Total Planned Dispatches × 100',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 95, responsible: 'Distribution',
+    current: 92.1, prevWeek: 90.8,
+    greenFn: v => v >= 95, yellowFn: v => v >= 88 && v < 95,
+  },
+];
+
+/* ─── OPERATIONAL KPIs — Daily / Shift ─── */
+const DW_OPERATIONAL = [
+  { id:'ipt',  name:'Inbound Processing Time',  value:1.8, target:2.0,  unit:' hrs', lowerIsBetter:true,  greenFn:v=>v<=2,    yellowFn:v=>v>2&&v<=3 },
+  { id:'oopt', name:'Outbound Order Processing', value:3.2, target:4.0,  unit:' hrs', lowerIsBetter:true,  greenFn:v=>v<=4,    yellowFn:v=>v>4&&v<=5.5 },
+  { id:'pa',   name:'Picking Accuracy (Today)',  value:98.7, target:99.5, unit:'%',   lowerIsBetter:false, greenFn:v=>v>=99.5, yellowFn:v=>v>=97&&v<99.5 },
+  { id:'dts',  name:'Dock to Stock Time',        value:2.1, target:2.0,  unit:' hrs', lowerIsBetter:true,  greenFn:v=>v<=2,    yellowFn:v=>v>2&&v<=3 },
+  { id:'sda',  name:'Same-Day Allocation Rate',  value:91.4, target:95,  unit:'%',    lowerIsBetter:false, greenFn:v=>v>=95,   yellowFn:v=>v>=88&&v<95 },
+  { id:'wlp',  name:'Labor Productivity',        value:82.1, target:85,  unit:'%',    lowerIsBetter:false, greenFn:v=>v>=85,   yellowFn:v=>v>=75&&v<85 },
+  { id:'dlt',  name:'Driver Loading Time',       value:38,   target:45,  unit:' min', lowerIsBetter:true,  greenFn:v=>v<=45,   yellowFn:v=>v>45&&v<=60 },
+  { id:'der',  name:'Damage / Error Rate',       value:0.8,  target:1.0, unit:'%',    lowerIsBetter:true,  greenFn:v=>v<=1,    yellowFn:v=>v>1&&v<=2 },
+];
+
+/* ─── Keep backwards alias for WH sparkline (POR monthly) ─── */
+const KPI_DEFS = DW_STRATEGIC;
+
 // Warehouse Daily Log data
-const WH_HEADERS = ['Date','Orders Received','Orders Picked','Orders Shipped','Pick Accuracy %','On-Time Ship %','Returns','Labor Hours','Notes'];
 const WH_DATA = [
-  { date:'Mon, Mar 3', received:450, picked:438, shipped:435, pickAcc:98.5, onTimeShip:96.7, returns:8, laborHrs:42, notes:'Normal operations' },
-  { date:'Tue, Mar 4', received:512, picked:498, shipped:495, pickAcc:98.2, onTimeShip:96.3, returns:11, laborHrs:45, notes:'High volume — promo day' },
-  { date:'Wed, Mar 5', received:389, picked:381, shipped:378, pickAcc:99.1, onTimeShip:97.2, returns:6,  laborHrs:40, notes:'' },
-  { date:'Thu, Mar 6', received:601, picked:575, shipped:568, pickAcc:97.8, onTimeShip:94.5, returns:15, laborHrs:52, notes:'Partial system downtime 2 hrs' },
-  { date:'Fri, Mar 7', received:478, picked:468, shipped:465, pickAcc:98.7, onTimeShip:97.3, returns:9,  laborHrs:43, notes:'' },
-  { date:'Mon, Mar 10',received:425, picked:416, shipped:413, pickAcc:98.9, onTimeShip:97.5, returns:7,  laborHrs:41, notes:'' },
-  { date:'Tue, Mar 11',received:534, picked:521, shipped:518, pickAcc:98.3, onTimeShip:96.9, returns:12, laborHrs:46, notes:'New staff onboarding' },
+  { date:'Mon, Mar 3',  received:450, picked:438, shipped:435, pickAcc:98.5, onTimeShip:96.7, returns:8,  laborHrs:42, inboundTime:1.8, outboundTime:3.9, dispatchAcc:97.1, shiftScore:84, notes:'Normal operations' },
+  { date:'Tue, Mar 4',  received:512, picked:498, shipped:495, pickAcc:98.2, onTimeShip:96.3, returns:11, laborHrs:45, inboundTime:2.1, outboundTime:4.2, dispatchAcc:95.8, shiftScore:79, notes:'High volume — promo day' },
+  { date:'Wed, Mar 5',  received:389, picked:381, shipped:378, pickAcc:99.1, onTimeShip:97.2, returns:6,  laborHrs:40, inboundTime:1.6, outboundTime:3.5, dispatchAcc:98.4, shiftScore:92, notes:'' },
+  { date:'Thu, Mar 6',  received:601, picked:575, shipped:568, pickAcc:97.8, onTimeShip:94.5, returns:15, laborHrs:52, inboundTime:2.8, outboundTime:5.1, dispatchAcc:91.2, shiftScore:63, notes:'Partial system downtime 2 hrs' },
+  { date:'Fri, Mar 7',  received:478, picked:468, shipped:465, pickAcc:98.7, onTimeShip:97.3, returns:9,  laborHrs:43, inboundTime:1.9, outboundTime:3.8, dispatchAcc:97.5, shiftScore:87, notes:'' },
+  { date:'Mon, Mar 10', received:425, picked:416, shipped:413, pickAcc:98.9, onTimeShip:97.5, returns:7,  laborHrs:41, inboundTime:1.7, outboundTime:3.6, dispatchAcc:98.1, shiftScore:90, notes:'' },
+  { date:'Tue, Mar 11', received:534, picked:521, shipped:518, pickAcc:98.3, onTimeShip:96.9, returns:12, laborHrs:46, inboundTime:2.2, outboundTime:4.4, dispatchAcc:94.9, shiftScore:77, notes:'New staff onboarding' },
 ];
 
 /* ═══════════════════════════════════════════════════════════
@@ -1147,7 +1306,10 @@ function badgeLabel(s) {
   return { green:'On Target', yellow:'Near Target', red:'Off Target' }[s];
 }
 function fmt(kpi, val) {
-  return kpi.prefix + Number(val).toFixed(kpi.decimals) + kpi.unit;
+  const num = kpi.decimals === 0
+    ? Number(val).toLocaleString('en-US', { maximumFractionDigits: 0 })
+    : Number(val).toFixed(kpi.decimals);
+  return kpi.prefix + num + kpi.unit;
 }
 function computeScore(kpi, val) {
   const t = kpi.target;
@@ -1187,109 +1349,7 @@ function selectMonth(idx) {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   SCORECARD
-═══════════════════════════════════════════════════════════ */
-function renderScorecard() {
-  const idx = selectedMonthIdx;
-  const vals = KPI_DEFS.map(k => ({ kpi: k, val: getVal(k, idx) }));
-  const avg = vals.map(({kpi,val}) => computeScore(kpi,val)).reduce((a,b)=>a+b,0) / vals.length;
-  const health = Math.round(avg);
-  let cg=0, cy=0, cr=0;
-  vals.forEach(({kpi,val}) => {
-    const s = getStatus(kpi, val);
-    if (s==='green') cg++; else if (s==='yellow') cy++; else cr++;
-  });
-
-  const label = idx === IS_YTD ? 'YTD Average' : MONTHS_FULL[idx];
-  document.getElementById('scorecard-month-label').textContent = label;
-
-  const hColor = health >= 85 ? '#4ade80' : health >= 70 ? '#fbbf24' : '#f87171';
-  const hBg    = health >= 85 ? '#0d2e1a' : health >= 70 ? '#2d1f00' : '#2d0a0a';
-  const circ   = 2 * Math.PI * 46;
-  const dash   = (health / 100 * circ).toFixed(2);
-
-  document.getElementById('scorecard').innerHTML = `
-    <div class="sc-gauge">
-      <svg width="110" height="110" viewBox="0 0 110 110">
-        <circle cx="55" cy="55" r="46" fill="${hBg}" stroke="#21262d" stroke-width="9"/>
-        <circle cx="55" cy="55" r="46" fill="none" stroke="${hColor}" stroke-width="9"
-          stroke-dasharray="${dash} ${circ.toFixed(2)}"
-          stroke-linecap="round" transform="rotate(-90 55 55)"
-          style="-webkit-print-color-adjust:exact;print-color-adjust:exact"/>
-        <text x="55" y="50" text-anchor="middle" fill="${hColor}"
-          font-size="21" font-weight="700" font-family="inherit">${health}</text>
-        <text x="55" y="65" text-anchor="middle" fill="#6e7681"
-          font-size="8.5" font-family="inherit">/ 100</text>
-      </svg>
-    </div>
-    <div class="sc-info">
-      <div class="sc-title">Overall Health Score</div>
-      <div class="sc-message">${healthMessage(health)}</div>
-      <div class="sc-pills">
-        <span class="sc-pill pill-green">${cg} On Target</span>
-        <span class="sc-pill pill-yellow">${cy} Near Target</span>
-        <span class="sc-pill pill-red">${cr} Off Target</span>
-      </div>
-    </div>
-    <div class="sc-divider"></div>
-    <div class="sc-stats">
-      <div class="sc-stat">
-        <div class="sc-stat-val" style="color:#4ade80">${cg}</div>
-        <div class="sc-stat-lbl">On Target</div>
-      </div>
-      <div class="sc-stat">
-        <div class="sc-stat-val" style="color:#fbbf24">${cy}</div>
-        <div class="sc-stat-lbl">Near Target</div>
-      </div>
-      <div class="sc-stat">
-        <div class="sc-stat-val" style="color:#f87171">${cr}</div>
-        <div class="sc-stat-lbl">Off Target</div>
-      </div>
-    </div>`;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   SUMMARY TABLE
-═══════════════════════════════════════════════════════════ */
-function renderTable() {
-  const idx = selectedMonthIdx;
-  const tbody = document.getElementById('table-body');
-  tbody.innerHTML = '';
-  KPI_DEFS.forEach(kpi => {
-    const val  = getVal(kpi, idx);
-    const prev = getPrevVal(kpi, idx);
-    const status = getStatus(kpi, val);
-    const dotCls = {green:'dot-g', yellow:'dot-y', red:'dot-r'}[status];
-
-    let trendHtml = '<span style="color:#6e7681">—</span>';
-    if (prev !== null) {
-      const delta = val - prev;
-      const absDelta = Math.abs(delta).toFixed(kpi.decimals);
-      const up = delta > 0;
-      const good = kpi.lowerIsBetter ? !up : up;
-      const cls = up ? (good ? 'up-good' : 'up-bad') : (good ? 'down-good' : 'down-bad');
-      const arrow = up ? '▲' : '▼';
-      trendHtml = `<span class="td-trend ${cls}">${arrow} ${kpi.prefix}${absDelta}${kpi.unit}</span>`;
-    }
-
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><span class="td-status-dot ${dotCls}"></span></td>
-      <td class="td-name">${kpi.name}</td>
-      <td class="td-section">
-        <span class="section-tag ${kpi.category==='Warehouse'?'wh':kpi.category==='Planning'||kpi.category==='Finance'?'plan':''}"
-          style="font-size:.62rem;padding:2px 8px">${kpi.category}</span>
-      </td>
-      <td class="td-val ${status}">${fmt(kpi, val)}</td>
-      <td style="color:#8b949e;font-weight:600">${kpi.lowerIsBetter?'< ':'≥ '}${fmt(kpi, kpi.target)}</td>
-      <td>${trendHtml}</td>
-      <td style="font-size:0.72rem;color:#6e7681">${kpi.benchmark}</td>`;
-    tbody.appendChild(tr);
-  });
-}
-
-/* ═══════════════════════════════════════════════════════════
-   KPI CARDS
+   RENDER: STRATEGIC KPI CARDS (D&W Tab)
 ═══════════════════════════════════════════════════════════ */
 function renderBarChart(kpi, val) {
   const status = getStatus(kpi, val);
@@ -1297,7 +1357,7 @@ function renderBarChart(kpi, val) {
   const scale  = Math.max(val, kpi.target) * 1.12;
   const aPct   = Math.min((val / scale) * 100, 100).toFixed(1);
   const tPct   = Math.min((kpi.target / scale) * 100, 100).toFixed(1);
-  const tLabel = (kpi.lowerIsBetter ? '< ' : '') + fmt(kpi, kpi.target);
+  const tLabel = (kpi.lowerIsBetter ? '< ' : '≥ ') + fmt(kpi, kpi.target);
   return `
     <div class="bc-wrap">
       <div class="bc-row">
@@ -1342,32 +1402,30 @@ function trendChipHTML(kpi, val, prev) {
   return `<span class="trend-chip">${arrow} ${sign}${kpi.prefix}${absDelta}${kpi.unit} vs last month</span>`;
 }
 
-function renderCards() {
-  const idx = selectedMonthIdx;
-  const grids = {
-    'Distribution': document.getElementById('grid-distribution'),
-    'Warehouse':    document.getElementById('grid-warehouse'),
-    'Planning':     document.getElementById('grid-planning'),
-    'Finance':      document.getElementById('grid-planning'),
-  };
-  document.getElementById('grid-distribution').innerHTML = '';
-  document.getElementById('grid-warehouse').innerHTML    = '';
-  document.getElementById('grid-planning').innerHTML     = '';
+function renderDWStrategic() {
+  const idx  = selectedMonthIdx;
+  const grid = document.getElementById('dw-strategic-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
 
-  KPI_DEFS.forEach(kpi => {
+  DW_STRATEGIC.forEach(kpi => {
     const val    = getVal(kpi, idx);
     const prev   = getPrevVal(kpi, idx);
     const status = getStatus(kpi, val);
     const color  = statusColor(status);
-    const tgtLabel = (kpi.lowerIsBetter ? 'below ' : '') + fmt(kpi, kpi.target);
 
     const card = document.createElement('div');
     card.className = `kpi-card ${status}`;
     card.innerHTML = `
       <div class="kpi-header">
         <div>
-          <div class="kpi-name">${kpi.name}</div>
-          <div class="kpi-category">${kpi.category}</div>
+          <div class="kpi-name">
+            <span class="formula-wrap">${kpi.name}
+              <span class="formula-icon">ƒ</span>
+              <span class="formula-tip">${kpi.formula}</span>
+            </span>
+          </div>
+          <div class="kpi-category"><span class="resp-badge">${kpi.responsible}</span></div>
         </div>
         <span class="status-badge badge-${status}">${badgeLabel(status)}</span>
       </div>
@@ -1379,27 +1437,157 @@ function renderCards() {
         </div>
         <div class="trend-arrow">${trendArrowSVG(kpi, val, prev)}</div>
       </div>
-      <div class="kpi-target">Target: <strong>${tgtLabel}</strong></div>
+      <div class="kpi-target">Target: <strong>${(kpi.lowerIsBetter ? 'below ' : '') + fmt(kpi, kpi.target)}</strong></div>
       ${renderBarChart(kpi, val)}
       ${trendChipHTML(kpi, val, prev)}
       <div class="kpi-bench">Benchmark: ${kpi.benchmark}</div>`;
-
-    const gridKey = (kpi.category === 'Finance') ? 'Planning' : kpi.category;
-    grids[gridKey].appendChild(card);
+    grid.appendChild(card);
   });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER: TACTICAL TABLE (D&W Tab)
+═══════════════════════════════════════════════════════════ */
+function renderDWTactical() {
+  const tbody = document.getElementById('dw-tactical-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  DW_TACTICAL.forEach(kpi => {
+    const cur  = kpi.current;
+    const prev = kpi.prevWeek;
+    const status = getStatus(kpi, cur);
+    const color  = statusColor(status);
+    const dotCls = {green:'dot-g', yellow:'dot-y', red:'dot-r'}[status];
+
+    const delta   = cur - prev;
+    const absDelta = Math.abs(delta).toFixed(kpi.decimals);
+    const up   = delta > 0;
+    const good = kpi.lowerIsBetter ? !up : up;
+    const trendCls = good ? (up ? 'up-good' : 'down-good') : (up ? 'up-bad' : 'down-bad');
+    const arrow = up ? '▲' : '▼';
+    const trendHtml = `<span class="td-trend ${trendCls}">${arrow} ${kpi.prefix || ''}${absDelta}${kpi.unit}</span>`;
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="td-name">
+        <span class="formula-wrap">${kpi.name}
+          <span class="formula-icon">ƒ</span>
+          <span class="formula-tip">${kpi.formula}</span>
+        </span>
+      </td>
+      <td><span class="resp-badge">${kpi.responsible}</span></td>
+      <td class="td-val ${status}">${(kpi.prefix||'')}${cur.toFixed(kpi.decimals)}${kpi.unit}</td>
+      <td style="color:#8b949e">${(kpi.prefix||'')}${prev.toFixed(kpi.decimals)}${kpi.unit}</td>
+      <td>${trendHtml}</td>
+      <td style="color:#8b949e;font-weight:600">${kpi.lowerIsBetter?'< ':'≥ '}${(kpi.prefix||'')}${kpi.target}${kpi.unit}</td>
+      <td><span class="td-status-dot ${dotCls}"></span> <span style="font-size:0.72rem;color:${color}">${badgeLabel(status)}</span></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER: OPERATIONAL BOARD (D&W Tab)
+═══════════════════════════════════════════════════════════ */
+function renderDWOperational() {
+  const board = document.getElementById('dw-ops-board');
+  if (!board) return;
+  board.innerHTML = '';
+
+  DW_OPERATIONAL.forEach(kpi => {
+    const status = kpi.greenFn(kpi.value) ? 'green' : kpi.yellowFn(kpi.value) ? 'yellow' : 'red';
+    const color  = statusColor(status);
+    const delta  = kpi.value - kpi.target;
+    const sign   = delta >= 0 ? '+' : '';
+    const tileEl = document.createElement('div');
+    tileEl.className = `ops-tile ${status}`;
+    tileEl.style.cssText = 'background:#161b22;border:1px solid #21262d;border-radius:12px;padding:16px 18px';
+    if (status === 'green')  { tileEl.style.background = '#0d2e1a'; tileEl.style.borderColor = '#22c55e28'; }
+    if (status === 'yellow') { tileEl.style.background = '#2d1f00'; tileEl.style.borderColor = '#f59e0b28'; }
+    if (status === 'red')    { tileEl.style.background = '#2d0a0a'; tileEl.style.borderColor = '#ef444428'; }
+    tileEl.innerHTML = `
+      <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8b949e;margin-bottom:8px">${kpi.name}</div>
+      <div style="font-size:1.7rem;font-weight:800;color:${color};line-height:1">${kpi.value}${kpi.unit}</div>
+      <div style="font-size:0.67rem;color:#6e7681;margin-top:6px">Target: ${kpi.lowerIsBetter?'< ':'≥ '}${kpi.target}${kpi.unit}</div>
+      <div style="font-size:0.67rem;color:${color};margin-top:2px">${sign}${delta.toFixed(1)}${kpi.unit} vs target</div>`;
+    board.appendChild(tileEl);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER: NODE CONNECTION PANEL (D&W Tab)
+═══════════════════════════════════════════════════════════ */
+function renderDWNodeConnection() {
+  const grid = document.getElementById('dw-node-grid');
+  if (!grid) return;
+
+  const porV = DW_STRATEGIC.find(k=>k.id==='por').monthly[selectedMonthIdx === -1 ? 8 : selectedMonthIdx];
+  const ofrV = DW_STRATEGIC.find(k=>k.id==='ofr').monthly[selectedMonthIdx === -1 ? 8 : selectedMonthIdx];
+  const otdV = DW_STRATEGIC.find(k=>k.id==='otd').monthly[selectedMonthIdx === -1 ? 8 : selectedMonthIdx];
+  const icdV = DW_TACTICAL.find(k=>k.id==='icd').current;
+  const cfrV = DW_TACTICAL.find(k=>k.id==='cfr').current;
+
+  const flags = [
+    {
+      node: '→ Manufacturing',
+      icon: '🏭',
+      status: icdV < 22 ? 'warn' : icdV < 30 ? 'caution' : 'ok',
+      msg: icdV < 22 ? `Low coverage (${icdV}d) — risk of production material shortage`
+         : icdV < 30 ? `Coverage at ${icdV}d — monitor inbound replenishment frequency`
+         : `Coverage ${icdV}d — adequate buffer for production planning`,
+    },
+    {
+      node: '→ Retail / Trade',
+      icon: '🛒',
+      status: porV < 90 ? 'warn' : porV < 95 ? 'caution' : 'ok',
+      msg: porV < 90 ? `POR at ${porV}% — high risk of shelf-out and customer deductions`
+         : porV < 95 ? `POR at ${porV}% — retailer compliance risk; review order accuracy`
+         : `POR at ${porV}% — strong service level to trade`,
+    },
+    {
+      node: '→ Procurement',
+      icon: '📦',
+      status: ofrV < 95 ? 'warn' : ofrV < 98 ? 'caution' : 'ok',
+      msg: ofrV < 95 ? `OFR at ${ofrV}% — signal stock-out; urgent PO review needed`
+         : ofrV < 98 ? `OFR at ${ofrV}% — partial fills; review min-order quantities`
+         : `OFR at ${ofrV}% — procurement aligned with demand`,
+    },
+    {
+      node: '→ Transport / 3PL',
+      icon: '🚚',
+      status: otdV < 92 ? 'warn' : otdV < 95 ? 'caution' : 'ok',
+      msg: otdV < 92 ? `OTD at ${otdV}% — escalate to 3PL; check route coverage`
+         : otdV < 95 ? `OTD at ${otdV}% — monitor delivery windows and carrier SLA`
+         : `OTD at ${otdV}% — transport KPI on target`,
+    },
+    {
+      node: '→ Customer Service',
+      icon: '📞',
+      status: cfrV < 94 ? 'warn' : cfrV < 97 ? 'caution' : 'ok',
+      msg: cfrV < 94 ? `CFR at ${cfrV}% — expect elevated complaint volume; alert CS team`
+         : cfrV < 97 ? `CFR at ${cfrV}% — partial fulfillments likely; brief CS proactively`
+         : `CFR at ${cfrV}% — case fill strong; CS workload normal`,
+    },
+  ];
+
+  grid.innerHTML = flags.map(f => `
+    <div class="ds-flag ds-${f.status}">
+      <div class="ds-flag-node">${f.icon} ${f.node}</div>
+      <div class="ds-flag-msg">${f.msg}</div>
+    </div>`).join('');
 }
 
 /* ═══════════════════════════════════════════════════════════
    WAREHOUSE LOG
 ═══════════════════════════════════════════════════════════ */
 function renderWarehouseLog() {
-  // Summary cards
   const totalReceived = WH_DATA.reduce((s,r) => s+r.received, 0);
   const totalShipped  = WH_DATA.reduce((s,r) => s+r.shipped, 0);
   const totalReturns  = WH_DATA.reduce((s,r) => s+r.returns, 0);
   const avgPickAcc    = (WH_DATA.reduce((s,r) => s+r.pickAcc, 0) / WH_DATA.length).toFixed(1);
   const avgOnTime     = (WH_DATA.reduce((s,r) => s+r.onTimeShip, 0) / WH_DATA.length).toFixed(1);
   const totalLabor    = WH_DATA.reduce((s,r) => s+r.laborHrs, 0);
+  const avgDispatch   = (WH_DATA.reduce((s,r) => s+r.dispatchAcc, 0) / WH_DATA.length).toFixed(1);
 
   document.getElementById('wh-summary').innerHTML = `
     <div class="wh-card blue">
@@ -1428,26 +1616,32 @@ function renderWarehouseLog() {
       <div class="wh-card-sub">${((totalReturns/totalReceived)*100).toFixed(1)}% return rate</div>
     </div>
     <div class="wh-card blue">
-      <div class="wh-card-val">${totalLabor}</div>
-      <div class="wh-card-lbl">Total Labor Hours</div>
-      <div class="wh-card-sub">${(totalLabor/WH_DATA.length).toFixed(1)} hrs/day avg</div>
+      <div class="wh-card-val">${avgDispatch}%</div>
+      <div class="wh-card-lbl">Avg Dispatch Acc.</div>
+      <div class="wh-card-sub">Target: ≥ 97%</div>
     </div>`;
 
-  // Log table
+  // Log table with new columns + row color coding + shift score
   const table = document.getElementById('wh-log-table');
   let html = `<thead><tr>`;
-  ['Date','Received','Picked','Shipped','Pick Acc.','On-Time Ship','Returns','Labor Hrs','Notes'].forEach(h => {
+  ['Date','Received','Picked','Shipped','Pick Acc.','On-Time Ship','Returns','Labor Hrs',
+   'Inbound Time','Outbound Time','Dispatch Acc.','Shift Score','Notes'].forEach(h => {
     html += `<th>${h}</th>`;
   });
   html += `</tr></thead><tbody>`;
 
   WH_DATA.forEach(row => {
-    const pickCls = row.pickAcc >= 99.5 ? 'good' : row.pickAcc >= 97 ? 'warn' : 'bad';
+    const pickCls   = row.pickAcc >= 99.5 ? 'good' : row.pickAcc >= 97 ? 'warn' : 'bad';
     const onTimeCls = row.onTimeShip >= 97 ? 'good' : row.onTimeShip >= 94 ? 'warn' : 'bad';
-    const noteHtml = row.notes
+    const inbCls    = row.inboundTime <= 2  ? 'good' : row.inboundTime <= 3  ? 'warn' : 'bad';
+    const outbCls   = row.outboundTime <= 4 ? 'good' : row.outboundTime <= 5.5 ? 'warn' : 'bad';
+    const disCls    = row.dispatchAcc >= 97 ? 'good' : row.dispatchAcc >= 93 ? 'warn' : 'bad';
+    const scoreCls  = row.shiftScore >= 85 ? 'great' : row.shiftScore >= 73 ? 'ok' : 'poor';
+    const rowBg     = row.shiftScore >= 85 ? 'background:#0d2e1a10' : row.shiftScore >= 73 ? '' : 'background:#2d0a0a18';
+    const noteHtml  = row.notes
       ? `<span class="note-badge">📋 ${row.notes}</span>`
       : `<span style="color:#6e7681">—</span>`;
-    html += `<tr>
+    html += `<tr style="${rowBg}">
       <td style="font-weight:600;color:#c9d1d9;white-space:nowrap">${row.date}</td>
       <td>${row.received.toLocaleString()}</td>
       <td>${row.picked.toLocaleString()}</td>
@@ -1456,11 +1650,17 @@ function renderWarehouseLog() {
       <td><span class="acc-badge ${onTimeCls}">${row.onTimeShip}%</span></td>
       <td>${row.returns}</td>
       <td>${row.laborHrs}</td>
+      <td><span class="acc-badge ${inbCls}">${row.inboundTime}h</span></td>
+      <td><span class="acc-badge ${outbCls}">${row.outboundTime}h</span></td>
+      <td><span class="acc-badge ${disCls}">${row.dispatchAcc}%</span></td>
+      <td><span class="shift-score ${scoreCls}">${row.shiftScore}</span></td>
       <td>${noteHtml}</td>
     </tr>`;
   });
 
   // Totals row
+  const avgShift = (WH_DATA.reduce((s,r)=>s+r.shiftScore,0)/WH_DATA.length).toFixed(0);
+  const avgShiftCls = parseInt(avgShift)>=85?'great':parseInt(avgShift)>=73?'ok':'poor';
   html += `<tr class="total-row">
     <td>Week Total / Avg</td>
     <td>${totalReceived.toLocaleString()}</td>
@@ -1470,6 +1670,9 @@ function renderWarehouseLog() {
     <td><span class="acc-badge ${parseFloat(avgOnTime)>=97?'good':parseFloat(avgOnTime)>=94?'warn':'bad'}">${avgOnTime}%</span></td>
     <td>${totalReturns}</td>
     <td>${totalLabor}</td>
+    <td></td><td></td>
+    <td><span class="acc-badge ${parseFloat(avgDispatch)>=97?'good':parseFloat(avgDispatch)>=93?'warn':'bad'}">${avgDispatch}%</span></td>
+    <td><span class="shift-score ${avgShiftCls}">${avgShift}</span></td>
     <td></td>
   </tr>`;
 
@@ -1487,17 +1690,7 @@ function switchTab(tab) {
   document.getElementById('panel-' + tab).classList.add('active');
 }
 
-/* ═══════════════════════════════════════════════════════════
-   TABLE TOGGLE
-═══════════════════════════════════════════════════════════ */
-let tableVisible = true;
-function toggleTable() {
-  const wrap = document.getElementById('table-wrap');
-  const btn  = document.getElementById('table-toggle');
-  tableVisible = !tableVisible;
-  wrap.style.display = tableVisible ? '' : 'none';
-  btn.textContent = tableVisible ? 'Hide' : 'Show';
-}
+/* toggleTable removed — tactical table is always visible in new layout */
 
 /* ═══════════════════════════════════════════════════════════
    TOAST & PDF
@@ -1518,28 +1711,24 @@ function exportPDF() {
 /* ═══════════════════════════════════════════════════════════
    CHART.JS — SHARED CONFIG
 ═══════════════════════════════════════════════════════════ */
-// Dark theme defaults for Chart.js
 Chart.defaults.color = '#8b949e';
 
-const KPI_COLORS = [
-  '#3b82f6','#6366f1','#22c55e','#ef4444','#f59e0b',
-  '#ec4899','#14b8a6','#8b5cf6','#f97316','#06b6d4'
-];
-const KPI_SHORT = { otd:'OTD', ofr:'OFR', por:'POR', rr:'Return %', ia:'Inv. Acc.', wpa:'Pick Acc.', dts:'Dock-Stock', lu:'Labor Util.', mape:'MAPE', cpo:'Cost/Order' };
+const DW_COLORS = ['#3b82f6','#22c55e','#f59e0b','#ec4899','#14b8a6','#8b5cf6'];
+let chartDWTrend = null;
+let chartDWGaugeIcd = null, chartDWGaugeWu = null, chartDWGaugeCfr = null;
+let chartWHPor = null, chartWHPick = null, chartWHGap = null, chartWHThroughput = null;
 
-let chartTrend = null, chartRadar = null, chartBar = null, chartDonut = null;
-const hiddenLines = new Set();
+/* ── 1. D&W TREND LINE CHART ── */
+function buildDWTrendChart() {
+  const el = document.getElementById('chart-dw-trend');
+  if (!el) return;
+  if (chartDWTrend) chartDWTrend.destroy();
 
-/* ── 1. TREND LINE CHART ── */
-function buildTrendChart() {
-  const ctx = document.getElementById('chart-trend').getContext('2d');
-  if (chartTrend) chartTrend.destroy();
-
-  const datasets = KPI_DEFS.map((kpi, i) => ({
+  const datasets = DW_STRATEGIC.map((kpi, i) => ({
     label: kpi.name,
     data: kpi.monthly,
-    borderColor: KPI_COLORS[i],
-    backgroundColor: KPI_COLORS[i] + '18',
+    borderColor: DW_COLORS[i],
+    backgroundColor: DW_COLORS[i] + '18',
     borderWidth: 2.2,
     pointRadius: 3.5,
     pointHoverRadius: 5,
@@ -1547,14 +1736,17 @@ function buildTrendChart() {
     fill: false,
   }));
 
-  chartTrend = new Chart(ctx, {
+  chartDWTrend = new Chart(el.getContext('2d'), {
     type: 'line',
     data: { labels: MONTHS, datasets },
     options: {
       responsive: true, maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { display: false },
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 10 }, padding: 12, boxWidth: 12, color: '#8b949e' }
+        },
         tooltip: {
           callbacks: {
             label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}`
@@ -1567,247 +1759,188 @@ function buildTrendChart() {
       }
     }
   });
-
-  // restore hidden state
-  hiddenLines.forEach(i => chartTrend.hide(i));
-  buildTrendToggles();
 }
 
-function buildTrendToggles() {
-  const el = document.getElementById('trend-toggles');
-  if (!el || !chartTrend) return;
-  el.innerHTML = KPI_DEFS.map((kpi, i) =>
-    `<button class="trend-toggle-btn${hiddenLines.has(i) ? ' off' : ''}"
-      style="--tc:${KPI_COLORS[i]}"
-      onclick="toggleTrendLine(${i})">${kpi.name}</button>`
-  ).join('');
+/* ── 2. TACTICAL SEMI-CIRCULAR GAUGES ── */
+function buildDWGauges() {
+  buildOneGauge('chart-dw-gauge-icd', 'gauge-val-icd', DW_TACTICAL.find(k=>k.id==='icd'));
+  buildOneGauge('chart-dw-gauge-wu',  'gauge-val-wu',  DW_TACTICAL.find(k=>k.id==='wu'));
+  buildOneGauge('chart-dw-gauge-cfr', 'gauge-val-cfr', DW_TACTICAL.find(k=>k.id==='cfr'));
 }
 
-function toggleTrendLine(idx) {
-  if (!chartTrend) return;
-  if (hiddenLines.has(idx)) {
-    hiddenLines.delete(idx);
-    chartTrend.show(idx);
-  } else {
-    hiddenLines.add(idx);
-    chartTrend.hide(idx);
-  }
-  buildTrendToggles();
-}
+function buildOneGauge(canvasId, valId, kpi) {
+  const el = document.getElementById(canvasId);
+  if (!el) return;
 
-/* ── 2. RADAR CHART ── */
-function buildRadarChart() {
-  const ctx = document.getElementById('chart-radar').getContext('2d');
-  if (chartRadar) chartRadar.destroy();
+  const val    = kpi.current;
+  const maxVal = kpi.id === 'icd' ? 60 : 100;
+  const status = kpi.greenFn(val) ? 'green' : kpi.yellowFn(val) ? 'yellow' : 'red';
+  const color  = statusColor(status);
+  const bgColor = status === 'green' ? '#22c55e22' : status === 'yellow' ? '#f59e0b22' : '#ef444422';
 
-  const idx = selectedMonthIdx;
-  chartRadar = new Chart(ctx, {
-    type: 'radar',
-    data: {
-      labels: KPI_DEFS.map(k => KPI_SHORT[k.id] || k.id.toUpperCase()),
-      datasets: [
-        {
-          label: 'Actual',
-          data: KPI_DEFS.map(k => computeScore(k, getVal(k, idx))),
-          borderColor: '#6366f1', backgroundColor: '#6366f120',
-          borderWidth: 2.2, pointBackgroundColor: '#6366f1', pointRadius: 3,
-        },
-        {
-          label: 'Target',
-          data: KPI_DEFS.map(() => 100),
-          borderColor: '#94a3b8', backgroundColor: '#94a3b810',
-          borderWidth: 1.5, borderDash: [4, 4], pointRadius: 0,
-        }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { position: 'bottom', labels: { font: { size: 10 }, padding: 10, boxWidth: 12, color: '#8b949e' } }
-      },
-      scales: {
-        r: {
-          min: 0, max: 100,
-          ticks: { stepSize: 25, font: { size: 9 }, backdropColor: 'transparent', color: '#8b949e' },
-          grid: { color: '#21262d' }, angleLines: { color: '#30363d' },
-          pointLabels: { font: { size: 9 }, color: '#8b949e' }
-        }
-      }
-    }
-  });
-}
-
-function updateRadarChart() {
-  if (!chartRadar) return;
-  const idx = selectedMonthIdx;
-  chartRadar.data.datasets[0].data = KPI_DEFS.map(k => computeScore(k, getVal(k, idx)));
-  chartRadar.update();
-}
-
-/* ── 3. BAR CHART ── */
-function buildBarChart() {
-  const ctx = document.getElementById('chart-bar').getContext('2d');
-  if (chartBar) chartBar.destroy();
-
-  const idx = selectedMonthIdx;
-  chartBar = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: KPI_DEFS.map(k => k.name),
-      datasets: [
-        {
-          label: 'Actual',
-          data: KPI_DEFS.map(k => getVal(k, idx)),
-          backgroundColor: KPI_DEFS.map(k => {
-            const s = getStatus(k, getVal(k, idx));
-            return s === 'green' ? '#22c55e' : s === 'yellow' ? '#eab308' : '#ef4444';
-          }),
-          borderRadius: 4, borderSkipped: false,
-        },
-        {
-          label: 'Target',
-          data: KPI_DEFS.map(k => k.target),
-          backgroundColor: '#94a3b840',
-          borderColor: '#94a3b8', borderWidth: 1.5,
-          borderRadius: 4, borderSkipped: false,
-        }
-      ]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { position: 'top', labels: { font: { size: 11 }, padding: 14, boxWidth: 14, color: '#c9d1d9' } },
-        tooltip: {
-          callbacks: {
-            label: ctx => {
-              const kpi = KPI_DEFS[ctx.dataIndex];
-              return ` ${ctx.dataset.label}: ${fmt(kpi, ctx.parsed.x)}`;
-            }
-          }
-        }
-      },
-      scales: {
-        x: { grid: { color: '#21262d' }, ticks: { font: { size: 10 }, color: '#8b949e' } },
-        y: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#c9d1d9' } }
-      }
-    }
-  });
-}
-
-function updateBarChart() {
-  if (!chartBar) return;
-  const idx = selectedMonthIdx;
-  KPI_DEFS.forEach((k, i) => {
-    chartBar.data.datasets[0].data[i] = getVal(k, idx);
-    const s = getStatus(k, getVal(k, idx));
-    chartBar.data.datasets[0].backgroundColor[i] =
-      s === 'green' ? '#22c55e' : s === 'yellow' ? '#eab308' : '#ef4444';
-  });
-  chartBar.update();
-}
-
-/* ── 4. DONUT CHART ── */
-const CATEGORIES = ['Distribution','Warehouse','Planning','Finance'];
-const CAT_KPIS = {
-  Distribution: ['otd','ofr','por','rr'],
-  Warehouse:    ['ia','wpa','dts','lu'],
-  Planning:     ['mape'],
-  Finance:      ['cpo'],
-};
-
-function getCatCounts(idx) {
-  const counts = {};
-  CATEGORIES.forEach(cat => {
-    let g=0, y=0, r=0;
-    CAT_KPIS[cat].forEach(id => {
-      const kpi = KPI_DEFS.find(k => k.id === id);
-      const s = getStatus(kpi, getVal(kpi, idx));
-      if (s === 'green') g++; else if (s === 'yellow') y++; else r++;
-    });
-    counts[cat] = { g, y, r };
-  });
-  return counts;
-}
-
-function buildDonutChart() {
-  const ctx = document.getElementById('chart-donut').getContext('2d');
-  if (chartDonut) chartDonut.destroy();
-
-  const idx = selectedMonthIdx;
-  let cg=0, cy=0, cr=0;
-  KPI_DEFS.forEach(k => {
-    const s = getStatus(k, getVal(k, idx));
-    if (s==='green') cg++; else if (s==='yellow') cy++; else cr++;
-  });
-
-  chartDonut = new Chart(ctx, {
+  const pct = Math.min(val / maxVal, 1);
+  const inst = new Chart(el.getContext('2d'), {
     type: 'doughnut',
     data: {
-      labels: ['On Target','Near Target','Off Target'],
       datasets: [{
-        data: [cg, cy, cr],
-        backgroundColor: ['#22c55e','#eab308','#ef4444'],
-        borderWidth: 0, hoverOffset: 4,
+        data: [pct, 1 - pct],
+        backgroundColor: [color, '#21262d'],
+        borderWidth: 0,
+        circumference: 180,
+        rotation: -90,
       }]
     },
     options: {
-      responsive: true, cutout: '68%',
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: c => ` ${c.label}: ${c.parsed} KPIs` } }
-      }
+      responsive: true, maintainAspectRatio: false, cutout: '70%',
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
+      animation: { duration: 800, easing: 'easeOutQuart' }
     }
   });
 
-  updateCategoryTable(idx);
+  const valEl = document.getElementById(valId);
+  if (valEl) valEl.textContent = val.toFixed(kpi.decimals);
 }
 
-function updateDonutChart() {
-  if (!chartDonut) return;
-  const idx = selectedMonthIdx;
-  let cg=0, cy=0, cr=0;
-  KPI_DEFS.forEach(k => {
-    const s = getStatus(k, getVal(k, idx));
-    if (s==='green') cg++; else if (s==='yellow') cy++; else cr++;
-  });
-  chartDonut.data.datasets[0].data = [cg, cy, cr];
-  chartDonut.update();
-  updateCategoryTable(idx);
+/* ── 3. WH SPARKLINES ── */
+function buildWHSparklines() {
+  const porKpi  = DW_STRATEGIC.find(k=>k.id==='por');
+  const pickData = [97.8, 98.1, 98.3, 98.5, 98.7, 98.9, 98.7, 98.4, 98.5];
+
+  if (chartWHPor) chartWHPor.destroy();
+  const porEl = document.getElementById('chart-wh-por');
+  if (porEl) {
+    chartWHPor = new Chart(porEl.getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: MONTHS,
+        datasets: [{
+          data: porKpi.monthly,
+          borderColor: '#3b82f6',
+          backgroundColor: '#3b82f620',
+          borderWidth: 2, pointRadius: 2.5, tension: 0.4, fill: true,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `POR: ${c.parsed.y.toFixed(1)}%` } } },
+        scales: {
+          y: { min: 85, max: 96, grid: { color: '#21262d' }, ticks: { font: { size: 9 }, color: '#8b949e' } },
+          x: { grid: { display: false }, ticks: { font: { size: 9 }, color: '#8b949e' } }
+        }
+      }
+    });
+    const pv = document.getElementById('wh-spark-por-val');
+    if (pv) pv.innerHTML = `Latest: <span style="color:#3b82f6">${porKpi.monthly[8].toFixed(1)}%</span> &nbsp;·&nbsp; Target: ≥ 95%`;
+  }
+
+  if (chartWHPick) chartWHPick.destroy();
+  const pickEl = document.getElementById('chart-wh-pick');
+  if (pickEl) {
+    chartWHPick = new Chart(pickEl.getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: MONTHS,
+        datasets: [{
+          data: pickData,
+          borderColor: '#22c55e',
+          backgroundColor: '#22c55e20',
+          borderWidth: 2, pointRadius: 2.5, tension: 0.4, fill: true,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `Pick Acc: ${c.parsed.y.toFixed(1)}%` } } },
+        scales: {
+          y: { min: 97, max: 100, grid: { color: '#21262d' }, ticks: { font: { size: 9 }, color: '#8b949e' } },
+          x: { grid: { display: false }, ticks: { font: { size: 9 }, color: '#8b949e' } }
+        }
+      }
+    });
+    const pv2 = document.getElementById('wh-spark-pick-val');
+    if (pv2) pv2.innerHTML = `Latest: <span style="color:#22c55e">${pickData[8].toFixed(1)}%</span> &nbsp;·&nbsp; Target: ≥ 99.5%`;
+  }
 }
 
-function updateCategoryTable(idx) {
-  const el = document.getElementById('dct-table');
+/* ── 4. WH GAP CHART (Plan vs Actual) ── */
+function buildWHGapChart() {
+  const el = document.getElementById('chart-wh-gap');
   if (!el) return;
-  const counts = getCatCounts(idx);
-  el.innerHTML = CATEGORIES.map(cat => {
-    const { g, y, r } = counts[cat];
-    return `<div class="dct-row">
-      <span class="dct-name">${cat}</span>
-      <span class="dct-dots">
-        ${g ? `<span class="dct-dot" style="color:#4ade80">●${g}</span>` : ''}
-        ${y ? `<span class="dct-dot" style="color:#fbbf24">●${y}</span>` : ''}
-        ${r ? `<span class="dct-dot" style="color:#f87171">●${r}</span>` : ''}
-      </span>
-    </div>`;
-  }).join('');
+  if (chartWHGap) chartWHGap.destroy();
+
+  const labels = WH_DATA.map(r => r.date.split(',')[0]);
+  const planned = WH_DATA.map(r => r.received);
+  const actual  = WH_DATA.map(r => r.shipped);
+
+  chartWHGap = new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label:'Received', data: planned, backgroundColor:'#3b82f640', borderColor:'#3b82f6', borderWidth:1.5, borderRadius:3 },
+        { label:'Shipped',  data: actual,  backgroundColor:'#22c55e40', borderColor:'#22c55e', borderWidth:1.5, borderRadius:3 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position:'top', labels: { font:{size:10}, boxWidth:12, color:'#8b949e' } } },
+      scales: {
+        y: { grid:{color:'#21262d'}, ticks:{font:{size:9},color:'#8b949e'} },
+        x: { grid:{display:false}, ticks:{font:{size:9},color:'#8b949e'} }
+      }
+    }
+  });
 }
 
-/* ── UPDATE ALL CHARTS ── */
-function updateCharts() {
-  updateRadarChart();
-  updateBarChart();
-  updateDonutChart();
+/* ── 5. WH THROUGHPUT CHART ── */
+function buildWHThroughputChart() {
+  const el = document.getElementById('chart-wh-throughput');
+  if (!el) return;
+  if (chartWHThroughput) chartWHThroughput.destroy();
+
+  const labels = WH_DATA.map(r => r.date.split(',')[0]);
+
+  chartWHThroughput = new Chart(el.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Orders Received',
+          data: WH_DATA.map(r => r.received),
+          borderColor: '#3b82f6', backgroundColor: '#3b82f620',
+          borderWidth: 2, pointRadius: 3.5, tension: 0.35, fill: true,
+        },
+        {
+          label: 'Orders Shipped',
+          data: WH_DATA.map(r => r.shipped),
+          borderColor: '#22c55e', backgroundColor: '#22c55e20',
+          borderWidth: 2, pointRadius: 3.5, tension: 0.35, fill: true,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position:'top', labels: { font:{size:10}, boxWidth:12, color:'#8b949e' } },
+        tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${c.parsed.y}` } }
+      },
+      scales: {
+        y: { grid:{color:'#21262d'}, ticks:{font:{size:9},color:'#8b949e'} },
+        x: { grid:{display:false}, ticks:{font:{size:9},color:'#8b949e'} }
+      }
+    }
+  });
 }
 
 /* ═══════════════════════════════════════════════════════════
-   RENDER ALL KPI TAB
+   RENDER ALL KPI TAB (Distribution & Warehouse)
 ═══════════════════════════════════════════════════════════ */
 function renderAll() {
-  renderScorecard();
-  renderTable();
-  renderCards();
-  updateCharts();
+  renderDWStrategic();
+  renderDWTactical();
+  renderDWOperational();
+  renderDWNodeConnection();
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -2329,11 +2462,14 @@ renderMonthChips();
 renderAll();
 renderWarehouseLog();
 
-// Build KPI tab charts
-buildTrendChart();
-buildRadarChart();
-buildBarChart();
-buildDonutChart();
+// Build D&W tab charts
+buildDWTrendChart();
+buildDWGauges();
+
+// Build Warehouse Log tab charts
+buildWHSparklines();
+buildWHGapChart();
+buildWHThroughputChart();
 
 // Build Manufacturing tab
 renderMonthChipsMfg();
