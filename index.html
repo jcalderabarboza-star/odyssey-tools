@@ -10,7 +10,7 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #0d1117;
+      background: #0a0f1e;
       color: #c9d1d9;
       min-height: 100vh;
     }
@@ -54,7 +54,7 @@
     /* ── Tab Navigation ── */
     .tab-nav {
       background: #010409;
-      border-top: 1px solid #21262d;
+      border-top: 1px solid #1f2937;
       padding: 0 40px;
       display: flex;
       gap: 4px;
@@ -78,8 +78,8 @@
 
     /* ── Month Selector Bar ── */
     .month-bar {
-      background: #161b22;
-      border-bottom: 1px solid #21262d;
+      background: #111827;
+      border-bottom: 1px solid #1f2937;
       padding: 12px 40px;
       display: flex;
       align-items: center;
@@ -95,14 +95,14 @@
     .month-chip {
       padding: 5px 14px;
       font-size: 0.75rem; font-weight: 600;
-      border: 1.5px solid #30363d;
+      border: 1.5px solid #374151;
       border-radius: 999px;
-      background: #21262d;
+      background: #1f2937;
       color: #8b949e;
       cursor: pointer;
       transition: background .12s, color .12s, border-color .12s;
     }
-    .month-chip:hover { background: #30363d; color: #c9d1d9; }
+    .month-chip:hover { background: #374151; color: #c9d1d9; }
     .month-chip.active {
       background: #6366f1; color: #fff;
       border-color: #6366f1;
@@ -144,9 +144,9 @@
 
     /* ── Scorecard ── */
     .scorecard {
-      background: #161b22; border-radius: 16px;
+      background: #111827; border-radius: 16px;
       padding: 28px 32px; box-shadow: 0 1px 4px rgba(0,0,0,.4);
-      border: 1px solid #21262d;
+      border: 1px solid #1f2937;
       display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
     }
     .sc-gauge { flex-shrink: 0; }
@@ -162,7 +162,7 @@
     .pill-green  { background: #0d2e1a; color: #4ade80; }
     .pill-yellow { background: #2d1f00; color: #fbbf24; }
     .pill-red    { background: #2d0a0a; color: #f87171; }
-    .sc-divider { width: 1px; background: #21262d; align-self: stretch; margin: 0 8px; }
+    .sc-divider { width: 1px; background: #1f2937; align-self: stretch; margin: 0 8px; }
     .sc-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; flex: 1; min-width: 260px; }
     .sc-stat { text-align: center; }
     .sc-stat-val { font-size: 1.9rem; font-weight: 700; line-height: 1; }
@@ -171,28 +171,28 @@
     /* ── Data table ── */
     .btn-sm {
       font-size: 0.7rem; font-weight: 600; padding: 4px 12px;
-      border: 1.5px solid #30363d; background: #21262d; border-radius: 6px;
+      border: 1.5px solid #374151; background: #1f2937; border-radius: 6px;
       cursor: pointer; color: #8b949e; transition: background .12s;
     }
-    .btn-sm:hover { background: #30363d; color: #c9d1d9; }
+    .btn-sm:hover { background: #374151; color: #c9d1d9; }
     .table-scroll { overflow-x: auto; border-radius: 12px; }
     .data-table {
       width: 100%; border-collapse: collapse;
-      background: #161b22; border-radius: 12px;
+      background: #111827; border-radius: 12px;
       box-shadow: 0 1px 4px rgba(0,0,0,.4);
-      border: 1px solid #21262d;
+      border: 1px solid #1f2937;
       font-size: 0.8rem;
     }
     .data-table thead th {
-      background: #0d1117; color: #8b949e;
+      background: #0a0f1e; color: #8b949e;
       font-size: 0.68rem; font-weight: 700;
       text-transform: uppercase; letter-spacing: .06em;
       padding: 11px 14px; text-align: left;
-      border-bottom: 1px solid #21262d;
+      border-bottom: 1px solid #1f2937;
     }
     .data-table thead th:first-child { border-radius: 12px 0 0 0; }
     .data-table thead th:last-child  { border-radius: 0 12px 0 0; }
-    .data-table tbody tr { border-bottom: 1px solid #21262d; }
+    .data-table tbody tr { border-bottom: 1px solid #1f2937; }
     .data-table tbody tr:last-child { border-bottom: none; }
     .data-table tbody tr:hover { background: #1c2128; }
     .data-table td { padding: 9px 14px; vertical-align: middle; }
@@ -223,12 +223,12 @@
       gap: 18px;
     }
     .kpi-card {
-      background: #161b22; border-radius: 14px;
+      background: #111827; border-radius: 14px;
       padding: 22px 24px; box-shadow: 0 1px 3px rgba(0,0,0,.4);
-      border: 1px solid #21262d;
+      border: 1px solid #1f2937;
       border-top: 4px solid transparent; transition: box-shadow .15s;
     }
-    .kpi-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,.5); border-color: #30363d; }
+    .kpi-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,.5); border-color: #374151; }
     .kpi-card.green  { border-top-color: #22c55e; }
     .kpi-card.yellow { border-top-color: #eab308; }
     .kpi-card.red    { border-top-color: #ef4444; }
@@ -270,7 +270,7 @@
     .bc-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
     .bc-label { width: 48px; font-size: 0.66rem; color: #6e7681; font-weight: 600; flex-shrink: 0; }
     .bc-track {
-      flex: 1; height: 13px; background: #21262d;
+      flex: 1; height: 13px; background: #1f2937;
       border-radius: 4px; overflow: hidden;
     }
     .bc-fill { height: 100%; border-radius: 4px; transition: width .55s cubic-bezier(.4,0,.2,1); }
@@ -281,7 +281,7 @@
       display: inline-flex; align-items: center; gap: 4px;
       font-size: 0.7rem; font-weight: 600;
       padding: 3px 8px; border-radius: 6px;
-      background: #21262d; color: #8b949e;
+      background: #1f2937; color: #8b949e;
     }
     .trend-chip svg { width: 11px; height: 11px; }
 
@@ -304,10 +304,10 @@
 
     /* ── Warehouse Log ── */
     .wh-meta {
-      background: #161b22; border-radius: 12px;
+      background: #111827; border-radius: 12px;
       padding: 16px 24px; margin-bottom: 20px;
       box-shadow: 0 1px 4px rgba(0,0,0,.4);
-      border: 1px solid #21262d;
+      border: 1px solid #1f2937;
       display: flex; gap: 32px; flex-wrap: wrap;
     }
     .wh-meta-item { }
@@ -321,10 +321,10 @@
       margin-bottom: 24px;
     }
     .wh-card {
-      background: #161b22; border-radius: 12px;
+      background: #111827; border-radius: 12px;
       padding: 16px 18px; box-shadow: 0 1px 3px rgba(0,0,0,.4);
-      border: 1px solid #21262d;
-      border-left: 4px solid #30363d;
+      border: 1px solid #1f2937;
+      border-left: 4px solid #374151;
     }
     .wh-card.blue   { border-left-color: #3b82f6; }
     .wh-card.green  { border-left-color: #22c55e; }
@@ -336,26 +336,26 @@
 
     .wh-log-table {
       width: 100%; border-collapse: collapse;
-      background: #161b22; border-radius: 12px;
+      background: #111827; border-radius: 12px;
       box-shadow: 0 1px 4px rgba(0,0,0,.4);
-      border: 1px solid #21262d;
+      border: 1px solid #1f2937;
       font-size: 0.8rem; overflow: hidden;
     }
     .wh-log-table thead th {
-      background: #0d1117; color: #8b949e;
+      background: #0a0f1e; color: #8b949e;
       font-size: 0.67rem; font-weight: 700;
       text-transform: uppercase; letter-spacing: .06em;
       padding: 11px 14px; text-align: left;
-      border-bottom: 1px solid #21262d;
+      border-bottom: 1px solid #1f2937;
     }
     .wh-log-table thead th:first-child { border-radius: 12px 0 0 0; }
     .wh-log-table thead th:last-child  { border-radius: 0 12px 0 0; }
-    .wh-log-table tbody tr { border-bottom: 1px solid #21262d; }
+    .wh-log-table tbody tr { border-bottom: 1px solid #1f2937; }
     .wh-log-table tbody tr:last-child { border-bottom: none; }
     .wh-log-table tbody tr:hover { background: #1c2128; }
     .wh-log-table td { padding: 10px 14px; vertical-align: middle; }
-    .wh-log-table tr.total-row { background: #0d1117; font-weight: 700; }
-    .wh-log-table tr.total-row td { border-top: 2px solid #30363d; color: #c9d1d9; }
+    .wh-log-table tr.total-row { background: #0a0f1e; font-weight: 700; }
+    .wh-log-table tr.total-row td { border-top: 2px solid #374151; color: #c9d1d9; }
     .note-badge {
       display: inline-flex; align-items: center; gap: 4px;
       font-size: 0.67rem; color: #818cf8; background: #1e1b4b;
@@ -374,12 +374,12 @@
     footer {
       text-align: center; padding: 28px;
       font-size: 0.73rem; color: #6e7681;
-      border-top: 1px solid #21262d;
+      border-top: 1px solid #1f2937;
     }
 
     /* ── Print ── */
     @media print {
-      body { background: #0d1117; font-size: 11px; color: #c9d1d9; }
+      body { background: #0a0f1e; font-size: 11px; color: #c9d1d9; }
       header {
         background: #010409 !important;
         -webkit-print-color-adjust: exact; print-color-adjust: exact;
@@ -388,10 +388,10 @@
       .tab-nav, .month-bar, .btn-export, .btn-sm, .toast { display: none !important; }
       .tab-panel { display: block !important; }
       main { padding: 16px; max-width: 100%; }
-      .scorecard { box-shadow: none; border: 1px solid #21262d; padding: 18px; }
+      .scorecard { box-shadow: none; border: 1px solid #1f2937; padding: 18px; }
       .data-table, .wh-log-table { box-shadow: none; font-size: 9px; }
       .kpi-card {
-        box-shadow: none; border: 1px solid #21262d;
+        box-shadow: none; border: 1px solid #1f2937;
         break-inside: avoid; border-top-width: 3px;
         -webkit-print-color-adjust: exact; print-color-adjust: exact;
       }
@@ -417,9 +417,9 @@
 
     /* ── Chart Cards ── */
     .chart-card {
-      background: #161b22; border-radius: 16px;
+      background: #111827; border-radius: 16px;
       padding: 24px 28px; box-shadow: 0 1px 4px rgba(0,0,0,.4);
-      border: 1px solid #21262d;
+      border: 1px solid #1f2937;
     }
     .chart-card-title {
       font-size: 0.68rem; font-weight: 700;
@@ -461,7 +461,7 @@
     .dct-row {
       display: flex; align-items: center;
       justify-content: space-between;
-      padding: 5px 0; border-bottom: 1px solid #21262d;
+      padding: 5px 0; border-bottom: 1px solid #1f2937;
       font-size: 0.72rem;
     }
     .dct-row:last-child { border-bottom: none; }
@@ -487,17 +487,17 @@
     .formula-wrap { position: relative; display: inline-flex; align-items: center; }
     .formula-icon {
       width: 15px; height: 15px; border-radius: 50%;
-      background: #21262d; color: #8b949e;
+      background: #1f2937; color: #8b949e;
       font-size: 0.6rem; font-weight: 800; font-style: normal;
       display: inline-flex; align-items: center; justify-content: center;
       cursor: help; margin-left: 5px; flex-shrink: 0;
-      border: 1px solid #30363d;
+      border: 1px solid #374151;
     }
     .formula-tip {
       display: none; position: absolute;
       bottom: calc(100% + 8px); left: 0;
       transform: translateX(-20%);
-      background: #161b22; border: 1px solid #30363d;
+      background: #111827; border: 1px solid #374151;
       color: #c9d1d9; font-size: 0.7rem; line-height: 1.55;
       padding: 9px 13px; border-radius: 8px;
       min-width: 220px; max-width: 310px;
@@ -512,8 +512,8 @@
     .oee-sub { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
     .oee-sub-item {
       flex: 1; min-width: 68px; text-align: center;
-      background: #0d1117; border-radius: 7px;
-      padding: 7px 10px; border: 1px solid #21262d;
+      background: #0a0f1e; border-radius: 7px;
+      padding: 7px 10px; border: 1px solid #1f2937;
     }
     .oee-sub-val { font-size: 1rem; font-weight: 700; color: #a5b4fc; }
     .oee-sub-lbl { font-size: 0.58rem; color: #6e7681; margin-top: 2px; text-transform: uppercase; letter-spacing: .04em; }
@@ -535,8 +535,8 @@
     /* ── Operational Layout ── */
     .ops-grid { display: grid; gap: 18px; grid-template-columns: 1fr 1fr; }
     .ops-panel {
-      background: #161b22; border-radius: 14px;
-      border: 1px solid #21262d; padding: 20px 22px;
+      background: #111827; border-radius: 14px;
+      border: 1px solid #1f2937; padding: 20px 22px;
     }
     .ops-panel-title {
       font-size: 0.67rem; font-weight: 700;
@@ -546,7 +546,7 @@
 
     /* Line status */
     .line-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .line-card { border-radius: 10px; padding: 13px 14px; border: 1px solid #21262d; }
+    .line-card { border-radius: 10px; padding: 13px 14px; border: 1px solid #1f2937; }
     .line-card.running { background: #0d2e1a; border-color: #22c55e30; }
     .line-card.at-risk { background: #2d1f00; border-color: #f59e0b40; }
     .line-card.stopped { background: #2d0a0a; border-color: #ef444430; }
@@ -567,8 +567,8 @@
     /* Op counters */
     .ops-counters { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .ops-count-card {
-      background: #0d1117; border-radius: 10px;
-      border: 1px solid #21262d; padding: 14px 16px;
+      background: #0a0f1e; border-radius: 10px;
+      border: 1px solid #1f2937; padding: 14px 16px;
     }
     .ops-count-card.alert-card { border-color: #f8717140; background: #2d0a0a18; }
     .ops-count-lbl { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #8b949e; margin-bottom: 5px; }
@@ -582,7 +582,7 @@
     .ops-prog-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; margin-top: 12px; }
     .ops-prog-label { font-size: 0.72rem; font-weight: 600; color: #c9d1d9; }
     .ops-prog-pct { font-size: 1.5rem; font-weight: 800; line-height: 1; }
-    .ops-prog-track { height: 20px; background: #21262d; border-radius: 10px; overflow: hidden; margin-bottom: 6px; }
+    .ops-prog-track { height: 20px; background: #1f2937; border-radius: 10px; overflow: hidden; margin-bottom: 6px; }
     .ops-prog-fill {
       height: 100%; border-radius: 10px;
       background: linear-gradient(90deg, #f97316, #fbbf24);
@@ -593,8 +593,8 @@
 
     /* ── Downstream panel ── */
     .ds-panel {
-      background: #161b22; border-radius: 14px;
-      border: 1px solid #21262d; padding: 22px 26px;
+      background: #111827; border-radius: 14px;
+      border: 1px solid #1f2937; padding: 22px 26px;
     }
     .ds-title {
       font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
@@ -605,8 +605,8 @@
     .ds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
     .ds-flag {
       display: flex; gap: 10px;
-      background: #0d1117; border-radius: 9px; padding: 12px 14px;
-      border: 1px solid #21262d; border-left-width: 3px;
+      background: #0a0f1e; border-radius: 9px; padding: 12px 14px;
+      border: 1px solid #1f2937; border-left-width: 3px;
     }
     .ds-flag.ds-warn    { border-left-color: #f87171; }
     .ds-flag.ds-caution { border-left-color: #fbbf24; }
@@ -631,21 +631,37 @@
     /* Responsible badge */
     .resp-badge {
       display: inline-flex; align-items: center;
-      font-size: 0.58rem; color: #8b949e; background: #21262d;
+      font-size: 0.58rem; color: #8b949e; background: #1f2937;
       padding: 2px 7px; border-radius: 999px; font-weight: 600;
       white-space: nowrap; margin-top: 3px;
-      border: 1px solid #30363d; letter-spacing: .02em;
+      border: 1px solid #374151; letter-spacing: .02em;
     }
 
+    /* Week selector */
+    .week-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+    .week-bar-label { font-size: 0.7rem; font-weight: 700; color: #8b949e; text-transform: uppercase; letter-spacing: .05em; }
+    .week-chip {
+      padding: 4px 13px; border-radius: 999px; border: 1px solid #374151;
+      background: #111827; color: #8b949e; font-size: 0.72rem; font-weight: 600;
+      cursor: pointer; transition: all .15s;
+    }
+    .week-chip:hover { border-color: #06b6d4; color: #06b6d4; }
+    .week-chip.active { background: #0e3342; border-color: #06b6d4; color: #06b6d4; }
+
     /* Operational status board */
-    .ops-board { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+    .ops-board { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
     .ops-tile {
       border-radius: 12px; padding: 15px 16px;
-      border: 1px solid #21262d;
+      border: 1px solid #1f2937; background: #111827;
     }
-    .ops-tile.green  { background: #0d2e1a; border-color: #22c55e28; }
-    .ops-tile.yellow { background: #2d1f00; border-color: #f59e0b28; }
-    .ops-tile.red    { background: #2d0a0a; border-color: #ef444428; }
+    .ops-tile.green  { background: #0d2e1a; border-color: #22c55e30; }
+    .ops-tile.yellow { background: #261d00; border-color: #f59e0b30; }
+    .ops-tile.red    { background: #2d0a0a; border-color: #ef444430; }
+    .ops-tile.red.critical { animation: pulse-red 1.8s infinite; }
+    @keyframes pulse-red {
+      0%,100% { box-shadow: 0 0 0 0 #ef444408; }
+      50%      { box-shadow: 0 0 0 8px #ef444408; }
+    }
     .ops-tile-name   { font-size: 0.66rem; font-weight: 700; color: #8b949e; margin-bottom: 6px; }
     .ops-tile-val    { font-size: 1.75rem; font-weight: 800; line-height: 1; margin-bottom: 3px; }
     .ops-tile-target { font-size: 0.65rem; color: #6e7681; margin-bottom: 8px; }
@@ -656,12 +672,33 @@
     .ops-tile-status.green  { background: #22c55e18; color: #4ade80; }
     .ops-tile-status.yellow { background: #f59e0b18; color: #fbbf24; }
     .ops-tile-status.red    { background: #ef444418; color: #f87171; }
+    /* Transport linked badge */
+    .linked-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.6rem; font-weight: 700; color: #06b6d4;
+      background: #0e3342; border: 1px solid #06b6d430; border-radius: 999px;
+      padding: 2px 8px; margin-top: 6px;
+    }
+    /* Exception breakdown mini-list */
+    .exc-row { display: flex; justify-content: space-between; font-size: 0.64rem; margin-top: 3px; }
+    .exc-row-label { color: #6e7681; }
+    .exc-row-count { color: #f87171; font-weight: 700; }
+    /* Dock door mini-bars */
+    .dock-row { margin-top: 4px; }
+    .dock-row-label { font-size: 0.62rem; color: #6e7681; margin-bottom: 2px; }
+    .dock-bar-track { height: 5px; background: #1f2937; border-radius: 3px; overflow: hidden; }
+    .dock-bar-fill  { height: 100%; border-radius: 3px; transition: width .5s; }
+    /* Team labor bars */
+    .team-row { margin-top: 5px; }
+    .team-row-hdr { display: flex; justify-content: space-between; font-size: 0.62rem; color: #6e7681; margin-bottom: 2px; }
+    .team-bar-track { height: 5px; background: #1f2937; border-radius: 3px; overflow: hidden; }
+    .team-bar-fill  { height: 100%; border-radius: 3px; }
 
     /* Gauge row */
     .gauge-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
     .gauge-card {
-      background: #161b22; border-radius: 14px;
-      border: 1px solid #21262d; padding: 20px 16px 14px; text-align: center;
+      background: #111827; border-radius: 14px;
+      border: 1px solid #1f2937; padding: 20px 16px 14px; text-align: center;
     }
     .gauge-card-title { font-size: 0.67rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #8b949e; margin-bottom: 10px; }
     .gauge-canvas-wrap { position: relative; height: 120px; }
@@ -675,25 +712,32 @@
     /* Warehouse Log enhancements */
     .wh-sparkline-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     .wh-sparkline-card {
-      background: #161b22; border-radius: 12px;
-      border: 1px solid #21262d; padding: 16px 18px;
+      background: #111827; border-radius: 12px;
+      border: 1px solid #1f2937; padding: 16px 18px;
     }
     .wh-sparkline-title { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #8b949e; margin-bottom: 10px; }
     .wh-sparkline-wrap { height: 90px; }
     .wh-tactical-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    /* WH Summary stat bar */
+    .wh-summary-stat-bar { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 14px; }
+    .wh-stat-tile { background: #111827; border: 1px solid #1f2937; border-radius: 10px; padding: 12px 14px; }
+    .wh-stat-lbl { font-size: 0.63rem; color: #6e7681; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+    .wh-stat-val { font-size: 1.15rem; font-weight: 800; }
 
     /* Shift performance score */
     .shift-score { font-size: 0.71rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
     .shift-score.great { background: #0d2e1a; color: #4ade80; }
-    .shift-score.ok    { background: #2d1f00; color: #fbbf24; }
+    .shift-score.ok    { background: #261d00; color: #fbbf24; }
     .shift-score.poor  { background: #2d0a0a; color: #f87171; }
 
     @media (max-width: 960px) {
       .gauge-row { grid-template-columns: 1fr; }
       .wh-sparkline-row, .wh-tactical-charts { grid-template-columns: 1fr; }
+      .wh-summary-stat-bar { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 700px) {
       .ops-board { grid-template-columns: 1fr 1fr; }
+      .wh-summary-stat-bar { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -795,7 +839,12 @@
         <p class="section-label">
           <span class="section-tag" style="background:#2d1a08;color:#fb923c">Tactical KPIs — Weekly</span>
         </p>
-        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Current week vs prior week · W/W trend</span>
+        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Week selector below · W/W trend indicators</span>
+      </div>
+      <!-- Week selector -->
+      <div class="week-bar">
+        <span class="week-bar-label">Week:</span>
+        <div id="dw-week-chips"></div>
       </div>
       <div class="table-scroll" style="margin-bottom:18px">
         <table class="data-table">
@@ -803,7 +852,7 @@
             <tr>
               <th>KPI</th>
               <th>Responsible</th>
-              <th>Current Week</th>
+              <th>This Week</th>
               <th>Prior Week</th>
               <th>W/W Trend</th>
               <th>Target</th>
@@ -813,19 +862,8 @@
           <tbody id="dw-tactical-body"></tbody>
         </table>
       </div>
-      <!-- Tactical Gauge Panel -->
+      <!-- Tactical Gauge Panel: WU / OCT / DCT Throughput -->
       <div class="gauge-row">
-        <div class="gauge-card">
-          <div class="chart-card-title" style="margin-bottom:8px">Inventory Coverage Days</div>
-          <div class="gauge-canvas-wrap">
-            <canvas id="chart-dw-gauge-icd"></canvas>
-            <div class="gauge-val-overlay">
-              <div id="gauge-val-icd" style="font-size:1.3rem;font-weight:700;color:#c9d1d9"></div>
-              <div style="font-size:0.62rem;color:#8b949e">days</div>
-            </div>
-          </div>
-          <div style="font-size:0.65rem;color:#6e7681;margin-top:6px">Target: ≥ 30 days</div>
-        </div>
         <div class="gauge-card">
           <div class="chart-card-title" style="margin-bottom:8px">Warehouse Utilization</div>
           <div class="gauge-canvas-wrap">
@@ -835,18 +873,29 @@
               <div style="font-size:0.62rem;color:#8b949e">%</div>
             </div>
           </div>
-          <div style="font-size:0.65rem;color:#6e7681;margin-top:6px">Target: 75–90%</div>
+          <div style="font-size:0.65rem;color:#6e7681;margin-top:6px">Optimal: 75–85%</div>
         </div>
         <div class="gauge-card">
-          <div class="chart-card-title" style="margin-bottom:8px">Case Fill Rate</div>
+          <div class="chart-card-title" style="margin-bottom:8px">Order Cycle Time</div>
           <div class="gauge-canvas-wrap">
-            <canvas id="chart-dw-gauge-cfr"></canvas>
+            <canvas id="chart-dw-gauge-oct"></canvas>
             <div class="gauge-val-overlay">
-              <div id="gauge-val-cfr" style="font-size:1.3rem;font-weight:700;color:#c9d1d9"></div>
-              <div style="font-size:0.62rem;color:#8b949e">%</div>
+              <div id="gauge-val-oct" style="font-size:1.3rem;font-weight:700;color:#c9d1d9"></div>
+              <div style="font-size:0.62rem;color:#8b949e">hrs</div>
             </div>
           </div>
-          <div style="font-size:0.65rem;color:#6e7681;margin-top:6px">Target: ≥ 97%</div>
+          <div style="font-size:0.65rem;color:#6e7681;margin-top:6px">Target: ≤ 24 hrs</div>
+        </div>
+        <div class="gauge-card">
+          <div class="chart-card-title" style="margin-bottom:8px">DC Throughput</div>
+          <div class="gauge-canvas-wrap">
+            <canvas id="chart-dw-gauge-dct"></canvas>
+            <div class="gauge-val-overlay">
+              <div id="gauge-val-dct" style="font-size:1.3rem;font-weight:700;color:#c9d1d9"></div>
+              <div style="font-size:0.62rem;color:#8b949e">cases/hr</div>
+            </div>
+          </div>
+          <div style="font-size:0.65rem;color:#6e7681;margin-top:6px">Target: ≥ 1,200 cases/hr</div>
         </div>
       </div>
     </div>
@@ -893,18 +942,20 @@
     <div class="section-block">
       <div class="section-hdr">
         <p class="section-label"><span class="section-tag">Strategic Summary — Monthly Trends</span></p>
-        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Jan–Sep 2025 · Last 9 months</span>
+        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Jan–Sep 2025 · POR &amp; Inventory Turnover</span>
       </div>
+      <!-- Stat tiles: POR and IT latest values -->
+      <div class="wh-summary-stat-bar" id="wh-strategic-stats"></div>
       <div class="wh-sparkline-row">
         <div class="wh-sparkline-card">
-          <div class="wh-sparkline-title">Perfect Order Rate</div>
+          <div class="wh-sparkline-title">Perfect Order Rate — 9-Month Trend</div>
           <div class="wh-sparkline-wrap"><canvas id="chart-wh-por"></canvas></div>
           <div id="wh-spark-por-val" style="font-size:0.78rem;font-weight:700;margin-top:6px;color:#c9d1d9"></div>
         </div>
         <div class="wh-sparkline-card">
-          <div class="wh-sparkline-title">Pick Accuracy Trend</div>
-          <div class="wh-sparkline-wrap"><canvas id="chart-wh-pick"></canvas></div>
-          <div id="wh-spark-pick-val" style="font-size:0.78rem;font-weight:700;margin-top:6px;color:#c9d1d9"></div>
+          <div class="wh-sparkline-title">Inventory Turnover — 9-Month Trend</div>
+          <div class="wh-sparkline-wrap"><canvas id="chart-wh-it"></canvas></div>
+          <div id="wh-spark-it-val" style="font-size:0.78rem;font-weight:700;margin-top:6px;color:#c9d1d9"></div>
         </div>
       </div>
     </div>
@@ -913,8 +964,10 @@
     <div class="section-block">
       <div class="section-hdr">
         <p class="section-label"><span class="section-tag" style="background:#2d1a08;color:#fb923c">Tactical Summary — Weekly</span></p>
-        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Plan vs Actual gap + daily throughput</span>
+        <span style="font-size:0.69rem;color:#8b949e;font-weight:600">Coverage Days · Utilization · Cycle Time · Throughput</span>
       </div>
+      <!-- Stat tiles: ICD, WU, OCT -->
+      <div class="wh-summary-stat-bar" id="wh-tactical-stats"></div>
       <div class="wh-tactical-charts">
         <div class="chart-card">
           <div class="chart-card-title">Orders: Plan vs Actual Gap</div>
@@ -1142,145 +1195,241 @@ const MONTHS_FULL = ['January 2025','February 2025','March 2025','April 2025','M
 const DW_STRATEGIC = [
   {
     id: 'por', name: 'Perfect Order Rate',
-    formula: '(Orders Delivered On Time, In Full, Without Damage, Correctly Invoiced) ÷ Total Orders × 100',
+    formula: '(Orders with no errors / Total Orders) × 100 — error-free: on time, complete, undamaged, correctly invoiced',
     unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
     target: 95, responsible: 'Distribution',
     monthly: [88.2, 89.1, 89.8, 90.5, 90.8, 91.2, 90.8, 90.1, 90.3],
     greenFn: v => v >= 95, yellowFn: v => v >= 90 && v < 95,
-    benchmark: 'Best-in-class: 98%',
+    benchmark: 'FMCG industry 92–96% | Best-in-class: 98%',
   },
   {
-    id: 'ofr', name: 'Order Fill Rate',
-    formula: 'Units Shipped ÷ Units Ordered × 100',
+    id: 'ofr', name: 'Order Fulfillment Rate',
+    formula: '(Orders Fulfilled Complete / Total Orders Received) × 100',
     unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
     target: 98, responsible: 'Distribution',
-    monthly: [96.1, 96.8, 97.2, 97.5, 97.1, 97.8, 97.4, 96.9, 97.0],
-    greenFn: v => v >= 98, yellowFn: v => v >= 95 && v < 98,
-    benchmark: 'FMCG avg: 97% | Best: 99%',
+    monthly: [94.8, 95.2, 95.8, 96.3, 96.6, 97.1, 97.4, 96.9, 97.0],
+    greenFn: v => v >= 98, yellowFn: v => v >= 94 && v < 98,
+    benchmark: 'Leading FMCG 97–99%',
   },
   {
-    id: 'otd', name: 'On-Time Delivery Rate',
-    formula: 'On-Time Deliveries ÷ Total Deliveries × 100',
-    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
-    target: 95, responsible: 'Distribution',
-    monthly: [91.2, 92.5, 93.1, 94.0, 93.8, 94.5, 93.2, 92.8, 93.5],
-    greenFn: v => v >= 95, yellowFn: v => v >= 92 && v < 95,
-    benchmark: 'Walmart: 97% | DHL: 95%',
+    id: 'it', name: 'Inventory Turnover',
+    formula: 'COGS ÷ Average Inventory Value — higher = faster stock replenishment cycle',
+    unit: 'x', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 8, responsible: 'Warehouse / Planning',
+    monthly: [6.1, 6.3, 6.5, 6.8, 7.0, 7.3, 7.6, 7.9, 8.1],
+    greenFn: v => v >= 8, yellowFn: v => v >= 6 && v < 8,
+    benchmark: 'FMCG cosmetics 6–10x | Target: ≥ 8x',
   },
   {
-    id: 'ia', name: 'Inventory Accuracy',
-    formula: 'System Count Matches ÷ Total SKUs Counted × 100',
+    id: 'nia', name: 'Network Inventory Accuracy',
+    formula: '(Accurate SKU counts / Total SKU counts) × 100 across all DC & warehouse nodes',
     unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
     target: 99, responsible: 'Warehouse',
-    monthly: [98.2, 98.5, 98.8, 99.1, 99.3, 99.4, 99.4, 99.2, 99.1],
-    greenFn: v => v >= 99, yellowFn: v => v >= 97 && v < 99,
-    benchmark: 'Best-in-class: 99.5%',
+    monthly: [96.2, 96.8, 97.2, 97.5, 97.9, 98.2, 98.6, 98.4, 98.1],
+    greenFn: v => v >= 99, yellowFn: v => v >= 96 && v < 99,
+    benchmark: 'Best-in-class: 99%+',
   },
   {
     id: 'lcpo', name: 'Logistics Cost per Order',
-    formula: 'Total Logistics Cost (IDR) ÷ Total Orders Fulfilled',
+    formula: 'Total Logistics Cost (IDR) ÷ Total Orders Shipped — includes pick, pack, transport',
     unit: '', prefix: 'Rp ', lowerIsBetter: true, decimals: 0,
     target: 45000, responsible: 'Finance / Distribution',
     monthly: [58200, 55800, 53100, 51400, 49800, 47500, 46100, 47200, 48300],
-    greenFn: v => v < 45000, yellowFn: v => v >= 45000 && v <= 60000,
-    benchmark: 'FMCG SEA avg: Rp 52,000',
+    greenFn: v => v <= 45000, yellowFn: v => v > 45000 && v <= 55000,
+    benchmark: 'FMCG Indonesia 40,000–60,000 IDR',
   },
   {
-    id: 'mape', name: 'Forecast Accuracy (MAPE)',
-    formula: 'Mean Absolute Percentage Error — lower is better',
-    unit: '%', prefix: '', lowerIsBetter: true, decimals: 1,
-    target: 10, responsible: 'Planning',
-    monthly: [12.1, 11.5, 10.8, 10.2, 9.8, 9.1, 8.5, 8.8, 9.5],
-    greenFn: v => v < 10, yellowFn: v => v >= 10 && v <= 15,
-    benchmark: 'FMCG avg: 12% | Best: 8%',
+    id: 'dnsl', name: 'Distribution Network Service Level',
+    formula: '(On-time deliveries to all nodes / Total planned deliveries) × 100',
+    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
+    target: 97, responsible: 'Distribution',
+    monthly: [91.5, 92.1, 92.8, 93.4, 93.9, 94.5, 95.1, 94.8, 94.2],
+    greenFn: v => v >= 97, yellowFn: v => v >= 93 && v < 97,
+    benchmark: 'DHL/JNE FMCG benchmark 95–98%',
   },
 ];
 DW_STRATEGIC.forEach(k => {
   k.ytd = +(k.monthly.reduce((a,b) => a+b, 0) / k.monthly.length).toFixed(k.decimals);
 });
 
-/* ─── TACTICAL KPIs — Weekly (current vs prior week) ─── */
+/* ─── TACTICAL KPIs — Weekly (4 weeks per selected month, indexed 0-3) ─── */
+// weeks[weekIdx] = { current, prevWeek }
 const DW_TACTICAL = [
   {
     id: 'icd', name: 'Inventory Coverage Days',
-    formula: 'On-Hand Inventory ÷ Avg Daily Demand',
+    formula: 'Current Inventory ÷ Average Daily Sales',
     unit: ' days', prefix: '', lowerIsBetter: false, decimals: 1,
-    target: 30, responsible: 'Warehouse / Planning',
-    current: 27.4, prevWeek: 29.1,
-    greenFn: v => v >= 30, yellowFn: v => v >= 22 && v < 30,
+    target: 17.5, targetLabel: '14–21 days', responsible: 'Warehouse / Planning',
+    weeks: [
+      { current: 18.5, prevWeek: 19.2 },
+      { current: 16.8, prevWeek: 18.5 },
+      { current: 15.2, prevWeek: 16.8 },
+      { current: 22.4, prevWeek: 15.2 },
+    ],
+    greenFn: v => v >= 14 && v <= 21, yellowFn: v => (v >= 22 && v <= 28) || (v >= 10 && v < 14),
+    statusLabel: v => v < 14 ? 'STOCKOUT RISK' : v > 28 ? 'OVERSTOCK' : 'IN RANGE',
   },
   {
     id: 'ra', name: 'Replenishment Accuracy',
-    formula: 'Orders Replenished Correctly ÷ Total Replenishment Orders × 100',
+    formula: 'Replenishment orders fulfilled on time and complete ÷ Total replenishment orders × 100',
     unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
-    target: 97, responsible: 'Warehouse',
-    current: 95.8, prevWeek: 94.5,
-    greenFn: v => v >= 97, yellowFn: v => v >= 93 && v < 97,
+    target: 95, targetLabel: '≥ 95%', responsible: 'Warehouse',
+    weeks: [
+      { current: 96.2, prevWeek: 94.8 },
+      { current: 95.1, prevWeek: 96.2 },
+      { current: 93.8, prevWeek: 95.1 },
+      { current: 94.5, prevWeek: 93.8 },
+    ],
+    greenFn: v => v >= 95, yellowFn: v => v >= 90 && v < 95,
   },
   {
     id: 'wu', name: 'Warehouse Utilization',
-    formula: 'Used Capacity ÷ Total Capacity × 100',
+    formula: '(Space Used / Total Available Space) × 100',
     unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
-    target: 82, responsible: 'Warehouse',
-    current: 78.5, prevWeek: 76.2,
-    greenFn: v => v >= 75 && v <= 90, yellowFn: v => (v >= 65 && v < 75) || (v > 90 && v <= 95),
+    target: 80, targetLabel: '75–85% optimal', responsible: 'Warehouse',
+    weeks: [
+      { current: 78.5, prevWeek: 76.2 },
+      { current: 82.1, prevWeek: 78.5 },
+      { current: 86.4, prevWeek: 82.1 },
+      { current: 88.9, prevWeek: 86.4 },
+    ],
+    greenFn: v => v >= 75 && v <= 85, yellowFn: v => (v >= 86 && v <= 92) || (v >= 70 && v < 75),
+    statusLabel: v => v > 92 ? 'CRITICAL' : v > 85 ? 'HIGH' : v >= 75 ? 'OPTIMAL' : 'UNDERUSED',
   },
   {
     id: 'cfr', name: 'Case Fill Rate',
-    formula: 'Cases Shipped ÷ Cases Ordered × 100',
+    formula: 'Cases shipped ÷ Cases ordered × 100',
     unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
-    target: 97, responsible: 'Distribution',
-    current: 96.2, prevWeek: 95.8,
-    greenFn: v => v >= 97, yellowFn: v => v >= 94 && v < 97,
+    target: 98, targetLabel: '≥ 98%', responsible: 'Distribution',
+    weeks: [
+      { current: 97.8, prevWeek: 96.5 },
+      { current: 96.2, prevWeek: 97.8 },
+      { current: 95.1, prevWeek: 96.2 },
+      { current: 97.4, prevWeek: 95.1 },
+    ],
+    greenFn: v => v >= 98, yellowFn: v => v >= 95 && v < 98,
   },
   {
-    id: 'oct', name: 'Outbound Cycle Time',
-    formula: 'Order Receipt Timestamp to Goods-Out Scan',
+    id: 'oct', name: 'Order Cycle Time',
+    formula: 'Time from order receipt to dispatch (hours)',
     unit: ' hrs', prefix: '', lowerIsBetter: true, decimals: 1,
-    target: 4, responsible: 'Warehouse / Distribution',
-    current: 4.8, prevWeek: 5.2,
-    greenFn: v => v <= 4, yellowFn: v => v > 4 && v <= 6,
+    target: 24, targetLabel: '≤ 24 hrs', responsible: 'Warehouse / Distribution',
+    weeks: [
+      { current: 22.5, prevWeek: 24.8 },
+      { current: 25.2, prevWeek: 22.5 },
+      { current: 28.6, prevWeek: 25.2 },
+      { current: 23.1, prevWeek: 28.6 },
+    ],
+    greenFn: v => v <= 24, yellowFn: v => v > 24 && v <= 36,
+    statusLabel: v => v <= 24 ? 'ON TARGET' : v <= 36 ? 'DELAYED' : 'CRITICAL',
   },
   {
-    id: 'dct', name: 'Dispatch Completion Timeliness',
-    formula: 'On-Schedule Dispatches ÷ Total Planned Dispatches × 100',
-    unit: '%', prefix: '', lowerIsBetter: false, decimals: 1,
-    target: 95, responsible: 'Distribution',
-    current: 92.1, prevWeek: 90.8,
-    greenFn: v => v >= 95, yellowFn: v => v >= 88 && v < 95,
+    id: 'dct', name: 'DC Throughput',
+    formula: 'Total cases processed ÷ Operating hours',
+    unit: ' cases/hr', prefix: '', lowerIsBetter: false, decimals: 0,
+    target: 1200, targetLabel: '≥ 1,200 cases/hr', responsible: 'Warehouse',
+    weeks: [
+      { current: 1245, prevWeek: 1188 },
+      { current: 1198, prevWeek: 1245 },
+      { current: 1152, prevWeek: 1198 },
+      { current: 1287, prevWeek: 1152 },
+    ],
+    greenFn: v => v >= 1200, yellowFn: v => v >= 900 && v < 1200,
   },
 ];
 
 /* ─── OPERATIONAL KPIs — Daily / Shift ─── */
 const DW_OPERATIONAL = [
-  { id:'ipt',  name:'Inbound Processing Time',  value:1.8, target:2.0,  unit:' hrs', lowerIsBetter:true,  greenFn:v=>v<=2,    yellowFn:v=>v>2&&v<=3 },
-  { id:'oopt', name:'Outbound Order Processing', value:3.2, target:4.0,  unit:' hrs', lowerIsBetter:true,  greenFn:v=>v<=4,    yellowFn:v=>v>4&&v<=5.5 },
-  { id:'pa',   name:'Picking Accuracy (Today)',  value:98.7, target:99.5, unit:'%',   lowerIsBetter:false, greenFn:v=>v>=99.5, yellowFn:v=>v>=97&&v<99.5 },
-  { id:'dts',  name:'Dock to Stock Time',        value:2.1, target:2.0,  unit:' hrs', lowerIsBetter:true,  greenFn:v=>v<=2,    yellowFn:v=>v>2&&v<=3 },
-  { id:'sda',  name:'Same-Day Allocation Rate',  value:91.4, target:95,  unit:'%',    lowerIsBetter:false, greenFn:v=>v>=95,   yellowFn:v=>v>=88&&v<95 },
-  { id:'wlp',  name:'Labor Productivity',        value:82.1, target:85,  unit:'%',    lowerIsBetter:false, greenFn:v=>v>=85,   yellowFn:v=>v>=75&&v<85 },
-  { id:'dlt',  name:'Driver Loading Time',       value:38,   target:45,  unit:' min', lowerIsBetter:true,  greenFn:v=>v<=45,   yellowFn:v=>v>45&&v<=60 },
-  { id:'der',  name:'Damage / Error Rate',       value:0.8,  target:1.0, unit:'%',    lowerIsBetter:true,  greenFn:v=>v<=1,    yellowFn:v=>v>1&&v<=2 },
+  {
+    id: 'ipt', name: 'Inbound Processing Time',
+    value: 1.8, target: 2, unit: ' hrs', lowerIsBetter: true,
+    greenFn: v => v <= 2, yellowFn: v => v > 2 && v <= 3,
+    display: 'dockbars',
+    dockDoors: [
+      { label: 'Door 1', value: 1.6, max: 4 },
+      { label: 'Door 2', value: 2.1, max: 4 },
+      { label: 'Door 3', value: 1.8, max: 4 },
+      { label: 'Door 4', value: 2.4, max: 4 },
+    ],
+  },
+  {
+    id: 'oopt', name: 'Outbound Order Processing',
+    value: 3.8, target: 4, unit: ' hrs', lowerIsBetter: true,
+    greenFn: v => v <= 4, yellowFn: v => v > 4 && v <= 6,
+    display: 'tile',
+  },
+  {
+    id: 'pa', name: 'Picking Accuracy',
+    value: 98.7, target: 99.5, unit: '%', lowerIsBetter: false,
+    greenFn: v => v >= 99.5, yellowFn: v => v >= 98 && v < 99.5,
+    display: 'gauge',
+    shiftLabel: 'Current Shift',
+  },
+  {
+    id: 'dts', name: 'Dock-to-Stock Time',
+    value: 2.8, target: 3, unit: ' hrs', lowerIsBetter: true,
+    greenFn: v => v <= 3, yellowFn: v => v > 3 && v <= 4,
+    display: 'tile',
+  },
+  {
+    id: 'sda', name: 'Shipment Dispatch Accuracy',
+    value: 98.2, target: 99, unit: '%', lowerIsBetter: false,
+    greenFn: v => v >= 99, yellowFn: v => v >= 97 && v < 99,
+    display: 'tile',
+    orderCount: 184,
+  },
+  {
+    id: 'wlp', name: 'Warehouse Labor Productivity',
+    value: 81, target: 85, unit: ' cases/person/hr', lowerIsBetter: false,
+    greenFn: v => v >= 85, yellowFn: v => v >= 70 && v < 85,
+    display: 'teambars',
+    teams: [
+      { label: 'Inbound',  value: 88, target: 85 },
+      { label: 'Picking',  value: 79, target: 85 },
+      { label: 'Outbound', value: 76, target: 85 },
+    ],
+  },
+  {
+    id: 'dlt', name: 'Delivery Lead Time',
+    value: 52, target: 48, unit: ' hrs', lowerIsBetter: true,
+    greenFn: v => v <= 48, yellowFn: v => v > 48 && v <= 72,
+    display: 'tile',
+    linkedTo: 'Transport',
+  },
+  {
+    id: 'der', name: 'Delivery Exception Rate',
+    value: 1.4, target: 1, unit: '%', lowerIsBetter: true,
+    greenFn: v => v <= 1, yellowFn: v => v > 1 && v <= 2,
+    display: 'exceptions',
+    exceptions: [
+      { type: 'Damaged',      count: 12 },
+      { type: 'Late',         count: 8 },
+      { type: 'Wrong address', count: 3 },
+      { type: 'Refused',      count: 2 },
+    ],
+    totalDeliveries: 1782,
+  },
 ];
 
-/* ─── Keep backwards alias for WH sparkline (POR monthly) ─── */
+/* ─── Keep backwards alias ─── */
 const KPI_DEFS = DW_STRATEGIC;
 
 // Warehouse Daily Log data
 const WH_DATA = [
-  { date:'Mon, Mar 3',  received:450, picked:438, shipped:435, pickAcc:98.5, onTimeShip:96.7, returns:8,  laborHrs:42, inboundTime:1.8, outboundTime:3.9, dispatchAcc:97.1, shiftScore:84, notes:'Normal operations' },
-  { date:'Tue, Mar 4',  received:512, picked:498, shipped:495, pickAcc:98.2, onTimeShip:96.3, returns:11, laborHrs:45, inboundTime:2.1, outboundTime:4.2, dispatchAcc:95.8, shiftScore:79, notes:'High volume — promo day' },
-  { date:'Wed, Mar 5',  received:389, picked:381, shipped:378, pickAcc:99.1, onTimeShip:97.2, returns:6,  laborHrs:40, inboundTime:1.6, outboundTime:3.5, dispatchAcc:98.4, shiftScore:92, notes:'' },
-  { date:'Thu, Mar 6',  received:601, picked:575, shipped:568, pickAcc:97.8, onTimeShip:94.5, returns:15, laborHrs:52, inboundTime:2.8, outboundTime:5.1, dispatchAcc:91.2, shiftScore:63, notes:'Partial system downtime 2 hrs' },
-  { date:'Fri, Mar 7',  received:478, picked:468, shipped:465, pickAcc:98.7, onTimeShip:97.3, returns:9,  laborHrs:43, inboundTime:1.9, outboundTime:3.8, dispatchAcc:97.5, shiftScore:87, notes:'' },
-  { date:'Mon, Mar 10', received:425, picked:416, shipped:413, pickAcc:98.9, onTimeShip:97.5, returns:7,  laborHrs:41, inboundTime:1.7, outboundTime:3.6, dispatchAcc:98.1, shiftScore:90, notes:'' },
-  { date:'Tue, Mar 11', received:534, picked:521, shipped:518, pickAcc:98.3, onTimeShip:96.9, returns:12, laborHrs:46, inboundTime:2.2, outboundTime:4.4, dispatchAcc:94.9, shiftScore:77, notes:'New staff onboarding' },
+  { date:'Mon, Mar 3',  received:450, picked:438, shipped:435, pickAcc:98.5, onTimeShip:96.7, returns:8,  laborHrs:42, inboundTime:1.8, outboundTime:3.9, dispatchAcc:97.1, laborProd:84, exCount:3, shiftScore:84, notes:'Normal operations' },
+  { date:'Tue, Mar 4',  received:512, picked:498, shipped:495, pickAcc:98.2, onTimeShip:96.3, returns:11, laborHrs:45, inboundTime:2.1, outboundTime:4.2, dispatchAcc:95.8, laborProd:79, exCount:7, shiftScore:79, notes:'High volume — promo day' },
+  { date:'Wed, Mar 5',  received:389, picked:381, shipped:378, pickAcc:99.1, onTimeShip:97.2, returns:6,  laborHrs:40, inboundTime:1.6, outboundTime:3.5, dispatchAcc:98.4, laborProd:91, exCount:1, shiftScore:92, notes:'' },
+  { date:'Thu, Mar 6',  received:601, picked:575, shipped:568, pickAcc:97.8, onTimeShip:94.5, returns:15, laborHrs:52, inboundTime:2.8, outboundTime:5.1, dispatchAcc:91.2, laborProd:68, exCount:18, shiftScore:63, notes:'Partial system downtime 2 hrs' },
+  { date:'Fri, Mar 7',  received:478, picked:468, shipped:465, pickAcc:98.7, onTimeShip:97.3, returns:9,  laborHrs:43, inboundTime:1.9, outboundTime:3.8, dispatchAcc:97.5, laborProd:86, exCount:4, shiftScore:87, notes:'' },
+  { date:'Mon, Mar 10', received:425, picked:416, shipped:413, pickAcc:98.9, onTimeShip:97.5, returns:7,  laborHrs:41, inboundTime:1.7, outboundTime:3.6, dispatchAcc:98.1, laborProd:89, exCount:2, shiftScore:90, notes:'' },
+  { date:'Tue, Mar 11', received:534, picked:521, shipped:518, pickAcc:98.3, onTimeShip:96.9, returns:12, laborHrs:46, inboundTime:2.2, outboundTime:4.4, dispatchAcc:94.9, laborProd:77, exCount:9, shiftScore:77, notes:'New staff onboarding' },
 ];
 
 /* ═══════════════════════════════════════════════════════════
    STATE
 ═══════════════════════════════════════════════════════════ */
 let selectedMonthIdx = 8; // default: Sep-25 (most recent)
+let selectedWeekIdx  = 0; // default: Week 1
 const IS_YTD = -1;
 
 /* ═══════════════════════════════════════════════════════════
@@ -1346,6 +1495,7 @@ function selectMonth(idx) {
   renderMonthChipsMfg();
   renderAll();
   renderMfgStrategic();
+  renderWarehouseLog();
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1367,7 +1517,7 @@ function renderBarChart(kpi, val) {
       </div>
       <div class="bc-row">
         <span class="bc-label">Target</span>
-        <div class="bc-track"><div class="bc-fill" style="width:${tPct}%;background:#30363d"></div></div>
+        <div class="bc-track"><div class="bc-fill" style="width:${tPct}%;background:#374151"></div></div>
         <span class="bc-val" style="color:#8b949e">${tLabel}</span>
       </div>
     </div>`;
@@ -1437,7 +1587,7 @@ function renderDWStrategic() {
         </div>
         <div class="trend-arrow">${trendArrowSVG(kpi, val, prev)}</div>
       </div>
-      <div class="kpi-target">Target: <strong>${(kpi.lowerIsBetter ? 'below ' : '') + fmt(kpi, kpi.target)}</strong></div>
+      <div class="kpi-target">Target: <strong>${(kpi.lowerIsBetter ? '≤ ' : '≥ ') + fmt(kpi, kpi.target)}</strong></div>
       ${renderBarChart(kpi, val)}
       ${trendChipHTML(kpi, val, prev)}
       <div class="kpi-bench">Benchmark: ${kpi.benchmark}</div>`;
@@ -1448,25 +1598,47 @@ function renderDWStrategic() {
 /* ═══════════════════════════════════════════════════════════
    RENDER: TACTICAL TABLE (D&W Tab)
 ═══════════════════════════════════════════════════════════ */
+function renderWeekChips() {
+  const el = document.getElementById('dw-week-chips');
+  if (!el) return;
+  el.innerHTML = ['Week 1','Week 2','Week 3','Week 4'].map((w, i) =>
+    `<button class="week-chip${i === selectedWeekIdx ? ' active' : ''}" onclick="selectWeek(${i})">${w}</button>`
+  ).join('');
+}
+
+function selectWeek(idx) {
+  selectedWeekIdx = idx;
+  renderWeekChips();
+  renderDWTactical();
+  buildDWGauges();
+}
+
 function renderDWTactical() {
   const tbody = document.getElementById('dw-tactical-body');
   if (!tbody) return;
   tbody.innerHTML = '';
 
   DW_TACTICAL.forEach(kpi => {
-    const cur  = kpi.current;
-    const prev = kpi.prevWeek;
+    const wk   = kpi.weeks[selectedWeekIdx];
+    const cur  = wk.current;
+    const prev = wk.prevWeek;
     const status = getStatus(kpi, cur);
     const color  = statusColor(status);
     const dotCls = {green:'dot-g', yellow:'dot-y', red:'dot-r'}[status];
 
-    const delta   = cur - prev;
+    const delta    = cur - prev;
     const absDelta = Math.abs(delta).toFixed(kpi.decimals);
     const up   = delta > 0;
     const good = kpi.lowerIsBetter ? !up : up;
     const trendCls = good ? (up ? 'up-good' : 'down-good') : (up ? 'up-bad' : 'down-bad');
     const arrow = up ? '▲' : '▼';
-    const trendHtml = `<span class="td-trend ${trendCls}">${arrow} ${kpi.prefix || ''}${absDelta}${kpi.unit}</span>`;
+    const trendHtml = `<span class="td-trend ${trendCls}">${arrow} ${absDelta}${kpi.unit}</span>`;
+
+    // Special status labels (badge-style) for KPIs with custom statusLabel
+    const slFn = kpi.statusLabel;
+    const statusExtra = slFn
+      ? `<span style="font-size:0.62rem;font-weight:700;color:${color};margin-left:5px">${slFn(cur)}</span>`
+      : '';
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
@@ -1477,10 +1649,10 @@ function renderDWTactical() {
         </span>
       </td>
       <td><span class="resp-badge">${kpi.responsible}</span></td>
-      <td class="td-val ${status}">${(kpi.prefix||'')}${cur.toFixed(kpi.decimals)}${kpi.unit}</td>
-      <td style="color:#8b949e">${(kpi.prefix||'')}${prev.toFixed(kpi.decimals)}${kpi.unit}</td>
+      <td class="td-val ${status}">${cur.toFixed(kpi.decimals)}${kpi.unit}${statusExtra}</td>
+      <td style="color:#8b949e">${prev.toFixed(kpi.decimals)}${kpi.unit}</td>
       <td>${trendHtml}</td>
-      <td style="color:#8b949e;font-weight:600">${kpi.lowerIsBetter?'< ':'≥ '}${(kpi.prefix||'')}${kpi.target}${kpi.unit}</td>
+      <td style="color:#8b949e;font-weight:600">${kpi.targetLabel || ((kpi.lowerIsBetter?'≤ ':'≥ ')+kpi.target+kpi.unit)}</td>
       <td><span class="td-status-dot ${dotCls}"></span> <span style="font-size:0.72rem;color:${color}">${badgeLabel(status)}</span></td>`;
     tbody.appendChild(tr);
   });
@@ -1495,85 +1667,145 @@ function renderDWOperational() {
   board.innerHTML = '';
 
   DW_OPERATIONAL.forEach(kpi => {
-    const status = kpi.greenFn(kpi.value) ? 'green' : kpi.yellowFn(kpi.value) ? 'yellow' : 'red';
-    const color  = statusColor(status);
-    const delta  = kpi.value - kpi.target;
-    const sign   = delta >= 0 ? '+' : '';
+    const status   = kpi.greenFn(kpi.value) ? 'green' : kpi.yellowFn(kpi.value) ? 'yellow' : 'red';
+    const isCrit   = status === 'red';
+    const color    = statusColor(status);
+    const bgMap    = { green:'#0d2e1a', yellow:'#261d00', red:'#2d0a0a' };
+    const bdrMap   = { green:'#22c55e30', yellow:'#f59e0b30', red:'#ef444430' };
+
     const tileEl = document.createElement('div');
-    tileEl.className = `ops-tile ${status}`;
-    tileEl.style.cssText = 'background:#161b22;border:1px solid #21262d;border-radius:12px;padding:16px 18px';
-    if (status === 'green')  { tileEl.style.background = '#0d2e1a'; tileEl.style.borderColor = '#22c55e28'; }
-    if (status === 'yellow') { tileEl.style.background = '#2d1f00'; tileEl.style.borderColor = '#f59e0b28'; }
-    if (status === 'red')    { tileEl.style.background = '#2d0a0a'; tileEl.style.borderColor = '#ef444428'; }
+    tileEl.className = `ops-tile ${status}${isCrit ? ' critical' : ''}`;
+    tileEl.style.cssText = `background:${bgMap[status]};border:1px solid ${bdrMap[status]};border-radius:12px;padding:15px 16px`;
+
+    let extraHTML = '';
+
+    if (kpi.display === 'dockbars') {
+      extraHTML = kpi.dockDoors.map(d => {
+        const pct = Math.min((d.value / d.max) * 100, 100).toFixed(0);
+        const dc  = d.value <= 2 ? '#22c55e' : d.value <= 3 ? '#fbbf24' : '#f87171';
+        return `<div class="dock-row">
+          <div class="dock-row-label">${d.label}: ${d.value}h</div>
+          <div class="dock-bar-track"><div class="dock-bar-fill" style="width:${pct}%;background:${dc}"></div></div>
+        </div>`;
+      }).join('');
+    } else if (kpi.display === 'teambars') {
+      extraHTML = kpi.teams.map(t => {
+        const pct  = Math.min((t.value / 120) * 100, 100).toFixed(0);
+        const tPct = Math.min((t.target / 120) * 100, 100).toFixed(0);
+        const tc   = t.value >= t.target ? '#22c55e' : t.value >= 70 ? '#fbbf24' : '#f87171';
+        return `<div class="team-row">
+          <div class="team-row-hdr"><span>${t.label}</span><span style="color:${tc}">${t.value}</span></div>
+          <div class="team-bar-track"><div class="team-bar-fill" style="width:${pct}%;background:${tc}"></div></div>
+        </div>`;
+      }).join('');
+    } else if (kpi.display === 'exceptions') {
+      extraHTML = kpi.exceptions.map(e =>
+        `<div class="exc-row"><span class="exc-row-label">${e.type}</span><span class="exc-row-count">${e.count}</span></div>`
+      ).join('');
+    }
+
+    const linkedBadge = kpi.linkedTo
+      ? `<div class="linked-badge">⚡ LINKED TO ${kpi.linkedTo.toUpperCase()}</div>`
+      : '';
+
+    const orderInfo = kpi.orderCount
+      ? `<div style="font-size:0.64rem;color:#6e7681;margin-top:4px">${kpi.orderCount} orders dispatched</div>`
+      : '';
+
     tileEl.innerHTML = `
-      <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8b949e;margin-bottom:8px">${kpi.name}</div>
-      <div style="font-size:1.7rem;font-weight:800;color:${color};line-height:1">${kpi.value}${kpi.unit}</div>
-      <div style="font-size:0.67rem;color:#6e7681;margin-top:6px">Target: ${kpi.lowerIsBetter?'< ':'≥ '}${kpi.target}${kpi.unit}</div>
-      <div style="font-size:0.67rem;color:${color};margin-top:2px">${sign}${delta.toFixed(1)}${kpi.unit} vs target</div>`;
+      <div class="ops-tile-name">${kpi.name}</div>
+      <div class="ops-tile-val" style="color:${color}">${kpi.value}${kpi.unit}</div>
+      <div class="ops-tile-target">Target: ${kpi.lowerIsBetter ? '≤ ' : '≥ '}${kpi.target}${kpi.unit}</div>
+      <span class="ops-tile-status ${status}">${isCrit ? '● CRITICAL' : status === 'yellow' ? '● WARNING' : '● ON TARGET'}</span>
+      ${orderInfo}${linkedBadge}${extraHTML ? `<div style="margin-top:8px">${extraHTML}</div>` : ''}`;
     board.appendChild(tileEl);
   });
 }
 
 /* ═══════════════════════════════════════════════════════════
-   RENDER: NODE CONNECTION PANEL (D&W Tab)
+   RENDER: NODE CONNECTION PANEL (D&W Tab) — 4 nodes
 ═══════════════════════════════════════════════════════════ */
 function renderDWNodeConnection() {
   const grid = document.getElementById('dw-node-grid');
   if (!grid) return;
 
-  const porV = DW_STRATEGIC.find(k=>k.id==='por').monthly[selectedMonthIdx === -1 ? 8 : selectedMonthIdx];
-  const ofrV = DW_STRATEGIC.find(k=>k.id==='ofr').monthly[selectedMonthIdx === -1 ? 8 : selectedMonthIdx];
-  const otdV = DW_STRATEGIC.find(k=>k.id==='otd').monthly[selectedMonthIdx === -1 ? 8 : selectedMonthIdx];
-  const icdV = DW_TACTICAL.find(k=>k.id==='icd').current;
-  const cfrV = DW_TACTICAL.find(k=>k.id==='cfr').current;
+  const mIdx  = selectedMonthIdx === -1 ? 8 : selectedMonthIdx;
+  const wIdx  = selectedWeekIdx;
+  const porV  = DW_STRATEGIC.find(k=>k.id==='por').monthly[mIdx];
+  const itV   = DW_STRATEGIC.find(k=>k.id==='it').monthly[mIdx];
+  const niaV  = DW_STRATEGIC.find(k=>k.id==='nia').monthly[mIdx];
+  const raV   = DW_TACTICAL.find(k=>k.id==='ra').weeks[wIdx].current;
+  const icdV  = DW_TACTICAL.find(k=>k.id==='icd').weeks[wIdx].current;
+  const derV  = DW_OPERATIONAL.find(k=>k.id==='der').value;
+  const dltV  = DW_OPERATIONAL.find(k=>k.id==='dlt').value;
+  const sdaV  = DW_OPERATIONAL.find(k=>k.id==='sda').value;
 
   const flags = [
     {
-      node: '→ Manufacturing',
-      icon: '🏭',
-      status: icdV < 22 ? 'warn' : icdV < 30 ? 'caution' : 'ok',
-      msg: icdV < 22 ? `Low coverage (${icdV}d) — risk of production material shortage`
-         : icdV < 30 ? `Coverage at ${icdV}d — monitor inbound replenishment frequency`
-         : `Coverage ${icdV}d — adequate buffer for production planning`,
-    },
-    {
-      node: '→ Retail / Trade',
-      icon: '🛒',
-      status: porV < 90 ? 'warn' : porV < 95 ? 'caution' : 'ok',
-      msg: porV < 90 ? `POR at ${porV}% — high risk of shelf-out and customer deductions`
-         : porV < 95 ? `POR at ${porV}% — retailer compliance risk; review order accuracy`
-         : `POR at ${porV}% — strong service level to trade`,
-    },
-    {
-      node: '→ Procurement',
-      icon: '📦',
-      status: ofrV < 95 ? 'warn' : ofrV < 98 ? 'caution' : 'ok',
-      msg: ofrV < 95 ? `OFR at ${ofrV}% — signal stock-out; urgent PO review needed`
-         : ofrV < 98 ? `OFR at ${ofrV}% — partial fills; review min-order quantities`
-         : `OFR at ${ofrV}% — procurement aligned with demand`,
-    },
-    {
-      node: '→ Transport / 3PL',
-      icon: '🚚',
-      status: otdV < 92 ? 'warn' : otdV < 95 ? 'caution' : 'ok',
-      msg: otdV < 92 ? `OTD at ${otdV}% — escalate to 3PL; check route coverage`
-         : otdV < 95 ? `OTD at ${otdV}% — monitor delivery windows and carrier SLA`
-         : `OTD at ${otdV}% — transport KPI on target`,
-    },
-    {
-      node: '→ Customer Service',
+      node: 'Customer Service',
       icon: '📞',
-      status: cfrV < 94 ? 'warn' : cfrV < 97 ? 'caution' : 'ok',
-      msg: cfrV < 94 ? `CFR at ${cfrV}% — expect elevated complaint volume; alert CS team`
-         : cfrV < 97 ? `CFR at ${cfrV}% — partial fulfillments likely; brief CS proactively`
-         : `CFR at ${cfrV}% — case fill strong; CS workload normal`,
+      status: (porV < 90 || derV > 2) ? 'warn' : (porV < 95 || derV > 1) ? 'caution' : 'ok',
+      trigger: porV < 95 ? `POR at ${porV.toFixed(1)}%` : `DER at ${derV}%`,
+      msg: porV < 90 ? `POR at ${porV.toFixed(1)}% — high complaint risk; brief CS team immediately`
+         : porV < 95 ? `POR at ${porV.toFixed(1)}% — retailer compliance risk; review order accuracy`
+         : derV > 2  ? `DER at ${derV}% — exception rate critical; CS escalation required`
+         : derV > 1  ? `DER at ${derV}% — above target; monitor complaint queue`
+         : `POR ${porV.toFixed(1)}% · DER ${derV}% — CS workload normal`,
+      action: porV < 95 ? 'Share daily POR report with CS; flag high-return SKUs'
+             : derV > 1 ? 'Review exception log; update CS scripts for proactive outreach'
+             : 'No action required',
+    },
+    {
+      node: 'Manufacturing',
+      icon: '🏭',
+      status: (raV < 90 || icdV < 14) ? 'warn' : (raV < 95 || icdV < 21) ? 'caution' : 'ok',
+      trigger: icdV < 14 ? `ICD at ${icdV.toFixed(1)} days` : `RA at ${raV.toFixed(1)}%`,
+      msg: icdV < 14 ? `Coverage at ${icdV.toFixed(1)} days — stockout risk for production; urgent replenishment needed`
+         : icdV > 28  ? `Coverage at ${icdV.toFixed(1)} days — overstock; review min-max levels with planning`
+         : raV < 90   ? `Replenishment Accuracy ${raV.toFixed(1)}% — inbound variability risk to production schedule`
+         : raV < 95   ? `Replenishment Accuracy ${raV.toFixed(1)}% — below target; audit fulfillment compliance`
+         : `ICD ${icdV.toFixed(1)} days · RA ${raV.toFixed(1)}% — production supply healthy`,
+      action: icdV < 14 ? 'Trigger emergency PO; notify manufacturing planning team'
+             : raV < 95 ? 'Review replenishment orders; check supplier lead times'
+             : 'No action required',
+    },
+    {
+      node: 'Transport / 3PL',
+      icon: '🚚',
+      status: (dltV > 72 || sdaV < 97) ? 'warn' : (dltV > 48 || sdaV < 99) ? 'caution' : 'ok',
+      trigger: dltV > 48 ? `DLT at ${dltV} hrs` : `SDA at ${sdaV}%`,
+      msg: dltV > 72  ? `Delivery Lead Time at ${dltV} hrs — critical delay; escalate to 3PL immediately`
+         : dltV > 48  ? `Delivery Lead Time at ${dltV} hrs — above SLA; check route congestion`
+         : sdaV < 97  ? `Dispatch Accuracy ${sdaV}% — high error rate; verify pick-to-ship process`
+         : sdaV < 99  ? `Dispatch Accuracy ${sdaV}% — near threshold; monitor closely`
+         : `DLT ${dltV} hrs · Dispatch Acc. ${sdaV}% — transport KPIs on target`,
+      action: dltV > 48 ? 'Review carrier performance; check route and traffic SLA compliance'
+             : sdaV < 99 ? 'Audit dispatch documentation; retrain on scan verification'
+             : 'No action required',
+    },
+    {
+      node: 'Procurement',
+      icon: '📦',
+      status: (itV < 6 || niaV < 96) ? 'warn' : (itV < 8 || niaV < 99) ? 'caution' : 'ok',
+      trigger: itV < 8 ? `IT at ${itV.toFixed(1)}x` : `NIA at ${niaV.toFixed(1)}%`,
+      msg: itV < 6    ? `Inventory Turnover ${itV.toFixed(1)}x — critically low; excess stock tying up working capital`
+         : itV < 8    ? `Inventory Turnover ${itV.toFixed(1)}x — below target; review forecast vs. purchase orders`
+         : niaV < 96  ? `Network Inv. Accuracy ${niaV.toFixed(1)}% — reconciliation required; phantom stock risk`
+         : niaV < 99  ? `Network Inv. Accuracy ${niaV.toFixed(1)}% — near threshold; schedule cycle count`
+         : `IT ${itV.toFixed(1)}x · NIA ${niaV.toFixed(1)}% — procurement signals healthy`,
+      action: itV < 8  ? 'Review min-order quantities; align PO cadence with demand signal'
+             : niaV < 99 ? 'Schedule partial cycle count; reconcile WMS vs ERP stock levels'
+             : 'No action required',
     },
   ];
 
   grid.innerHTML = flags.map(f => `
     <div class="ds-flag ds-${f.status}">
-      <div class="ds-flag-node">${f.icon} ${f.node}</div>
+      <div class="ds-flag-node">${f.icon} → ${f.node}</div>
       <div class="ds-flag-msg">${f.msg}</div>
+      <div class="ds-flag-sub" style="margin-top:4px;font-size:0.67rem;color:#6e7681">
+        <strong style="color:#8b949e">Action:</strong> ${f.action}
+      </div>
     </div>`).join('');
 }
 
@@ -1581,14 +1813,66 @@ function renderDWNodeConnection() {
    WAREHOUSE LOG
 ═══════════════════════════════════════════════════════════ */
 function renderWarehouseLog() {
-  const totalReceived = WH_DATA.reduce((s,r) => s+r.received, 0);
-  const totalShipped  = WH_DATA.reduce((s,r) => s+r.shipped, 0);
-  const totalReturns  = WH_DATA.reduce((s,r) => s+r.returns, 0);
-  const avgPickAcc    = (WH_DATA.reduce((s,r) => s+r.pickAcc, 0) / WH_DATA.length).toFixed(1);
-  const avgOnTime     = (WH_DATA.reduce((s,r) => s+r.onTimeShip, 0) / WH_DATA.length).toFixed(1);
-  const totalLabor    = WH_DATA.reduce((s,r) => s+r.laborHrs, 0);
-  const avgDispatch   = (WH_DATA.reduce((s,r) => s+r.dispatchAcc, 0) / WH_DATA.length).toFixed(1);
+  const totalReceived  = WH_DATA.reduce((s,r) => s+r.received, 0);
+  const totalShipped   = WH_DATA.reduce((s,r) => s+r.shipped, 0);
+  const totalReturns   = WH_DATA.reduce((s,r) => s+r.returns, 0);
+  const avgPickAcc     = (WH_DATA.reduce((s,r) => s+r.pickAcc, 0) / WH_DATA.length).toFixed(1);
+  const avgOnTime      = (WH_DATA.reduce((s,r) => s+r.onTimeShip, 0) / WH_DATA.length).toFixed(1);
+  const totalLabor     = WH_DATA.reduce((s,r) => s+r.laborHrs, 0);
+  const avgDispatch    = (WH_DATA.reduce((s,r) => s+r.dispatchAcc, 0) / WH_DATA.length).toFixed(1);
+  const avgLaborProd   = (WH_DATA.reduce((s,r) => s+r.laborProd, 0) / WH_DATA.length).toFixed(0);
+  const totalExCount   = WH_DATA.reduce((s,r) => s+r.exCount, 0);
 
+  // Strategic summary stat tiles (POR + IT from DW_STRATEGIC)
+  const mIdx = selectedMonthIdx === -1 ? 8 : selectedMonthIdx;
+  const porVal = DW_STRATEGIC.find(k=>k.id==='por').monthly[mIdx];
+  const itVal  = DW_STRATEGIC.find(k=>k.id==='it').monthly[mIdx];
+  const porColor = porVal >= 95 ? '#4ade80' : porVal >= 90 ? '#fbbf24' : '#f87171';
+  const itColor  = itVal  >= 8  ? '#4ade80' : itVal  >= 6  ? '#fbbf24' : '#f87171';
+  const sstEl = document.getElementById('wh-strategic-stats');
+  if (sstEl) sstEl.innerHTML = `
+    <div class="wh-stat-tile">
+      <div class="wh-stat-lbl">Perfect Order Rate</div>
+      <div class="wh-stat-val" style="color:${porColor}">${porVal.toFixed(1)}%</div>
+      <div style="font-size:0.62rem;color:#6e7681;margin-top:2px">Target ≥ 95% · ${MONTHS[mIdx]}</div>
+    </div>
+    <div class="wh-stat-tile">
+      <div class="wh-stat-lbl">Inventory Turnover</div>
+      <div class="wh-stat-val" style="color:${itColor}">${itVal.toFixed(1)}x</div>
+      <div style="font-size:0.62rem;color:#6e7681;margin-top:2px">Target ≥ 8x · ${MONTHS[mIdx]}</div>
+    </div>
+    <div class="wh-stat-tile">
+      <div class="wh-stat-lbl">Avg Pick Accuracy</div>
+      <div class="wh-stat-val" style="color:${parseFloat(avgPickAcc)>=99.5?'#4ade80':parseFloat(avgPickAcc)>=98?'#fbbf24':'#f87171'}">${avgPickAcc}%</div>
+      <div style="font-size:0.62rem;color:#6e7681;margin-top:2px">Week avg · Target ≥ 99.5%</div>
+    </div>`;
+
+  // Tactical summary stat tiles (ICD + WU + OCT from DW_TACTICAL week 0)
+  const icdV = DW_TACTICAL.find(k=>k.id==='icd').weeks[selectedWeekIdx].current;
+  const wuV  = DW_TACTICAL.find(k=>k.id==='wu').weeks[selectedWeekIdx].current;
+  const octV = DW_TACTICAL.find(k=>k.id==='oct').weeks[selectedWeekIdx].current;
+  const icdColor = (icdV >= 14 && icdV <= 21) ? '#4ade80' : (icdV >= 10 && icdV <= 28) ? '#fbbf24' : '#f87171';
+  const wuColor  = (wuV  >= 75 && wuV  <= 85) ? '#4ade80' : (wuV  >= 70 && wuV  <= 92) ? '#fbbf24' : '#f87171';
+  const octColor = octV <= 24 ? '#4ade80' : octV <= 36 ? '#fbbf24' : '#f87171';
+  const tstEl = document.getElementById('wh-tactical-stats');
+  if (tstEl) tstEl.innerHTML = `
+    <div class="wh-stat-tile">
+      <div class="wh-stat-lbl">Inventory Coverage</div>
+      <div class="wh-stat-val" style="color:${icdColor}">${icdV.toFixed(1)} days</div>
+      <div style="font-size:0.62rem;color:#6e7681;margin-top:2px">Optimal 14–21 days · W${selectedWeekIdx+1}</div>
+    </div>
+    <div class="wh-stat-tile">
+      <div class="wh-stat-lbl">Warehouse Utilization</div>
+      <div class="wh-stat-val" style="color:${wuColor}">${wuV.toFixed(1)}%</div>
+      <div style="font-size:0.62rem;color:#6e7681;margin-top:2px">Optimal 75–85% · W${selectedWeekIdx+1}</div>
+    </div>
+    <div class="wh-stat-tile">
+      <div class="wh-stat-lbl">Order Cycle Time</div>
+      <div class="wh-stat-val" style="color:${octColor}">${octV.toFixed(1)} hrs</div>
+      <div style="font-size:0.62rem;color:#6e7681;margin-top:2px">Target ≤ 24 hrs · W${selectedWeekIdx+1}</div>
+    </div>`;
+
+  // Week summary cards
   document.getElementById('wh-summary').innerHTML = `
     <div class="wh-card blue">
       <div class="wh-card-val">${totalReceived.toLocaleString()}</div>
@@ -1606,38 +1890,38 @@ function renderWarehouseLog() {
       <div class="wh-card-sub">Target: ≥ 99.5%</div>
     </div>
     <div class="wh-card purple">
-      <div class="wh-card-val">${avgOnTime}%</div>
-      <div class="wh-card-lbl">Avg On-Time Ship</div>
-      <div class="wh-card-sub">Target: ≥ 97%</div>
+      <div class="wh-card-val">${avgLaborProd}</div>
+      <div class="wh-card-lbl">Avg Labor Prod.</div>
+      <div class="wh-card-sub">cases/person/hr · target ≥ 85</div>
     </div>
     <div class="wh-card orange">
-      <div class="wh-card-val">${totalReturns}</div>
-      <div class="wh-card-lbl">Total Returns</div>
-      <div class="wh-card-sub">${((totalReturns/totalReceived)*100).toFixed(1)}% return rate</div>
+      <div class="wh-card-val">${totalExCount}</div>
+      <div class="wh-card-lbl">Total Exceptions</div>
+      <div class="wh-card-sub">${((totalExCount/(totalShipped||1))*100).toFixed(2)}% exception rate</div>
     </div>
     <div class="wh-card blue">
       <div class="wh-card-val">${avgDispatch}%</div>
       <div class="wh-card-lbl">Avg Dispatch Acc.</div>
-      <div class="wh-card-sub">Target: ≥ 97%</div>
+      <div class="wh-card-sub">Target: ≥ 99%</div>
     </div>`;
 
-  // Log table with new columns + row color coding + shift score
+  // Log table: 13 columns including 3 new ones (Pick Acc already existed; add Labor Prod + Exception Count)
   const table = document.getElementById('wh-log-table');
   let html = `<thead><tr>`;
   ['Date','Received','Picked','Shipped','Pick Acc.','On-Time Ship','Returns','Labor Hrs',
-   'Inbound Time','Outbound Time','Dispatch Acc.','Shift Score','Notes'].forEach(h => {
+   'Labor Prod.','Exceptions','Dispatch Acc.','Shift Score','Notes'].forEach(h => {
     html += `<th>${h}</th>`;
   });
   html += `</tr></thead><tbody>`;
 
   WH_DATA.forEach(row => {
-    const pickCls   = row.pickAcc >= 99.5 ? 'good' : row.pickAcc >= 97 ? 'warn' : 'bad';
+    const pickCls   = row.pickAcc >= 99.5 ? 'good' : row.pickAcc >= 98 ? 'warn' : 'bad';
     const onTimeCls = row.onTimeShip >= 97 ? 'good' : row.onTimeShip >= 94 ? 'warn' : 'bad';
-    const inbCls    = row.inboundTime <= 2  ? 'good' : row.inboundTime <= 3  ? 'warn' : 'bad';
-    const outbCls   = row.outboundTime <= 4 ? 'good' : row.outboundTime <= 5.5 ? 'warn' : 'bad';
-    const disCls    = row.dispatchAcc >= 97 ? 'good' : row.dispatchAcc >= 93 ? 'warn' : 'bad';
+    const disCls    = row.dispatchAcc >= 99 ? 'good' : row.dispatchAcc >= 97 ? 'warn' : 'bad';
+    const lpCls     = row.laborProd >= 85 ? 'good' : row.laborProd >= 70 ? 'warn' : 'bad';
+    const exCls     = row.exCount <= 3 ? 'good' : row.exCount <= 8 ? 'warn' : 'bad';
     const scoreCls  = row.shiftScore >= 85 ? 'great' : row.shiftScore >= 73 ? 'ok' : 'poor';
-    const rowBg     = row.shiftScore >= 85 ? 'background:#0d2e1a10' : row.shiftScore >= 73 ? '' : 'background:#2d0a0a18';
+    const rowBg     = row.shiftScore >= 85 ? 'background:#0d2e1a12' : row.shiftScore >= 73 ? '' : 'background:#2d0a0a15';
     const noteHtml  = row.notes
       ? `<span class="note-badge">📋 ${row.notes}</span>`
       : `<span style="color:#6e7681">—</span>`;
@@ -1650,32 +1934,31 @@ function renderWarehouseLog() {
       <td><span class="acc-badge ${onTimeCls}">${row.onTimeShip}%</span></td>
       <td>${row.returns}</td>
       <td>${row.laborHrs}</td>
-      <td><span class="acc-badge ${inbCls}">${row.inboundTime}h</span></td>
-      <td><span class="acc-badge ${outbCls}">${row.outboundTime}h</span></td>
+      <td><span class="acc-badge ${lpCls}">${row.laborProd}</span></td>
+      <td><span class="acc-badge ${exCls}">${row.exCount}</span></td>
       <td><span class="acc-badge ${disCls}">${row.dispatchAcc}%</span></td>
       <td><span class="shift-score ${scoreCls}">${row.shiftScore}</span></td>
       <td>${noteHtml}</td>
     </tr>`;
   });
 
-  // Totals row
-  const avgShift = (WH_DATA.reduce((s,r)=>s+r.shiftScore,0)/WH_DATA.length).toFixed(0);
+  const avgShift    = (WH_DATA.reduce((s,r)=>s+r.shiftScore,0)/WH_DATA.length).toFixed(0);
   const avgShiftCls = parseInt(avgShift)>=85?'great':parseInt(avgShift)>=73?'ok':'poor';
   html += `<tr class="total-row">
     <td>Week Total / Avg</td>
     <td>${totalReceived.toLocaleString()}</td>
     <td>${WH_DATA.reduce((s,r)=>s+r.picked,0).toLocaleString()}</td>
     <td>${totalShipped.toLocaleString()}</td>
-    <td><span class="acc-badge ${parseFloat(avgPickAcc)>=99.5?'good':parseFloat(avgPickAcc)>=97?'warn':'bad'}">${avgPickAcc}%</span></td>
+    <td><span class="acc-badge ${parseFloat(avgPickAcc)>=99.5?'good':parseFloat(avgPickAcc)>=98?'warn':'bad'}">${avgPickAcc}%</span></td>
     <td><span class="acc-badge ${parseFloat(avgOnTime)>=97?'good':parseFloat(avgOnTime)>=94?'warn':'bad'}">${avgOnTime}%</span></td>
     <td>${totalReturns}</td>
     <td>${totalLabor}</td>
-    <td></td><td></td>
-    <td><span class="acc-badge ${parseFloat(avgDispatch)>=97?'good':parseFloat(avgDispatch)>=93?'warn':'bad'}">${avgDispatch}%</span></td>
+    <td><span class="acc-badge ${parseInt(avgLaborProd)>=85?'good':parseInt(avgLaborProd)>=70?'warn':'bad'}">${avgLaborProd}</span></td>
+    <td><span class="acc-badge ${totalExCount<=20?'good':totalExCount<=50?'warn':'bad'}">${totalExCount}</span></td>
+    <td><span class="acc-badge ${parseFloat(avgDispatch)>=99?'good':parseFloat(avgDispatch)>=97?'warn':'bad'}">${avgDispatch}%</span></td>
     <td><span class="shift-score ${avgShiftCls}">${avgShift}</span></td>
     <td></td>
   </tr>`;
-
   html += `</tbody>`;
   table.innerHTML = html;
 }
@@ -1713,28 +1996,40 @@ function exportPDF() {
 ═══════════════════════════════════════════════════════════ */
 Chart.defaults.color = '#8b949e';
 
-const DW_COLORS = ['#3b82f6','#22c55e','#f59e0b','#ec4899','#14b8a6','#8b5cf6'];
+const DW_COLORS = ['#3b82f6','#06b6d4','#f59e0b','#ec4899','#a78bfa','#22c55e'];
 let chartDWTrend = null;
-let chartDWGaugeIcd = null, chartDWGaugeWu = null, chartDWGaugeCfr = null;
-let chartWHPor = null, chartWHPick = null, chartWHGap = null, chartWHThroughput = null;
+let chartDWGaugeWu = null, chartDWGaugeOct = null, chartDWGaugeDct = null;
+let chartWHPor = null, chartWHIt = null, chartWHGap = null, chartWHThroughput = null;
 
-/* ── 1. D&W TREND LINE CHART ── */
+/* ── 1. D&W TREND LINE CHART (with per-KPI target dashed lines) ── */
 function buildDWTrendChart() {
   const el = document.getElementById('chart-dw-trend');
   if (!el) return;
   if (chartDWTrend) chartDWTrend.destroy();
 
+  // KPI data lines
   const datasets = DW_STRATEGIC.map((kpi, i) => ({
     label: kpi.name,
     data: kpi.monthly,
     borderColor: DW_COLORS[i],
-    backgroundColor: DW_COLORS[i] + '18',
+    backgroundColor: DW_COLORS[i] + '14',
     borderWidth: 2.2,
-    pointRadius: 3.5,
+    pointRadius: 3,
     pointHoverRadius: 5,
     tension: 0.35,
     fill: false,
   }));
+
+  // Target threshold line for POR (95%) as a representative target reference
+  datasets.push({
+    label: 'Target Threshold (e.g. POR 95%)',
+    data: Array(9).fill(95),
+    borderColor: '#374151',
+    borderDash: [6, 4],
+    borderWidth: 1.5,
+    pointRadius: 0,
+    fill: false,
+  });
 
   chartDWTrend = new Chart(el.getContext('2d'), {
     type: 'line',
@@ -1745,38 +2040,55 @@ function buildDWTrendChart() {
       plugins: {
         legend: {
           position: 'bottom',
-          labels: { font: { size: 10 }, padding: 12, boxWidth: 12, color: '#8b949e' }
+          labels: { font: { size: 10 }, padding: 12, boxWidth: 12, color: '#8b949e',
+            filter: item => item.datasetIndex < DW_STRATEGIC.length }
         },
         tooltip: {
           callbacks: {
-            label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}`
+            label: ctx => ctx.datasetIndex < DW_STRATEGIC.length
+              ? ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}`
+              : null,
+            afterBody: ctx => {
+              const idx = ctx[0]?.dataIndex;
+              if (idx == null) return [];
+              return DW_STRATEGIC.map((k,i) => {
+                const v = k.monthly[idx];
+                const s = k.greenFn(v) ? '✔' : k.yellowFn(v) ? '⚠' : '✘';
+                return `  ${s} Target ${k.lowerIsBetter?'≤':'≥'}${k.id==='lcpo'?'Rp '+k.target.toLocaleString():k.target+k.unit}: ${DW_COLORS[i]==='#3b82f6'?'':''}`;
+              });
+            }
           }
         }
       },
       scales: {
-        y: { grid: { color: '#21262d' }, ticks: { font: { size: 10 }, color: '#8b949e' } },
-        x: { grid: { color: '#21262d' }, ticks: { font: { size: 10 }, color: '#8b949e' } }
+        y: { grid: { color: '#1f2937' }, ticks: { font: { size: 10 }, color: '#8b949e' } },
+        x: { grid: { color: '#1f2937' }, ticks: { font: { size: 10 }, color: '#8b949e' } }
       }
     }
   });
 }
 
-/* ── 2. TACTICAL SEMI-CIRCULAR GAUGES ── */
+/* ── 2. TACTICAL SEMI-CIRCULAR GAUGES: WU / OCT / DCT ── */
 function buildDWGauges() {
-  buildOneGauge('chart-dw-gauge-icd', 'gauge-val-icd', DW_TACTICAL.find(k=>k.id==='icd'));
-  buildOneGauge('chart-dw-gauge-wu',  'gauge-val-wu',  DW_TACTICAL.find(k=>k.id==='wu'));
-  buildOneGauge('chart-dw-gauge-cfr', 'gauge-val-cfr', DW_TACTICAL.find(k=>k.id==='cfr'));
+  const wIdx = selectedWeekIdx;
+  buildOneGauge('chart-dw-gauge-wu',  'gauge-val-wu',  DW_TACTICAL.find(k=>k.id==='wu'),  wIdx);
+  buildOneGauge('chart-dw-gauge-oct', 'gauge-val-oct', DW_TACTICAL.find(k=>k.id==='oct'), wIdx);
+  buildOneGauge('chart-dw-gauge-dct', 'gauge-val-dct', DW_TACTICAL.find(k=>k.id==='dct'), wIdx);
 }
 
-function buildOneGauge(canvasId, valId, kpi) {
+function buildOneGauge(canvasId, valId, kpi, wIdx) {
   const el = document.getElementById(canvasId);
   if (!el) return;
 
-  const val    = kpi.current;
-  const maxVal = kpi.id === 'icd' ? 60 : 100;
+  const wk     = kpi.weeks ? kpi.weeks[wIdx ?? 0] : kpi;
+  const val    = wk.current ?? wk;
+  // Max scale: OCT max 48 hrs, DCT max 1800 cases/hr, WU 100%
+  const maxVal = kpi.id === 'oct' ? 48 : kpi.id === 'dct' ? 1800 : 100;
   const status = kpi.greenFn(val) ? 'green' : kpi.yellowFn(val) ? 'yellow' : 'red';
   const color  = statusColor(status);
-  const bgColor = status === 'green' ? '#22c55e22' : status === 'yellow' ? '#f59e0b22' : '#ef444422';
+
+  // Destroy previous instance if canvas has one attached
+  if (el._chartInstance) { el._chartInstance.destroy(); }
 
   const pct = Math.min(val / maxVal, 1);
   const inst = new Chart(el.getContext('2d'), {
@@ -1784,7 +2096,7 @@ function buildOneGauge(canvasId, valId, kpi) {
     data: {
       datasets: [{
         data: [pct, 1 - pct],
-        backgroundColor: [color, '#21262d'],
+        backgroundColor: [color, '#1f2937'],
         borderWidth: 0,
         circumference: 180,
         rotation: -90,
@@ -1793,18 +2105,19 @@ function buildOneGauge(canvasId, valId, kpi) {
     options: {
       responsive: true, maintainAspectRatio: false, cutout: '70%',
       plugins: { legend: { display: false }, tooltip: { enabled: false } },
-      animation: { duration: 800, easing: 'easeOutQuart' }
+      animation: { duration: 700, easing: 'easeOutQuart' }
     }
   });
+  el._chartInstance = inst;
 
   const valEl = document.getElementById(valId);
-  if (valEl) valEl.textContent = val.toFixed(kpi.decimals);
+  if (valEl) valEl.textContent = kpi.decimals === 0 ? Math.round(val) : val.toFixed(kpi.decimals);
 }
 
-/* ── 3. WH SPARKLINES ── */
+/* ── 3. WH SPARKLINES: POR + Inventory Turnover ── */
 function buildWHSparklines() {
-  const porKpi  = DW_STRATEGIC.find(k=>k.id==='por');
-  const pickData = [97.8, 98.1, 98.3, 98.5, 98.7, 98.9, 98.7, 98.4, 98.5];
+  const porKpi = DW_STRATEGIC.find(k=>k.id==='por');
+  const itKpi  = DW_STRATEGIC.find(k=>k.id==='it');
 
   if (chartWHPor) chartWHPor.destroy();
   const porEl = document.getElementById('chart-wh-por');
@@ -1813,51 +2126,59 @@ function buildWHSparklines() {
       type: 'line',
       data: {
         labels: MONTHS,
-        datasets: [{
-          data: porKpi.monthly,
-          borderColor: '#3b82f6',
-          backgroundColor: '#3b82f620',
-          borderWidth: 2, pointRadius: 2.5, tension: 0.4, fill: true,
-        }]
+        datasets: [
+          { data: porKpi.monthly, borderColor: '#3b82f6', backgroundColor: '#3b82f620',
+            borderWidth: 2, pointRadius: 2.5, tension: 0.4, fill: true },
+          { data: Array(9).fill(95), borderColor: '#374151', borderDash: [4,3],
+            borderWidth: 1.5, pointRadius: 0, fill: false, label: 'Target' },
+        ]
       },
       options: {
         responsive: true, maintainAspectRatio: false,
         plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `POR: ${c.parsed.y.toFixed(1)}%` } } },
         scales: {
-          y: { min: 85, max: 96, grid: { color: '#21262d' }, ticks: { font: { size: 9 }, color: '#8b949e' } },
+          y: { min: 86, max: 96, grid: { color: '#1f2937' }, ticks: { font: { size: 9 }, color: '#8b949e' } },
           x: { grid: { display: false }, ticks: { font: { size: 9 }, color: '#8b949e' } }
         }
       }
     });
     const pv = document.getElementById('wh-spark-por-val');
-    if (pv) pv.innerHTML = `Latest: <span style="color:#3b82f6">${porKpi.monthly[8].toFixed(1)}%</span> &nbsp;·&nbsp; Target: ≥ 95%`;
+    if (pv) {
+      const v = porKpi.monthly[8];
+      const vc = v >= 95 ? '#4ade80' : v >= 90 ? '#fbbf24' : '#f87171';
+      pv.innerHTML = `Sep: <span style="color:${vc}">${v.toFixed(1)}%</span> &nbsp;·&nbsp; Target ≥ 95% &nbsp;·&nbsp; YTD avg ${porKpi.ytd.toFixed(1)}%`;
+    }
   }
 
-  if (chartWHPick) chartWHPick.destroy();
-  const pickEl = document.getElementById('chart-wh-pick');
-  if (pickEl) {
-    chartWHPick = new Chart(pickEl.getContext('2d'), {
+  if (chartWHIt) chartWHIt.destroy();
+  const itEl = document.getElementById('chart-wh-it');
+  if (itEl) {
+    chartWHIt = new Chart(itEl.getContext('2d'), {
       type: 'line',
       data: {
         labels: MONTHS,
-        datasets: [{
-          data: pickData,
-          borderColor: '#22c55e',
-          backgroundColor: '#22c55e20',
-          borderWidth: 2, pointRadius: 2.5, tension: 0.4, fill: true,
-        }]
+        datasets: [
+          { data: itKpi.monthly, borderColor: '#06b6d4', backgroundColor: '#06b6d420',
+            borderWidth: 2, pointRadius: 2.5, tension: 0.4, fill: true },
+          { data: Array(9).fill(8), borderColor: '#374151', borderDash: [4,3],
+            borderWidth: 1.5, pointRadius: 0, fill: false, label: 'Target' },
+        ]
       },
       options: {
         responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `Pick Acc: ${c.parsed.y.toFixed(1)}%` } } },
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `IT: ${c.parsed.y.toFixed(1)}x` } } },
         scales: {
-          y: { min: 97, max: 100, grid: { color: '#21262d' }, ticks: { font: { size: 9 }, color: '#8b949e' } },
+          y: { min: 5.5, max: 9.5, grid: { color: '#1f2937' }, ticks: { font: { size: 9 }, color: '#8b949e' } },
           x: { grid: { display: false }, ticks: { font: { size: 9 }, color: '#8b949e' } }
         }
       }
     });
-    const pv2 = document.getElementById('wh-spark-pick-val');
-    if (pv2) pv2.innerHTML = `Latest: <span style="color:#22c55e">${pickData[8].toFixed(1)}%</span> &nbsp;·&nbsp; Target: ≥ 99.5%`;
+    const pv2 = document.getElementById('wh-spark-it-val');
+    if (pv2) {
+      const v = itKpi.monthly[8];
+      const vc = v >= 8 ? '#4ade80' : v >= 6 ? '#fbbf24' : '#f87171';
+      pv2.innerHTML = `Sep: <span style="color:${vc}">${v.toFixed(1)}x</span> &nbsp;·&nbsp; Target ≥ 8x &nbsp;·&nbsp; YTD avg ${itKpi.ytd.toFixed(1)}x`;
+    }
   }
 }
 
@@ -1884,7 +2205,7 @@ function buildWHGapChart() {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { position:'top', labels: { font:{size:10}, boxWidth:12, color:'#8b949e' } } },
       scales: {
-        y: { grid:{color:'#21262d'}, ticks:{font:{size:9},color:'#8b949e'} },
+        y: { grid:{color:'#1f2937'}, ticks:{font:{size:9},color:'#8b949e'} },
         x: { grid:{display:false}, ticks:{font:{size:9},color:'#8b949e'} }
       }
     }
@@ -1926,7 +2247,7 @@ function buildWHThroughputChart() {
         tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${c.parsed.y}` } }
       },
       scales: {
-        y: { grid:{color:'#21262d'}, ticks:{font:{size:9},color:'#8b949e'} },
+        y: { grid:{color:'#1f2937'}, ticks:{font:{size:9},color:'#8b949e'} },
         x: { grid:{display:false}, ticks:{font:{size:9},color:'#8b949e'} }
       }
     }
@@ -2392,8 +2713,8 @@ function buildMfgOeeChart() {
         tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}%` } },
       },
       scales: {
-        y: { min: 60, max: 100, grid: { color: '#21262d' }, ticks: { font: { size: 10 }, color: '#8b949e', callback: v => v + '%' } },
-        x: { grid: { color: '#21262d' }, ticks: { font: { size: 10 }, color: '#8b949e' } },
+        y: { min: 60, max: 100, grid: { color: '#1f2937' }, ticks: { font: { size: 10 }, color: '#8b949e', callback: v => v + '%' } },
+        x: { grid: { color: '#1f2937' }, ticks: { font: { size: 10 }, color: '#8b949e' } },
       },
     },
   });
@@ -2409,7 +2730,7 @@ function buildMfgProdChart() {
     data: {
       labels: MONTHS,
       datasets: [
-        { label: 'Planned', data: MFG_PLANNED, backgroundColor: '#30363d', borderRadius: 4 },
+        { label: 'Planned', data: MFG_PLANNED, backgroundColor: '#374151', borderRadius: 4 },
         { label: 'Actual',  data: MFG_ACTUAL_P, backgroundColor: barColors, borderRadius: 4 },
       ],
     },
@@ -2429,7 +2750,7 @@ function buildMfgProdChart() {
       },
       scales: {
         x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#8b949e' } },
-        y: { grid: { color: '#21262d' }, ticks: { font: { size: 10 }, color: '#8b949e', callback: v => (v/1000)+'k' } },
+        y: { grid: { color: '#1f2937' }, ticks: { font: { size: 10 }, color: '#8b949e', callback: v => (v/1000)+'k' } },
       },
     },
   });
@@ -2459,6 +2780,7 @@ function buildMfgDowntimeChart() {
    INIT
 ═══════════════════════════════════════════════════════════ */
 renderMonthChips();
+renderWeekChips();
 renderAll();
 renderWarehouseLog();
 
