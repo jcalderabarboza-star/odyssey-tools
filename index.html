@@ -343,6 +343,10 @@
       0%,100% { box-shadow: 0 0 0 0 rgba(187,0,0,0.4); }
       50%      { box-shadow: 0 0 0 6px rgba(187,0,0,0); }
     }
+    @keyframes pulse-amber-light {
+      0%,100% { box-shadow: 0 0 0 0 rgba(231,101,0,0.35); }
+      50%      { box-shadow: 0 0 0 6px rgba(231,101,0,0); }
+    }
     .ops-tile-name   { font-size: 11px; font-weight: 700; color: #6b7280; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
     .ops-tile-val    { font-size: 26px; font-weight: 700; line-height: 1; margin-bottom: 4px; color: #1d2d3e; }
     .ops-tile-target { font-size: 11px; color: #9ca3af; margin-bottom: 8px; }
@@ -607,6 +611,51 @@
     .teal-tile { border-left-color: #0f828f !important; background: #f0fdfa !important; }
     .teal-val  { color: #0f828f !important; }
 
+    /* ══ TRANSPORT MODULE STYLES ══ */
+    .transport-subtab-nav {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .transport-pill {
+      padding: 8px 20px; border-radius: 20px; border: none; cursor: pointer;
+      font-size: 13px; font-weight: 600; transition: background 0.15s, color 0.15s;
+      background: #f3f4f6; color: #6b7280;
+    }
+    .transport-pill:hover { background: #e5e7eb; color: #374151; }
+    .transport-pill.active { background: #0070f2; color: #ffffff; }
+    .transport-sub-panel { display: none; }
+    .transport-sub-panel.active { display: block; }
+    .transport-shipment-bar {
+      display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 0;
+    }
+    .transport-ship-card {
+      flex: 1; min-width: 140px; background: #ffffff; border-radius: 8px;
+      padding: 12px 16px; border: 1px solid #e5e7eb; border-left: 4px solid;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .transport-ship-card.orange { border-left-color: #e76500; }
+    .transport-ship-card.blue   { border-left-color: #0070f2; }
+    .transport-ship-card.teal   { border-left-color: #0f828f; }
+    .transport-ship-card.green  { border-left-color: #107e3e; }
+    .transport-ship-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #9ca3af; margin-bottom: 4px; }
+    .transport-ship-val { font-size: 22px; font-weight: 700; color: #1d2d3e; line-height: 1; }
+    .transport-ship-sub { font-size: 11px; color: #6b7280; margin-top: 2px; }
+    .transport-placeholder {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 48px 24px; background: #ffffff; border-radius: 8px;
+      border: 2px dashed #e5e7eb; text-align: center;
+    }
+    .transport-placeholder-icon { font-size: 40px; margin-bottom: 12px; }
+    .transport-placeholder-title { font-size: 16px; font-weight: 600; color: #374151; margin-bottom: 6px; }
+    .transport-placeholder-sub { font-size: 13px; color: #9ca3af; }
+    /* Map tooltip */
+    .map-tooltip {
+      position: absolute; background: #1d2d3e; color: #fff; font-size: 11px; font-weight: 500;
+      padding: 6px 10px; border-radius: 6px; pointer-events: none; z-index: 20;
+      white-space: nowrap; display: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .map-tooltip.visible { display: block; }
+
     /* ══ FOOTER ══ */
     footer {
       text-align: center; padding: 20px;
@@ -666,10 +715,9 @@
     <span class="nav-item-icon">🛒</span>
     <span class="nav-item-label">Procurement &amp; Purchase</span>
   </button>
-  <button class="nav-item disabled">
+  <button class="nav-item" id="nav-transport" onclick="switchToTransport()">
     <span class="nav-item-icon">🚛</span>
     <span class="nav-item-label">Transport</span>
-    <span class="nav-soon">Soon</span>
   </button>
   <button class="nav-item disabled">
     <span class="nav-item-icon">🏪</span>
@@ -1087,6 +1135,327 @@
 
 </div><!-- end panel-proc -->
 
+<!-- ══════════════════════════════════════════
+     TAB 5: TRANSPORT
+══════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-transport">
+
+  <!-- HEADER -->
+  <div class="section-block" style="margin-bottom:20px">
+    <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin-bottom:4px">Transport Management</h2>
+    <p style="font-size:14px;color:#6b7280;font-weight:500">Full Network Visibility — First Mile to Last Mile</p>
+  </div>
+
+  <!-- STRATEGIC KPIs -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">Strategic KPIs — Monthly</span></p>
+      <span class="section-sub">Hover ƒ for formula · Driven by month selector above</span>
+    </div>
+    <div class="kpi-grid" id="transport-strategic-grid"></div>
+  </div>
+
+  <!-- ACTIVE SHIPMENT COUNTER BAR -->
+  <div class="section-block">
+    <div class="transport-shipment-bar">
+      <div class="transport-ship-card orange">
+        <div class="transport-ship-lbl">First Mile</div>
+        <div class="transport-ship-val">12</div>
+        <div class="transport-ship-sub">active shipments</div>
+      </div>
+      <div class="transport-ship-card blue">
+        <div class="transport-ship-lbl">Middle Mile</div>
+        <div class="transport-ship-val">47</div>
+        <div class="transport-ship-sub">active shipments</div>
+      </div>
+      <div class="transport-ship-card teal">
+        <div class="transport-ship-lbl">Last Mile B2B</div>
+        <div class="transport-ship-val">183</div>
+        <div class="transport-ship-sub">active shipments</div>
+      </div>
+      <div class="transport-ship-card green">
+        <div class="transport-ship-lbl">Last Mile B2C</div>
+        <div class="transport-ship-val">94</div>
+        <div class="transport-ship-sub">active shipments</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INDONESIA NETWORK MAP -->
+  <div class="section-block">
+    <div class="chart-card" style="padding:16px 20px 12px;position:relative">
+      <div class="chart-card-title">Indonesia Logistics Network — Live View</div>
+      <div style="position:relative">
+        <div class="map-tooltip" id="transport-map-tooltip"></div>
+        <svg viewBox="0 0 800 300" style="width:100%;height:300px;display:block" id="transport-map-svg">
+          <!-- Ocean background -->
+          <rect width="800" height="300" fill="#e8f4f8"/>
+
+          <!-- Island shapes -->
+          <!-- Sumatra -->
+          <path d="M60,80 L180,60 L200,90 L170,150 L100,170 L60,130 Z" fill="#dde5ee" stroke="#b0bec5" stroke-width="1"/>
+          <!-- Java -->
+          <path d="M160,180 L380,170 L420,185 L390,200 L160,200 Z" fill="#dde5ee" stroke="#b0bec5" stroke-width="1"/>
+          <!-- Kalimantan -->
+          <path d="M260,60 L380,50 L420,80 L410,150 L350,160 L260,140 Z" fill="#dde5ee" stroke="#b0bec5" stroke-width="1"/>
+          <!-- Sulawesi -->
+          <path d="M440,80 L470,70 L480,110 L460,140 L440,130 L430,100 Z" fill="#dde5ee" stroke="#b0bec5" stroke-width="1"/>
+          <!-- Papua -->
+          <path d="M560,90 L680,80 L700,120 L660,150 L560,140 Z" fill="#dde5ee" stroke="#b0bec5" stroke-width="1"/>
+          <!-- Bali -->
+          <path d="M395,192 L415,190 L416,200 L395,202 Z" fill="#dde5ee" stroke="#b0bec5" stroke-width="1"/>
+
+          <!-- Island labels -->
+          <text x="110" y="120" font-size="8" fill="#8a9ab0" text-anchor="middle" font-family="Inter,sans-serif">Sumatra</text>
+          <text x="285" y="190" font-size="8" fill="#8a9ab0" text-anchor="middle" font-family="Inter,sans-serif">Java</text>
+          <text x="335" y="108" font-size="8" fill="#8a9ab0" text-anchor="middle" font-family="Inter,sans-serif">Kalimantan</text>
+          <text x="454" y="108" font-size="8" fill="#8a9ab0" text-anchor="middle" font-family="Inter,sans-serif">Sulawesi</text>
+          <text x="628" y="118" font-size="8" fill="#8a9ab0" text-anchor="middle" font-family="Inter,sans-serif">Papua</text>
+
+          <!-- ── ROUTE LINES ── -->
+          <!-- First Mile: Factory → Jakarta NDC (orange dashed) -->
+          <line x1="210" y1="185" x2="230" y2="188" stroke="#e76500" stroke-dasharray="4,3" stroke-width="2"/>
+
+          <!-- Middle Mile routes (blue, semi-transparent) -->
+          <line id="mm-jak-sby" x1="230" y1="188" x2="340" y2="183" stroke="#0070f2" stroke-width="1.5" opacity="0.5"/>
+          <line id="mm-jak-mdn" x1="230" y1="188" x2="110" y2="95"  stroke="#0070f2" stroke-width="1.5" opacity="0.5"/>
+          <line id="mm-jak-mks" x1="230" y1="188" x2="455" y2="108" stroke="#0070f2" stroke-width="1.5" opacity="0.5"/>
+          <line id="mm-jak-bpn" x1="230" y1="188" x2="390" y2="108" stroke="#0070f2" stroke-width="1.5" opacity="0.5"/>
+          <line x1="340" y1="183" x2="405" y2="195" stroke="#0070f2" stroke-width="1.5" opacity="0.5"/>
+
+          <!-- Last Mile B2B short radiating lines (teal dashed) -->
+          <!-- From Jakarta -->
+          <line x1="230" y1="188" x2="216" y2="198" stroke="#0f828f" stroke-dasharray="2,2" stroke-width="1" opacity="0.6"/>
+          <line x1="230" y1="188" x2="228" y2="204" stroke="#0f828f" stroke-dasharray="2,2" stroke-width="1" opacity="0.6"/>
+          <line x1="230" y1="188" x2="244" y2="198" stroke="#0f828f" stroke-dasharray="2,2" stroke-width="1" opacity="0.6"/>
+          <!-- From Surabaya -->
+          <line x1="340" y1="183" x2="352" y2="192" stroke="#0f828f" stroke-dasharray="2,2" stroke-width="1" opacity="0.6"/>
+          <line x1="340" y1="183" x2="328" y2="193" stroke="#0f828f" stroke-dasharray="2,2" stroke-width="1" opacity="0.6"/>
+          <line x1="340" y1="183" x2="340" y2="198" stroke="#0f828f" stroke-dasharray="2,2" stroke-width="1" opacity="0.6"/>
+          <!-- From Medan -->
+          <line x1="110" y1="95"  x2="98"  y2="106" stroke="#0f828f" stroke-dasharray="2,2" stroke-width="1" opacity="0.6"/>
+          <line x1="110" y1="95"  x2="122" y2="106" stroke="#0f828f" stroke-dasharray="2,2" stroke-width="1" opacity="0.6"/>
+          <line x1="110" y1="95"  x2="108" y2="110" stroke="#0f828f" stroke-dasharray="2,2" stroke-width="1" opacity="0.6"/>
+          <!-- From Makassar -->
+          <line x1="455" y1="108" x2="464" y2="118" stroke="#0f828f" stroke-dasharray="2,2" stroke-width="1" opacity="0.6"/>
+          <line x1="455" y1="108" x2="446" y2="118" stroke="#0f828f" stroke-dasharray="2,2" stroke-width="1" opacity="0.6"/>
+          <line x1="455" y1="108" x2="455" y2="123" stroke="#0f828f" stroke-dasharray="2,2" stroke-width="1" opacity="0.6"/>
+
+          <!-- ── ANIMATED SHIPMENT DOTS ── -->
+          <!-- Dot 1: Jakarta → Surabaya -->
+          <circle r="4" fill="#0070f2" opacity="0.85">
+            <animateMotion dur="4s" repeatCount="indefinite" begin="0s">
+              <mpath href="#mm-jak-sby"/>
+            </animateMotion>
+          </circle>
+          <!-- Dot 2: Jakarta → Makassar -->
+          <circle r="4" fill="#0070f2" opacity="0.85">
+            <animateMotion dur="4s" repeatCount="indefinite" begin="1.5s">
+              <mpath href="#mm-jak-mks"/>
+            </animateMotion>
+          </circle>
+          <!-- Dot 3: Jakarta → Medan -->
+          <circle r="4" fill="#0070f2" opacity="0.85">
+            <animateMotion dur="4s" repeatCount="indefinite" begin="3s">
+              <mpath href="#mm-jak-mdn"/>
+            </animateMotion>
+          </circle>
+
+          <!-- ── FACTORY NODE (diamond) ── -->
+          <polygon points="210,178 217,185 210,192 203,185" fill="#e76500" stroke="white" stroke-width="1.5"
+            class="map-node" data-label="Tangerang Factory | Origin of First Mile | 12 active dispatches"/>
+
+          <!-- ── MAJOR DC NODES (blue circles r=8) ── -->
+          <circle cx="230" cy="188" r="8" fill="#0070f2" stroke="white" stroke-width="2"
+            class="map-node" data-label="Jakarta NDC | 47 active shipments | ON TIME"/>
+          <circle cx="340" cy="183" r="8" fill="#0070f2" stroke="white" stroke-width="2"
+            class="map-node" data-label="Surabaya DC | 12 active shipments | ON TIME"/>
+          <circle cx="110" cy="95"  r="8" fill="#0070f2" stroke="white" stroke-width="2"
+            class="map-node" data-label="Medan DC | 8 active shipments | DELAYED"/>
+          <circle cx="455" cy="108" r="8" fill="#0070f2" stroke="white" stroke-width="2"
+            class="map-node" data-label="Makassar DC | 6 active shipments | ON TIME"/>
+
+          <!-- ── SECONDARY NODES (teal circles r=5) ── -->
+          <circle cx="248" cy="192" r="5" fill="#0f828f" stroke="white" stroke-width="1.5"
+            class="map-node" data-label="Bandung Distribution Node"/>
+          <circle cx="295" cy="182" r="5" fill="#0f828f" stroke="white" stroke-width="1.5"
+            class="map-node" data-label="Semarang Distribution Node"/>
+          <circle cx="165" cy="128" r="5" fill="#0f828f" stroke="white" stroke-width="1.5"
+            class="map-node" data-label="Palembang Distribution Node"/>
+          <circle cx="390" cy="108" r="5" fill="#0f828f" stroke="white" stroke-width="1.5"
+            class="map-node" data-label="Balikpapan Distribution Node"/>
+          <circle cx="405" cy="195" r="5" fill="#0f828f" stroke="white" stroke-width="1.5"
+            class="map-node" data-label="Denpasar Distribution Node"/>
+
+          <!-- DC Labels -->
+          <text x="230" y="202" font-size="8" fill="#1d2d3e" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600">Jakarta</text>
+          <text x="340" y="197" font-size="8" fill="#1d2d3e" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600">Surabaya</text>
+          <text x="110" y="110" font-size="8" fill="#1d2d3e" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600">Medan</text>
+          <text x="455" y="123" font-size="8" fill="#1d2d3e" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600">Makassar</text>
+          <text x="197" y="192" font-size="7" fill="#e76500" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700">Factory</text>
+
+          <!-- ── MAP LEGEND (bottom-right) ── -->
+          <rect x="615" y="215" width="175" height="75" rx="6" fill="white" stroke="#e5e7eb" stroke-width="1" opacity="0.92"/>
+          <text x="624" y="228" font-size="9" fill="#6b7280" font-family="Inter,sans-serif" font-weight="700">LEGEND</text>
+          <!-- Factory -->
+          <polygon points="628,238 632,242 628,246 624,242" fill="#e76500"/>
+          <text x="636" y="245" font-size="8" fill="#374151" font-family="Inter,sans-serif">Factory (Tangerang)</text>
+          <!-- Major DC -->
+          <circle cx="627" cy="255" r="4" fill="#0070f2" stroke="white" stroke-width="1"/>
+          <text x="636" y="258" font-size="8" fill="#374151" font-family="Inter,sans-serif">Major DC / NDC</text>
+          <!-- Secondary Node -->
+          <circle cx="627" cy="267" r="3" fill="#0f828f" stroke="white" stroke-width="1"/>
+          <text x="636" y="270" font-size="8" fill="#374151" font-family="Inter,sans-serif">Secondary Node</text>
+          <!-- Route lines -->
+          <line x1="618" y1="280" x2="634" y2="280" stroke="#e76500" stroke-dasharray="3,2" stroke-width="1.5"/>
+          <text x="636" y="283" font-size="8" fill="#374151" font-family="Inter,sans-serif">First Mile</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUB-TAB NAVIGATION -->
+  <div class="section-block" style="margin-bottom:12px">
+    <div class="transport-subtab-nav" id="transport-subtab-nav">
+      <button class="transport-pill active" onclick="switchTransportSubTab('firstmile')">🏭 First Mile</button>
+      <button class="transport-pill" onclick="switchTransportSubTab('middlemile')">🔄 Middle Mile</button>
+      <button class="transport-pill" onclick="switchTransportSubTab('lastmileb2b')">🏪 Last Mile B2B</button>
+      <button class="transport-pill" onclick="switchTransportSubTab('lastmileb2c')">📦 Last Mile B2C</button>
+    </div>
+  </div>
+
+  <!-- SUB-TAB CONTENT AREA -->
+  <div id="transport-subtab-content">
+
+    <!-- ── FIRST MILE ── -->
+    <div id="transport-sub-firstmile" class="transport-sub-panel active">
+
+      <!-- First Mile Header -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+        <span style="font-size:18px">🏭</span>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#1d2d3e">First Mile — Paragon Factory Tangerang → NDC Jakarta</div>
+          <div style="font-size:12px;color:#9ca3af">Route accent: <span style="color:#e76500;font-weight:700">■</span> Orange (#e76500)</div>
+        </div>
+      </div>
+
+      <!-- Tactical KPIs Table -->
+      <div class="section-block">
+        <div class="section-hdr">
+          <p class="section-label"><span class="section-tag tag-amber">Tactical KPIs — Weekly</span></p>
+          <span class="section-sub">Week selector in header drives this table</span>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>KPI</th><th>W1</th><th>W2</th><th>W3</th><th>W4</th><th>Target</th><th>Status (Selected Week)</th>
+              </tr>
+            </thead>
+            <tbody id="transport-fm-tactical-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Operational Tiles -->
+      <div class="section-block">
+        <div class="section-hdr">
+          <p class="section-label"><span class="section-tag tag-purple">Operational — Today's Dispatch</span></p>
+          <span class="section-sub">Tangerang Factory Gate · Live shift metrics</span>
+        </div>
+        <div class="ops-board">
+          <div class="ops-tile green">
+            <div class="ops-tile-name">Trucks Dispatched Today</div>
+            <div class="ops-tile-val">24</div>
+            <div class="ops-tile-target">Target: 24 trucks/day</div>
+            <div class="ops-tile-status green">✓ On Target</div>
+          </div>
+          <div class="ops-tile" style="border-left-color:#0070f2;background:#eff6ff">
+            <div class="ops-tile-name">Currently In Transit</div>
+            <div class="ops-tile-val" style="color:#0070f2">8</div>
+            <div class="ops-tile-target">Trucks en-route to NDC</div>
+            <div class="ops-tile-status" style="background:#eff6ff;color:#0070f2;border-color:#bfdbfe">ℹ Informational</div>
+          </div>
+          <div class="ops-tile yellow" style="animation:pulse-amber-light 1.8s infinite">
+            <div class="ops-tile-name">Gate-Out Delays Today</div>
+            <div class="ops-tile-val">2</div>
+            <div class="ops-tile-target">Target: 0 delays</div>
+            <div class="ops-tile-status yellow">⚠ Warning</div>
+          </div>
+          <div class="ops-tile green">
+            <div class="ops-tile-name">Avg Load Time This Shift</div>
+            <div class="ops-tile-val">1.6<span style="font-size:14px;font-weight:600;color:#6b7280"> hrs</span></div>
+            <div class="ops-tile-target">Target: ≤ 2 hrs</div>
+            <div class="ops-tile-status green">✓ On Target</div>
+          </div>
+          <div class="ops-tile green">
+            <div class="ops-tile-name">Damage Incidents Today</div>
+            <div class="ops-tile-val">0</div>
+            <div class="ops-tile-target">Target: 0 incidents</div>
+            <div class="ops-tile-status green">✓ On Target</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- First Mile Trend Chart -->
+      <div class="section-block">
+        <div class="chart-card">
+          <div class="chart-card-title">First Mile — Gate-Out On Time % (Current Month)</div>
+          <div class="chart-canvas-wrap" style="height:260px"><canvas id="transportFirstMileChart"></canvas></div>
+        </div>
+      </div>
+
+    </div><!-- end transport-sub-firstmile -->
+
+    <!-- ── MIDDLE MILE placeholder ── -->
+    <div id="transport-sub-middlemile" class="transport-sub-panel">
+      <div class="transport-placeholder">
+        <div class="transport-placeholder-icon">🚧</div>
+        <div class="transport-placeholder-title">Coming in next update</div>
+        <div class="transport-placeholder-sub">Middle Mile KPIs — Tactical &amp; Operational</div>
+      </div>
+    </div>
+
+    <!-- ── LAST MILE B2B placeholder ── -->
+    <div id="transport-sub-lastmileb2b" class="transport-sub-panel">
+      <div class="transport-placeholder">
+        <div class="transport-placeholder-icon">🚧</div>
+        <div class="transport-placeholder-title">Coming in next update</div>
+        <div class="transport-placeholder-sub">Last Mile B2B KPIs — Tactical &amp; Operational</div>
+      </div>
+    </div>
+
+    <!-- ── LAST MILE B2C placeholder ── -->
+    <div id="transport-sub-lastmileb2c" class="transport-sub-panel">
+      <div class="transport-placeholder">
+        <div class="transport-placeholder-icon">🚧</div>
+        <div class="transport-placeholder-title">Coming in next update</div>
+        <div class="transport-placeholder-sub">Last Mile B2C KPIs — Tactical &amp; Operational</div>
+      </div>
+    </div>
+
+  </div><!-- end transport-subtab-content -->
+
+  <!-- NODE CONNECTION PANEL -->
+  <div class="section-block" style="margin-top:32px">
+    <div class="section-hdr">
+      <p class="section-label">Downstream Impact</p>
+      <span class="section-sub">Auto-calculated from current KPI values · Sep-25 data</span>
+    </div>
+    <div class="ds-panel">
+      <div class="ds-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+          <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+        </svg>
+        Node Connection Indicators
+      </div>
+      <div class="ds-grid" id="transport-node-grid"></div>
+    </div>
+  </div>
+
+</div><!-- end panel-transport -->
+
   </div><!-- end page-content -->
 
   <footer>
@@ -1259,6 +1628,10 @@ function selectMonth(idx) {
   renderProcStrategic();
   renderProcTactical();
   renderProcNodeConnection();
+  if (document.getElementById('panel-transport') && document.getElementById('panel-transport').classList.contains('active')) {
+    renderTransportStrategic();
+    renderTransportNodeConnection();
+  }
 }
 
 /* ══ WEEK CHIPS ══ */
@@ -1276,6 +1649,10 @@ function selectWeek(idx) {
   renderDWTactical();
   buildDWGauges();
   renderProcTactical();
+  if (document.getElementById('panel-transport') && document.getElementById('panel-transport').classList.contains('active')) {
+    renderTransportFMTactical();
+    renderTransportNodeConnection();
+  }
 }
 
 /* ══ RENDER: D&W STRATEGIC CARDS ══ */
@@ -2379,6 +2756,332 @@ function buildProcActivityChart(){
         y:{grid:{color:'#f3f4f6'},ticks:{font:{size:10},color:'#9ca3af'}}}}});
 }
 
+// ============================================================
+// === TRANSPORT MODULE ===
+// ============================================================
+
+/* ── Transport Strategic KPI Data ── */
+const TRANSPORT_STRATEGIC = [
+  { id:'tsl', name:'Overall Transport Service Level',
+    formula:'(On-time complete deliveries / Total planned deliveries) × 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:1, target:97,
+    monthly:[94,94,95,96,96,97,97,98,97],
+    greenFn:v=>v>=97, yellowFn:v=>v>=93&&v<97,
+    benchmark:'DHL/JNE FMCG Indonesia 95-98%', responsible:'Transport' },
+  { id:'lcrv', name:'Logistics Cost as % of Revenue',
+    formula:'(Total Transport Cost / Net Revenue) × 100',
+    unit:'%', prefix:'', lowerIsBetter:true, decimals:1, target:8,
+    monthly:[9.8,9.5,9.2,8.8,8.5,8.2,8.0,7.8,7.6],
+    greenFn:v=>v<=8, yellowFn:v=>v>8&&v<=10,
+    benchmark:'FMCG Indonesia 7-10%', responsible:'Finance / Transport' },
+  { id:'pdr', name:'Perfect Delivery Rate',
+    formula:'(On-time + correct qty + no damage + correct docs) / Total × 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:1, target:95,
+    monthly:[91,92,93,93,94,95,95,96,96],
+    greenFn:v=>v>=95, yellowFn:v=>v>=90&&v<95,
+    benchmark:'Unilever/P&G global 93-97%', responsible:'Transport / Quality' },
+  { id:'fur', name:'Fleet Utilization Rate',
+    formula:'(Actual load / Total fleet capacity) × 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:1, target:85,
+    monthly:[79,80,82,83,84,85,86,87,88],
+    greenFn:v=>v>=85, yellowFn:v=>v>=75&&v<85,
+    benchmark:'FMCG fleet benchmark 80-90%', responsible:'Fleet Management' },
+  { id:'cepd', name:'Carbon Emission per Delivery',
+    formula:'Total CO₂ (kg) / Total deliveries',
+    unit:' kg CO₂', prefix:'', lowerIsBetter:true, decimals:1, target:12,
+    monthly:[16.2,15.8,15.1,14.5,13.8,13.2,12.8,12.3,11.9],
+    greenFn:v=>v<=12, yellowFn:v=>v>12&&v<=18,
+    benchmark:'Green logistics target <10 kg CO₂', responsible:'Sustainability' },
+  { id:'tpl', name:'3PL Performance Score',
+    formula:'Weighted avg of OTD + damage rate + responsiveness',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:1, target:90,
+    monthly:[83,84,85,87,88,89,90,91,92],
+    greenFn:v=>v>=90, yellowFn:v=>v>=80&&v<90,
+    benchmark:'Industry top 3PL >90%', responsible:'Procurement / Transport' },
+];
+TRANSPORT_STRATEGIC.forEach(k=>{
+  k.ytd=+(k.monthly.reduce((a,b)=>a+b,0)/k.monthly.length).toFixed(k.decimals);
+});
+
+/* ── Transport First Mile Tactical KPI Data ── */
+const TRANSPORT_FM_TACTICAL = [
+  { id:'fmgoot', name:'Factory Gate-Out On Time',
+    unit:'%', lowerIsBetter:false, target:98, targetLabel:'≥98%',
+    weeks:[97.2,98.5,96.8,99.1],
+    greenFn:v=>v>=98, yellowFn:v=>v>=94&&v<98,
+    critFn:v=>v<94 },
+  { id:'fmtt', name:'Transit Time Factory→NDC',
+    unit:' hrs', lowerIsBetter:true, target:6, targetLabel:'≤6 hrs',
+    weeks:[5.2,4.8,6.3,5.5],
+    greenFn:v=>v<=6, yellowFn:v=>v>6&&v<=8,
+    critFn:v=>v>8 },
+  { id:'fmttat', name:'Truck Turnaround at Factory',
+    unit:' hrs', lowerIsBetter:true, target:2, targetLabel:'≤2 hrs',
+    weeks:[1.8,2.1,2.4,1.9],
+    greenFn:v=>v<=2, yellowFn:v=>v>2&&v<=3,
+    critFn:v=>v>3 },
+  { id:'fmla', name:'Load Accuracy',
+    unit:'%', lowerIsBetter:false, target:99.5, targetLabel:'≥99.5%',
+    weeks:[99.8,99.6,98.9,99.7],
+    greenFn:v=>v>=99.5, yellowFn:v=>v>=98&&v<99.5,
+    critFn:v=>v<98 },
+  { id:'fmdr', name:'Damage Rate in Transit',
+    unit:'%', lowerIsBetter:true, target:0.3, targetLabel:'≤0.3%',
+    weeks:[0.2,0.3,0.5,0.2],
+    greenFn:v=>v<=0.3, yellowFn:v=>v>0.3&&v<=0.8,
+    critFn:v=>v>0.8 },
+];
+
+/* ── Transport First Mile Chart data ── */
+const TRANSPORT_FM_CHART_DATA = [
+  97.2,98.1,96.8,97.5,98.3,97.9,98.5,97.4,96.9,98.2,
+  97.8,98.4,97.1,98.7,99.1,98.2,97.6,98.9,97.3,98.6,
+  99.0,97.8,98.3,98.8,97.5,99.1,98.4,97.9,98.5,97.7
+];
+
+/* ── Transport chart instance ── */
+let chartTransportFirstMile = null;
+
+/* ── Render Transport Strategic KPIs ── */
+function renderTransportStrategic() {
+  const idx = selectedMonthIdx;
+  const grid = document.getElementById('transport-strategic-grid');
+  if (!grid) return;
+  grid.innerHTML = TRANSPORT_STRATEGIC.map(kpi => {
+    const val = idx === IS_YTD ? kpi.ytd : kpi.monthly[idx];
+    const prev = (idx === IS_YTD || idx === 0) ? null : kpi.monthly[idx - 1];
+    let status = 'red';
+    if (kpi.greenFn(val)) status = 'green';
+    else if (kpi.yellowFn(val)) status = 'yellow';
+    const color = statusColor(status);
+    const score = computeScore(kpi, val);
+    const bcFill = Math.min(100, score);
+    const trendDir = prev === null ? null : (val > prev ? 'up' : val < prev ? 'down' : 'flat');
+    const trendGood = kpi.lowerIsBetter
+      ? (trendDir === 'down' ? true : trendDir === 'up' ? false : null)
+      : (trendDir === 'up' ? true : trendDir === 'down' ? false : null);
+    const trendArrow = trendDir === null ? '' :
+      trendDir === 'up' ?
+        `<svg viewBox="0 0 20 20" fill="${trendGood?'#107e3e':'#bb0000'}"><polyline points="4,14 10,6 16,14" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>` :
+      trendDir === 'down' ?
+        `<svg viewBox="0 0 20 20" fill="${trendGood?'#107e3e':'#bb0000'}"><polyline points="4,6 10,14 16,6" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>` :
+        `<svg viewBox="0 0 20 20"><line x1="4" y1="10" x2="16" y2="10" stroke="#9ca3af" stroke-width="2.5"/></svg>`;
+    const change = prev !== null ? (val - prev).toFixed(kpi.decimals) : null;
+    const changeStr = change !== null ? (change > 0 ? `+${change}` : `${change}`) : '';
+    return `<div class="kpi-card ${status}">
+      <div class="kpi-header">
+        <div>
+          <div class="kpi-name">
+            ${kpi.name}
+            <span class="formula-wrap">
+              <span class="formula-icon">ƒ</span>
+              <span class="formula-tip"><strong>Formula:</strong> ${kpi.formula}<br><br><strong>Benchmark:</strong> ${kpi.benchmark||''}</span>
+            </span>
+          </div>
+          <div class="kpi-category"><span class="resp-badge">${kpi.responsible}</span></div>
+        </div>
+        <span class="status-badge badge-${status}">${badgeLabel(status)}</span>
+      </div>
+      <div class="kpi-values">
+        <div class="kpi-value-group">
+          <span class="kpi-prefix">${kpi.prefix}</span>
+          <span class="kpi-current" style="color:${color}">${kpi.lowerIsBetter&&kpi.id==='lcrv'?val.toFixed(kpi.decimals):kpi.id==='cepd'?val.toFixed(kpi.decimals):Number(val).toFixed(kpi.decimals)}</span>
+          <span class="kpi-unit">${kpi.unit}</span>
+        </div>
+        <span class="trend-arrow">${trendArrow}</span>
+        ${change!==null?`<span class="trend-chip">${changeStr}${kpi.unit}</span>`:''}
+      </div>
+      <div class="kpi-target">Target: <strong>${kpi.lowerIsBetter?'≤':'≥'}${kpi.target}${kpi.unit}</strong></div>
+      <div class="bc-wrap">
+        <div class="bc-row">
+          <span class="bc-label">Score</span>
+          <div class="bc-track"><div class="bc-fill" style="width:${bcFill}%;background:${color}"></div></div>
+          <span class="bc-val" style="color:${color}">${score.toFixed(0)}%</span>
+        </div>
+      </div>
+      ${kpi.benchmark?`<div class="kpi-bench">Benchmark: ${kpi.benchmark}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+/* ── Render Transport First Mile Tactical Table ── */
+function renderTransportFMTactical() {
+  const tbody = document.getElementById('transport-fm-tactical-body');
+  if (!tbody) return;
+  tbody.innerHTML = TRANSPORT_FM_TACTICAL.map(kpi => {
+    const wIdx = selectedWeekIdx;
+    const val = kpi.weeks[wIdx];
+    let status = 'red';
+    if (kpi.greenFn(val)) status = 'green';
+    else if (kpi.yellowFn(val)) status = 'yellow';
+    const prev = wIdx > 0 ? kpi.weeks[wIdx - 1] : null;
+    const trendDir = prev === null ? null : (val > prev ? '▲' : val < prev ? '▼' : '—');
+    const trendGood = prev === null ? null : kpi.lowerIsBetter ? (val < prev) : (val > prev);
+    const trendCls = trendGood === null ? '' : trendGood ? 'up-good' : 'up-bad';
+    const wCells = kpi.weeks.map((w, i) => {
+      let cls = 'green';
+      if (!kpi.greenFn(w)) cls = kpi.yellowFn(w) ? 'yellow' : 'red';
+      const isSelected = i === wIdx;
+      return `<td class="td-val ${cls}" style="${isSelected?'font-weight:800;background:#eff6ff':''}">${Number(w).toFixed(w<10?1:1)}${kpi.unit}</td>`;
+    }).join('');
+    return `<tr>
+      <td class="td-name">${kpi.name}</td>
+      ${wCells}
+      <td style="font-size:12px;color:#6b7280">${kpi.targetLabel}</td>
+      <td><span class="status-badge badge-${status}">${badgeLabel(status)}</span>${prev!==null?`<span class="td-trend ${trendCls}" style="margin-left:4px">${trendDir}</span>`:''}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ── Render Transport Node Connection Panel ── */
+function renderTransportNodeConnection() {
+  const grid = document.getElementById('transport-node-grid');
+  if (!grid) return;
+  const idx = selectedMonthIdx;
+  const tslVal = idx === IS_YTD ? TRANSPORT_STRATEGIC[0].ytd : TRANSPORT_STRATEGIC[0].monthly[idx];
+  const pdrVal = idx === IS_YTD ? TRANSPORT_STRATEGIC[2].ytd : TRANSPORT_STRATEGIC[2].monthly[idx];
+  const lcrVal = idx === IS_YTD ? TRANSPORT_STRATEGIC[1].ytd : TRANSPORT_STRATEGIC[1].monthly[idx];
+  const fmVal  = TRANSPORT_FM_TACTICAL[0].weeks[selectedWeekIdx];
+
+  const nodes = [
+    {
+      node:'Manufacturing', icon: fmVal < 94 ? '⚠' : '✅',
+      cls: fmVal < 94 ? 'ds-caution' : 'ds-ok',
+      msg: fmVal < 94 ? 'Factory dispatch backlog — coordinate with production' : 'Factory dispatch running on schedule',
+      sub: `Gate-Out OTD: ${fmVal}%`
+    },
+    {
+      node:'Distribution & Warehouse', icon: tslVal < 93 ? '⚠' : '✅',
+      cls: tslVal < 93 ? 'ds-caution' : 'ds-ok',
+      msg: tslVal < 93 ? 'Replenishment delay expected — adjust outbound plan' : 'Transport service level intact — replenishment on track',
+      sub: `Overall Service Level: ${tslVal}%`
+    },
+    {
+      node:'Customer Service', icon: pdrVal < 90 ? '🔴' : '✅',
+      cls: pdrVal < 90 ? 'ds-warn' : 'ds-ok',
+      msg: pdrVal < 90 ? 'Delivery exceptions rising — activate CS escalation' : 'Perfect delivery rate healthy — no escalations needed',
+      sub: `Perfect Delivery Rate: ${pdrVal}%`
+    },
+    {
+      node:'Finance', icon: lcrVal > 10 ? '🔴' : '✅',
+      cls: lcrVal > 10 ? 'ds-warn' : 'ds-ok',
+      msg: lcrVal > 10 ? 'Transport budget overrun — review 3PL contracts' : 'Logistics cost within budget threshold',
+      sub: `Logistics Cost % Revenue: ${lcrVal}%`
+    },
+  ];
+  grid.innerHTML = nodes.map(n => `
+    <div class="ds-flag ${n.cls}">
+      <div class="ds-flag-ico">${n.icon}</div>
+      <div>
+        <div class="ds-flag-node">${n.node}</div>
+        <div class="ds-flag-msg">${n.msg}</div>
+        <div class="ds-flag-sub">${n.sub}</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ── Build Transport First Mile Chart ── */
+function buildTransportFirstMileChart() {
+  const el = document.getElementById('transportFirstMileChart');
+  if (!el) return;
+  if (chartTransportFirstMile) chartTransportFirstMile.destroy();
+  const labels = Array.from({length:30}, (_,i) => `Day ${i+1}`);
+  const targetData = Array(30).fill(98);
+  chartTransportFirstMile = new Chart(el.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Gate-Out On Time %',
+          data: TRANSPORT_FM_CHART_DATA,
+          borderColor: '#e76500',
+          backgroundColor: 'rgba(231,101,0,0.08)',
+          borderWidth: 2,
+          pointRadius: 2,
+          pointHoverRadius: 5,
+          fill: true,
+          tension: 0.35,
+        },
+        {
+          label: 'Target (98%)',
+          data: targetData,
+          borderColor: '#6b7280',
+          borderWidth: 1.5,
+          borderDash: [5, 4],
+          pointRadius: 0,
+          fill: false,
+          tension: 0,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: {size:10}, boxWidth: 12, color: '#9ca3af' } },
+        tooltip: { backgroundColor:'#fff', borderColor:'#e5e7eb', borderWidth:1, titleColor:'#1d2d3e', bodyColor:'#374151' }
+      },
+      scales: {
+        x: { grid: {display:false}, ticks: {font:{size:9}, color:'#9ca3af', maxTicksLimit:10} },
+        y: { min: 94, max: 100, grid: {color:'#f3f4f6'}, ticks: {font:{size:10}, color:'#9ca3af', callback: v => v+'%'} }
+      }
+    }
+  });
+}
+
+/* ── Switch Transport Sub-Tab ── */
+function switchTransportSubTab(subTab) {
+  document.querySelectorAll('.transport-sub-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.transport-pill').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('transport-sub-' + subTab);
+  if (panel) panel.classList.add('active');
+  const pills = document.querySelectorAll('.transport-pill');
+  const map = {firstmile:0, middlemile:1, lastmileb2b:2, lastmileb2c:3};
+  if (pills[map[subTab]]) pills[map[subTab]].classList.add('active');
+  if (subTab === 'firstmile') {
+    renderTransportFMTactical();
+    buildTransportFirstMileChart();
+  }
+}
+
+/* ── Switch To Transport (wrapper to set correct header title) ── */
+function switchToTransport() {
+  switchTab('transport');
+  document.getElementById('top-bar-title').textContent = 'Transport Management';
+  renderTransportStrategic();
+  renderTransportFMTactical();
+  renderTransportNodeConnection();
+  buildTransportFirstMileChart();
+}
+
+/* ── Map tooltip interaction ── */
+function initTransportMapTooltips() {
+  const svg = document.getElementById('transport-map-svg');
+  const tooltip = document.getElementById('transport-map-tooltip');
+  if (!svg || !tooltip) return;
+  const container = svg.parentElement;
+  svg.querySelectorAll('.map-node').forEach(node => {
+    node.style.cursor = 'pointer';
+    node.addEventListener('mouseenter', function(e) {
+      const label = this.getAttribute('data-label');
+      if (!label) return;
+      tooltip.textContent = label;
+      tooltip.classList.add('visible');
+    });
+    node.addEventListener('mousemove', function(e) {
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX - rect.left + 12;
+      const y = e.clientY - rect.top - 32;
+      tooltip.style.left = x + 'px';
+      tooltip.style.top  = y + 'px';
+    });
+    node.addEventListener('mouseleave', function() {
+      tooltip.classList.remove('visible');
+    });
+  });
+}
+
 /* ══ INIT ══ */
 renderMonthChips();
 renderWeekChips();
@@ -2408,6 +3111,9 @@ buildMfgDowntimeChart();
 buildProcTrendChart();
 buildProcRadarChart();
 buildProcActivityChart();
+
+// Transport module init
+initTransportMapTooltips();
 </script>
 </body>
 </html>
