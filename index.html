@@ -876,10 +876,9 @@
     <span class="nav-item-icon">🔬</span>
     <span class="nav-item-label">R&amp;D</span>
   </button>
-  <button class="nav-item disabled">
+  <button class="nav-item" id="nav-commercial" onclick="switchTab('commercial')">
     <span class="nav-item-icon">📊</span>
     <span class="nav-item-label">Commercial</span>
-    <span class="nav-soon">Soon</span>
   </button>
   <button class="nav-item disabled">
     <span class="nav-item-icon">📣</span>
@@ -2326,6 +2325,175 @@
 
 </div><!-- end panel-ct -->
 
+<!-- === COMMERCIAL MODULE HTML === -->
+<div class="tab-panel" id="panel-commercial">
+
+  <!-- PAGE HEADER -->
+  <div style="margin-bottom:20px">
+    <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin:0 0 4px">Commercial Dashboard</h2>
+    <div style="font-size:12px;color:#9ca3af;margin-bottom:6px">E2E Control Tower &rsaquo; Commercial &amp; Innovation</div>
+    <div style="font-size:13px;color:#6b7280;margin-bottom:10px">Revenue Performance &middot; Channel Execution &middot; Market Intelligence</div>
+    <div style="display:inline-flex;align-items:center;gap:8px;background:#f0faf4;border-radius:20px;padding:6px 16px;font-size:13px;color:#1d2d3e;border:1px solid #a3d9b1">
+      💰 Sep-25 Revenue: IDR 48.3B &nbsp;&middot;&nbsp; 📈 +6.2% vs target &nbsp;&middot;&nbsp; 🏪 3 channels active &nbsp;&middot;&nbsp; ⚠️ 2 distributor alerts
+    </div>
+  </div>
+
+  <!-- SECTION 1: STRATEGIC KPIs -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">Strategic KPIs — Monthly</span></p>
+      <span class="section-sub">Hover ƒ for formula · Driven by month selector above</span>
+    </div>
+    <div class="kpi-grid" id="cm-strategic-grid"></div>
+  </div>
+
+  <!-- SECTION 2: CHANNEL PERFORMANCE MATRIX -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">CHANNEL PERFORMANCE MATRIX</span></p>
+      <span class="section-sub">Modern Trade · General Trade · E-Commerce | Sep-25</span>
+    </div>
+    <div id="cm-channel-matrix" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px"></div>
+  </div>
+
+  <!-- SECTION 3: DISTRIBUTOR SCORECARD -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">DISTRIBUTOR SCORECARD — TOP 10</span></p>
+      <span class="section-sub">Performance ranking by revenue contribution | Sep-25</span>
+    </div>
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+      <div id="cm-distributor-filters" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"></div>
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Rank</th><th>Distributor</th><th>Region</th><th>Revenue (IDR)</th>
+              <th>Sell-Out %</th><th>Coverage</th><th>AR Days</th><th>Health Score</th><th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="cm-distributor-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: NIELSEN RMS SELL-OUT TRACKER -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">NIELSEN RMS — SELL-OUT INTELLIGENCE</span></p>
+      <span class="section-sub">Market sell-out data · Indonesia cosmetics category | Updated monthly</span>
+    </div>
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+      <div style="display:inline-flex;align-items:center;gap:6px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:4px 12px;font-size:12px;color:#1e40af;margin-bottom:14px;font-weight:600">
+        📊 Nielsen RMS Data — External Market Intelligence
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <div id="cm-nielsen-table"></div>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:#6b7280;margin-bottom:8px;text-align:center">Paragon Sell-Out by Channel</div>
+          <div style="position:relative;height:220px"><canvas id="cmNielsenChart"></canvas></div>
+          <div id="cm-nielsen-insight" style="margin-top:12px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: SKU REVENUE RANKING -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">SKU REVENUE RANKING</span></p>
+      <span class="section-sub">Top 10 and bottom 5 SKUs by revenue | Sep-25</span>
+    </div>
+    <div id="cm-sku-section" style="display:grid;grid-template-columns:1fr 1fr;gap:16px"></div>
+  </div>
+
+  <!-- SECTION 6: TRADE PROMOTION ROI TRACKER -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">TRADE PROMOTION ROI TRACKER</span></p>
+      <span class="section-sub">Active and completed promotions | Sep-25</span>
+    </div>
+    <div id="cm-promo-section"></div>
+  </div>
+
+  <!-- SECTION 7: TACTICAL KPIs (Weekly) -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">Tactical KPIs — Weekly</span></p>
+      <span class="section-sub">Week selector in header · W/W trend indicators</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>KPI</th><th>Responsible</th><th>W1</th><th>W2</th><th>W3</th><th>W4</th>
+            <th>This Week</th><th>Target</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="cm-tactical-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 8: OPERATIONAL TILES (Daily) -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-purple">Operational Status — Daily</span></p>
+      <span class="section-sub">Live commercial activity — Today</span>
+    </div>
+    <div class="ops-board" id="cm-ops-board"></div>
+  </div>
+
+  <!-- SECTION 9: CHARTS -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">Monthly Revenue vs Target Jan–Sep 2025 (IDR B)</p>
+      <span class="section-sub">Click legend to toggle lines</span>
+    </div>
+    <div class="chart-card">
+      <div class="chart-canvas-wrap" style="height:280px"><canvas id="cmRevenueTrend"></canvas></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px">
+    <div>
+      <div class="section-hdr"><p class="section-label">Revenue by Channel Jan–Sep 2025 (IDR B)</p></div>
+      <div class="chart-card">
+        <div class="chart-canvas-wrap" style="height:260px"><canvas id="cmChannelChart"></canvas></div>
+      </div>
+    </div>
+    <div>
+      <div class="section-hdr">
+        <p class="section-label">Nielsen RMS Market Share Trend — Indonesia Cosmetics Jan–Sep 2025</p>
+        <span class="section-sub">Source: Nielsen RMS Indonesia</span>
+      </div>
+      <div class="chart-card">
+        <div class="chart-canvas-wrap" style="height:260px"><canvas id="cmMarketShare"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 10: NODE CONNECTION PANEL -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">Cross-functional Impact</p>
+      <span class="section-sub">Auto-calculated from current Commercial KPI values</span>
+    </div>
+    <div class="ds-panel">
+      <div class="ds-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+          <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+        </svg>
+        Node Connection Indicators
+      </div>
+      <div class="ds-grid" id="cm-node-grid"></div>
+    </div>
+  </div>
+
+</div><!-- end panel-commercial -->
+<!-- === END COMMERCIAL MODULE HTML === -->
+
   </div><!-- end page-content -->
 
   <footer>
@@ -2508,6 +2676,10 @@ function selectMonth(idx) {
     renderRDStrategic();
     renderRDNodeConnection();
   }
+  if (document.getElementById('panel-commercial') && document.getElementById('panel-commercial').classList.contains('active')) {
+    renderCMStrategic();
+    renderCMNodeConnection();
+  }
 }
 
 /* ══ WEEK CHIPS ══ */
@@ -2532,6 +2704,10 @@ function selectWeek(idx) {
   renderSPTactical();
   if (document.getElementById('panel-rd') && document.getElementById('panel-rd').classList.contains('active')) {
     renderRDTactical();
+  }
+  if (document.getElementById('panel-commercial') && document.getElementById('panel-commercial').classList.contains('active')) {
+    renderCMTactical();
+    renderCMNodeConnection();
   }
 }
 
@@ -2864,12 +3040,12 @@ function switchTab(tab) {
   document.getElementById('panel-'+tab).classList.add('active');
   const navEl=document.getElementById('nav-'+tab);
   if(navEl) navEl.classList.add('active');
-  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard'};
+  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard'};
   document.getElementById('top-bar-title').textContent=titles[tab]||tab;
   const bcEl=document.getElementById('top-bar-breadcrumb');
   if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
   const weekWrap=document.getElementById('week-seg-wrap');
-  if(weekWrap) weekWrap.style.display=(tab==='kpi'||tab==='proc'||tab==='suppliers'||tab==='rd')?'flex':'none';
+  if(weekWrap) weekWrap.style.display=(tab==='kpi'||tab==='proc'||tab==='suppliers'||tab==='rd'||tab==='commercial')?'flex':'none';
   if(tab==='suppliers'){ spInitChartsIfNeeded(); }
   if(tab==='ct'){
     if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Master View';
@@ -2878,6 +3054,10 @@ function switchTab(tab) {
   if(tab==='rd'){
     if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Commercial & Innovation';
     rdInitChartsIfNeeded();
+  }
+  if(tab==='commercial'){
+    if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Commercial & Innovation';
+    cmInitChartsIfNeeded();
   }
 }
 
@@ -5915,6 +6095,670 @@ function buildRDBenchmarkChart() {
 }
 
 // === END R&D MODULE ===
+
+// === COMMERCIAL MODULE ===
+
+/* ── CM: STRATEGIC KPI DATA ── */
+const CM_STRATEGIC = [
+  { id:'rvt', name:'Revenue vs Target',
+    formula:'Actual net revenue / Monthly target \u00d7 100',
+    unit:' B', prefix:'IDR ', lowerIsBetter:false, decimals:1, target:45, responsible:'Commercial',
+    monthly:[38.2,39.5,41.2,42.8,43.5,44.8,46.1,47.4,48.3],
+    greenFn:v=>v>=45, yellowFn:v=>v>=40&&v<45,
+    benchmark:'Paragon Corp internal target' },
+  { id:'sosi', name:'Sell-Out vs Sell-In Rate',
+    formula:'(Sell-out value / Sell-in value) \u00d7 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:0, target:95, responsible:'Commercial / Distribution',
+    monthly:[88,89,91,92,93,94,95,96,96],
+    greenFn:v=>v>=95, yellowFn:v=>v>=88&&v<95,
+    benchmark:'Healthy channel ratio \u2014 prevents overstock' },
+  { id:'porbc', name:'Perfect Order Rate by Channel',
+    formula:'Orders fulfilled complete + on time / Total \u00d7 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:0, target:95, responsible:'Commercial / Distribution',
+    monthly:[89,90,91,92,93,94,94,95,96],
+    greenFn:v=>v>=95, yellowFn:v=>v>=90&&v<95,
+    benchmark:'FMCG commercial standard' },
+  { id:'dhs', name:'Distributor Health Score',
+    formula:'Weighted avg: coverage(30%) + sell-out(40%) + AR(30%)',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:0, target:88, responsible:'Commercial',
+    monthly:[80,81,82,83,84,85,86,87,88],
+    greenFn:v=>v>=88, yellowFn:v=>v>=78&&v<88,
+    benchmark:'FMCG distributor management standard' },
+  { id:'ms', name:'Market Share % (Nielsen RMS)',
+    formula:'Paragon sales / Total category sales \u00d7 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:1, target:18, responsible:'Commercial',
+    monthly:[15.8,16.1,16.4,16.8,17.1,17.4,17.7,18.0,18.3],
+    greenFn:v=>v>=18, yellowFn:v=>v>=15&&v<18,
+    benchmark:'Nielsen RMS Indonesia cosmetics' },
+  { id:'tsr', name:'Trade Spend as % of Revenue',
+    formula:'(Total trade spend / Net revenue) \u00d7 100',
+    unit:'%', prefix:'', lowerIsBetter:true, decimals:1, target:12, responsible:'Commercial / Finance',
+    monthly:[14.8,14.5,14.1,13.8,13.4,13.1,12.8,12.4,12.1],
+    greenFn:v=>v<=12, yellowFn:v=>v>12&&v<=15,
+    benchmark:'FMCG Indonesia 10\u201314%' },
+];
+CM_STRATEGIC.forEach(k => {
+  k.ytd = +(k.monthly.reduce((a,b)=>a+b,0)/k.monthly.length).toFixed(k.decimals);
+});
+
+/* ── CM: TACTICAL KPI DATA ── */
+const CM_TACTICAL = [
+  { id:'ofrc', name:'Order Fulfillment Rate by Channel',
+    formula:'Orders fulfilled complete / Total orders \u00d7 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:0, target:95, targetLabel:'\u2265 95%', responsible:'Commercial',
+    weeks:[{current:93,prevWeek:91},{current:95,prevWeek:93},{current:94,prevWeek:95},{current:96,prevWeek:94}],
+    greenFn:v=>v>=95, yellowFn:v=>v>=90&&v<95,
+    statusLabel:v=>v>=95?'ON TARGET':v>=90?'WARNING':'CRITICAL' },
+  { id:'dicc', name:'Distributor Inventory Coverage',
+    formula:'Distributor stock / Average daily sell-out',
+    unit:' days', prefix:'', lowerIsBetter:false, decimals:0, target:17.5, targetLabel:'14\u201321 days', responsible:'Commercial',
+    weeks:[{current:18,prevWeek:20},{current:21,prevWeek:18},{current:24,prevWeek:21},{current:22,prevWeek:24}],
+    greenFn:v=>v>=14&&v<=21, yellowFn:v=>(v>=22&&v<=28)||(v>=10&&v<14),
+    statusLabel:v=>v>=14&&v<=21?'OPTIMAL':v>28?'OVERSTOCKED':'RISK' },
+  { id:'pcr', name:'Promotion Compliance Rate',
+    formula:'Outlets executing promo correctly / Total outlets \u00d7 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:0, target:92, targetLabel:'\u2265 92%', responsible:'Commercial / Sales',
+    weeks:[{current:88,prevWeek:85},{current:91,prevWeek:88},{current:89,prevWeek:91},{current:93,prevWeek:89}],
+    greenFn:v=>v>=92, yellowFn:v=>v>=85&&v<92,
+    statusLabel:v=>v>=92?'COMPLIANT':v>=85?'PARTIAL':'NON-COMPLIANT' },
+  { id:'oosc', name:'Out-of-Stock Rate by Channel',
+    formula:'SKU-outlet OOS incidents / Total SKU-outlet combinations \u00d7 100',
+    unit:'%', prefix:'', lowerIsBetter:true, decimals:1, target:3, targetLabel:'\u2264 3%', responsible:'Commercial / Distribution',
+    weeks:[{current:3.8,prevWeek:4.2},{current:3.2,prevWeek:3.8},{current:4.1,prevWeek:3.2},{current:2.9,prevWeek:4.1}],
+    greenFn:v=>v<=3, yellowFn:v=>v>3&&v<=5,
+    statusLabel:v=>v<=3?'CONTROLLED':v<=5?'ELEVATED':'CRITICAL' },
+  { id:'ard', name:'Accounts Receivable (AR) Days',
+    formula:'Outstanding AR / Average daily sales',
+    unit:' days', prefix:'', lowerIsBetter:true, decimals:0, target:35, targetLabel:'\u2264 35 days', responsible:'Commercial / Finance',
+    weeks:[{current:34,prevWeek:36},{current:36,prevWeek:34},{current:38,prevWeek:36},{current:35,prevWeek:38}],
+    greenFn:v=>v<=35, yellowFn:v=>v>35&&v<=45,
+    statusLabel:v=>v<=35?'ON TRACK':v<=45?'WATCH':'OVERDUE' },
+  { id:'noa', name:'New Outlet Acquisition',
+    formula:'New outlets onboarded and placed first order',
+    unit:' outlets', prefix:'', lowerIsBetter:false, decimals:0, target:80, targetLabel:'\u2265 80/week', responsible:'Commercial / Sales',
+    weeks:[{current:84,prevWeek:78},{current:91,prevWeek:84},{current:78,prevWeek:91},{current:96,prevWeek:78}],
+    greenFn:v=>v>=80, yellowFn:v=>v>=60&&v<80,
+    statusLabel:v=>v>=80?'ON TARGET':v>=60?'BELOW':'CRITICAL' },
+];
+
+/* ── CM: OPERATIONAL DATA ── */
+const CM_OPERATIONAL = [
+  { id:'ord', name:'Orders Received Today', value:1847, unit:' orders',
+    greenFn:()=>true, yellowFn:()=>false,
+    sub:'MT 42% / GT 38% / E-com 20%', statusOverride:'info' },
+  { id:'opr', name:'Orders Processed Today', value:'1,623 (87.9%)', unit:'',
+    greenFn:()=>true, yellowFn:()=>false,
+    sub:'87.9% processing rate', statusOverride:'green' },
+  { id:'rev', name:'Revenue Booked Today', value:'IDR 2,840M', unit:'',
+    greenFn:()=>true, yellowFn:()=>false,
+    sub:'Running daily total', statusOverride:'info' },
+  { id:'daa', name:'Distributor Alerts Active', value:2, unit:' alerts',
+    greenFn:v=>false, yellowFn:v=>v>0,
+    sub:'PT Papua: AR overdue / PT Timur Jaya: low coverage', statusOverride:'yellow' },
+  { id:'osi', name:'Out-of-Stock Incidents Today', value:14, unit:' SKU-outlet',
+    greenFn:v=>v<=5, yellowFn:v=>v>5&&v<=20,
+    sub:'8 MT / 6 GT', statusOverride:'yellow' },
+  { id:'rpt', name:'Returns Processed Today', value:23, unit:' orders',
+    greenFn:()=>true, yellowFn:()=>false,
+    sub:'1.4% return rate', statusOverride:'green' },
+  { id:'apt', name:'Active Promotions Today', value:3, unit:' promotions',
+    greenFn:()=>true, yellowFn:()=>false,
+    sub:'GT Ramping + TikTok Live + Alfamart', statusOverride:'info' },
+  { id:'not', name:'New Outlets Onboarded Today', value:18, unit:' outlets',
+    greenFn:v=>v>=15, yellowFn:v=>v>=8&&v<15,
+    sub:'12 GT / 6 MT new listings', statusOverride:'green' },
+];
+
+/* ── CM: RENDER STRATEGIC KPIs ── */
+function renderCMStrategic() {
+  const idx=selectedMonthIdx, grid=document.getElementById('cm-strategic-grid');
+  if(!grid) return;
+  grid.innerHTML='';
+  CM_STRATEGIC.forEach(kpi => {
+    const val=getVal(kpi,idx), prev=getPrevVal(kpi,idx), status=getStatus(kpi,val), color=statusColor(status);
+    const card=document.createElement('div');
+    card.className='kpi-card '+status;
+    card.innerHTML=`
+      <div class="kpi-header">
+        <div>
+          <div class="kpi-name">
+            <span class="formula-wrap">${kpi.name}
+              <span class="formula-icon">\u0192</span>
+              <span class="formula-tip">${kpi.formula}</span>
+            </span>
+          </div>
+          <div class="kpi-category"><span class="resp-badge">${kpi.responsible}</span></div>
+        </div>
+        <span class="status-badge badge-${status}">${badgeLabel(status)}</span>
+      </div>
+      <div class="kpi-values">
+        <div class="kpi-value-group">
+          ${kpi.prefix?`<span class="kpi-prefix">${kpi.prefix}</span>`:''}
+          <span class="kpi-current" style="color:${color}">${val.toFixed(kpi.decimals)}</span>
+          ${kpi.unit.trim()?`<span class="kpi-unit">${kpi.unit.trim()}</span>`:''}
+        </div>
+        <div class="trend-arrow">${trendArrowSVG(kpi,val,prev)}</div>
+      </div>
+      <div class="kpi-target">Target: <strong>${(kpi.lowerIsBetter?'\u2264 ':'\u2265 ')+fmt(kpi,kpi.target)}</strong></div>
+      ${renderBarChart(kpi,val)}
+      ${trendChipHTML(kpi,val,prev)}
+      <div class="kpi-bench">Benchmark: ${kpi.benchmark}</div>`;
+    grid.appendChild(card);
+  });
+}
+
+/* ── CM: RENDER CHANNEL PERFORMANCE MATRIX ── */
+function renderCMChannelMatrix() {
+  const container=document.getElementById('cm-channel-matrix');
+  if(!container) return;
+  const channels=[
+    { name:'MODERN TRADE (MT)', icon:'\ud83c\udfec', border:'#0070f2',
+      revShare:'42%', revAmt:'IDR 20.3B',
+      metrics:[
+        {label:'Outlets Covered',val:'8,420'},
+        {label:'Sell-Out vs Sell-In',val:'97%'},
+        {label:'OTD to Outlet',val:'96%'},
+        {label:'Avg Drop Size',val:'52 cases'},
+        {label:'Out-of-Stock Rate',val:'2.1%'},
+        {label:'Promo Compliance',val:'94%'},
+        {label:'YTD Growth',val:'+8.4%'},
+      ],
+      topNote:'Top Accounts: Indomaret 38%, Alfamart 32%, Hypermart 18%, Hero 12%' },
+    { name:'GENERAL TRADE (GT)', icon:'\ud83c\udfea', border:'#0f828f',
+      revShare:'38%', revAmt:'IDR 18.4B',
+      metrics:[
+        {label:'Outlets Covered',val:'42,180'},
+        {label:'Sell-Out vs Sell-In',val:'94%'},
+        {label:'OTD to Outlet',val:'93%'},
+        {label:'Avg Drop Size',val:'38 cases'},
+        {label:'Out-of-Stock Rate',val:'4.8%'},
+        {label:'Promo Compliance',val:'81%'},
+        {label:'YTD Growth',val:'+3.2%'},
+      ],
+      topNote:'Top Areas: Java 58%, Sumatra 22%, Kalimantan 12%, Others 8%' },
+    { name:'E-COMMERCE', icon:'\ud83d\udcf1', border:'#107e3e',
+      revShare:'20%', revAmt:'IDR 9.6B',
+      metrics:[
+        {label:'Active Platforms',val:'5'},
+        {label:'Sell-Out Rate',val:'98%'},
+        {label:'Same-Day Delivery',val:'87%'},
+        {label:'Return Rate',val:'3.2%'},
+        {label:'Customer Rating',val:'4.5\u2b50'},
+        {label:'Promo ROI',val:'285%'},
+        {label:'YTD Growth',val:'+28.6%'},
+      ],
+      topNote:'Top Platforms: Shopee 35%, Tokopedia 28%, TikTok Shop 22%, Lazada 10%, D2C 5%' },
+  ];
+  container.innerHTML=channels.map(ch=>`
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);border-top:6px solid ${ch.border};padding:16px">
+      <div style="font-size:20px;margin-bottom:4px">${ch.icon}</div>
+      <div style="font-size:16px;font-weight:700;color:#1d2d3e;margin-bottom:2px">${ch.name}</div>
+      <div style="font-size:20px;font-weight:800;color:${ch.border};margin-bottom:12px">${ch.revShare} <span style="font-size:13px;font-weight:600;color:#6b7280">${ch.revAmt}</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        ${ch.metrics.map(m=>`
+          <div style="background:#f9fafb;border-radius:6px;padding:8px 10px">
+            <div style="font-size:11px;color:#9ca3af;margin-bottom:2px">${m.label}</div>
+            <div style="font-size:14px;font-weight:700;color:#1d2d3e">${m.val}</div>
+          </div>`).join('')}
+      </div>
+      <div style="font-size:11px;color:#6b7280;background:#f9fafb;border-radius:6px;padding:8px 10px;border-left:3px solid ${ch.border}">${ch.topNote}</div>
+    </div>`).join('');
+}
+
+/* ── CM: DISTRIBUTOR DATA ── */
+let cmDistributorFilter='All';
+const CM_DISTRIBUTORS=[
+  {rank:1,name:'PT Sumber Makmur',region:'West Java',rev:'IDR 4.8B',sellout:97,coverage:'2,840',arDays:28,health:94,status:'\u2705 EXCELLENT'},
+  {rank:2,name:'PT Mitra Niaga Sejahtera',region:'East Java',rev:'IDR 4.2B',sellout:95,coverage:'2,560',arDays:31,health:91,status:'\u2705 EXCELLENT'},
+  {rank:3,name:'PT Karya Distribusi',region:'Jakarta',rev:'IDR 3.9B',sellout:96,coverage:'2,280',arDays:29,health:92,status:'\u2705 EXCELLENT'},
+  {rank:4,name:'PT Nusa Indah Perdana',region:'Sumatra',rev:'IDR 3.1B',sellout:93,coverage:'1,920',arDays:35,health:87,status:'\u2705 GOOD'},
+  {rank:5,name:'PT Cahaya Niaga',region:'Central Java',rev:'IDR 2.8B',sellout:94,coverage:'1,740',arDays:33,health:88,status:'\u2705 GOOD'},
+  {rank:6,name:'PT Borneo Trading',region:'Kalimantan',rev:'IDR 2.2B',sellout:91,coverage:'1,380',arDays:38,health:84,status:'\u26a0\ufe0f WARNING'},
+  {rank:7,name:'PT Sulawesi Distribusi',region:'Sulawesi',rev:'IDR 1.9B',sellout:89,coverage:'1,120',arDays:42,health:81,status:'\u26a0\ufe0f WARNING'},
+  {rank:8,name:'PT Timur Jaya',region:'East Indonesia',rev:'IDR 1.4B',sellout:87,coverage:'840',arDays:45,health:78,status:'\u26a0\ufe0f AT RISK'},
+  {rank:9,name:'PT Bahari Niaga',region:'Bali+NTB',rev:'IDR 1.2B',sellout:91,coverage:'720',arDays:37,health:83,status:'\u2705 GOOD'},
+  {rank:10,name:'PT Papua Distribusi',region:'Papua',rev:'IDR 0.8B',sellout:84,coverage:'480',arDays:52,health:74,status:'\ud83d\udd34 CRITICAL'},
+];
+const CM_REGION_MAP={
+  'Java':['West Java','East Java','Jakarta','Central Java'],
+  'Sumatra':['Sumatra'],
+  'Kalimantan':['Kalimantan'],
+  'Sulawesi':['Sulawesi'],
+  'Other Islands':['East Indonesia','Bali+NTB','Papua'],
+};
+
+/* ── CM: RENDER DISTRIBUTOR SCORECARD ── */
+function renderCMDistributor() {
+  const filters=document.getElementById('cm-distributor-filters');
+  const tbody=document.getElementById('cm-distributor-body');
+  if(!filters||!tbody) return;
+  const pills=['All','Java','Sumatra','Kalimantan','Sulawesi','Other Islands'];
+  filters.innerHTML=pills.map(p=>`
+    <button onclick="cmFilterDistributor('${p}')"
+      style="padding:5px 14px;border-radius:16px;border:1px solid ${cmDistributorFilter===p?'#0070f2':'#e5e7eb'};
+             background:${cmDistributorFilter===p?'#0070f2':'#fff'};color:${cmDistributorFilter===p?'#fff':'#6b7280'};
+             font-size:12px;font-weight:600;cursor:pointer">${p}</button>`).join('');
+  const rows=cmDistributorFilter==='All'
+    ? CM_DISTRIBUTORS
+    : CM_DISTRIBUTORS.filter(d=>{
+        const regions=CM_REGION_MAP[cmDistributorFilter]||[];
+        return regions.some(r=>d.region.includes(r));
+      });
+  tbody.innerHTML=rows.map(d=>{
+    const bg=d.health>=90?'#f0faf4':d.health>=80?'#fff':d.health>=70?'#fff8f0':'#fff0f0';
+    const barColor=d.health>=90?'#107e3e':d.health>=80?'#0070f2':d.health>=70?'#e76500':'#bb0000';
+    return `<tr style="background:${bg}">
+      <td style="font-weight:700">${d.rank}</td>
+      <td style="font-weight:600">${d.name}</td>
+      <td>${d.region}</td>
+      <td style="font-weight:700">${d.rev}</td>
+      <td>${d.sellout}%</td>
+      <td>${d.coverage} outlets</td>
+      <td>${d.arDays} days</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="flex:1;background:#e5e7eb;border-radius:4px;height:6px">
+            <div style="width:${d.health}%;background:${barColor};border-radius:4px;height:6px"></div>
+          </div>
+          <span style="font-size:12px;font-weight:700;color:${barColor};min-width:32px">${d.health}%</span>
+        </div>
+      </td>
+      <td>${d.status}</td>
+    </tr>`;
+  }).join('');
+}
+function cmFilterDistributor(f){cmDistributorFilter=f;renderCMDistributor();}
+
+/* ── CM: RENDER NIELSEN RMS ── */
+function renderCMNielsen() {
+  const tbl=document.getElementById('cm-nielsen-table');
+  const ins=document.getElementById('cm-nielsen-insight');
+  if(!tbl) return;
+  const brands=[
+    {name:'Paragon Corp', data:[15.8,16.4,17.1,17.7,18.3], trend:'\u25b2', isParagon:true},
+    {name:'Wardah',       data:[22.1,21.8,21.5,21.2,20.9], trend:'\u25bc', isParagon:false},
+    {name:"Pond's",       data:[14.2,14.0,13.8,13.5,13.3], trend:'\u25bc', isParagon:false},
+    {name:'Emina',        data:[8.4, 8.6, 8.8, 9.0, 9.2],  trend:'\u25b2', isParagon:false},
+    {name:'Pixy',         data:[7.1, 7.0, 6.9, 6.8, 6.7],  trend:'\u25bc', isParagon:false},
+    {name:'Others',       data:[32.4,32.2,32.0,31.8,31.6], trend:'\u25bc', isParagon:false},
+  ];
+  tbl.innerHTML=`
+    <table class="data-table" style="width:100%">
+      <thead>
+        <tr><th>Brand</th><th>Jan</th><th>Mar</th><th>May</th><th>Jul</th><th>Sep</th><th>Trend</th></tr>
+      </thead>
+      <tbody>
+        ${brands.map(b=>`
+          <tr style="${b.isParagon?'background:#eff6ff;':''}">
+            <td style="${b.isParagon?'font-weight:700;':''}">${b.name}</td>
+            ${b.data.map(v=>`<td style="${b.isParagon?'font-weight:700;':''}">${v.toFixed(1)}%</td>`).join('')}
+            <td style="color:${b.trend==='\u25b2'?'#107e3e':'#bb0000'};font-size:16px;font-weight:700">${b.trend}</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+  if(ins) ins.innerHTML=`
+    <div style="background:#eff6ff;border-left:3px solid #0070f2;border-radius:0 6px 6px 0;padding:10px 14px;font-size:13px;color:#1e40af">
+      \ud83d\udcc8 Paragon gained +2.5% market share YTD \u2014 fastest growing brand in top 5
+    </div>`;
+}
+
+/* ── CM: RENDER SKU REVENUE RANKING ── */
+function renderCMSKURanking() {
+  const sec=document.getElementById('cm-sku-section');
+  if(!sec) return;
+  const top10=[
+    {rank:1,name:'Brightening Day Cream SPF30',cat:'Skincare',rev:'IDR 3,840M',target:'+12%',channel:'MT+GT',trend:'\u25b2'},
+    {rank:2,name:'Hydra-Boost Toner 150ml',cat:'Skincare',rev:'IDR 3,210M',target:'+8%',channel:'All',trend:'\u25b2'},
+    {rank:3,name:'Bamboo Shampoo 280ml',cat:'Haircare',rev:'IDR 2,890M',target:'+15%',channel:'GT',trend:'\u25b2'},
+    {rank:4,name:'Pearl Brightening Cream',cat:'Skincare',rev:'IDR 2,640M',target:'+6%',channel:'MT',trend:'\u25b2'},
+    {rank:5,name:'Vitamin C Serum 30ml',cat:'Skincare',rev:'IDR 2,380M',target:'+18%',channel:'E-com',trend:'\u25b2'},
+    {rank:6,name:'Coconut Body Lotion',cat:'Body Care',rev:'IDR 1,920M',target:'+4%',channel:'GT',trend:'\u2192'},
+    {rank:7,name:'Rose Face Wash 100ml',cat:'Skincare',rev:'IDR 1,780M',target:'+2%',channel:'All',trend:'\u2192'},
+    {rank:8,name:'Argan Oil Conditioner',cat:'Haircare',rev:'IDR 1,640M',target:'+9%',channel:'MT',trend:'\u25b2'},
+    {rank:9,name:'Lavender Body Wash',cat:'Body Care',rev:'IDR 1,420M',target:'+7%',channel:'All',trend:'\u25b2'},
+    {rank:10,name:'Matte Lip Color (Set)',cat:'Color',rev:'IDR 1,280M',target:'+3%',channel:'MT+Ecom',trend:'\u2192'},
+  ];
+  const bot5=[
+    {rank:1,name:'Classic Hair Tonic 100ml',cat:'Haircare',rev:'IDR 124M',target:'-38%',issue:'Low demand',action:'Review/delist'},
+    {rank:2,name:'Powder Foundation Light',cat:'Color',rev:'IDR 186M',target:'-29%',issue:'GT distribution gap',action:'Expand coverage'},
+    {rank:3,name:"Men's Face Wash 50ml",cat:'Skincare',rev:'IDR 218M',target:'-24%',issue:'Low awareness',action:'Marketing support'},
+    {rank:4,name:'Floral Perfume 30ml',cat:'Fragrance',rev:'IDR 245M',target:'-18%',issue:'Pricing issue',action:'Promo activation'},
+    {rank:5,name:'Eye Shadow Palette',cat:'Color',rev:'IDR 312M',target:'-15%',issue:'Channel mismatch',action:'Shift to E-com'},
+  ];
+  sec.innerHTML=`
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);overflow:hidden">
+      <div style="background:#107e3e;color:#fff;padding:10px 16px;font-size:13px;font-weight:700">TOP 10 SKUs \u2014 Revenue Leaders</div>
+      <div class="table-scroll">
+        <table class="data-table" style="font-size:12px">
+          <thead><tr><th>#</th><th>SKU Name</th><th>Category</th><th>Revenue</th><th>vs Target</th><th>Channel</th><th>Trend</th></tr></thead>
+          <tbody>
+            ${top10.map(s=>`
+              <tr>
+                <td style="font-weight:700">${s.rank}</td>
+                <td style="font-weight:600">${s.name}</td>
+                <td>${s.cat}</td>
+                <td style="font-weight:700">${s.rev}</td>
+                <td style="color:#107e3e;font-weight:700">${s.target}</td>
+                <td>${s.channel}</td>
+                <td style="color:${s.trend==='\u25b2'?'#107e3e':'#6b7280'};font-weight:700;font-size:14px">${s.trend}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);overflow:hidden">
+      <div style="background:#bb0000;color:#fff;padding:10px 16px;font-size:13px;font-weight:700">BOTTOM 5 SKUs \u2014 Needs Attention</div>
+      <div class="table-scroll">
+        <table class="data-table" style="font-size:12px">
+          <thead><tr><th>#</th><th>SKU Name</th><th>Category</th><th>Revenue</th><th>vs Target</th><th>Issue</th><th>Action</th></tr></thead>
+          <tbody>
+            ${bot5.map(s=>`
+              <tr style="background:#fff8f8">
+                <td style="font-weight:700">${s.rank}</td>
+                <td style="font-weight:600">${s.name}</td>
+                <td>${s.cat}</td>
+                <td style="font-weight:700">${s.rev}</td>
+                <td style="color:#bb0000;font-weight:700">${s.target}</td>
+                <td>${s.issue}</td>
+                <td style="color:#0070f2;font-weight:600">${s.action}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+/* ── CM: RENDER TRADE PROMOTION ROI TRACKER ── */
+function renderCMPromo() {
+  const sec=document.getElementById('cm-promo-section');
+  if(!sec) return;
+  const promos=[
+    {name:'Shopee 9.9 Mega Sale',channel:'E-Commerce',mechanic:'Flash sale + voucher',invest:'IDR 480M',revenue:'IDR 1,820M',roi:279,status:'\u2705 Completed',period:'Sep 1\u20139, 2025'},
+    {name:'Alfamart Skincare Week',channel:'Modern Trade',mechanic:'Buy 2 get 1 free',invest:'IDR 620M',revenue:'IDR 1,480M',roi:139,status:'\u2705 Completed',period:'Sep 8\u201314, 2025'},
+    {name:'GT Ramping Program Q3',channel:'General Trade',mechanic:'Trade discount 15%',invest:'IDR 840M',revenue:'IDR 1,920M',roi:129,status:'\ud83d\udd04 Active',period:'Jul\u2013Sep 2025'},
+    {name:'TikTok Shop Live Selling',channel:'E-Commerce',mechanic:'Live + voucher',invest:'IDR 320M',revenue:'IDR 980M',roi:206,status:'\ud83d\udd04 Active',period:'Sep 15\u201330, 2025'},
+    {name:'Hypermart End-Cap Display',channel:'Modern Trade',mechanic:'Visibility + discount',invest:'IDR 380M',revenue:'IDR 520M',roi:37,status:'\u26a0\ufe0f Under Review',period:'Sep 2025'},
+    {name:'GT New Outlet Incentive',channel:'General Trade',mechanic:'Opening order bonus',invest:'IDR 290M',revenue:'IDR 410M',roi:41,status:'\u26a0\ufe0f Under Review',period:'Q3 2025'},
+  ];
+  const roiColor=roi=>roi>=200?'#107e3e':roi>=100?'#0070f2':roi>=50?'#e76500':'#bb0000';
+  sec.innerHTML=`
+    <div style="display:inline-flex;align-items:center;gap:16px;background:#f0faf4;border:1px solid #a3d9b1;border-radius:8px;padding:8px 16px;font-size:13px;color:#1d2d3e;margin-bottom:16px;flex-wrap:wrap">
+      \ud83d\udcb0 Total Investment: IDR 2,930M &nbsp;&middot;&nbsp; \ud83d\udcc8 Total Revenue: IDR 7,130M &nbsp;&middot;&nbsp; \ud83c\udfc6 Blended ROI: 143%
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      ${promos.map(p=>`
+        <div style="background:#fff;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-left:4px solid ${roiColor(p.roi)};padding:14px 16px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+            <div style="font-size:14px;font-weight:700;color:#1d2d3e">${p.name}</div>
+            <div style="font-size:20px;font-weight:800;color:${roiColor(p.roi)};white-space:nowrap">${p.roi}%<span style="font-size:11px;font-weight:600;color:#6b7280"> ROI</span></div>
+          </div>
+          <div style="font-size:12px;color:#6b7280;margin-bottom:8px">${p.channel} &middot; ${p.mechanic}</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;margin-bottom:8px">
+            <div><span style="color:#9ca3af">Investment:</span> <strong>${p.invest}</strong></div>
+            <div><span style="color:#9ca3af">Revenue:</span> <strong>${p.revenue}</strong></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px">
+            <span>${p.status}</span>
+            <span style="color:#9ca3af">${p.period}</span>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+/* ── CM: RENDER TACTICAL TABLE ── */
+function renderCMTactical() {
+  const tbody=document.getElementById('cm-tactical-body');
+  if(!tbody) return;
+  tbody.innerHTML='';
+  CM_TACTICAL.forEach(kpi => {
+    const wk=kpi.weeks[selectedWeekIdx], cur=wk.current, prev=wk.prevWeek;
+    const status=getStatus(kpi,cur), color=statusColor(status);
+    const slFn=kpi.statusLabel;
+    const extraLabel=slFn&&slFn(cur)?`<span style="font-size:11px;font-weight:700;color:${color};margin-left:5px">${slFn(cur)}</span>`:'';
+    const allVals=kpi.weeks.map(w=>w.current.toFixed(kpi.decimals)+kpi.unit).join('</td><td>');
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td class="td-name"><span class="formula-wrap">${kpi.name}<span class="formula-icon">\u0192</span><span class="formula-tip">${kpi.formula}</span></span></td>
+      <td><span class="resp-badge">${kpi.responsible}</span></td>
+      <td>${allVals}</td>
+      <td class="td-val ${status}">${cur.toFixed(kpi.decimals)}${kpi.unit}${extraLabel}</td>
+      <td style="color:#6b7280;font-weight:600">${kpi.targetLabel}</td>
+      <td><span class="status-badge badge-${status}">${badgeLabel(status)}</span></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+/* ── CM: RENDER OPERATIONAL TILES ── */
+function renderCMOperational() {
+  const board=document.getElementById('cm-ops-board');
+  if(!board) return;
+  board.innerHTML='';
+  CM_OPERATIONAL.forEach(kpi => {
+    const rawStatus=kpi.statusOverride||(kpi.greenFn(kpi.value)?'green':kpi.yellowFn(kpi.value)?'yellow':'red');
+    const displayStatus=rawStatus==='info'?'green':rawStatus;
+    const color=statusColor(displayStatus);
+    const isCrit=displayStatus==='red';
+    const tile=document.createElement('div');
+    tile.className='ops-tile '+displayStatus+(isCrit?' critical':'');
+    tile.innerHTML=`
+      <div class="ops-tile-name">${kpi.name}</div>
+      <div class="ops-tile-val" style="color:${color}">${kpi.value}${kpi.unit}</div>
+      ${kpi.sub?`<div style="font-size:11px;color:#9ca3af;margin-bottom:6px">${kpi.sub}</div>`:''}
+      <span class="ops-tile-status ${displayStatus}">${isCrit?'\u25cf CRITICAL':displayStatus==='yellow'?'\u25cf WARNING':'\u25cf ON TARGET'}</span>`;
+    board.appendChild(tile);
+  });
+}
+
+/* ── CM: RENDER NODE CONNECTION ── */
+function renderCMNodeConnection() {
+  const grid=document.getElementById('cm-node-grid');
+  if(!grid) return;
+  const wIdx=selectedWeekIdx;
+  const mIdx=selectedMonthIdx===-1?8:selectedMonthIdx;
+  const ofrV=CM_TACTICAL.find(k=>k.id==='ofrc').weeks[wIdx].current;
+  const oosV=CM_TACTICAL.find(k=>k.id==='oosc').weeks[wIdx].current;
+  const ardV=CM_TACTICAL.find(k=>k.id==='ard').weeks[wIdx].current;
+  const tsrV=CM_STRATEGIC.find(k=>k.id==='tsr').monthly[mIdx];
+  const pcrV=CM_TACTICAL.find(k=>k.id==='pcr').weeks[wIdx].current;
+  const sosiV=CM_STRATEGIC.find(k=>k.id==='sosi').monthly[mIdx];
+  const hasLowPromoROI=true; // Hypermart (37%) and GT New Outlet (41%) are below 50%
+  const flags=[
+    { node:'Distribution & Warehouse', icon:'\ud83c\udfe1',
+      status:(ofrV<90||oosV>5)?'warn':(ofrV<95||oosV>3)?'caution':'ok',
+      msg:(ofrV<90)?`Order Fulfillment Rate ${ofrV}% \u2014 below 90%; fulfillment gap impacting revenue`
+         :oosV>5?`Out-of-Stock Rate ${oosV}% \u2014 exceeds 5% threshold; stock replenishment needed`
+         :(ofrV<95||oosV>3)?`Fulfillment ${ofrV}% / OOS ${oosV}% \u2014 approaching threshold; monitor closely`
+         :`Fulfillment ${ofrV}% \u00b7 OOS ${oosV}% \u2014 distribution healthy`,
+      action:(ofrV<90||oosV>5)?'Fulfillment gap impacting revenue \u2014 review outbound order priority':'No action required' },
+    { node:'Transport', icon:'\ud83d\ude9a',
+      status:'ok',
+      msg:'OTD to Outlet: MT 96% \u00b7 GT 93% \u2014 within target range',
+      action:'No action required' },
+    { node:'Manufacturing', icon:'\u2699\ufe0f',
+      status:sosiV>105?'warn':sosiV>100?'caution':'ok',
+      msg:sosiV>105?`Sell-Out vs Sell-In ${sosiV}% \u2014 channel pulling faster than production`
+         :sosiV>100?`Sell-Out vs Sell-In ${sosiV}% \u2014 approaching capacity; monitor production`
+         :`Sell-Out vs Sell-In ${sosiV}% \u2014 production-channel balance healthy`,
+      action:sosiV>105?'Channel pulling faster than production \u2014 increase manufacturing plan':'No action required' },
+    { node:'Finance', icon:'\ud83d\udcb0',
+      status:(ardV>45||tsrV>15)?'warn':(ardV>35||tsrV>12)?'caution':'ok',
+      msg:(ardV>45)?`AR Days ${ardV}d \u2014 exceeds 45-day threshold; working capital risk`
+         :tsrV>15?`Trade Spend ${tsrV.toFixed(1)}% \u2014 exceeds 15% threshold; margin erosion risk`
+         :(ardV>35||tsrV>12)?`AR Days ${ardV}d / Trade Spend ${tsrV.toFixed(1)}% \u2014 approaching threshold; review`
+         :`AR Days ${ardV}d \u00b7 Trade Spend ${tsrV.toFixed(1)}% \u2014 financial KPIs on track`,
+      action:(ardV>45||tsrV>15)?'Working capital risk \u2014 review credit terms with distributors':'No action required' },
+    { node:'Marketing', icon:'\ud83d\udce3',
+      status:(pcrV<85||hasLowPromoROI)?'warn':(pcrV<92)?'caution':'ok',
+      msg:pcrV<85?`Promotion Compliance ${pcrV}% \u2014 below 85%; trade activation not executing`
+         :hasLowPromoROI?`2 promotions with ROI <50% \u2014 Hypermart (37%) and GT New Outlet (41%)`
+         :pcrV<92?`Promotion Compliance ${pcrV}% \u2014 partial; some outlets not executing`
+         :`Compliance ${pcrV}% \u00b7 Promo ROI healthy \u2014 marketing KPIs on track`,
+      action:(pcrV<85||hasLowPromoROI)?'Trade promotion underperforming \u2014 realign activation strategy':'No action required' },
+  ];
+  grid.innerHTML=flags.map(f=>`
+    <div class="ds-flag ds-${f.status}">
+      <div class="ds-flag-ico">${f.icon}</div>
+      <div>
+        <div class="ds-flag-node">${f.node}</div>
+        <div class="ds-flag-msg">${f.msg}</div>
+        <div class="ds-flag-sub" style="margin-top:3px;font-size:11px;color:#9ca3af">
+          <strong style="color:#6b7280">Action:</strong> ${f.action}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+/* ── CM: CHART INITIALIZATION ── */
+let cmChartsBuilt=false;
+function cmInitChartsIfNeeded() {
+  renderCMStrategic();
+  renderCMChannelMatrix();
+  renderCMDistributor();
+  renderCMNielsen();
+  renderCMSKURanking();
+  renderCMPromo();
+  renderCMTactical();
+  renderCMOperational();
+  renderCMNodeConnection();
+  if(cmChartsBuilt) return;
+  cmChartsBuilt=true;
+  buildCMRevenueTrendChart();
+  buildCMChannelChart();
+  buildCMMarketShareChart();
+  buildCMNielsenChart();
+}
+
+/* ── CM: CHART 1 — REVENUE TREND VS TARGET ── */
+function buildCMRevenueTrendChart() {
+  const el=document.getElementById('cmRevenueTrend');
+  if(!el) return;
+  if(el._chartInstance) el._chartInstance.destroy();
+  const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'];
+  const ch=new Chart(el.getContext('2d'),{
+    type:'line',
+    data:{
+      labels:MONTHS,
+      datasets:[
+        {label:'Actual Revenue (IDR B)',data:[38.2,39.5,41.2,42.8,43.5,44.8,46.1,47.4,48.3],
+         borderColor:'#0070f2',backgroundColor:'rgba(0,112,242,0.08)',
+         borderWidth:2.5,tension:0.3,pointRadius:4,fill:true},
+        {label:'Target (IDR 45B)',data:[45,45,45,45,45,45,45,45,45],
+         borderColor:'#e76500',borderDash:[6,4],
+         borderWidth:2,tension:0,pointRadius:0,fill:false},
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:12}}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:11}}},
+        y:{ticks:{font:{size:11},callback:v=>v+'B'},min:35,max:52},
+      }
+    }
+  });
+  el._chartInstance=ch;
+}
+
+/* ── CM: CHART 2 — CHANNEL REVENUE SPLIT ── */
+function buildCMChannelChart() {
+  const el=document.getElementById('cmChannelChart');
+  if(!el) return;
+  if(el._chartInstance) el._chartInstance.destroy();
+  const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'];
+  const ch=new Chart(el.getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:MONTHS,
+      datasets:[
+        {label:'Modern Trade',data:[16.0,16.6,17.3,18.0,18.3,18.8,19.4,19.9,20.3],backgroundColor:'#0070f2',stack:'rev'},
+        {label:'General Trade',data:[14.5,15.0,15.7,16.3,16.5,17.0,17.5,18.0,18.4],backgroundColor:'#0f828f',stack:'rev'},
+        {label:'E-Commerce',  data:[7.7,7.9,8.2,8.5,8.7,9.0,9.2,9.5,9.6],backgroundColor:'#107e3e',stack:'rev'},
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:12}}},
+      scales:{
+        x:{grid:{display:false},stacked:true,ticks:{font:{size:11}}},
+        y:{stacked:true,ticks:{font:{size:11},callback:v=>v+'B'}},
+      }
+    }
+  });
+  el._chartInstance=ch;
+}
+
+/* ── CM: CHART 3 — MARKET SHARE TREND ── */
+function buildCMMarketShareChart() {
+  const el=document.getElementById('cmMarketShare');
+  if(!el) return;
+  if(el._chartInstance) el._chartInstance.destroy();
+  const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'];
+  const ch=new Chart(el.getContext('2d'),{
+    type:'line',
+    data:{
+      labels:MONTHS,
+      datasets:[
+        {label:'Paragon Corp',data:[15.8,16.0,16.4,16.6,17.1,17.3,17.7,18.0,18.3],
+         borderColor:'#0070f2',borderWidth:3,tension:0.3,pointRadius:3,fill:false},
+        {label:'Wardah',data:[22.1,22.0,21.8,21.7,21.5,21.4,21.2,21.1,20.9],
+         borderColor:'#bb0000',borderWidth:1.5,tension:0.3,pointRadius:3,fill:false},
+        {label:"Pond's",data:[14.2,14.1,14.0,13.9,13.8,13.7,13.5,13.4,13.3],
+         borderColor:'#e76500',borderWidth:1.5,tension:0.3,pointRadius:3,fill:false},
+        {label:'Emina',data:[8.4,8.5,8.6,8.7,8.8,8.9,9.0,9.1,9.2],
+         borderColor:'#107e3e',borderWidth:1.5,tension:0.3,pointRadius:3,fill:false},
+        {label:'Pixy',data:[7.1,7.1,7.0,6.9,6.9,6.8,6.8,6.7,6.7],
+         borderColor:'#9333ea',borderWidth:1.5,tension:0.3,pointRadius:3,fill:false},
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{position:'bottom',labels:{font:{size:11},padding:12}},
+        subtitle:{display:true,text:'Source: Nielsen RMS Indonesia',font:{size:10},color:'#9ca3af',padding:{bottom:4}},
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:11}}},
+        y:{ticks:{font:{size:11},callback:v=>v+'%'},min:5,max:25},
+      }
+    }
+  });
+  el._chartInstance=ch;
+}
+
+/* ── CM: CHART 4 — NIELSEN CHANNEL CHART ── */
+function buildCMNielsenChart() {
+  const el=document.getElementById('cmNielsenChart');
+  if(!el) return;
+  if(el._chartInstance) el._chartInstance.destroy();
+  const ch=new Chart(el.getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:['Modern Trade','General Trade','E-Commerce'],
+      datasets:[{
+        label:'Sell-Out Split %',
+        data:[44,36,20],
+        backgroundColor:['#0070f2','#0f828f','#107e3e'],
+        borderRadius:4,
+        borderSkipped:false,
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      indexAxis:'y',
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{font:{size:11},callback:v=>v+'%'},max:55,grid:{color:'#f3f4f6'}},
+        y:{grid:{display:false},ticks:{font:{size:11}}},
+      }
+    }
+  });
+  el._chartInstance=ch;
+}
+
+// === END COMMERCIAL MODULE ===
 </script>
 </body>
 </html>
