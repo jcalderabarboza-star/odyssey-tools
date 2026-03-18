@@ -736,10 +736,9 @@
     <span class="nav-item-icon">🚛</span>
     <span class="nav-item-label">Transport</span>
   </button>
-  <button class="nav-item disabled">
-    <span class="nav-item-icon">🏪</span>
+  <button class="nav-item" id="nav-suppliers" onclick="switchTab('suppliers')">
+    <span class="nav-item-icon">🏭</span>
     <span class="nav-item-label">Suppliers Portal</span>
-    <span class="nav-soon">Soon</span>
   </button>
   <button class="nav-item disabled">
     <span class="nav-item-icon">🎛</span>
@@ -1790,6 +1789,143 @@
 
 </div><!-- end panel-transport -->
 
+<!-- ══════════════════════════════════════════
+     TAB 6: SUPPLIERS PORTAL
+══════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-suppliers">
+
+  <!-- HEADER -->
+  <div class="section-block" style="margin-bottom:20px">
+    <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin-bottom:4px">Suppliers Portal</h2>
+    <p style="font-size:11px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">E2E Control Tower &rsaquo; Supply Chain</p>
+    <p style="font-size:14px;color:#6b7280;font-weight:500">Supplier Intelligence &amp; Performance Management</p>
+  </div>
+
+  <!-- SECTION 1: STRATEGIC KPIs -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">Strategic KPIs &mdash; Monthly</span></p>
+      <span class="section-sub">Hover &fnof; for formula &middot; Driven by month selector above</span>
+    </div>
+    <div class="kpi-grid" id="sp-strategic-grid"></div>
+  </div>
+
+  <!-- SECTION 2: SUPPLIER SCORECARD PANEL -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label" style="font-weight:700;text-transform:uppercase;letter-spacing:0.06em">TOP SUPPLIERS &mdash; PERFORMANCE SCORECARD</p>
+      <span class="section-sub">Top 10 suppliers by spend | Updated monthly</span>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+      <span style="background:#f0faf4;color:#107e3e;border:1px solid #a3d9b1;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700">&#11088; Preferred</span>
+      <span style="background:#eff6ff;color:#0070f2;border:1px solid #bfdbfe;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700">&#10003; Approved</span>
+      <span style="background:#fff8f0;color:#e76500;border:1px solid #f6b26b;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700">&#9888; Conditional</span>
+      <span style="background:#fff0f0;color:#bb0000;border:1px solid #fca5a5;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700">&#128683; Restricted</span>
+    </div>
+    <div id="sp-scorecard-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:16px"></div>
+  </div>
+
+  <!-- SECTION 3: KRALJIC MATRIX -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label" style="font-weight:700;text-transform:uppercase;letter-spacing:0.06em">SUPPLIER SEGMENTATION &mdash; KRALJIC MATRIX</p>
+      <span class="section-sub">Segmented by Supply Risk vs Profit Impact</span>
+    </div>
+    <div class="chart-card" style="position:relative">
+      <div id="sp-kraljic-wrap" style="position:relative;width:100%;height:380px;overflow:hidden"></div>
+      <div id="sp-kraljic-tooltip" style="position:absolute;background:#1d2d3e;color:#fff;padding:6px 10px;border-radius:6px;font-size:11px;pointer-events:none;display:none;z-index:10;max-width:180px;line-height:1.5"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: CONTRACT EXPIRY TRACKER -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label" style="font-weight:700;text-transform:uppercase;letter-spacing:0.06em">CONTRACT EXPIRY TRACKER</p>
+      <span class="section-sub">Active supplier contracts &mdash; next 12 months</span>
+    </div>
+    <div id="sp-contract-tracker"></div>
+  </div>
+
+  <!-- SECTION 5: TACTICAL KPIs -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">Tactical KPIs &mdash; Weekly</span></p>
+      <span class="section-sub">Week selector in header &middot; Status badges</span>
+    </div>
+    <div style="margin-bottom:10px">
+      <label style="font-size:11px;font-weight:700;color:#6b7280;margin-right:8px;text-transform:uppercase">Category:</label>
+      <select id="sp-cat-filter" onchange="renderSPTactical()" style="padding:5px 10px;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;color:#374151;background:#fff;cursor:pointer">
+        <option value="all">All Categories</option>
+        <option value="rm">Raw Materials</option>
+        <option value="pm">Packaging Materials</option>
+      </select>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th></th><th>KPI</th><th>Formula</th>
+            <th>This Week</th><th>Target</th><th>Status</th><th>Threshold</th>
+          </tr>
+        </thead>
+        <tbody id="sp-tactical-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 6: OPERATIONAL TILES -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-purple">Operational KPIs &mdash; Daily</span></p>
+      <span class="section-sub">Today&rsquo;s supplier activity board</span>
+    </div>
+    <div class="ops-board" id="sp-ops-board"></div>
+  </div>
+
+  <!-- SECTION 7a: TREND CHART -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">Suppliers Portal &mdash; Strategic KPI Trend Jan&ndash;Sep 2025</p>
+      <span class="section-sub">Toggle KPI lines &middot; Dashed = target threshold</span>
+    </div>
+    <div class="chart-card">
+      <div class="trend-toggles" id="sp-trend-toggles"></div>
+      <div class="chart-canvas-wrap" style="height:280px"><canvas id="spTrendChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- SECTION 7b: RATING + ESG CHARTS -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px">
+    <div class="chart-card">
+      <div class="chart-card-title">Supplier Base &mdash; Rating Distribution</div>
+      <div class="chart-canvas-wrap" style="height:280px"><canvas id="spRatingChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-title">Supplier ESG Sustainability Scores</div>
+      <div class="chart-canvas-wrap" style="height:280px"><canvas id="spEsgChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- SECTION 8: NODE CONNECTION PANEL -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">Downstream Impact</p>
+      <span class="section-sub">Auto-calculated from current KPI values</span>
+    </div>
+    <div class="ds-panel">
+      <div class="ds-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+          <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+        </svg>
+        Node Connection Indicators
+      </div>
+      <div class="ds-grid" id="sp-node-grid"></div>
+    </div>
+  </div>
+
+</div><!-- end panel-suppliers -->
+
   </div><!-- end page-content -->
 
   <footer>
@@ -1966,6 +2102,8 @@ function selectMonth(idx) {
     renderTransportStrategic();
     renderTransportNodeConnection();
   }
+  renderSPStrategic();
+  renderSPNodeConnection();
 }
 
 /* ══ WEEK CHIPS ══ */
@@ -1987,6 +2125,7 @@ function selectWeek(idx) {
     renderTransportFMTactical();
     renderTransportNodeConnection();
   }
+  renderSPTactical();
 }
 
 /* ══ RENDER: D&W STRATEGIC CARDS ══ */
@@ -2318,12 +2457,13 @@ function switchTab(tab) {
   document.getElementById('panel-'+tab).classList.add('active');
   const navEl=document.getElementById('nav-'+tab);
   if(navEl) navEl.classList.add('active');
-  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase'};
+  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal'};
   document.getElementById('top-bar-title').textContent=titles[tab]||tab;
   const bcEl=document.getElementById('top-bar-breadcrumb');
   if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
   const weekWrap=document.getElementById('week-seg-wrap');
-  if(weekWrap) weekWrap.style.display=(tab==='kpi'||tab==='proc')?'flex':'none';
+  if(weekWrap) weekWrap.style.display=(tab==='kpi'||tab==='proc'||tab==='suppliers')?'flex':'none';
+  if(tab==='suppliers'){ spInitChartsIfNeeded(); }
 }
 
 /* ══ TOAST & PDF ══ */
@@ -3750,6 +3890,635 @@ function initTransportMapTooltips() {
   });
 }
 
+// === SUPPLIERS PORTAL MODULE ===
+
+/* ═══════════════════════════════════════════════════════════
+   SUPPLIERS PORTAL — DATA
+═══════════════════════════════════════════════════════════ */
+const SP_STRATEGIC = [
+  { id:'spi', name:'Supplier Performance Index (SPI)',
+    formula:'OTD (40%) + Quality (40%) + Responsiveness (20%)',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:0, target:90, responsible:'Procurement',
+    monthly:[83,84,85,86,87,88,89,90,91],
+    greenFn:v=>v>=90, yellowFn:v=>v>=80&&v<90,
+    benchmark:'Unilever global supplier standard \u226588%' },
+  { id:'sdr', name:'Supplier Defect Rate',
+    formula:'(Rejected batches / Total batches) \xd7 100',
+    unit:'%', prefix:'', lowerIsBetter:true, decimals:1, target:1.5, responsible:'Quality / Procurement',
+    monthly:[2.8,2.5,2.3,2.1,1.9,1.7,1.5,1.4,1.3],
+    greenFn:v=>v<=1.5, yellowFn:v=>v>1.5&&v<=3,
+    benchmark:'Cosmetics GMP \u22642%' },
+  { id:'sotd', name:'Supplier On-Time Delivery',
+    formula:'(POs on time / Total POs) \xd7 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:0, target:95, responsible:'Procurement',
+    monthly:[91,92,92,93,94,95,95,96,96],
+    greenFn:v=>v>=95, yellowFn:v=>v>=90&&v<95,
+    benchmark:'FMCG global 93\u201397%' },
+  { id:'asbh', name:'Active Supplier Base Health',
+    formula:'(Preferred + Approved / Total active) \xd7 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:0, target:85, responsible:'Procurement',
+    monthly:[74,75,77,79,80,82,83,85,86],
+    greenFn:v=>v>=85, yellowFn:v=>v>=70&&v<85,
+    benchmark:'Minimize conditional suppliers' },
+  { id:'sri', name:'Supplier Risk Index',
+    formula:'(Spend on high-risk suppliers / Total spend) \xd7 100',
+    unit:'%', prefix:'', lowerIsBetter:true, decimals:0, target:10, responsible:'Procurement / Risk',
+    monthly:[22,21,19,18,16,14,13,11,10],
+    greenFn:v=>v<=10, yellowFn:v=>v>10&&v<=20,
+    benchmark:'Supply chain resilience standard' },
+  { id:'nsoc', name:'New Supplier Onboarding Cycle',
+    formula:'Total onboarding days / New suppliers onboarded',
+    unit:' days', prefix:'', lowerIsBetter:true, decimals:0, target:45, responsible:'Procurement',
+    monthly:[58,56,54,52,50,48,47,46,44],
+    greenFn:v=>v<=45, yellowFn:v=>v>45&&v<=60,
+    benchmark:'FMCG best practice \u226430 days' },
+];
+SP_STRATEGIC.forEach(k=>{ k.ytd=+(k.monthly.reduce((a,b)=>a+b,0)/k.monthly.length).toFixed(k.decimals); });
+
+const SP_TACTICAL = [
+  { id:'rm-otd', name:'Raw Materials Suppliers OTD',
+    formula:'(RM POs on time / Total RM POs) \xd7 100',
+    unit:'%', lowerIsBetter:false, decimals:0, target:95, category:'rm',
+    badgeLabels:['ON TRACK','AT RISK','BREACH'],
+    weeks:[{current:93},{current:95},{current:94},{current:96}],
+    greenFn:v=>v>=95, yellowFn:v=>v>=90&&v<95 },
+  { id:'pm-otd', name:'Packaging Materials Suppliers OTD',
+    formula:'(PM POs on time / Total PM POs) \xd7 100',
+    unit:'%', lowerIsBetter:false, decimals:0, target:95, category:'pm',
+    badgeLabels:['ON TRACK','AT RISK','BREACH'],
+    weeks:[{current:89},{current:91},{current:88},{current:92}],
+    greenFn:v=>v>=95, yellowFn:v=>v>=90&&v<95 },
+  { id:'sltv', name:'Supplier Lead Time Variance',
+    formula:'(Actual lead time \u2212 Agreed lead time) / Agreed lead time \xd7 100',
+    unit:'%', lowerIsBetter:true, decimals:0, target:10, category:'all',
+    badgeLabels:['STABLE','VARIABLE','CRITICAL'],
+    weeks:[{current:8},{current:12},{current:18},{current:9}],
+    greenFn:v=>v<=10, yellowFn:v=>v>10&&v<=20 },
+  { id:'ppv', name:'Purchase Price Variance (PPV)',
+    formula:'(Actual Price \u2212 Standard Price) / Standard Price \xd7 100',
+    unit:'%', lowerIsBetter:true, decimals:1, target:2, category:'all',
+    badgeLabels:['CONTROLLED','WATCH','ALERT'],
+    weeks:[{current:1.8},{current:2.3},{current:3.1},{current:1.9}],
+    greenFn:v=>v<=2, yellowFn:v=>v>2&&v<=5 },
+  { id:'scu', name:'Supplier Capacity Utilization',
+    formula:'Supplier reported capacity used / Total capacity \xd7 100',
+    unit:'%', lowerIsBetter:false, decimals:0, target:70, category:'all',
+    badgeLabels:['OPTIMAL','REVIEW','RISK'],
+    weeks:[{current:72},{current:68},{current:75},{current:71}],
+    greenFn:v=>v>=60&&v<=80, yellowFn:v=>(v>=50&&v<60)||(v>80&&v<=90) },
+  { id:'psd', name:'Pending Supplier Claims/Disputes',
+    formula:'Count of open claims/disputes with suppliers',
+    unit:'', lowerIsBetter:true, decimals:0, target:0, category:'all',
+    badgeLabels:['CLEAR','WATCH','ESCALATE'],
+    weeks:[{current:1},{current:2},{current:3},{current:1}],
+    greenFn:v=>v===0, yellowFn:v=>v>=1&&v<=2 },
+];
+
+const SP_SUPPLIERS = [
+  { rank:1, name:'PT Dow Chemical Indonesia', category:'Raw Materials', country:'\ud83c\uddee\ud83c\udde9 Local',
+    rating:'Preferred', spi:94, otd:96, quality:98,
+    leadTime:'7 days', lastDelivery:'Sep 18', deliveryOk:true, deliveryNote:'On Time',
+    esg:82, contractExpiry:'Mar 2026', contractStatus:'ok', borderColor:'#107e3e', ratingIcon:'\u2b50' },
+  { rank:2, name:'Amorepacific Ingredients Korea', category:'Raw Materials', country:'\ud83c\uddf0\ud83c\uddf7 Korea',
+    rating:'Preferred', spi:92, otd:94, quality:97,
+    leadTime:'21 days', lastDelivery:'Sep 15', deliveryOk:true, deliveryNote:'On Time',
+    esg:88, contractExpiry:'Jun 2026', contractStatus:'ok', borderColor:'#107e3e', ratingIcon:'\u2b50' },
+  { rank:3, name:'BASF Personal Care Germany', category:'Raw Materials', country:'\ud83c\udde9\ud83c\uddea Europe',
+    rating:'Preferred', spi:95, otd:97, quality:99,
+    leadTime:'35 days', lastDelivery:'Sep 10', deliveryOk:true, deliveryNote:'On Time',
+    esg:91, contractExpiry:'Dec 2026', contractStatus:'ok', borderColor:'#107e3e', ratingIcon:'\u2b50' },
+  { rank:4, name:'PT Indopack Pratama', category:'Packaging Materials', country:'\ud83c\uddee\ud83c\udde9 Local',
+    rating:'Approved', spi:88, otd:91, quality:96,
+    leadTime:'5 days', lastDelivery:'Sep 20', deliveryOk:true, deliveryNote:'On Time',
+    esg:71, contractExpiry:'Aug 2025', contractStatus:'expired', borderColor:'#0070f2', ratingIcon:'\u2705' },
+  { rank:5, name:'Showa Denko Chemicals Japan', category:'Raw Materials', country:'\ud83c\uddef\ud83c\uddf5 Japan',
+    rating:'Approved', spi:87, otd:90, quality:95,
+    leadTime:'28 days', lastDelivery:'Sep 12', deliveryOk:false, deliveryNote:'Late',
+    esg:85, contractExpiry:'Feb 2026', contractStatus:'ok', borderColor:'#0070f2', ratingIcon:'\u2705' },
+  { rank:6, name:'PT Flexipack Indonesia', category:'Packaging Materials', country:'\ud83c\uddee\ud83c\udde9 Local',
+    rating:'Approved', spi:86, otd:89, quality:94,
+    leadTime:'4 days', lastDelivery:'Sep 19', deliveryOk:true, deliveryNote:'On Time',
+    esg:68, contractExpiry:'Nov 2025', contractStatus:'expiring', borderColor:'#0070f2', ratingIcon:'\u2705' },
+  { rank:7, name:'Givaudan Fragrance Switzerland', category:'Raw Materials', country:'\ud83c\udde8\ud83c\udded Europe',
+    rating:'Preferred', spi:93, otd:95, quality:98,
+    leadTime:'42 days', lastDelivery:'Sep 5', deliveryOk:true, deliveryNote:'On Time',
+    esg:89, contractExpiry:'Sep 2026', contractStatus:'ok', borderColor:'#107e3e', ratingIcon:'\u2b50' },
+  { rank:8, name:'PT Cahaya Kemasan Nusantara', category:'Packaging Materials', country:'\ud83c\uddee\ud83c\udde9 Local',
+    rating:'Conditional', spi:76, otd:82, quality:91,
+    leadTime:'6 days', lastDelivery:'Sep 17', deliveryOk:false, deliveryNote:'Late + damaged',
+    esg:55, contractExpiry:'Jan 2026', contractStatus:'ok', borderColor:'#e76500', ratingIcon:'\u26a0\ufe0f' },
+  { rank:9, name:'Clariant Specialty Chemicals China', category:'Raw Materials', country:'\ud83c\udde8\ud83c\uddf3 China',
+    rating:'Approved', spi:85, otd:88, quality:93,
+    leadTime:'25 days', lastDelivery:'Sep 14', deliveryOk:true, deliveryNote:'On Time',
+    esg:72, contractExpiry:'Apr 2026', contractStatus:'ok', borderColor:'#0070f2', ratingIcon:'\u2705' },
+  { rank:10, name:'PT Maspion Packaging', category:'Packaging Materials', country:'\ud83c\uddee\ud83c\udde9 Local',
+    rating:'Conditional', spi:74, otd:79, quality:89,
+    leadTime:'7 days', lastDelivery:'Sep 16', deliveryOk:false, deliveryNote:'Late',
+    esg:51, contractExpiry:'Oct 2025', contractStatus:'critical', borderColor:'#e76500', ratingIcon:'\u26a0\ufe0f' },
+];
+
+const SP_OPERATIONAL = [
+  { id:'sp-apo', name:'Suppliers with Active POs Today', value:'24', unit:' suppliers', target:'\u2014', status:'teal', badge:'INFO',
+    formula:'Count of suppliers with open POs today', isTeal:true, suffix:'14 RM / 10 PM' },
+  { id:'sp-exp', name:'Expected Deliveries Today', value:'18', unit:' deliveries', target:'\u226595% confirmed', status:'yellow', badge:'WARNING',
+    formula:'Deliveries scheduled for today', suffix:'1 delivery unconfirmed \u2014 Showa Denko' },
+  { id:'sp-rcv', name:'Deliveries Received Today', value:'12 of 18', unit:'', target:'100% by EOD', status:'teal', badge:'IN PROGRESS',
+    formula:'Deliveries completed vs planned today', isTeal:true, suffix:'67% complete' },
+  { id:'sp-qci', name:'QC Inspection Queue', value:'7', unit:' batches', target:'\u22645', status:'yellow', badge:'WARNING',
+    formula:'Batches awaiting QC inspection', suffix:'2 RM batches, 5 PM batches' },
+  { id:'sp-qch', name:'Batches on QC Hold', value:'2', unit:' batches', target:'0', status:'yellow', badge:'WARNING',
+    formula:'Batches quarantined pending QC resolution', suffix:'PT Cahaya Kemasan \u2014 dimensional defect' },
+  { id:'sp-rst', name:'Supplier Response Time Today', value:'6.2 hrs', unit:'', target:'\u22648hrs', status:'green', badge:'ON TARGET',
+    formula:'Avg hours from query to supplier response today' },
+  { id:'sp-csa', name:'Critical Supplier Alerts', value:'2', unit:' alerts', target:'0', status:'yellow', badge:'WARNING',
+    formula:'Count of critical alerts from suppliers today', suffix:'PT Maspion: contract expiry / PT Cahaya: QC hold' },
+  { id:'sp-inv', name:'Inbound Value Today (IDR)', value:'IDR\u00a08,240,500,000', unit:'', target:'\u2014', status:'teal', badge:'INFO',
+    formula:'Total IDR value of inbound goods today', isTeal:true },
+];
+
+const SP_COLORS = ['#0070f2','#107e3e','#e76500','#bb0000','#7c3aed','#0f828f'];
+
+let chartSPTrend=null, chartSPRating=null, chartSPEsg=null;
+let spChartsBuilt=false;
+
+/* ══ RENDER: SP STRATEGIC KPI CARDS ══ */
+function renderSPStrategic() {
+  const idx=selectedMonthIdx, grid=document.getElementById('sp-strategic-grid');
+  if(!grid) return;
+  grid.innerHTML='';
+  SP_STRATEGIC.forEach(kpi=>{
+    const val=getVal(kpi,idx), prev=getPrevVal(kpi,idx);
+    const status=getStatus(kpi,val), color=statusColor(status);
+    const scale=Math.max(val,kpi.target)*1.12;
+    const aPct=Math.min((val/scale)*100,100).toFixed(1);
+    const tPct=Math.min((kpi.target/scale)*100,100).toFixed(1);
+    const card=document.createElement('div');
+    card.className='kpi-card '+status;
+    card.innerHTML=`
+      <div class="kpi-header">
+        <div>
+          <div class="kpi-name"><span class="formula-wrap">${kpi.name}
+            <span class="formula-icon">&#402;</span>
+            <span class="formula-tip"><strong>Formula:</strong> ${kpi.formula}<br><strong>Responsible:</strong> ${kpi.responsible}<br><strong>Target:</strong> ${kpi.lowerIsBetter?'\u2264 ':'\u2265 '}${kpi.target}${kpi.unit}</span>
+          </span></div>
+          <div class="kpi-category"><span class="resp-badge">${kpi.responsible}</span></div>
+        </div>
+        <span class="status-badge badge-${status}">${badgeLabel(status)}</span>
+      </div>
+      <div class="kpi-values">
+        <div class="kpi-value-group">
+          <span class="kpi-current" style="color:${color}">${val.toFixed(kpi.decimals)}</span>
+          ${kpi.unit.trim()?`<span class="kpi-unit">${kpi.unit.trim()}</span>`:''}
+        </div>
+        <div class="trend-arrow">${prev!==null?trendArrowSVG(kpi,val,prev):''}</div>
+      </div>
+      <div class="kpi-target">Target: <strong>${kpi.lowerIsBetter?'\u2264 ':'\u2265 '}${kpi.target}${kpi.unit}</strong></div>
+      <div class="bc-wrap">
+        <div class="bc-row">
+          <span class="bc-label">Actual</span>
+          <div class="bc-track"><div class="bc-fill" style="width:${aPct}%;background:${color}"></div></div>
+          <span class="bc-val" style="color:${color}">${val.toFixed(kpi.decimals)}${kpi.unit}</span>
+        </div>
+        <div class="bc-row">
+          <span class="bc-label">Target</span>
+          <div class="bc-track"><div class="bc-fill" style="width:${tPct}%;background:#e5e7eb"></div></div>
+          <span class="bc-val" style="color:#9ca3af">${kpi.lowerIsBetter?'\u2264':'\u2265'}${kpi.target}${kpi.unit}</span>
+        </div>
+      </div>
+      <div class="kpi-bench">Benchmark: ${kpi.benchmark}</div>`;
+    grid.appendChild(card);
+  });
+}
+
+/* ══ RENDER: SP TACTICAL TABLE ══ */
+function renderSPTactical() {
+  const tbody=document.getElementById('sp-tactical-body');
+  if(!tbody) return;
+  const filterEl=document.getElementById('sp-cat-filter');
+  const catFilter=filterEl?filterEl.value:'all';
+  tbody.innerHTML='';
+  SP_TACTICAL.forEach(kpi=>{
+    if(catFilter!=='all'&&kpi.category!=='all'&&kpi.category!==catFilter) return;
+    const val=kpi.weeks[selectedWeekIdx].current;
+    const status=kpi.greenFn(val)?'green':kpi.yellowFn(val)?'yellow':'red';
+    const dotCls={green:'dot-g',yellow:'dot-y',red:'dot-r'}[status];
+    const bl=kpi.badgeLabels;
+    const badgeText=status==='green'?bl[0]:status==='yellow'?bl[1]:bl[2];
+    const threshLabel=kpi.lowerIsBetter?`\u2264${kpi.target}${kpi.unit} target`:`\u2265${kpi.target}${kpi.unit} target`;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td><span class="td-status-dot ${dotCls}"></span></td>
+      <td class="td-name"><span class="formula-wrap">${kpi.name}<span class="formula-icon">&#402;</span><span class="formula-tip">${kpi.formula}</span></span></td>
+      <td style="font-size:11px;color:#9ca3af;max-width:180px;white-space:normal">${kpi.formula}</td>
+      <td class="td-val ${status}">${val}${kpi.unit}</td>
+      <td style="color:#6b7280;font-weight:600">${kpi.lowerIsBetter?'\u2264 ':'\u2265 '}${kpi.target}${kpi.unit}</td>
+      <td><span class="status-badge badge-${status}">${badgeText}</span></td>
+      <td style="font-size:11px;color:#9ca3af">${threshLabel}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+/* ══ RENDER: SP OPERATIONAL BOARD ══ */
+function renderSPOperational() {
+  const board=document.getElementById('sp-ops-board');
+  if(!board) return;
+  board.innerHTML='';
+  SP_OPERATIONAL.forEach(kpi=>{
+    const isTeal=kpi.isTeal||kpi.status==='teal';
+    const status=kpi.status==='teal'?'green':kpi.status;
+    let tileClass='ops-tile';
+    if(isTeal){ tileClass+=' teal-tile'; } else { tileClass+=' '+status; }
+    const valColor=isTeal?'#0f828f':statusColor(status);
+    const suffix=kpi.suffix?`<div style="font-size:11px;color:#6b7280;margin-top:4px">${kpi.suffix}</div>`:'';
+    const badgeStyle=isTeal?'style="background:#f0fdfa;color:#0f828f;border-color:#99f6e4"':'';
+    board.innerHTML+=`
+      <div class="${tileClass}">
+        <div class="ops-tile-name">${kpi.name}</div>
+        <div class="ops-tile-val" style="color:${valColor};font-size:22px;line-height:1.2;margin-bottom:4px">${kpi.value}${kpi.unit}</div>
+        <div class="ops-tile-target">Target: ${kpi.target}</div>
+        <span class="ops-tile-status ${isTeal?'':status}" ${badgeStyle}>${isTeal?'\u2139':'&#9679;'} ${kpi.badge}</span>
+        ${suffix}
+      </div>`;
+  });
+}
+
+/* ══ RENDER: SP SUPPLIER SCORECARD ══ */
+function renderSPScorecard() {
+  const grid=document.getElementById('sp-scorecard-grid');
+  if(!grid) return;
+  grid.innerHTML='';
+  SP_SUPPLIERS.forEach(s=>{
+    const contractBadge=s.contractStatus==='critical'
+      ? `<span style="background:#fff0f0;color:#bb0000;border:1px solid #fca5a5;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700">\ud83d\udea8 CRITICAL</span>`
+      : s.contractStatus==='expired'
+      ? `<span style="background:#fff0f0;color:#bb0000;border:1px solid #fca5a5;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700">\ud83d\udeab EXPIRED</span>`
+      : s.contractStatus==='expiring'
+      ? `<span style="background:#fff8f0;color:#e76500;border:1px solid #f6b26b;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700">\u26a0\ufe0f EXPIRING</span>`
+      : '';
+    const deliveryColor=s.deliveryOk?'#107e3e':'#bb0000';
+    const deliveryIcon=s.deliveryOk?'\u2705':'\u274c';
+    const spiColor=s.spi>=90?'#107e3e':s.spi>=80?'#e76500':'#bb0000';
+    grid.innerHTML+=`
+      <div style="background:#fff;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border:1px solid #e5e7eb;border-left:4px solid ${s.borderColor};padding:16px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#1d2d3e;margin-bottom:2px">${s.rank}. ${s.name}</div>
+            <div style="font-size:11px;color:#6b7280">${s.category} &middot; ${s.country}</div>
+          </div>
+          <span style="font-size:11px;font-weight:700;color:${s.borderColor};white-space:nowrap">${s.ratingIcon} ${s.rating}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+          <div style="text-align:center;background:#f9fafb;border-radius:6px;padding:8px 4px">
+            <div style="font-size:18px;font-weight:700;color:${spiColor}">${s.spi}%</div>
+            <div style="font-size:10px;color:#9ca3af;font-weight:600;text-transform:uppercase">SPI</div>
+          </div>
+          <div style="text-align:center;background:#f9fafb;border-radius:6px;padding:8px 4px">
+            <div style="font-size:18px;font-weight:700;color:#374151">${s.otd}%</div>
+            <div style="font-size:10px;color:#9ca3af;font-weight:600;text-transform:uppercase">OTD</div>
+          </div>
+          <div style="text-align:center;background:#f9fafb;border-radius:6px;padding:8px 4px">
+            <div style="font-size:18px;font-weight:700;color:#374151">${s.quality}%</div>
+            <div style="font-size:10px;color:#9ca3af;font-weight:600;text-transform:uppercase">Quality</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:#6b7280;display:flex;flex-wrap:wrap;gap:8px">
+          <span>Lead Time: <strong>${s.leadTime}</strong></span>
+          <span>Last: <strong>${s.lastDelivery}</strong> <span style="color:${deliveryColor}">${deliveryIcon} ${s.deliveryNote}</span></span>
+        </div>
+        <div style="font-size:11px;color:#6b7280;margin-top:6px;display:flex;justify-content:space-between;align-items:center">
+          <span>ESG: <strong>${s.esg}/100</strong></span>
+          <span>Contract: <strong>${s.contractExpiry}</strong> ${contractBadge}</span>
+        </div>
+      </div>`;
+  });
+}
+
+/* ══ RENDER: SP KRALJIC MATRIX (SVG) ══ */
+function renderSPKraljic() {
+  const wrap=document.getElementById('sp-kraljic-wrap');
+  if(!wrap) return;
+  const W=800, H=360;
+  // Matrix boundaries
+  const ML=60, MR=W-20, MT=20, MB=H-50;
+  const MW=MR-ML, MH=MB-MT;
+  const CX=ML+MW/2, CY=MT+MH/2; // center dividing point
+
+  const dots=[
+    {name:'BASF Germany',     short:'BASF',       rx:0.20,ry:0.85, color:'#107e3e', r:14, spi:95, spend:'Large'},
+    {name:'Amorepacific Korea', short:'Amorepacific',rx:0.35,ry:0.80, color:'#107e3e', r:12, spi:92, spend:'Large'},
+    {name:'Givaudan Switzerland',short:'Givaudan',  rx:0.25,ry:0.75, color:'#107e3e', r:11, spi:93, spend:'Large'},
+    {name:'Dow Chemical Indonesia',short:'Dow Chem',rx:0.15,ry:0.70, color:'#107e3e', r:13, spi:94, spend:'Large'},
+    {name:'Showa Denko Japan', short:'Showa Denko',rx:0.55,ry:0.72, color:'#0070f2', r:10, spi:87, spend:'Medium'},
+    {name:'Clariant China',    short:'Clariant',   rx:0.60,ry:0.65, color:'#0070f2', r:9,  spi:85, spend:'Medium'},
+    {name:'PT Indopack',       short:'Indopack',   rx:0.20,ry:0.35, color:'#0070f2', r:10, spi:88, spend:'Medium'},
+    {name:'PT Flexipack',      short:'Flexipack',  rx:0.25,ry:0.30, color:'#0070f2', r:9,  spi:86, spend:'Medium'},
+    {name:'PT Cahaya Kemasan', short:'PT Cahaya',  rx:0.70,ry:0.32, color:'#e76500', r:8,  spi:76, spend:'Small'},
+    {name:'PT Maspion',        short:'PT Maspion', rx:0.75,ry:0.28, color:'#e76500', r:7,  spi:74, spend:'Small'},
+  ];
+
+  const px=rx=>ML+rx*MW;
+  const py=ry=>MB-ry*MH;
+
+  const quadBg=[
+    {x:ML,y:MT,w:MW/2,h:MH/2,fill:'#e8f4ff',label:'LEVERAGE',strategy:'Exploit buying power \u2014 negotiate hard',lx:ML+MW/4,ly:MT+14,sc:'#0070f2'},
+    {x:CX, y:MT,w:MW/2,h:MH/2,fill:'#fff0f0',label:'STRATEGIC',strategy:'Partner deeply \u2014 develop alternatives',lx:CX+MW/4,ly:MT+14,sc:'#bb0000'},
+    {x:ML,y:CY,w:MW/2,h:MH/2,fill:'#f0faf4',label:'NON-CRITICAL',strategy:'Automate & simplify purchasing',lx:ML+MW/4,ly:CY+14,sc:'#107e3e'},
+    {x:CX, y:CY,w:MW/2,h:MH/2,fill:'#fff8f0',label:'BOTTLENECK',strategy:'Secure supply \u2014 build safety stock',lx:CX+MW/4,ly:CY+14,sc:'#e76500'},
+  ];
+
+  let svgDots=dots.map((d,i)=>{
+    const cx=px(d.rx), cy=py(d.ry);
+    return `<g class="sp-matrix-dot" data-idx="${i}" style="cursor:pointer">
+      <circle cx="${cx}" cy="${cy}" r="${d.r}" fill="${d.color}" fill-opacity="0.85" stroke="#fff" stroke-width="2"/>
+      <text x="${cx}" y="${cy+d.r+11}" text-anchor="middle" font-size="9" fill="#374151" font-weight="600">${d.short}</text>
+    </g>`;
+  }).join('');
+
+  wrap.innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+    ${quadBg.map(q=>`
+      <rect x="${q.x}" y="${q.y}" width="${q.w}" height="${q.h}" fill="${q.fill}" stroke="#e5e7eb" stroke-width="1"/>
+      <text x="${q.lx}" y="${q.ly}" text-anchor="middle" font-size="11" font-weight="700" fill="${q.sc}" letter-spacing="1">${q.label}</text>
+      <text x="${q.lx}" y="${q.ly+14}" text-anchor="middle" font-size="9" fill="${q.sc}" fill-opacity="0.7">${q.strategy}</text>`).join('')}
+    <!-- Dividing lines -->
+    <line x1="${CX}" y1="${MT}" x2="${CX}" y2="${MB}" stroke="#c8d3dc" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <line x1="${ML}" y1="${CY}" x2="${MR}" y2="${CY}" stroke="#c8d3dc" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <!-- X-axis label -->
+    <text x="${ML+MW/2}" y="${H-8}" text-anchor="middle" font-size="11" fill="#6b7280" font-weight="600">Supply Risk \u2192 High</text>
+    <text x="${ML}" y="${H-8}" text-anchor="start" font-size="9" fill="#9ca3af">Low</text>
+    <text x="${MR}" y="${H-8}" text-anchor="end" font-size="9" fill="#9ca3af">High</text>
+    <!-- Y-axis label -->
+    <text x="12" y="${MT+MH/2}" text-anchor="middle" font-size="11" fill="#6b7280" font-weight="600" transform="rotate(-90,12,${MT+MH/2})">Profit Impact</text>
+    <text x="16" y="${MT+5}" text-anchor="middle" font-size="9" fill="#9ca3af">High</text>
+    <text x="16" y="${MB}" text-anchor="middle" font-size="9" fill="#9ca3af">Low</text>
+    ${svgDots}
+  </svg>`;
+
+  // Tooltip
+  const tooltip=document.getElementById('sp-kraljic-tooltip');
+  const svgEl=wrap.querySelector('svg');
+  if(tooltip&&svgEl){
+    wrap.querySelectorAll('.sp-matrix-dot').forEach(g=>{
+      const idx=parseInt(g.getAttribute('data-idx'),10);
+      const d=dots[idx];
+      g.addEventListener('mouseenter',e=>{
+        tooltip.innerHTML=`<strong>${d.name}</strong><br>SPI: ${d.spi}%<br>Spend: ${d.spend}`;
+        tooltip.style.display='block';
+      });
+      g.addEventListener('mousemove',e=>{
+        const rect=wrap.getBoundingClientRect();
+        tooltip.style.left=(e.clientX-rect.left+14)+'px';
+        tooltip.style.top=(e.clientY-rect.top-40)+'px';
+      });
+      g.addEventListener('mouseleave',()=>{ tooltip.style.display='none'; });
+    });
+  }
+}
+
+/* ══ RENDER: SP CONTRACT EXPIRY TRACKER ══ */
+function renderSPContractTracker() {
+  const wrap=document.getElementById('sp-contract-tracker');
+  if(!wrap) return;
+
+  const contracts=[
+    {name:'PT Maspion Packaging',       expiry:'Oct 2025', status:'critical', days:31},
+    {name:'PT Indopack Pratama',        expiry:'Aug 2025', status:'expired',  days:-30},
+    {name:'PT Flexipack Indonesia',     expiry:'Nov 2025', status:'expiring', days:61},
+    {name:'PT Dow Chemical',            expiry:'Mar 2026', status:'ok',       days:181},
+    {name:'Showa Denko Japan',          expiry:'Feb 2026', status:'ok',       days:151},
+    {name:'PT Cahaya Kemasan',          expiry:'Jan 2026', status:'ok',       days:121},
+    {name:'Amorepacific Korea',         expiry:'Jun 2026', status:'ok',       days:271},
+    {name:'BASF Germany',              expiry:'Dec 2026', status:'ok',       days:451},
+    {name:'Givaudan Switzerland',       expiry:'Sep 2026', status:'ok',       days:361},
+    {name:'Clariant China',            expiry:'Apr 2026', status:'ok',       days:211},
+  ];
+
+  const urgentCount=contracts.filter(c=>c.status==='critical'||c.status==='expired').length;
+  const alertBanner=urgentCount>0?`
+    <div style="background:#fff8f0;border:1px solid #e76500;border-radius:6px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:8px">
+      <span style="font-size:16px">\u26a0\ufe0f</span>
+      <span style="font-size:13px;font-weight:700;color:#e76500">${urgentCount} contract${urgentCount>1?'s':''} require immediate attention</span>
+    </div>`:'';
+
+  const maxDays=500;
+  const rows=contracts.map(c=>{
+    const barColor=c.status==='expired'?'#bb0000':c.status==='critical'?'#bb0000':c.status==='expiring'?'#e76500':'#107e3e';
+    const barPct=c.days<=0?2:Math.min((c.days/maxDays)*100,100);
+    const statusBadge=c.status==='expired'
+      ? `<span style="background:#fff0f0;color:#bb0000;border:1px solid #fca5a5;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700">\ud83d\udeab EXPIRED</span>`
+      : c.status==='critical'
+      ? `<span style="background:#fff0f0;color:#bb0000;border:1px solid #fca5a5;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700">\ud83d\udea8 ${c.days} days</span>`
+      : c.status==='expiring'
+      ? `<span style="background:#fff8f0;color:#e76500;border:1px solid #f6b26b;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700">\u26a0\ufe0f ${c.days} days</span>`
+      : `<span style="background:#f0faf4;color:#107e3e;border:1px solid #a3d9b1;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700">\u2705 ${c.days} days</span>`;
+    return `
+      <div style="display:grid;grid-template-columns:220px 1fr 100px;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #f3f4f6">
+        <div style="font-size:12px;font-weight:600;color:#1d2d3e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${c.name}">${c.name}</div>
+        <div style="background:#f3f4f6;border-radius:4px;height:10px;overflow:hidden">
+          <div style="height:100%;background:${barColor};width:${barPct}%;border-radius:4px;transition:width 0.3s"></div>
+        </div>
+        <div style="text-align:right;font-size:11px;color:#6b7280">${c.expiry} ${statusBadge}</div>
+      </div>`;
+  }).join('');
+
+  wrap.innerHTML=`
+    ${alertBanner}
+    <div style="background:#fff;border-radius:8px;border:1px solid #e5e7eb;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)">
+      <div style="display:grid;grid-template-columns:220px 1fr 100px;gap:12px;padding-bottom:8px;border-bottom:2px solid #e5e7eb;margin-bottom:4px">
+        <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase">Supplier</div>
+        <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase">Time Remaining (Oct 2025 \u2192 Sep 2026)</div>
+        <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;text-align:right">Expiry</div>
+      </div>
+      ${rows}
+    </div>`;
+}
+
+/* ══ RENDER: SP NODE CONNECTION ══ */
+function renderSPNodeConnection() {
+  const grid=document.getElementById('sp-node-grid');
+  if(!grid) return;
+  const mIdx=selectedMonthIdx===-1?8:selectedMonthIdx;
+  const spiV=SP_STRATEGIC.find(k=>k.id==='spi').monthly[mIdx];
+  const sotdV=SP_STRATEGIC.find(k=>k.id==='sotd').monthly[mIdx];
+  const sdrV=SP_STRATEGIC.find(k=>k.id==='sdr').monthly[mIdx];
+  const sriV=SP_STRATEGIC.find(k=>k.id==='sri').monthly[mIdx];
+  const wIdx=selectedWeekIdx;
+  const ppvV=SP_TACTICAL.find(k=>k.id==='ppv').weeks[wIdx].current;
+  const hasExpiredContract=true; // PT Indopack expired, PT Maspion critical
+
+  const flags=[
+    { node:'Procurement', icon:'\ud83d\uded2',
+      status:(spiV<80||sotdV<90)?'warn':'ok',
+      msg:spiV<80?`Supplier Performance Index at ${spiV}% \u2014 below minimum threshold`:
+          sotdV<90?`Supplier On-Time Delivery at ${sotdV}% \u2014 supply risk`:
+          'Supplier performance within targets',
+      action:spiV<80||sotdV<90?'Supplier performance below threshold \u2014 review sourcing alternatives':'No action required' },
+    { node:'Manufacturing', icon:'\ud83c\udfed',
+      status:(sdrV>3)?'warn':'ok',
+      msg:sdrV>3?`Supplier Defect Rate at ${sdrV}% \u2014 production quality risk`:
+          'Inbound quality within acceptable range',
+      action:sdrV>3?'Quality hold impacting production \u2014 activate quarantine protocol':'No action required' },
+    { node:'Finance', icon:'\ud83d\udcb0',
+      status:(sriV>20||ppvV>5)?'caution':'ok',
+      msg:sriV>20?`Supplier Risk Index at ${sriV}% \u2014 spend concentration risk`:
+          ppvV>5?`Purchase Price Variance at ${ppvV}% \u2014 budget impact`:
+          'Supply spend within parameters',
+      action:sriV>20||ppvV>5?'Supply cost variance alert \u2014 review budget impact':'No action required' },
+    { node:'Procurement (Contracts)', icon:'\ud83d\udcc4',
+      status:hasExpiredContract?'warn':'ok',
+      msg:'PT Indopack: contract expired | PT Maspion: expiring in 31 days',
+      action:'Contract renewal required \u2014 initiate negotiation immediately' },
+  ];
+  grid.innerHTML=flags.map(f=>`
+    <div class="ds-flag ds-${f.status}">
+      <div class="ds-flag-ico">${f.icon}</div>
+      <div>
+        <div class="ds-flag-node">${f.node}</div>
+        <div class="ds-flag-msg">${f.msg}</div>
+        <div class="ds-flag-sub" style="margin-top:3px"><strong style="color:#6b7280">Action:</strong> ${f.action}</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ══ SP CHARTS ══ */
+function buildSPTrendChart() {
+  const el=document.getElementById('spTrendChart');
+  if(!el) return;
+  if(chartSPTrend) chartSPTrend.destroy();
+  const datasets=SP_STRATEGIC.map((kpi,i)=>({
+    label:kpi.name, data:kpi.monthly,
+    borderColor:SP_COLORS[i], backgroundColor:SP_COLORS[i]+'10',
+    borderWidth:2, pointRadius:3, pointHoverRadius:5, tension:0.35, fill:false,
+  }));
+  SP_STRATEGIC.forEach((kpi,i)=>{
+    datasets.push({
+      label:'Target: '+kpi.name, data:Array(9).fill(kpi.target),
+      borderColor:SP_COLORS[i]+'60', borderDash:[5,4], borderWidth:1,
+      pointRadius:0, fill:false
+    });
+  });
+  chartSPTrend=new Chart(el.getContext('2d'),{type:'line',data:{labels:MONTHS,datasets},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{position:'bottom',labels:{font:{size:10},padding:10,boxWidth:12,color:'#9ca3af',
+          filter:item=>item.datasetIndex<SP_STRATEGIC.length}},
+        tooltip:{backgroundColor:'#fff',borderColor:'#e5e7eb',borderWidth:1,titleColor:'#1d2d3e',bodyColor:'#374151',
+          callbacks:{label:ctx=>ctx.datasetIndex<SP_STRATEGIC.length?` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}${SP_STRATEGIC[ctx.datasetIndex]?.unit||''}`:null}}
+      },
+      scales:{
+        y:{grid:{color:'#f3f4f6'},ticks:{font:{size:10},color:'#9ca3af'}},
+        x:{grid:{color:'#f3f4f6'},ticks:{font:{size:10},color:'#9ca3af'}}
+      }
+    }
+  });
+  // Toggle buttons
+  const toggleContainer=document.getElementById('sp-trend-toggles');
+  if(toggleContainer){
+    toggleContainer.innerHTML=SP_STRATEGIC.map((kpi,i)=>
+      `<button class="trend-toggle-btn" style="--tc:${SP_COLORS[i]}" onclick="toggleSPLine(${i},this)">${kpi.name}</button>`
+    ).join('');
+  }
+}
+
+function toggleSPLine(idx,btn) {
+  if(!chartSPTrend) return;
+  const meta=chartSPTrend.getDatasetMeta(idx);
+  meta.hidden=!meta.hidden;
+  btn.classList.toggle('off',meta.hidden);
+  chartSPTrend.update();
+}
+
+function buildSPRatingChart() {
+  const el=document.getElementById('spRatingChart');
+  if(!el) return;
+  if(chartSPRating) chartSPRating.destroy();
+  chartSPRating=new Chart(el.getContext('2d'),{
+    type:'doughnut',
+    data:{
+      labels:['Preferred (4)','Approved (4)','Conditional (2)','Restricted (0)'],
+      datasets:[{
+        data:[4,4,2,0],
+        backgroundColor:['#107e3e','#0070f2','#e76500','#bb0000'],
+        borderWidth:2, borderColor:'#fff',
+        hoverOffset:6
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'bottom',labels:{font:{size:11},padding:12,boxWidth:14,color:'#374151'}},
+        tooltip:{backgroundColor:'#fff',borderColor:'#e5e7eb',borderWidth:1,titleColor:'#1d2d3e',bodyColor:'#374151',
+          callbacks:{label:ctx=>`  ${ctx.label}: ${ctx.parsed} suppliers (${Math.round(ctx.parsed/10*100)}%)`}}
+      }
+    }
+  });
+}
+
+function buildSPEsgChart() {
+  const el=document.getElementById('spEsgChart');
+  if(!el) return;
+  if(chartSPEsg) chartSPEsg.destroy();
+  const esgData=[
+    {name:'BASF Germany',score:91},{name:'Givaudan Switzerland',score:89},
+    {name:'Amorepacific Korea',score:88},{name:'Showa Denko Japan',score:85},
+    {name:'Dow Chemical Indonesia',score:82},{name:'Clariant China',score:72},
+    {name:'PT Indopack',score:71},{name:'PT Flexipack',score:68},
+    {name:'PT Cahaya Kemasan',score:55},{name:'PT Maspion',score:51},
+  ];
+  const bgColors=esgData.map(d=>d.score>=80?'#107e3e':d.score>=60?'#e76500':'#bb0000');
+  chartSPEsg=new Chart(el.getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:esgData.map(d=>d.name),
+      datasets:[{
+        label:'ESG Score',
+        data:esgData.map(d=>d.score),
+        backgroundColor:bgColors,
+        borderRadius:3, borderWidth:0,
+      }]
+    },
+    options:{
+      indexAxis:'y',
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{backgroundColor:'#fff',borderColor:'#e5e7eb',borderWidth:1,titleColor:'#1d2d3e',bodyColor:'#374151',
+          callbacks:{label:ctx=>` ESG Score: ${ctx.parsed.x}/100`}},
+        annotation:{}
+      },
+      scales:{
+        x:{min:0,max:100,grid:{color:'#f3f4f6'},ticks:{font:{size:10},color:'#9ca3af'},
+          afterDraw(chart){
+            const ctx2=chart.ctx, xScale=chart.scales.x, yScale=chart.scales.y;
+            const xPos=xScale.getPixelForValue(80);
+            ctx2.save();
+            ctx2.beginPath();
+            ctx2.setLineDash([5,4]);
+            ctx2.strokeStyle='#0070f2';
+            ctx2.lineWidth=1.5;
+            ctx2.moveTo(xPos,yScale.top);
+            ctx2.lineTo(xPos,yScale.bottom);
+            ctx2.stroke();
+            ctx2.fillStyle='#0070f2';
+            ctx2.font='10px Inter,sans-serif';
+            ctx2.fillText('Target 80',xPos+4,yScale.top+12);
+            ctx2.restore();
+          }
+        },
+        y:{grid:{display:false},ticks:{font:{size:10},color:'#374151'}}
+      }
+    }
+  });
+}
+
+function spInitChartsIfNeeded() {
+  if(spChartsBuilt) return;
+  spChartsBuilt=true;
+  buildSPTrendChart();
+  buildSPRatingChart();
+  buildSPEsgChart();
+}
+
+// === END SUPPLIERS PORTAL MODULE ===
+
 /* ══ INIT ══ */
 renderMonthChips();
 renderWeekChips();
@@ -3782,6 +4551,15 @@ buildProcActivityChart();
 
 // Transport module init
 initTransportMapTooltips();
+
+// Suppliers Portal module init
+renderSPStrategic();
+renderSPTactical();
+renderSPOperational();
+renderSPScorecard();
+renderSPKraljic();
+renderSPContractTracker();
+renderSPNodeConnection();
 </script>
 </body>
 </html>
