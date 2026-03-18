@@ -880,10 +880,9 @@
     <span class="nav-item-icon">📊</span>
     <span class="nav-item-label">Commercial</span>
   </button>
-  <button class="nav-item disabled">
+  <button class="nav-item" id="nav-marketing" onclick="switchTab('marketing')">
     <span class="nav-item-icon">📣</span>
     <span class="nav-item-label">Marketing</span>
-    <span class="nav-soon">Soon</span>
   </button>
   <button class="nav-item" id="nav-wh" onclick="switchTab('wh')">
     <span class="nav-item-icon">📋</span>
@@ -2494,6 +2493,181 @@
 </div><!-- end panel-commercial -->
 <!-- === END COMMERCIAL MODULE HTML === -->
 
+<!-- === MARKETING MODULE HTML === -->
+<div class="tab-panel" id="panel-marketing">
+
+  <!-- PAGE HEADER -->
+  <div style="margin-bottom:20px">
+    <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin:0 0 4px">Marketing Dashboard</h2>
+    <div style="font-size:12px;color:#9ca3af;margin-bottom:6px">E2E Control Tower &rsaquo; Commercial &amp; Innovation</div>
+    <div style="font-size:13px;color:#6b7280;margin-bottom:10px">Brand Intelligence &middot; Campaign Performance &middot; Consumer Insights</div>
+    <div style="display:inline-flex;align-items:center;gap:8px;background:#f0faf4;border-radius:20px;padding:6px 16px;font-size:13px;color:#1d2d3e;border:1px solid #a3d9b1;flex-wrap:wrap">
+      🌟 Brand Health: 82/100 &nbsp;&middot;&nbsp; 📱 12 active campaigns &nbsp;&middot;&nbsp; 💄 284 Beauty Advisors active &nbsp;&middot;&nbsp; ⭐ NPS: +42
+    </div>
+  </div>
+
+  <!-- SECTION 1: STRATEGIC KPIs -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">Strategic KPIs — Monthly</span></p>
+      <span class="section-sub">Hover ƒ for formula &middot; Driven by month selector above</span>
+    </div>
+    <div class="kpi-grid" id="mk-strategic-grid"></div>
+  </div>
+
+  <!-- SECTION 2: CAMPAIGN PERFORMANCE TRACKER -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">CAMPAIGN PERFORMANCE TRACKER</span></p>
+      <span class="section-sub">All active and recently completed campaigns | Sep-25</span>
+    </div>
+    <div id="mk-campaign-section"></div>
+  </div>
+
+  <!-- SECTION 3: BEAUTY ADVISOR INTELLIGENCE -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">BEAUTY ADVISOR INTELLIGENCE</span></p>
+      <span class="section-sub">284 active BAs across Indonesia | Sep-25</span>
+    </div>
+    <div id="mk-ba-section"></div>
+  </div>
+
+  <!-- SECTION 4: DIGITAL & SOCIAL MEDIA INTELLIGENCE -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">DIGITAL &amp; SOCIAL MEDIA INTELLIGENCE</span></p>
+      <span class="section-sub">Platform performance and audience engagement | Sep-25</span>
+    </div>
+    <div id="mk-digital-section"></div>
+  </div>
+
+  <!-- SECTION 5: TIKTOK SHOP LIVE SELLING -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">TIKTOK SHOP LIVE SELLING</span></p>
+      <span class="section-sub">Live session performance | Sep-25</span>
+    </div>
+    <div id="mk-tiktok-section"></div>
+  </div>
+
+  <!-- SECTION 6: INFLUENCER MARKETING ROI -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">INFLUENCER MARKETING ROI</span></p>
+      <span class="section-sub">42 active influencers | Sep-25</span>
+    </div>
+    <div id="mk-influencer-section"></div>
+  </div>
+
+  <!-- SECTION 7: CONSUMER SENTIMENT + NPS -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">CONSUMER SENTIMENT ANALYSIS</span></p>
+      <span class="section-sub">84,200 mentions analyzed | Sep-25 | Powered by Social Listening</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+        <div style="font-size:13px;font-weight:700;color:#1d2d3e;margin-bottom:14px">Sentiment Breakdown</div>
+        <div style="position:relative;height:200px;margin-bottom:16px"><canvas id="mkSentimentChart"></canvas></div>
+        <div id="mk-sentiment-themes"></div>
+      </div>
+      <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px" id="mk-nps-panel"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 8: CONSUMER PERSONA BREAKDOWN -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">CONSUMER PERSONA BREAKDOWN</span></p>
+      <span class="section-sub">Primary buyer segments | Based on purchase + digital behavior data</span>
+    </div>
+    <div id="mk-persona-section"></div>
+  </div>
+
+  <!-- SECTION 9: BRAND POSITIONING MAP -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">BRAND POSITIONING MAP</span></p>
+      <span class="section-sub">Paragon vs competitors — Price vs Quality perception | Sep-25</span>
+    </div>
+    <div id="mk-positioning-section"></div>
+  </div>
+
+  <!-- SECTION 10: TACTICAL KPIs (Weekly) -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">Tactical KPIs — Weekly</span></p>
+      <span class="section-sub">Week selector in header &middot; W/W trend indicators</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>KPI</th><th>W1</th><th>W2</th><th>W3</th><th>W4</th>
+            <th>This Week</th><th>Target</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="mk-tactical-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 11: OPERATIONAL TILES (Daily) -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-purple">Operational Status — Daily</span></p>
+      <span class="section-sub">Live marketing activity — Today</span>
+    </div>
+    <div class="ops-board" id="mk-ops-board"></div>
+  </div>
+
+  <!-- SECTION 12: CHARTS -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">Marketing Dashboard — Strategic KPI Trend Jan–Sep 2025</p>
+      <span class="section-sub">Click legend to toggle lines</span>
+    </div>
+    <div class="chart-card">
+      <div class="chart-canvas-wrap" style="height:280px"><canvas id="mkTrendChart"></canvas></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px">
+    <div>
+      <div class="section-hdr"><p class="section-label">Campaign ROI by Type — Sep-25</p></div>
+      <div class="chart-card">
+        <div class="chart-canvas-wrap" style="height:260px"><canvas id="mkRoiChart"></canvas></div>
+      </div>
+    </div>
+    <div>
+      <div class="section-hdr"><p class="section-label">Beauty Advisor Productivity Jan–Sep 2025 (IDR M/BA/month)</p></div>
+      <div class="chart-card">
+        <div class="chart-canvas-wrap" style="height:260px"><canvas id="mkBaChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 13: NODE CONNECTION PANEL -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">Cross-functional Impact</p>
+      <span class="section-sub">Auto-calculated from current Marketing KPI values</span>
+    </div>
+    <div class="ds-panel">
+      <div class="ds-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+          <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+        </svg>
+        Node Connection Indicators
+      </div>
+      <div class="ds-grid" id="mk-node-grid"></div>
+    </div>
+  </div>
+
+</div><!-- end panel-marketing -->
+<!-- === END MARKETING MODULE HTML === -->
+
   </div><!-- end page-content -->
 
   <footer>
@@ -2680,6 +2854,10 @@ function selectMonth(idx) {
     renderCMStrategic();
     renderCMNodeConnection();
   }
+  if (document.getElementById('panel-marketing') && document.getElementById('panel-marketing').classList.contains('active')) {
+    renderMKStrategic();
+    renderMKNodeConnection();
+  }
 }
 
 /* ══ WEEK CHIPS ══ */
@@ -2708,6 +2886,10 @@ function selectWeek(idx) {
   if (document.getElementById('panel-commercial') && document.getElementById('panel-commercial').classList.contains('active')) {
     renderCMTactical();
     renderCMNodeConnection();
+  }
+  if (document.getElementById('panel-marketing') && document.getElementById('panel-marketing').classList.contains('active')) {
+    renderMKTactical();
+    renderMKNodeConnection();
   }
 }
 
@@ -3040,12 +3222,12 @@ function switchTab(tab) {
   document.getElementById('panel-'+tab).classList.add('active');
   const navEl=document.getElementById('nav-'+tab);
   if(navEl) navEl.classList.add('active');
-  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard'};
+  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard'};
   document.getElementById('top-bar-title').textContent=titles[tab]||tab;
   const bcEl=document.getElementById('top-bar-breadcrumb');
   if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
   const weekWrap=document.getElementById('week-seg-wrap');
-  if(weekWrap) weekWrap.style.display=(tab==='kpi'||tab==='proc'||tab==='suppliers'||tab==='rd'||tab==='commercial')?'flex':'none';
+  if(weekWrap) weekWrap.style.display=(tab==='kpi'||tab==='proc'||tab==='suppliers'||tab==='rd'||tab==='commercial'||tab==='marketing')?'flex':'none';
   if(tab==='suppliers'){ spInitChartsIfNeeded(); }
   if(tab==='ct'){
     if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Master View';
@@ -3058,6 +3240,10 @@ function switchTab(tab) {
   if(tab==='commercial'){
     if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Commercial & Innovation';
     cmInitChartsIfNeeded();
+  }
+  if(tab==='marketing'){
+    if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Commercial & Innovation';
+    mkInitChartsIfNeeded();
   }
 }
 
@@ -6759,6 +6945,808 @@ function buildCMNielsenChart() {
 }
 
 // === END COMMERCIAL MODULE ===
+
+// === MARKETING MODULE ===
+
+/* ── MK: DATA ── */
+const MK_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'];
+
+const MK_STRATEGIC = [
+  { id:'bhi', name:'Brand Health Index',
+    formula:'Weighted: Awareness(30%) + Consideration(30%) + Purchase Intent(25%) + Loyalty(15%)',
+    unit:'/100', prefix:'', lowerIsBetter:false, decimals:0, target:85,
+    monthly:[74,75,76,77,78,79,80,81,82],
+    greenFn:function(v){return v>=85;}, yellowFn:function(v){return v>=70&&v<85;},
+    benchmark:"L\u2019Or\u00e9al Indonesia ~88, Wardah ~84" },
+  { id:'roi', name:'Blended Campaign ROI',
+    formula:'(Revenue attributed to campaigns / Campaign spend) \xd7 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:0, target:200,
+    monthly:[158,164,171,178,182,188,194,199,206],
+    greenFn:function(v){return v>=200;}, yellowFn:function(v){return v>=120&&v<200;},
+    benchmark:'FMCG Indonesia digital 180-250%' },
+  { id:'sov', name:'Digital Share of Voice',
+    formula:'Paragon mentions / Total category mentions \xd7 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:1, target:20,
+    monthly:[16.2,16.8,17.4,17.9,18.4,18.9,19.4,19.8,20.3],
+    greenFn:function(v){return v>=20;}, yellowFn:function(v){return v>=15&&v<20;},
+    benchmark:'Nielsen social listening Indonesia' },
+  { id:'bap', name:'BA Productivity',
+    formula:'Total BA-generated revenue / Active BAs',
+    unit:'M', prefix:'IDR ', lowerIsBetter:false, decimals:1, target:8,
+    monthly:[6.2,6.5,6.8,7.1,7.3,7.6,7.8,7.9,8.1],
+    greenFn:function(v){return v>=8;}, yellowFn:function(v){return v>=6&&v<8;},
+    benchmark:'Cosmetics Indonesia BA standard' },
+  { id:'cac', name:'Consumer Acquisition Cost',
+    formula:'Total marketing spend / New consumers acquired',
+    unit:'K', prefix:'IDR ', lowerIsBetter:true, decimals:0, target:45,
+    monthly:[68,65,62,59,56,53,50,47,44],
+    greenFn:function(v){return v<=45;}, yellowFn:function(v){return v>45&&v<=65;},
+    benchmark:'FMCG beauty Indonesia benchmark' },
+  { id:'nps', name:'Net Promoter Score',
+    formula:'% Promoters \u2212 % Detractors',
+    unit:'', prefix:'+', lowerIsBetter:false, decimals:0, target:40,
+    monthly:[28,30,32,34,36,37,39,41,42],
+    greenFn:function(v){return v>=40;}, yellowFn:function(v){return v>=20&&v<40;},
+    benchmark:'Cosmetics global NPS +30 to +50' }
+];
+MK_STRATEGIC.forEach(function(k){
+  k.ytd = parseFloat((k.monthly.reduce(function(a,b){return a+b;},0)/k.monthly.length).toFixed(k.decimals));
+});
+
+const MK_TACTICAL = [
+  { id:'car', name:'Campaign Activation Rate',
+    weeks:[{current:88},{current:92},{current:89},{current:94}],
+    target:'\u226592%', unit:'%',
+    greenFn:function(v){return v>=92;}, yellowFn:function(v){return v>=85&&v<92;},
+    labels:{green:'ON TARGET',yellow:'PARTIAL',red:'CRITICAL'} },
+  { id:'bav', name:'BA Daily Visit Compliance',
+    weeks:[{current:84},{current:87},{current:83},{current:89}],
+    target:'\u226588%', unit:'%',
+    greenFn:function(v){return v>=88;}, yellowFn:function(v){return v>=80&&v<88;},
+    labels:{green:'COMPLIANT',yellow:'PARTIAL',red:'NON-COMPLIANT'} },
+  { id:'cpr', name:'Digital Content Publishing Rate',
+    weeks:[{current:7},{current:8},{current:6},{current:9}],
+    target:'\u22657/week', unit:' posts',
+    greenFn:function(v){return v>=7;}, yellowFn:function(v){return v>=5&&v<7;},
+    labels:{green:'ON TRACK',yellow:'BELOW',red:'CRITICAL'} },
+  { id:'icc', name:'Influencer Content Compliance',
+    weeks:[{current:92},{current:94},{current:89},{current:96}],
+    target:'\u226592%', unit:'%',
+    greenFn:function(v){return v>=92;}, yellowFn:function(v){return v>=85&&v<92;},
+    labels:{green:'COMPLIANT',yellow:'PARTIAL',red:'NON-COMPLIANT'} },
+  { id:'crt', name:'Consumer Response Time',
+    weeks:[{current:3.2},{current:2.8},{current:3.8},{current:2.4}],
+    target:'\u22643hrs', unit:'hrs', lowerIsBetter:true,
+    greenFn:function(v){return v<=3;}, yellowFn:function(v){return v>3&&v<=6;},
+    labels:{green:'FAST',yellow:'SLOW',red:'CRITICAL'} },
+  { id:'mbu', name:'Marketing Budget Utilization',
+    weeks:[{current:82},{current:88},{current:94},{current:91}],
+    target:'85-100%', unit:'%',
+    greenFn:function(v){return v>=85&&v<=100;}, yellowFn:function(v){return (v>100&&v<=115)||(v<85&&v>=70);},
+    labels:{green:'OPTIMAL',yellow:'OVER BUDGET',red:'CRITICAL'} }
+];
+
+const MK_OPERATIONAL = [
+  { title:'Active Campaigns Today', value:'4 campaigns', sub:'2 digital / 1 BTL / 1 TikTok Live', status:'info' },
+  { title:'BAs Active in Field Today', value:'241/284 (85%)', sub:'43 scheduled off / 0 AWOL', status:'ok' },
+  { title:'Social Media Posts Today', value:'8 posts', sub:'3 IG / 3 TikTok / 2 Shopee', status:'ok' },
+  { title:'Brand Mentions Today', value:'2,840 mentions', sub:'78% positive sentiment', status:'info', color:'#0f828f' },
+  { title:'Influencer Posts Live Today', value:'12 posts', sub:'8 TikTok / 4 Instagram', status:'info' },
+  { title:'Consumer Complaints Today', value:'18', sub:'12 delivery / 4 product / 2 service', status:'warn' },
+  { title:'TikTok Live Sessions Today', value:'1 live session', sub:'Currently LIVE: @BeautyByRizka \u2014 28K viewers', status:'info' },
+  { title:'Marketing Spend Today (IDR)', value:'IDR 184M', sub:'Running daily counter', status:'info', color:'#0f828f' }
+];
+
+/* ── MK: RENDER STRATEGIC KPI CARDS ── */
+function renderMKStrategic() {
+  var grid = document.getElementById('mk-strategic-grid');
+  if (!grid) return;
+  var mIdx = (typeof selectedMonthIdx !== 'undefined') ? (selectedMonthIdx === -1 ? 8 : selectedMonthIdx) : 8;
+  grid.innerHTML = MK_STRATEGIC.map(function(k) {
+    var val = k.monthly[mIdx];
+    var isGreen = k.greenFn(val);
+    var isYellow = !isGreen && k.yellowFn(val);
+    var statusColor = isGreen ? '#107e3e' : isYellow ? '#e76500' : '#bb0000';
+    var statusBg = isGreen ? '#f0faf4' : isYellow ? '#fff8f0' : '#fff0f0';
+    var statusLabel = isGreen ? 'ON TARGET' : isYellow ? 'WARNING' : 'CRITICAL';
+    var trend = mIdx > 0 ? val - k.monthly[mIdx-1] : 0;
+    var trendAbs = Math.abs(trend).toFixed(k.decimals);
+    var trendStr = trend > 0 ? '\u25b2 +' + trendAbs : trend < 0 ? '\u25bc \u2212' + trendAbs : '\u2014 no change';
+    var trendColor = k.lowerIsBetter
+      ? (trend < 0 ? '#107e3e' : trend > 0 ? '#bb0000' : '#6b7280')
+      : (trend > 0 ? '#107e3e' : trend < 0 ? '#bb0000' : '#6b7280');
+    var displayVal = k.id === 'nps' ? (val >= 0 ? '+' : '') + val : k.prefix + val + k.unit;
+    var ytdDisplay = k.id === 'nps' ? (k.ytd >= 0 ? '+' : '') + k.ytd : k.prefix + k.ytd + k.unit;
+    var targetDisplay = k.id === 'cac' ? '\u2264IDR 45K' : k.id === 'nps' ? '\u2265+40' : (k.lowerIsBetter ? '\u2264' : '\u2265') + k.prefix + k.target + k.unit;
+    return '<div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:18px 16px;border-left:4px solid ' + statusColor + '">'
+      + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
+      + '<div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.04em;max-width:65%">' + k.name + '</div>'
+      + '<span style="font-size:10px;font-weight:700;color:' + statusColor + ';background:' + statusBg + ';padding:2px 7px;border-radius:10px;white-space:nowrap">' + statusLabel + '</span>'
+      + '</div>'
+      + '<div style="font-size:28px;font-weight:800;color:' + statusColor + ';margin-bottom:4px">' + displayVal + '</div>'
+      + '<div style="font-size:11px;color:' + trendColor + ';margin-bottom:8px">' + trendStr + ' vs prev month</div>'
+      + '<div style="font-size:11px;color:#9ca3af;margin-bottom:4px">YTD Avg: <strong style="color:#374151">' + ytdDisplay + '</strong> &nbsp;&middot;&nbsp; Target: <strong style="color:#374151">' + targetDisplay + '</strong></div>'
+      + (k.benchmark ? '<div style="font-size:10px;color:#9ca3af;margin-top:2px">Benchmark: ' + k.benchmark + '</div>' : '')
+      + '<div style="font-size:10px;color:#b0b8c4;margin-top:4px;cursor:help" title="' + k.formula + '">\u0192 Formula (hover)</div>'
+      + '</div>';
+  }).join('');
+}
+
+/* ── MK: RENDER CAMPAIGN TRACKER ── */
+function renderMKCampaigns() {
+  var wrap = document.getElementById('mk-campaign-section');
+  if (!wrap) return;
+  var campaigns = [
+    { name:'"Glow Together" Skincare Campaign', type:'Digital', channels:'IG + TikTok + YouTube',
+      budget:'IDR 1,200M', spend:'IDR 980M (82%)', m1:'Reach: 8.4M people', m2:'Engagement Rate: 4.8%',
+      revenue:'IDR 3,840M', roi:292, status:'\ud83d\udfe2 ACTIVE', period:'Sep 1-30', bc:'#107e3e' },
+    { name:'Alfamart \u201cCantik Hemat\u201d Activation', type:'BTL', channels:'MT In-store',
+      budget:'IDR 680M', spend:'IDR 680M (100%)', m1:'Outlets: 1,240', m2:'Compliance: 94%',
+      revenue:'IDR 1,480M', roi:118, status:'\u2705 COMPLETED', period:'Sep 8-14', bc:'#0070f2' },
+    { name:'Shopee Beauty Festival', type:'Digital', channels:'Shopee + vouchers',
+      budget:'IDR 520M', spend:'IDR 520M (100%)', m1:'Impressions: 12.1M', m2:'CTR: 3.2%',
+      revenue:'IDR 1,820M', roi:250, status:'\u2705 COMPLETED', period:'Sep 9', bc:'#107e3e' },
+    { name:'BA Counter Activation \u2014 Java', type:'BTL', channels:'MT Beauty Counter',
+      budget:'IDR 420M', spend:'IDR 390M (93%)', m1:'BAs Deployed: 184', m2:'Demos Given: 8,420',
+      revenue:'IDR 780M', roi:100, status:'\ud83d\udfe2 ACTIVE', period:'Sep 2025', bc:'#0070f2' },
+    { name:'TikTok Live Series \u201cBeauty Tips\u201d', type:'TikTok', channels:'TikTok Shop',
+      budget:'IDR 380M', spend:'IDR 280M (74%)', m1:'Live Sessions: 12', m2:'Avg Viewers: 42K/session',
+      revenue:'IDR 980M', roi:250, status:'\ud83d\udfe2 ACTIVE', period:'Sep 15-30', bc:'#107e3e' },
+    { name:'GT Roadshow Sumatra', type:'BTL', channels:'General Trade',
+      budget:'IDR 340M', spend:'IDR 310M (91%)', m1:'Cities: 8', m2:'Outlets Visited: 1,840',
+      revenue:'IDR 410M', roi:32, status:'\u26a0\ufe0f UNDERPERFORMING', period:'Sep 2025', bc:'#bb0000' },
+    { name:'Influencer Mega Pack \u2014 Skincare', type:'Influencer', channels:'IG + TikTok',
+      budget:'IDR 620M', spend:'IDR 580M (94%)', m1:'Influencers: 42', m2:'Total Reach: 18.2M',
+      revenue:'IDR 1,640M', roi:183, status:'\u2705 COMPLETED', period:'Sep 1-20', bc:'#0070f2' },
+    { name:'YouTube Brand Documentary', type:'Digital', channels:'YouTube',
+      budget:'IDR 280M', spend:'IDR 240M (86%)', m1:'Views: 2.1M', m2:'Watch Time: 4.2 min avg',
+      revenue:'IDR 180M', roi:25, status:'\ud83d\udfe1 MONITORING', period:'Sep 2025', bc:'#bb0000' }
+  ];
+  var filterTypes = ['All','Digital','BTL','Influencer','TikTok','MT Activation'];
+  var filterBtns = filterTypes.map(function(t,i) {
+    return '<button onclick="mkFilterCampaigns(\'' + t + '\')" id="mkFilter_' + t.replace(/\s/g,'_') + '" style="font-size:12px;padding:4px 12px;border-radius:12px;border:1px solid ' + (i===0?'#0070f2':'#e2e8f0') + ';background:' + (i===0?'#0070f2':'#fff') + ';color:' + (i===0?'#fff':'#374151') + ';cursor:pointer;font-weight:600">' + t + '</button>';
+  }).join('');
+  var cards = campaigns.map(function(c) {
+    var roiColor = c.roi >= 200 ? '#107e3e' : c.roi >= 100 ? '#0070f2' : '#bb0000';
+    var m1parts = c.m1.split(': ');
+    var m2parts = c.m2.split(': ');
+    return '<div data-type="' + c.type + '" style="background:#fff;border-radius:8px;border:1px solid #e2e8f0;border-left:4px solid ' + c.bc + ';padding:14px">'
+      + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
+      + '<div style="font-size:13px;font-weight:700;color:#1d2d3e;max-width:68%">' + c.name + '</div>'
+      + '<span style="font-size:11px;font-weight:600;color:' + roiColor + '">' + c.status + '</span>'
+      + '</div>'
+      + '<div style="font-size:11px;color:#6b7280;margin-bottom:8px">'
+      + '<span style="background:#f3f4f6;border-radius:4px;padding:2px 6px;margin-right:6px;font-weight:600">' + c.type + '</span>' + c.channels
+      + '</div>'
+      + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:12px;margin-bottom:8px">'
+      + '<div><span style="color:#9ca3af">Budget:</span> <strong>' + c.budget + '</strong></div>'
+      + '<div><span style="color:#9ca3af">Spend:</span> <strong>' + c.spend + '</strong></div>'
+      + '<div><span style="color:#9ca3af">' + m1parts[0] + ':</span> <strong>' + m1parts[1] + '</strong></div>'
+      + '<div><span style="color:#9ca3af">' + m2parts[0] + ':</span> <strong>' + m2parts[1] + '</strong></div>'
+      + '<div><span style="color:#9ca3af">Revenue:</span> <strong>' + c.revenue + '</strong></div>'
+      + '<div><span style="color:#9ca3af">ROI:</span> <strong style="color:' + roiColor + '">' + c.roi + '%</strong></div>'
+      + '</div>'
+      + '<div style="font-size:11px;color:#9ca3af">\ud83d\udcc5 ' + c.period + '</div>'
+      + '</div>';
+  }).join('');
+  wrap.innerHTML = '<div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">'
+    + '<div style="display:inline-flex;align-items:center;gap:8px;background:#f0faf4;border-radius:20px;padding:6px 16px;font-size:13px;color:#1d2d3e;border:1px solid #a3d9b1;margin-bottom:16px;flex-wrap:wrap">'
+    + '\ud83d\udcb0 Total Budget: IDR 4,440M &nbsp;&middot;&nbsp; \ud83d\udcc8 Blended ROI: 206% &nbsp;&middot;&nbsp; \ud83d\udfe2 4 Active &nbsp;&middot;&nbsp; \u2705 3 Completed &nbsp;&middot;&nbsp; \u26a0\ufe0f 1 At Risk'
+    + '</div>'
+    + '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">' + filterBtns + '</div>'
+    + '<div id="mk-campaign-cards" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">' + cards + '</div>'
+    + '</div>';
+}
+
+function mkFilterCampaigns(type) {
+  var cards = document.querySelectorAll('#mk-campaign-cards > div[data-type]');
+  cards.forEach(function(c) {
+    var t = c.getAttribute('data-type');
+    c.style.display = (type === 'All' || t === type || (type === 'MT Activation' && t === 'BTL')) ? '' : 'none';
+  });
+  document.querySelectorAll('[id^="mkFilter_"]').forEach(function(b) {
+    var active = b.id === 'mkFilter_' + type.replace(/\s/g,'_');
+    b.style.background = active ? '#0070f2' : '#fff';
+    b.style.color = active ? '#fff' : '#374151';
+    b.style.borderColor = active ? '#0070f2' : '#e2e8f0';
+  });
+}
+
+/* ── MK: RENDER BEAUTY ADVISOR SCORECARD ── */
+function renderMKBA() {
+  var wrap = document.getElementById('mk-ba-section');
+  if (!wrap) return;
+  var bas = [
+    {rank:1,name:'Sari Dewi',region:'West Java',outlet:'Indomaret BSD',rev:'28.4',demos:184,conv:'38%',status:'\ud83d\udfe2 TOP PERFORMER'},
+    {rank:2,name:'Rizka Amalia',region:'Jakarta',outlet:'Alfamart Sudirman',rev:'26.8',demos:172,conv:'36%',status:'\ud83d\udfe2 TOP PERFORMER'},
+    {rank:3,name:'Putri Handayani',region:'East Java',outlet:'Hypermart Surabaya',rev:'24.2',demos:164,conv:'34%',status:'\ud83d\udfe2 TOP PERFORMER'},
+    {rank:4,name:'Mega Sari',region:'Bali',outlet:'Indomaret Kuta',rev:'22.8',demos:158,conv:'33%',status:'\ud83d\udfe2 EXCELLENT'},
+    {rank:5,name:'Novia Rahman',region:'Central Java',outlet:'Alfamart Semarang',rev:'21.4',demos:148,conv:'32%',status:'\ud83d\udfe2 EXCELLENT'},
+    {rank:6,name:'Yuni Astuti',region:'West Java',outlet:'Hero Bandung',rev:'19.8',demos:138,conv:'30%',status:'\u2705 GOOD'},
+    {rank:7,name:'Fitri Melati',region:'Jakarta',outlet:'Hypermart Kelapa Gading',rev:'18.4',demos:128,conv:'29%',status:'\u2705 GOOD'},
+    {rank:8,name:'Dewi Lestari',region:'Sumatra',outlet:'Indomaret Medan',rev:'16.8',demos:118,conv:'28%',status:'\u2705 GOOD'},
+    {rank:9,name:'Ayu Permata',region:'Sulawesi',outlet:'Alfamart Makassar',rev:'14.2',demos:108,conv:'26%',status:'\u26a0\ufe0f DEVELOPING'},
+    {rank:10,name:'Rina Kusuma',region:'Kalimantan',outlet:'Hero Balikpapan',rev:'12.8',demos:98,conv:'24%',status:'\u26a0\ufe0f DEVELOPING'}
+  ];
+  var regions = [
+    {name:'Java',count:142,pct:50},{name:'Sumatra',count:56,pct:20},
+    {name:'Kalimantan',count:28,pct:10},{name:'Sulawesi',count:28,pct:10},{name:'Bali + Others',count:30,pct:10}
+  ];
+  var tableRows = bas.map(function(b) {
+    return '<tr>'
+      + '<td style="font-weight:700;color:#0070f2">#' + b.rank + '</td>'
+      + '<td style="font-weight:700">' + b.name + '</td>'
+      + '<td>' + b.region + '</td>'
+      + '<td style="font-size:11px">' + b.outlet + '</td>'
+      + '<td style="font-weight:700;color:#107e3e">' + b.rev + 'M</td>'
+      + '<td>' + b.demos + '</td>'
+      + '<td>' + b.conv + '</td>'
+      + '<td style="font-size:11px;white-space:nowrap">' + b.status + '</td>'
+      + '</tr>';
+  }).join('');
+  var statItems = [
+    ['BAs Clocked In Today','241/284 (85%)','#0070f2'],
+    ['BAs Currently at Outlet','218','#107e3e'],
+    ['Outlets Visited Today','1,840','#0f828f'],
+    ['Avg Visit Duration','2.4 hrs','#9333ea'],
+    ['Demos Completed Today','3,240','#e76500'],
+    ['Revenue Generated Today','IDR 184M','#107e3e']
+  ];
+  var statsHtml = statItems.map(function(s) {
+    return '<div style="background:#f8fafc;border-radius:8px;padding:10px;border-left:3px solid ' + s[2] + '">'
+      + '<div style="font-size:11px;color:#6b7280;margin-bottom:4px">' + s[0] + '</div>'
+      + '<div style="font-size:16px;font-weight:700;color:' + s[2] + '">' + s[1] + '</div>'
+      + '</div>';
+  }).join('');
+  var regionBars = regions.map(function(r) {
+    return '<div style="margin-bottom:8px">'
+      + '<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px">'
+      + '<span style="color:#374151">' + r.name + '</span>'
+      + '<span style="color:#6b7280">' + r.count + ' BAs (' + r.pct + '%)</span>'
+      + '</div>'
+      + '<div style="background:#f3f4f6;border-radius:4px;height:8px">'
+      + '<div style="background:#0070f2;width:' + r.pct + '%;height:100%;border-radius:4px"></div>'
+      + '</div></div>';
+  }).join('');
+  wrap.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
+    + '<div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">'
+    + '<div class="table-scroll"><table class="data-table" style="width:100%">'
+    + '<thead><tr><th>Rank</th><th>BA Name</th><th>Region</th><th>Outlet</th><th>Revenue (IDR M)</th><th>Demos</th><th>Conv.</th><th>Status</th></tr></thead>'
+    + '<tbody>' + tableRows + '</tbody></table></div>'
+    + '</div>'
+    + '<div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">'
+    + '<div style="font-size:13px;font-weight:700;color:#1d2d3e;margin-bottom:14px">BA Field Activity \u2014 Today</div>'
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">' + statsHtml + '</div>'
+    + '<div style="font-size:12px;font-weight:600;color:#6b7280;margin-bottom:10px">Regional BA Distribution</div>'
+    + regionBars
+    + '</div></div>';
+}
+
+/* ── MK: RENDER DIGITAL & SOCIAL MEDIA ── */
+function renderMKDigital() {
+  var wrap = document.getElementById('mk-digital-section');
+  if (!wrap) return;
+  var platforms = [
+    { name:'INSTAGRAM', accent:'#e1306c', icon:'\ud83d\udcf8', stats:[
+      ['Followers','2.84M (+12K this month)'],['Avg Engagement Rate','4.2%'],
+      ['Posts This Month','28'],['Top Post Reach','840K'],
+      ['Stories Views avg','124K/story'],['Profile Visits','284K'],['Link Clicks','18.4K']
+    ]},
+    { name:'TIKTOK', accent:'#1d2d3e', icon:'\ud83c\udfb5', stats:[
+      ['Followers','1.42M (+48K this month)'],['Avg Views per Video','284K'],
+      ['Engagement Rate','8.4%'],['Videos Posted','18'],
+      ['Top Video Views','2.1M'],['#ParagonBeauty Views','84M total'],['Creator Fund','IDR 24M']
+    ]},
+    { name:'SHOPEE', accent:'#e76500', icon:'\ud83d\uded2', stats:[
+      ['Shopee Followers','284K (+8K)'],['Shop Rating','4.8/5.0 \u2b50'],
+      ['Products Listed','142'],['Monthly Visitors','1.84M'],
+      ['Conversion Rate','3.2%'],['Revenue Organic','IDR 840M']
+    ]}
+  ];
+  var overallStats = [
+    ['Total Digital Reach','24.8M/month'],['Share of Voice','20.3%'],
+    ['Brand Mentions','84,200'],['Positive Sentiment','78%'],
+    ['Neutral','18%'],['Negative','4%'],['Top Content Type','Tutorial videos (42%)']
+  ];
+  var platformCards = platforms.map(function(p) {
+    var rows = p.stats.map(function(s) {
+      return '<div style="display:flex;justify-content:space-between;font-size:12px;border-bottom:1px solid #f3f4f6;padding-bottom:6px">'
+        + '<span style="color:#6b7280">' + s[0] + '</span>'
+        + '<span style="font-weight:700;color:#1d2d3e;text-align:right">' + s[1] + '</span>'
+        + '</div>';
+    }).join('');
+    return '<div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px;border-top:4px solid ' + p.accent + '">'
+      + '<div style="font-size:18px;margin-bottom:4px">' + p.icon + '</div>'
+      + '<div style="font-size:12px;font-weight:700;color:' + p.accent + ';text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px">' + p.name + '</div>'
+      + '<div style="display:flex;flex-direction:column;gap:8px">' + rows + '</div>'
+      + '</div>';
+  }).join('');
+  var overallRows = overallStats.map(function(s) {
+    return '<div style="display:flex;justify-content:space-between;font-size:12px;border-bottom:1px solid #f3f4f6;padding-bottom:6px">'
+      + '<span style="color:#6b7280">' + s[0] + '</span>'
+      + '<span style="font-weight:700;color:#1d2d3e">' + s[1] + '</span>'
+      + '</div>';
+  }).join('');
+  wrap.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px">'
+    + platformCards
+    + '<div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px;border-top:4px solid #0070f2">'
+    + '<div style="font-size:18px;margin-bottom:4px">\ud83c\udf10</div>'
+    + '<div style="font-size:12px;font-weight:700;color:#0070f2;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px">OVERALL DIGITAL</div>'
+    + '<div style="display:flex;flex-direction:column;gap:8px">' + overallRows + '</div>'
+    + '</div></div>';
+}
+
+/* ── MK: RENDER TIKTOK LIVE SELLING ── */
+function renderMKTikTok() {
+  var wrap = document.getElementById('mk-tiktok-section');
+  if (!wrap) return;
+  var sessions = [
+    {date:'Sep 15',host:'@ParagonBeautyID',dur:'3.5hrs',peak:'52K',skus:'8 SKUs',rev:'IDR 124M',conv:'4.2%',kol:false},
+    {date:'Sep 16',host:'@SariGlowUp (KOL)',dur:'2.0hrs',peak:'84K',skus:'5 SKUs',rev:'IDR 186M',conv:'5.8%',kol:true},
+    {date:'Sep 18',host:'@ParagonBeautyID',dur:'2.5hrs',peak:'38K',skus:'6 SKUs',rev:'IDR 84M',conv:'3.4%',kol:false},
+    {date:'Sep 19',host:'@BeautyWithRizka (KOL)',dur:'3.0hrs',peak:'124K',skus:'10 SKUs',rev:'IDR 248M',conv:'6.2%',kol:true},
+    {date:'Sep 22',host:'@ParagonBeautyID',dur:'2.0hrs',peak:'28K',skus:'4 SKUs',rev:'IDR 64M',conv:'2.8%',kol:false},
+    {date:'Sep 24',host:'@MakeupByPutri (KOL)',dur:'4.0hrs',peak:'178K',skus:'12 SKUs',rev:'IDR 274M',conv:'7.1%',kol:true}
+  ];
+  var summaryCards = [
+    ['Total Live Sessions','12','#0070f2'],
+    ['Total Viewers','504K','#9333ea'],
+    ['Total Revenue','IDR 980M','#107e3e'],
+    ['Avg Session ROI','250%','#e76500']
+  ].map(function(s) {
+    return '<div style="background:#f8fafc;border-radius:8px;padding:12px;border-top:3px solid ' + s[2] + ';text-align:center">'
+      + '<div style="font-size:11px;color:#6b7280;margin-bottom:4px">' + s[0] + '</div>'
+      + '<div style="font-size:20px;font-weight:800;color:' + s[2] + '">' + s[1] + '</div>'
+      + '</div>';
+  }).join('');
+  var sessionRows = sessions.map(function(s) {
+    return '<tr style="background:' + (s.kol ? '#eff6ff' : '#fff') + '">'
+      + '<td>' + s.date + '</td>'
+      + '<td style="font-weight:600">' + s.host + '</td>'
+      + '<td>' + s.dur + '</td>'
+      + '<td style="font-weight:700;color:#9333ea">' + s.peak + '</td>'
+      + '<td>' + s.skus + '</td>'
+      + '<td style="font-weight:700;color:#107e3e">' + s.rev + '</td>'
+      + '<td style="font-weight:700">' + s.conv + '</td>'
+      + '</tr>';
+  }).join('');
+  wrap.innerHTML = '<div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">'
+    + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px">' + summaryCards + '</div>'
+    + '<div class="table-scroll"><table class="data-table" style="width:100%">'
+    + '<thead><tr><th>Date</th><th>Host</th><th>Duration</th><th>Peak Viewers</th><th>Products</th><th>Revenue</th><th>Conversion</th></tr></thead>'
+    + '<tbody>' + sessionRows + '</tbody></table></div>'
+    + '<div style="background:#f0faf4;border-left:3px solid #107e3e;border-radius:4px;padding:10px 14px;margin-top:14px;font-size:12px;color:#1d2d3e">'
+    + '\u2b50 <strong>Top Performing SKU in Live:</strong> Vitamin C Serum 30ml \u2014 IDR 284M across all sessions'
+    + '</div></div>';
+}
+
+/* ── MK: RENDER INFLUENCER MARKETING ROI ── */
+function renderMKInfluencer() {
+  var wrap = document.getElementById('mk-influencer-section');
+  if (!wrap) return;
+  var tiers = [
+    {name:'Mega Influencers',sub:'>1M followers',count:3,reach:'2.4M',roi:'142%',budget:'IDR 280M',color:'#9333ea'},
+    {name:'Macro Influencers',sub:'100K-1M',count:12,reach:'284K',roi:'198%',budget:'IDR 220M',color:'#0070f2'},
+    {name:'Micro Influencers',sub:'10K-100K',count:27,reach:'42K',roi:'284%',budget:'IDR 120M',color:'#107e3e'}
+  ];
+  var influencers = [
+    {name:'@SkincarewithSari',tier:'Macro',platform:'IG+TikTok',followers:'842K',content:'Tutorial',reach:'1.2M',eng:'6.8%',rev:'IDR 284M',roi:'248%'},
+    {name:'@BeautyByRizka',tier:'Macro',platform:'TikTok',followers:'624K',content:'Review',reach:'980K',eng:'8.2%',rev:'IDR 248M',roi:'284%'},
+    {name:'@MakeupMagicID',tier:'Macro',platform:'IG',followers:'528K',content:'GRWM',reach:'724K',eng:'5.4%',rev:'IDR 184M',roi:'198%'},
+    {name:'@NaturalGlowPutri',tier:'Micro',platform:'TikTok',followers:'84K',content:'Tutorial',reach:'284K',eng:'12.4%',rev:'IDR 124M',roi:'384%'},
+    {name:'@SkincareJujur',tier:'Micro',platform:'IG',followers:'62K',content:'Review',reach:'184K',eng:'14.2%',rev:'IDR 98M',roi:'342%'}
+  ];
+  var tierCards = tiers.map(function(t) {
+    return '<div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px;border-left:4px solid ' + t.color + '">'
+      + '<div style="font-size:13px;font-weight:700;color:' + t.color + ';margin-bottom:2px">' + t.name + '</div>'
+      + '<div style="font-size:11px;color:#9ca3af;margin-bottom:12px">' + t.sub + '</div>'
+      + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px">'
+      + '<div><span style="color:#9ca3af">Count:</span> <strong>' + t.count + '</strong></div>'
+      + '<div><span style="color:#9ca3af">Avg ROI:</span> <strong style="color:' + t.color + '">' + t.roi + '</strong></div>'
+      + '<div><span style="color:#9ca3af">Avg Reach:</span> <strong>' + t.reach + '</strong></div>'
+      + '<div><span style="color:#9ca3af">Budget:</span> <strong>' + t.budget + '</strong></div>'
+      + '</div></div>';
+  }).join('');
+  var infRows = influencers.map(function(i) {
+    var tierColor = i.tier === 'Micro' ? '#107e3e' : '#0070f2';
+    var tierBg = i.tier === 'Micro' ? '#f0faf4' : '#eff6ff';
+    var roiNum = parseFloat(i.roi);
+    var roiColor = roiNum >= 200 ? '#107e3e' : '#0070f2';
+    return '<tr>'
+      + '<td style="font-weight:700;color:#0070f2">' + i.name + '</td>'
+      + '<td><span style="font-size:10px;background:' + tierBg + ';color:' + tierColor + ';padding:2px 6px;border-radius:4px;font-weight:700">' + i.tier + '</span></td>'
+      + '<td>' + i.platform + '</td>'
+      + '<td>' + i.followers + '</td>'
+      + '<td>' + i.content + '</td>'
+      + '<td>' + i.reach + '</td>'
+      + '<td style="color:#9333ea;font-weight:700">' + i.eng + '</td>'
+      + '<td style="font-weight:700;color:#107e3e">' + i.rev + '</td>'
+      + '<td style="font-weight:700;color:' + roiColor + '">' + i.roi + '</td>'
+      + '</tr>';
+  }).join('');
+  wrap.innerHTML = '<div style="display:flex;flex-direction:column;gap:16px">'
+    + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">' + tierCards + '</div>'
+    + '<div style="background:#eff6ff;border-left:3px solid #0070f2;border-radius:4px;padding:10px 14px;font-size:12px;color:#1d2d3e">'
+    + '\ud83d\udca1 <strong>Micro-influencers delivering 2x ROI vs Mega</strong> \u2014 recommend shifting 20% budget to micro tier'
+    + '</div>'
+    + '<div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">'
+    + '<div class="table-scroll"><table class="data-table" style="width:100%">'
+    + '<thead><tr><th>Influencer</th><th>Tier</th><th>Platform</th><th>Followers</th><th>Content</th><th>Reach</th><th>Engagement</th><th>Revenue</th><th>ROI</th></tr></thead>'
+    + '<tbody>' + infRows + '</tbody></table></div></div></div>';
+}
+
+/* ── MK: RENDER SENTIMENT THEMES & NPS ── */
+function renderMKSentimentThemes() {
+  var themesWrap = document.getElementById('mk-sentiment-themes');
+  if (themesWrap) {
+    var posThemes = [['Product effectiveness','38%'],['Packaging design','24%'],['Value for money','22%'],['BA service quality','16%']];
+    var negThemes = [['Delivery speed','42%'],['Stock availability','31%'],['Pricing too high','27%']];
+    themesWrap.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'
+      + '<div><div style="font-size:12px;font-weight:600;color:#107e3e;margin-bottom:6px">\u2705 Top Positive Themes</div>'
+      + posThemes.map(function(t){return '<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="color:#374151">'+t[0]+'</span><span style="font-weight:700;color:#107e3e">'+t[1]+'</span></div>';}).join('')
+      + '</div>'
+      + '<div><div style="font-size:12px;font-weight:600;color:#bb0000;margin-bottom:6px">\u274c Top Negative Themes</div>'
+      + negThemes.map(function(t){return '<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="color:#374151">'+t[0]+'</span><span style="font-weight:700;color:#bb0000">'+t[1]+'</span></div>';}).join('')
+      + '</div></div>';
+  }
+  var npsWrap = document.getElementById('mk-nps-panel');
+  if (npsWrap) {
+    var npsTrend = [['Apr',36],['May',37],['Jun',38],['Jul',39],['Aug',41],['Sep',42]];
+    var sparkBars = npsTrend.map(function(d) {
+      var h = Math.round((d[1]-34)/(42-34)*40);
+      return '<div style="display:flex;flex-direction:column;align-items:center;gap:2px">'
+        + '<div style="font-size:10px;font-weight:700;color:#107e3e">+'+d[1]+'</div>'
+        + '<div style="width:24px;height:'+h+'px;min-height:4px;background:#107e3e;border-radius:2px 2px 0 0"></div>'
+        + '<div style="font-size:9px;color:#6b7280">'+d[0]+'</div>'
+        + '</div>';
+    }).join('');
+    npsWrap.innerHTML = '<div style="text-align:center;margin-bottom:16px">'
+      + '<div style="font-size:48px;font-weight:800;color:#107e3e">+42</div>'
+      + '<div style="font-size:12px;color:#6b7280">Net Promoter Score</div>'
+      + '<div style="font-size:11px;color:#107e3e;margin-top:2px">World-class NPS (&gt;40 = Excellent)</div>'
+      + '</div>'
+      + '<div style="margin-bottom:14px">'
+      + mkNpsBar('Promoters (9-10)','58%',58,'#107e3e')
+      + mkNpsBar('Passives (7-8)','26%',26,'#6b7280')
+      + mkNpsBar('Detractors (0-6)','16%',16,'#bb0000')
+      + '</div>'
+      + '<div style="font-size:12px;font-weight:600;color:#6b7280;margin-bottom:8px">NPS Trend (last 6 months)</div>'
+      + '<div style="display:flex;justify-content:space-between;align-items:flex-end;height:70px;background:#f8fafc;border-radius:6px;padding:8px 12px 4px">' + sparkBars + '</div>'
+      + '<div style="margin-top:12px">'
+      + '<div style="font-size:12px;font-weight:600;color:#6b7280;margin-bottom:6px">Top NPS Drivers</div>'
+      + ['\u2b50 \u201cLove the Vitamin C Serum results\u201d (most cited)','\u2b50 \u201cBA at Alfamart was incredibly helpful\u201d','\u2b50 \u201cDelivery was faster than expected\u201d'].map(function(d){return '<div style="font-size:12px;color:#374151;margin-bottom:4px">'+d+'</div>';}).join('')
+      + '</div>';
+  }
+}
+
+function mkNpsBar(label, pct, width, color) {
+  return '<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">'
+    + '<span style="color:' + color + ';font-weight:700">' + label + '</span><span>' + pct + '</span></div>'
+    + '<div style="background:#f3f4f6;border-radius:4px;height:10px;margin-bottom:8px">'
+    + '<div style="background:' + color + ';width:' + width + '%;height:100%;border-radius:4px"></div></div>';
+}
+
+/* ── MK: RENDER PERSONA BREAKDOWN ── */
+function renderMKPersona() {
+  var wrap = document.getElementById('mk-persona-section');
+  if (!wrap) return;
+  var personas = [
+    {name:'THE GLOWSEEKERS',border:'#0070f2',avatar:'\ud83d\udcce\u200d\u2640\ufe0f',age:'22-28 | Urban Millennial Women',channel:'E-commerce (TikTok + Shopee)',products:'Vitamin C Serum, Brightening Cream',spend:'IDR 185K/month',freq:'2.4x/month',driver:'"Influencer recommendation + reviews"',rev:'34%'},
+    {name:'THE LOYAL MOMS',border:'#107e3e',avatar:'\ud83d\udc69\u200d\ud83d\udc67',age:'28-40 | Suburban/Urban Mothers',channel:'Modern Trade (Indomaret/Alfamart)',products:'Body Lotion, Face Wash, Shampoo',spend:'IDR 245K/month',freq:'3.1x/month',driver:'"BA recommendation + promotions"',rev:'38%'},
+    {name:'THE BEAUTY ENTHUSIASTS',border:'#9333ea',avatar:'\ud83d\udc84',age:'18-25 | Gen Z Trend Followers',channel:'TikTok Shop + Shopee',products:'Lipstick, Eye Shadow, Foundation',spend:'IDR 142K/month',freq:'3.8x/month',driver:'"Viral content + live selling"',rev:'18%'},
+    {name:'THE VALUE SEEKERS',border:'#e76500',avatar:'\ud83d\uded2',age:'30-50 | Price-conscious buyers',channel:'General Trade (Warung/Toko)',products:'Body Wash, Shampoo, Basic Skincare',spend:'IDR 98K/month',freq:'2.8x/month',driver:'"Price + availability + familiarity"',rev:'10%'}
+  ];
+  wrap.innerHTML = '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">'
+    + personas.map(function(p) {
+      return '<div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);border-top:4px solid ' + p.border + ';padding:16px">'
+        + '<div style="font-size:28px;margin-bottom:6px">' + p.avatar + '</div>'
+        + '<div style="font-size:11px;font-weight:700;color:' + p.border + ';text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px">' + p.name + '</div>'
+        + '<div style="display:flex;flex-direction:column;gap:6px;font-size:11px">'
+        + '<div><span style="color:#9ca3af">Age:</span> <strong>' + p.age + '</strong></div>'
+        + '<div><span style="color:#9ca3af">Channel:</span> <strong>' + p.channel + '</strong></div>'
+        + '<div><span style="color:#9ca3af">Products:</span> <strong>' + p.products + '</strong></div>'
+        + '<div><span style="color:#9ca3af">Avg Spend:</span> <strong>' + p.spend + '</strong></div>'
+        + '<div><span style="color:#9ca3af">Frequency:</span> <strong>' + p.freq + '</strong></div>'
+        + '<div><span style="color:#9ca3af">Key Driver:</span> <em>' + p.driver + '</em></div>'
+        + '<div style="margin-top:6px;background:' + p.border + '22;border-radius:4px;padding:4px 8px;text-align:center">'
+        + '<span style="font-size:13px;font-weight:800;color:' + p.border + '">' + p.rev + '</span>'
+        + '<span style="font-size:10px;color:#6b7280"> of Revenue</span>'
+        + '</div></div></div>';
+    }).join('')
+    + '</div>';
+}
+
+/* ── MK: RENDER BRAND POSITIONING MAP ── */
+function renderMKPositioning() {
+  var wrap = document.getElementById('mk-positioning-section');
+  if (!wrap) return;
+  wrap.innerHTML = '<div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">'
+    + '<svg viewBox="0 0 600 400" style="width:100%;max-height:420px" xmlns="http://www.w3.org/2000/svg">'
+    + '<rect width="600" height="400" fill="#f8fafc" rx="8"/>'
+    + '<line x1="50" y1="200" x2="570" y2="200" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6,4"/>'
+    + '<line x1="300" y1="20" x2="300" y2="390" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6,4"/>'
+    + '<text x="55" y="216" fill="#6b7280" font-size="11" font-family="sans-serif">Affordable</text>'
+    + '<text x="490" y="216" fill="#6b7280" font-size="11" font-family="sans-serif">Premium</text>'
+    + '<text x="290" y="398" fill="#6b7280" font-size="10" font-family="sans-serif" text-anchor="middle">PRICE PERCEPTION</text>'
+    + '<text x="22" y="32" fill="#6b7280" font-size="11" font-family="sans-serif">Prestige</text>'
+    + '<text x="22" y="380" fill="#6b7280" font-size="11" font-family="sans-serif">Basic</text>'
+    + '<text x="100" y="80" fill="#107e3e" font-size="11" font-weight="700" font-family="sans-serif">BEST VALUE</text>'
+    + '<text x="420" y="80" fill="#9333ea" font-size="11" font-weight="700" font-family="sans-serif">PRESTIGE</text>'
+    + '<text x="100" y="320" fill="#6b7280" font-size="11" font-weight="700" font-family="sans-serif">MASS MARKET</text>'
+    + '<text x="380" y="320" fill="#bb0000" font-size="11" font-weight="700" font-family="sans-serif">OVERPRICED</text>'
+    + '<defs><marker id="mkArrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><polygon points="0 0,6 3,0 6" fill="#0070f2"/></marker></defs>'
+    + '<circle cx="230" cy="140" r="32" fill="#107e3e" opacity="0.7"/>'
+    + '<text x="230" y="136" fill="white" font-size="10" font-weight="700" text-anchor="middle" font-family="sans-serif">Wardah</text>'
+    + '<text x="230" y="149" fill="white" font-size="8" text-anchor="middle" font-family="sans-serif">20.9% share</text>'
+    + '<circle cx="260" cy="160" r="28" fill="#0070f2" opacity="0.85"/>'
+    + '<text x="260" y="156" fill="white" font-size="10" font-weight="700" text-anchor="middle" font-family="sans-serif">Paragon</text>'
+    + '<text x="260" y="169" fill="white" font-size="8" text-anchor="middle" font-family="sans-serif">18.3% share</text>'
+    + '<line x1="275" y1="145" x2="287" y2="133" stroke="#0070f2" stroke-width="2.5" marker-end="url(#mkArrow)"/>'
+    + '<circle cx="320" cy="200" r="24" fill="#e76500" opacity="0.7"/>'
+    + '<text x="320" y="196" fill="white" font-size="10" font-weight="700" text-anchor="middle" font-family="sans-serif">Pond\'s</text>'
+    + '<text x="320" y="209" fill="white" font-size="8" text-anchor="middle" font-family="sans-serif">13.3% share</text>'
+    + '<circle cx="200" cy="190" r="18" fill="#9333ea" opacity="0.7"/>'
+    + '<text x="200" y="186" fill="white" font-size="9" font-weight="700" text-anchor="middle" font-family="sans-serif">Emina</text>'
+    + '<text x="200" y="197" fill="white" font-size="7" text-anchor="middle" font-family="sans-serif">9.2% share</text>'
+    + '<circle cx="420" cy="130" r="20" fill="#bb0000" opacity="0.7"/>'
+    + '<text x="420" y="126" fill="white" font-size="9" font-weight="700" text-anchor="middle" font-family="sans-serif">L\'Or\u00e9al</text>'
+    + '<text x="420" y="137" fill="white" font-size="7" text-anchor="middle" font-family="sans-serif">8.4% share</text>'
+    + '<circle cx="180" cy="240" r="15" fill="#6b7280" opacity="0.7"/>'
+    + '<text x="180" y="236" fill="white" font-size="9" font-weight="700" text-anchor="middle" font-family="sans-serif">Pixy</text>'
+    + '<text x="180" y="247" fill="white" font-size="7" text-anchor="middle" font-family="sans-serif">6.7% share</text>'
+    + '</svg>'
+    + '<div style="background:#eff6ff;border-left:3px solid #0070f2;border-radius:4px;padding:10px 14px;margin-top:14px;font-size:12px;color:#1d2d3e">'
+    + '\ud83d\udccd <strong>Paragon is moving toward premium-value positioning</strong> \u2014 strong quality perception gains vs Wardah in Sep-25'
+    + '</div></div>';
+}
+
+/* ── MK: RENDER TACTICAL KPIs ── */
+function renderMKTactical() {
+  var body = document.getElementById('mk-tactical-body');
+  if (!body) return;
+  var wIdx = (typeof selectedWeekIdx !== 'undefined') ? selectedWeekIdx : 3;
+  body.innerHTML = MK_TACTICAL.map(function(k) {
+    var cur = k.weeks[wIdx].current;
+    var isGreen = k.greenFn(cur);
+    var isYellow = !isGreen && k.yellowFn(cur);
+    var lbl = isGreen ? k.labels.green : isYellow ? k.labels.yellow : k.labels.red;
+    var color = isGreen ? '#107e3e' : isYellow ? '#e76500' : '#bb0000';
+    var bg = isGreen ? '#f0faf4' : isYellow ? '#fff8f0' : '#fff0f0';
+    var badge = '<span style="font-size:10px;font-weight:700;color:' + color + ';background:' + bg + ';padding:2px 7px;border-radius:10px">' + lbl + '</span>';
+    var wVals = k.weeks.map(function(w){return '<td>' + w.current + k.unit + '</td>';}).join('');
+    return '<tr><td style="font-weight:600">' + k.name + '</td>' + wVals
+      + '<td style="font-weight:700;color:#1d2d3e">' + cur + k.unit + '</td>'
+      + '<td style="font-size:11px;color:#6b7280">' + k.target + '</td>'
+      + '<td>' + badge + '</td></tr>';
+  }).join('');
+}
+
+/* ── MK: RENDER OPERATIONAL TILES ── */
+function renderMKOperational() {
+  var board = document.getElementById('mk-ops-board');
+  if (!board) return;
+  board.innerHTML = MK_OPERATIONAL.map(function(t) {
+    var color = t.status === 'ok' ? '#107e3e' : t.status === 'warn' ? '#e76500' : (t.color || '#0070f2');
+    var bg = t.status === 'ok' ? '#f0faf4' : t.status === 'warn' ? '#fff8f0' : '#f0f4ff';
+    var label = t.status === 'ok' ? 'ON TARGET' : t.status === 'warn' ? '\u26a0 WARNING' : 'INFO';
+    return '<div style="background:' + bg + ';border-radius:10px;padding:14px;border-left:4px solid ' + color + '">'
+      + '<div style="font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px">' + t.title + '</div>'
+      + '<div style="font-size:22px;font-weight:800;color:' + color + ';margin-bottom:4px">' + t.value + '</div>'
+      + '<div style="font-size:11px;color:#6b7280;margin-bottom:6px">' + t.sub + '</div>'
+      + '<span style="font-size:10px;font-weight:700;color:' + color + ';background:' + color + '22;padding:2px 8px;border-radius:10px">' + label + '</span>'
+      + '</div>';
+  }).join('');
+}
+
+/* ── MK: RENDER NODE CONNECTION ── */
+function renderMKNodeConnection() {
+  var grid = document.getElementById('mk-node-grid');
+  if (!grid) return;
+  var mIdx = (typeof selectedMonthIdx !== 'undefined') ? (selectedMonthIdx === -1 ? 8 : selectedMonthIdx) : 8;
+  var bhiV = MK_STRATEGIC[0].monthly[mIdx];
+  var roiV = MK_STRATEGIC[1].monthly[mIdx];
+  var flags = [
+    { node:'Commercial', icon:'\ud83d\udcca',
+      status: (bhiV < 75 || roiV < 120) ? 'warn' : (bhiV < 82 || roiV < 150) ? 'caution' : 'ok',
+      msg: (bhiV < 75) ? 'Brand Health Index ' + bhiV + '/100 \u2014 below 75 threshold'
+         : roiV < 120 ? 'Campaign ROI ' + roiV + '% \u2014 below 120% threshold'
+         : 'Brand Health ' + bhiV + '/100 \u00b7 Campaign ROI ' + roiV + '% \u2014 within targets',
+      action: (bhiV < 75 || roiV < 120) ? 'Brand or campaign underperformance \u2014 align marketing strategy with sales team' : 'No action required' },
+    { node:'R&D', icon:'\ud83d\udd2c',
+      status:'ok',
+      msg:'Negative product quality mentions <4% \u2014 within acceptable range',
+      action:'No action required' },
+    { node:'Supply Chain', icon:'\ud83c\udfe7',
+      status:'ok',
+      msg:'Top SKU sell-out vs forecast within +12% \u2014 no viral demand spike detected',
+      action:'No action required' },
+    { node:'Customer Service', icon:'\ud83c\udfa7',
+      status:'warn',
+      msg:'Consumer Complaints: 18 today \u2014 approaching 20/day threshold \u00b7 NPS +42 \u2705',
+      action:'Consumer experience approaching alert threshold \u2014 activate CS escalation protocol if complaints exceed 20' }
+  ];
+  grid.innerHTML = flags.map(function(f) {
+    return '<div class="ds-flag ds-' + f.status + '">'
+      + '<div class="ds-flag-ico">' + f.icon + '</div>'
+      + '<div><div class="ds-flag-node">' + f.node + '</div>'
+      + '<div class="ds-flag-msg">' + f.msg + '</div>'
+      + '<div class="ds-flag-sub" style="margin-top:3px;font-size:11px;color:#9ca3af">'
+      + '<strong style="color:#6b7280">Action:</strong> ' + f.action
+      + '</div></div></div>';
+  }).join('');
+}
+
+/* ── MK: CHART INITIALIZATION ── */
+let mkChartsBuilt = false;
+
+function mkInitChartsIfNeeded() {
+  renderMKStrategic();
+  renderMKCampaigns();
+  renderMKBA();
+  renderMKDigital();
+  renderMKTikTok();
+  renderMKInfluencer();
+  renderMKSentimentThemes();
+  renderMKPersona();
+  renderMKPositioning();
+  renderMKTactical();
+  renderMKOperational();
+  renderMKNodeConnection();
+  if (mkChartsBuilt) return;
+  mkChartsBuilt = true;
+  buildMKTrendChart();
+  buildMKRoiChart();
+  buildMKBaChart();
+  buildMKSentimentChart();
+}
+
+/* ── MK: CHART 1 — STRATEGIC KPI TREND ── */
+function buildMKTrendChart() {
+  var el = document.getElementById('mkTrendChart');
+  if (!el) return;
+  if (el._chartInstance) el._chartInstance.destroy();
+  var ch = new Chart(el.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: MK_MONTHS,
+      datasets: [
+        {label:'Brand Health Index (/100)',data:[74,75,76,77,78,79,80,81,82],borderColor:'#0070f2',borderWidth:2,tension:0.3,pointRadius:3,fill:false},
+        {label:'Campaign ROI (\xf710 for scale)',data:[15.8,16.4,17.1,17.8,18.2,18.8,19.4,19.9,20.6],borderColor:'#107e3e',borderWidth:2,tension:0.3,pointRadius:3,fill:false},
+        {label:'Share of Voice (%)',data:[16.2,16.8,17.4,17.9,18.4,18.9,19.4,19.8,20.3],borderColor:'#0f828f',borderWidth:2,tension:0.3,pointRadius:3,fill:false},
+        {label:'BA Productivity (IDR M)',data:[6.2,6.5,6.8,7.1,7.3,7.6,7.8,7.9,8.1],borderColor:'#9333ea',borderWidth:2,tension:0.3,pointRadius:3,fill:false},
+        {label:'CAC (IDR K \xf710)',data:[6.8,6.5,6.2,5.9,5.6,5.3,5.0,4.7,4.4],borderColor:'#e76500',borderWidth:2,tension:0.3,pointRadius:3,fill:false,borderDash:[4,3]},
+        {label:'NPS Score',data:[28,30,32,34,36,37,39,41,42],borderColor:'#bb0000',borderWidth:2,tension:0.3,pointRadius:3,fill:false}
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:12}}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{ticks:{font:{size:11}}}}
+    }
+  });
+  el._chartInstance = ch;
+}
+
+/* ── MK: CHART 2 — CAMPAIGN ROI BY TYPE ── */
+function buildMKRoiChart() {
+  var el = document.getElementById('mkRoiChart');
+  if (!el) return;
+  if (el._chartInstance) el._chartInstance.destroy();
+  var ch = new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Digital','BTL','Influencer','TikTok Live','MT'],
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Campaign ROI %',
+          data: [224,118,206,250,138],
+          backgroundColor: ['#0070f2','#0f828f','#107e3e','#9333ea','#e76500'],
+          borderRadius: 4,
+          borderSkipped: false,
+          order: 1
+        },
+        {
+          type: 'line',
+          label: 'Target 200%',
+          data: [200,200,200,200,200],
+          borderColor: '#bb0000',
+          borderWidth: 2,
+          borderDash: [6,4],
+          pointRadius: 0,
+          fill: false,
+          order: 0
+        }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:12}}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:11}}},
+        y:{ticks:{font:{size:11},callback:function(v){return v+'%';}},min:0,max:300,grid:{color:'#f3f4f6'}}
+      }
+    }
+  });
+  el._chartInstance = ch;
+}
+
+/* ── MK: CHART 3 — BA PRODUCTIVITY TREND ── */
+function buildMKBaChart() {
+  var el = document.getElementById('mkBaChart');
+  if (!el) return;
+  if (el._chartInstance) el._chartInstance.destroy();
+  var ch = new Chart(el.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: MK_MONTHS,
+      datasets: [
+        {
+          label: 'BA Productivity (IDR M/BA/month)',
+          data: [6.2,6.5,6.8,7.1,7.3,7.6,7.8,7.9,8.1],
+          borderColor: '#9333ea',
+          borderWidth: 3,
+          tension: 0.3,
+          pointRadius: 4,
+          fill: true,
+          backgroundColor: 'rgba(147,51,234,0.08)'
+        },
+        {
+          label: 'Target IDR 8M',
+          data: [8,8,8,8,8,8,8,8,8],
+          borderColor: '#bb0000',
+          borderWidth: 1.5,
+          borderDash: [6,4],
+          tension: 0,
+          pointRadius: 0,
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:12}}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:11}}},
+        y:{ticks:{font:{size:11},callback:function(v){return 'IDR '+v+'M';}},min:5,max:10}
+      }
+    }
+  });
+  el._chartInstance = ch;
+}
+
+/* ── MK: CHART 4 — SENTIMENT DONUT ── */
+function buildMKSentimentChart() {
+  var el = document.getElementById('mkSentimentChart');
+  if (!el) return;
+  if (el._chartInstance) el._chartInstance.destroy();
+  var ch = new Chart(el.getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Positive','Neutral','Negative'],
+      datasets: [{
+        data: [78,18,4],
+        backgroundColor: ['#107e3e','#6b7280','#bb0000'],
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '65%',
+      plugins: {
+        legend: {position:'bottom',labels:{font:{size:11},padding:10}},
+        tooltip: {callbacks:{label:function(ctx){return ctx.label+': '+ctx.parsed+'%';}}}
+      }
+    }
+  });
+  el._chartInstance = ch;
+}
+
+// === END MARKETING MODULE ===
 </script>
 </body>
 </html>
