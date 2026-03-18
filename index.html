@@ -872,10 +872,9 @@
   </button>
   <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 8px 0;"></div>
   <div class="sidebar-section-label">Commercial &amp; Innovation</div>
-  <button class="nav-item disabled">
+  <button class="nav-item" id="nav-rd" onclick="switchTab('rd')">
     <span class="nav-item-icon">🔬</span>
     <span class="nav-item-label">R&amp;D</span>
-    <span class="nav-soon">Soon</span>
   </button>
   <button class="nav-item disabled">
     <span class="nav-item-icon">📊</span>
@@ -1101,6 +1100,160 @@
   </div>
 
 </div><!-- end panel-wh -->
+
+<!-- ══════════════════════════════════════════
+     R&D MODULE
+══════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-rd">
+
+  <!-- PAGE HEADER -->
+  <div style="margin-bottom:20px">
+    <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin:0 0 4px">R&amp;D Dashboard</h2>
+    <div style="font-size:12px;color:#9ca3af;margin-bottom:6px">E2E Control Tower &rsaquo; Commercial &amp; Innovation</div>
+    <div style="font-size:13px;color:#6b7280;margin-bottom:10px">Innovation Pipeline &amp; Product Development Intelligence</div>
+    <div style="display:inline-flex;align-items:center;gap:8px;background:#f0faf4;border-radius:20px;padding:6px 16px;font-size:13px;color:#1d2d3e;border:1px solid #a3d9b1">
+      🟢 12 active projects &nbsp;·&nbsp; ⚠️ 2 at deadline risk &nbsp;·&nbsp; 🧪 3 pending BPOM submission
+    </div>
+  </div>
+
+  <!-- SECTION 1: STRATEGIC KPIs -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">Strategic KPIs — Monthly</span></p>
+      <span class="section-sub">Hover ƒ for formula · Driven by month selector above</span>
+    </div>
+    <div class="kpi-grid" id="rd-strategic-grid"></div>
+  </div>
+
+  <!-- SECTION 2: INNOVATION PIPELINE KANBAN -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">INNOVATION PIPELINE — PRODUCT DEVELOPMENT STAGES</span></p>
+      <span class="section-sub">12 active projects across 7 stages</span>
+    </div>
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px;overflow-x:auto">
+      <div id="rd-kanban-board" style="display:flex;gap:10px;min-width:1050px"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: BPOM REGULATORY TRACKER -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">BPOM REGULATORY TRACKER</span></p>
+      <span class="section-sub">Product registration and compliance status — Indonesia BPOM + International</span>
+    </div>
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+      <div id="rd-bpom-summary" style="margin-bottom:12px"></div>
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Product</th><th>Category</th><th>Submission Date</th>
+              <th>Status</th><th>Days Pending</th><th>Expected Approval</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="rd-bpom-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: PRODUCT CATEGORY BREAKDOWN -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">PRODUCT CATEGORY PERFORMANCE</span></p>
+      <span class="section-sub">R&amp;D investment and pipeline by cosmetics category</span>
+    </div>
+    <div id="rd-category-cards" style="display:flex;gap:12px;flex-wrap:wrap"></div>
+  </div>
+
+  <!-- SECTION 5: COMPETITIVE BENCHMARKING -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">COMPETITIVE BENCHMARKING</span></p>
+      <span class="section-sub">Paragon Corp vs industry peers — R&amp;D performance indicators</span>
+    </div>
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px;display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start">
+      <div style="flex:1;min-width:280px" id="rd-benchmark-table-wrap"></div>
+      <div style="flex:0 0 300px">
+        <div style="font-size:12px;font-weight:600;color:#6b7280;margin-bottom:8px;text-align:center">Performance Radar — Normalized 0–100</div>
+        <div style="position:relative;height:280px"><canvas id="rdBenchmarkChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: TACTICAL KPIs (Weekly) -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">Tactical KPIs — Weekly</span></p>
+      <span class="section-sub">Week selector in header · W/W trend indicators</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>KPI</th><th>Responsible</th><th>W1</th><th>W2</th><th>W3</th><th>W4</th>
+            <th>This Week</th><th>Target</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="rd-tactical-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 7: OPERATIONAL TILES (Daily) -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-purple">Operational Status — Daily</span></p>
+      <span class="section-sub">Live lab and pipeline activity — Today</span>
+    </div>
+    <div class="ops-board" id="rd-ops-board"></div>
+  </div>
+
+  <!-- SECTION 8: CHARTS -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">R&amp;D Dashboard — Strategic KPI Trend Jan–Sep 2025</p>
+      <span class="section-sub">Click legend to toggle lines</span>
+    </div>
+    <div class="chart-card">
+      <div class="chart-canvas-wrap" style="height:280px"><canvas id="rdTrendChart"></canvas></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px">
+    <div>
+      <div class="section-hdr"><p class="section-label">Innovation Pipeline — Products by Stage</p></div>
+      <div class="chart-card">
+        <div class="chart-canvas-wrap" style="height:260px"><canvas id="rdPipelineChart"></canvas></div>
+      </div>
+    </div>
+    <div>
+      <div class="section-hdr"><p class="section-label">R&amp;D Investment vs Pipeline Revenue by Category (IDR B)</p></div>
+      <div class="chart-card">
+        <div class="chart-canvas-wrap" style="height:260px"><canvas id="rdCategoryChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 9: NODE CONNECTION PANEL -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">Cross-functional Impact</p>
+      <span class="section-sub">Auto-calculated from current R&amp;D KPI values</span>
+    </div>
+    <div class="ds-panel">
+      <div class="ds-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+          <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+        </svg>
+        Node Connection Indicators
+      </div>
+      <div class="ds-grid" id="rd-node-grid"></div>
+    </div>
+  </div>
+
+</div><!-- end panel-rd -->
 
 <!-- ══════════════════════════════════════════
      TAB 3: MANUFACTURING
@@ -2351,6 +2504,10 @@ function selectMonth(idx) {
   }
   renderSPStrategic();
   renderSPNodeConnection();
+  if (document.getElementById('panel-rd') && document.getElementById('panel-rd').classList.contains('active')) {
+    renderRDStrategic();
+    renderRDNodeConnection();
+  }
 }
 
 /* ══ WEEK CHIPS ══ */
@@ -2373,6 +2530,9 @@ function selectWeek(idx) {
     renderTransportNodeConnection();
   }
   renderSPTactical();
+  if (document.getElementById('panel-rd') && document.getElementById('panel-rd').classList.contains('active')) {
+    renderRDTactical();
+  }
 }
 
 /* ══ RENDER: D&W STRATEGIC CARDS ══ */
@@ -2704,16 +2864,20 @@ function switchTab(tab) {
   document.getElementById('panel-'+tab).classList.add('active');
   const navEl=document.getElementById('nav-'+tab);
   if(navEl) navEl.classList.add('active');
-  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower'};
+  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard'};
   document.getElementById('top-bar-title').textContent=titles[tab]||tab;
   const bcEl=document.getElementById('top-bar-breadcrumb');
   if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
   const weekWrap=document.getElementById('week-seg-wrap');
-  if(weekWrap) weekWrap.style.display=(tab==='kpi'||tab==='proc'||tab==='suppliers')?'flex':'none';
+  if(weekWrap) weekWrap.style.display=(tab==='kpi'||tab==='proc'||tab==='suppliers'||tab==='rd')?'flex':'none';
   if(tab==='suppliers'){ spInitChartsIfNeeded(); }
   if(tab==='ct'){
     if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Master View';
     ctInitChartsIfNeeded();
+  }
+  if(tab==='rd'){
+    if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Commercial & Innovation';
+    rdInitChartsIfNeeded();
   }
 }
 
@@ -5232,6 +5396,525 @@ renderSPNodeConnection();
 
 // Control Tower module init
 ctInit();
+
+// === R&D MODULE ===
+
+/* ── R&D STRATEGIC KPI DATA ── */
+const RD_STRATEGIC = [
+  { id:'nplr', name:'New Product Launch Rate',
+    formula:'(Actual launches / Planned launches) × 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:0, target:90, responsible:'R&D',
+    benchmark:"L'Oréal/Unilever 85-95%",
+    monthly:[75,78,80,82,83,85,87,89,90],
+    greenFn:v=>v>=90, yellowFn:v=>v>=75&&v<90 },
+  { id:'ttm', name:'Time to Market (days)',
+    formula:'Total days concept→launch / Products launched',
+    unit:' days', prefix:'', lowerIsBetter:true, decimals:0, target:180, responsible:'R&D',
+    benchmark:'Cosmetics industry 180-365 days',
+    monthly:[235,228,220,212,205,198,192,186,181],
+    greenFn:v=>v<=180, yellowFn:v=>v>180&&v<=240 },
+  { id:'rdiroi', name:'R&D ROI',
+    formula:'(New product revenue / R&D spend) × 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:0, target:300, responsible:'R&D',
+    benchmark:'FMCG benchmark 250-400%',
+    monthly:[245,252,261,270,278,285,291,297,304],
+    greenFn:v=>v>=300, yellowFn:v=>v>=200&&v<300 },
+  { id:'far', name:'Formula Approval Rate',
+    formula:'(Approved formulas / Total submitted) × 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:0, target:80, responsible:'Quality',
+    benchmark:'Cosmetics GMP standard',
+    monthly:[71,73,74,76,77,78,79,80,82],
+    greenFn:v=>v>=80, yellowFn:v=>v>=65&&v<80 },
+  { id:'ipv', name:'Innovation Pipeline Value',
+    formula:'Sum of projected revenue per pipeline stage',
+    unit:'B', prefix:'IDR ', lowerIsBetter:false, decimals:0, target:50, responsible:'R&D',
+    benchmark:'Strategic growth target',
+    monthly:[38,40,42,44,46,47,48,50,53],
+    greenFn:v=>v>=50, yellowFn:v=>v>=30&&v<50 },
+  { id:'rcr', name:'Regulatory Compliance Rate',
+    formula:'(Compliant products / Total submitted) × 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:0, target:98, responsible:'Regulatory',
+    benchmark:'BPOM Indonesia mandatory',
+    monthly:[95,95,96,96,97,97,98,98,99],
+    greenFn:v=>v>=98, yellowFn:v=>v>=93&&v<98 }
+];
+
+/* ── R&D TACTICAL KPI DATA ── */
+const RD_TACTICAL = [
+  { id:'afp', name:'Active Formulation Projects',
+    formula:'Count of projects in formulation stage',
+    unit:'', responsible:'R&D Lab', lowerIsBetter:false, decimals:0, target:10, targetLabel:'Informational',
+    weeks:[{current:11,prevWeek:10},{current:12,prevWeek:11},{current:12,prevWeek:12},{current:12,prevWeek:12}],
+    greenFn:()=>true, yellowFn:()=>false, statusLabel:()=>null },
+  { id:'stpr', name:'Stability Test Pass Rate',
+    formula:'(Tests passed / Total tests) × 100',
+    unit:'%', responsible:'Quality', lowerIsBetter:false, decimals:0, target:85, targetLabel:'≥85%',
+    weeks:[{current:82,prevWeek:80},{current:85,prevWeek:82},{current:79,prevWeek:85},{current:87,prevWeek:79}],
+    greenFn:v=>v>=85, yellowFn:v=>v>=70&&v<85,
+    statusLabel:v=>v>=85?'PASS':v>=70?'WATCH':'CRITICAL' },
+  { id:'islt', name:'Ingredient Sourcing Lead Time',
+    formula:'Avg days from PO to ingredient receipt',
+    unit:'d', responsible:'Procurement', lowerIsBetter:true, decimals:0, target:30, targetLabel:'≤30 days',
+    weeks:[{current:28,prevWeek:30},{current:32,prevWeek:28},{current:38,prevWeek:32},{current:27,prevWeek:38}],
+    greenFn:v=>v<=30, yellowFn:v=>v>30&&v<=45,
+    statusLabel:v=>v<=30?'ON TRACK':v<=45?'DELAYED':'CRITICAL' },
+  { id:'pic', name:'Prototype Iteration Cycle',
+    formula:'Avg days per prototype iteration round',
+    unit:'d', responsible:'R&D Lab', lowerIsBetter:true, decimals:0, target:14, targetLabel:'≤14 days',
+    weeks:[{current:13,prevWeek:15},{current:15,prevWeek:13},{current:18,prevWeek:15},{current:12,prevWeek:18}],
+    greenFn:v=>v<=14, yellowFn:v=>v>14&&v<=21,
+    statusLabel:v=>v<=14?'FAST':v<=21?'SLOW':'CRITICAL' },
+  { id:'cts', name:'Consumer Test Score',
+    formula:'Avg score from consumer panel testing (1-5 scale)',
+    unit:'', responsible:'Marketing', lowerIsBetter:false, decimals:1, target:4.2, targetLabel:'≥4.2',
+    weeks:[{current:4.2,prevWeek:4.1},{current:4.4,prevWeek:4.2},{current:4.1,prevWeek:4.4},{current:4.5,prevWeek:4.1}],
+    greenFn:v=>v>=4.2, yellowFn:v=>v>=3.8&&v<4.2,
+    statusLabel:v=>v>=4.2?'EXCELLENT':v>=3.8?'ACCEPTABLE':'POOR' },
+  { id:'rbu', name:'R&D Budget Utilization',
+    formula:'(Actual R&D spend / Budget) × 100',
+    unit:'%', responsible:'Finance', lowerIsBetter:false, decimals:0, target:100, targetLabel:'85-100%',
+    weeks:[{current:88,prevWeek:85},{current:94,prevWeek:88},{current:108,prevWeek:94},{current:91,prevWeek:108}],
+    greenFn:v=>v>=85&&v<=100, yellowFn:v=>v>100&&v<=115,
+    statusLabel:v=>(v>=85&&v<=100)?'OPTIMAL':v<=115?'OVER BUDGET':'CRITICAL' }
+];
+
+/* ── R&D OPERATIONAL DATA ── */
+const RD_OPERATIONAL = [
+  { id:'ltr', name:'Lab Tests Running Today', value:18, unit:'', lowerIsBetter:false, target:15,
+    greenFn:()=>true, yellowFn:()=>false, sub:'12 stability / 4 consumer / 2 safety' },
+  { id:'fsr', name:'Formulas Submitted for Review', value:3, unit:'', lowerIsBetter:false, target:2,
+    greenFn:()=>true, yellowFn:()=>false, sub:'Submitted today' },
+  { id:'stf', name:'Stability Failures Today', value:1, unit:'', lowerIsBetter:true, target:0,
+    greenFn:v=>v===0, yellowFn:v=>v===1, sub:'Anti-Aging Eye Cream — batch #AE-2247' },
+  { id:'bsp', name:'BPOM Submissions Pending', value:2, unit:'', lowerIsBetter:true, target:0,
+    greenFn:v=>v===0, yellowFn:v=>v<=3, sub:'36 days avg wait time' },
+  { id:'isr', name:'Ingredient Samples Received', value:7, unit:'', lowerIsBetter:false, target:5,
+    greenFn:v=>v>=5, yellowFn:()=>false, sub:'3 RM / 4 experimental ingredients' },
+  { id:'cdw', name:'Critical Deadlines This Week', value:2, unit:'', lowerIsBetter:true, target:0,
+    greenFn:v=>v===0, yellowFn:v=>v<=3, sub:'SPF 50 Sunscreen + Vitamin C Moisturizer' },
+  { id:'lea', name:'Lab Equipment Availability', value:96, unit:'%', lowerIsBetter:false, target:95,
+    greenFn:v=>v>=95, yellowFn:v=>v>=90&&v<95, sub:'1 centrifuge under maintenance' },
+  { id:'cfr', name:'Cross-functional Reviews Today', value:3, unit:'', lowerIsBetter:false, target:2,
+    greenFn:()=>true, yellowFn:()=>false, sub:'R&D ↔ Marketing ↔ Supply Chain' }
+];
+
+/* ── RENDER: R&D STRATEGIC KPIs ── */
+function renderRDStrategic() {
+  const idx=selectedMonthIdx, grid=document.getElementById('rd-strategic-grid');
+  if(!grid) return;
+  grid.innerHTML='';
+  RD_STRATEGIC.forEach(kpi => {
+    const val=getVal(kpi,idx), prev=getPrevVal(kpi,idx), status=getStatus(kpi,val), color=statusColor(status);
+    const card=document.createElement('div');
+    card.className='kpi-card '+status;
+    card.innerHTML=`
+      <div class="kpi-header">
+        <div>
+          <div class="kpi-name">
+            <span class="formula-wrap">${kpi.name}
+              <span class="formula-icon">ƒ</span>
+              <span class="formula-tip">${kpi.formula}</span>
+            </span>
+          </div>
+          <div class="kpi-category"><span class="resp-badge">${kpi.responsible}</span></div>
+        </div>
+        <span class="status-badge badge-${status}">${badgeLabel(status)}</span>
+      </div>
+      <div class="kpi-values">
+        <div class="kpi-value-group">
+          ${kpi.prefix?`<span class="kpi-prefix">${kpi.prefix}</span>`:''}
+          <span class="kpi-current" style="color:${color}">${val.toFixed(kpi.decimals)}</span>
+          ${kpi.unit.trim()?`<span class="kpi-unit">${kpi.unit.trim()}</span>`:''}
+        </div>
+        <div class="trend-arrow">${trendArrowSVG(kpi,val,prev)}</div>
+      </div>
+      <div class="kpi-target">Target: <strong>${(kpi.lowerIsBetter?'≤ ':'≥ ')+fmt(kpi,kpi.target)}</strong></div>
+      ${renderBarChart(kpi,val)}
+      ${trendChipHTML(kpi,val,prev)}
+      <div class="kpi-bench">Benchmark: ${kpi.benchmark}</div>`;
+    grid.appendChild(card);
+  });
+}
+
+/* ── RENDER: R&D TACTICAL TABLE ── */
+function renderRDTactical() {
+  const tbody=document.getElementById('rd-tactical-body');
+  if(!tbody) return;
+  tbody.innerHTML='';
+  RD_TACTICAL.forEach(kpi => {
+    const wk=kpi.weeks[selectedWeekIdx], cur=wk.current, prev=wk.prevWeek;
+    const status=getStatus(kpi,cur), color=statusColor(status);
+    const slFn=kpi.statusLabel;
+    const extraLabel=slFn&&slFn(cur)?`<span style="font-size:11px;font-weight:700;color:${color};margin-left:5px">${slFn(cur)}</span>`:'';
+    const allVals=kpi.weeks.map(w=>w.current.toFixed(kpi.decimals)+kpi.unit).join('</td><td>');
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td class="td-name"><span class="formula-wrap">${kpi.name}<span class="formula-icon">ƒ</span><span class="formula-tip">${kpi.formula}</span></span></td>
+      <td><span class="resp-badge">${kpi.responsible}</span></td>
+      <td>${allVals}</td>
+      <td class="td-val ${status}">${cur.toFixed(kpi.decimals)}${kpi.unit}${extraLabel}</td>
+      <td style="color:#6b7280;font-weight:600">${kpi.targetLabel}</td>
+      <td><span class="status-badge badge-${status}">${badgeLabel(status)}</span></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+/* ── RENDER: R&D OPERATIONAL TILES ── */
+function renderRDOperational() {
+  const board=document.getElementById('rd-ops-board');
+  if(!board) return;
+  board.innerHTML='';
+  RD_OPERATIONAL.forEach(kpi => {
+    const status=kpi.greenFn(kpi.value)?'green':kpi.yellowFn(kpi.value)?'yellow':'red';
+    const isCrit=status==='red';
+    const color=statusColor(status);
+    const tile=document.createElement('div');
+    tile.className='ops-tile '+status+(isCrit?' critical':'');
+    tile.innerHTML=`
+      <div class="ops-tile-name">${kpi.name}</div>
+      <div class="ops-tile-val" style="color:${color}">${kpi.value}${kpi.unit}</div>
+      ${kpi.sub?`<div style="font-size:11px;color:#9ca3af;margin-bottom:6px">${kpi.sub}</div>`:''}
+      <span class="ops-tile-status ${status}">${isCrit?'● CRITICAL':status==='yellow'?'● WARNING':'● ON TARGET'}</span>`;
+    board.appendChild(tile);
+  });
+}
+
+/* ── RENDER: R&D NODE CONNECTION ── */
+function renderRDNodeConnection() {
+  const grid=document.getElementById('rd-node-grid');
+  if(!grid) return;
+  const mIdx=selectedMonthIdx===-1?8:selectedMonthIdx;
+  const wIdx=selectedWeekIdx;
+  const isltV=RD_TACTICAL.find(k=>k.id==='islt').weeks[wIdx].current;
+  const farV=RD_STRATEGIC.find(k=>k.id==='far').monthly[mIdx];
+  const stfV=RD_OPERATIONAL.find(k=>k.id==='stf').value;
+  const ctsV=RD_TACTICAL.find(k=>k.id==='cts').weeks[wIdx].current;
+  const nplrV=RD_STRATEGIC.find(k=>k.id==='nplr').monthly[mIdx];
+  const rcrV=RD_STRATEGIC.find(k=>k.id==='rcr').monthly[mIdx];
+  const bspV=RD_OPERATIONAL.find(k=>k.id==='bsp').value;
+  const flags=[
+    { node:'Supply Chain / Procurement', icon:'🔗',
+      status:isltV>30?'warn':isltV>25?'caution':'ok',
+      msg:isltV>30?`Ingredient lead time at ${isltV}d — above 30-day target; coordinate with Procurement`
+         :isltV>25?`Ingredient lead time at ${isltV}d — approaching threshold; monitor supplier pipeline`
+         :`Ingredient lead time ${isltV}d — on track`,
+      action:isltV>30?'New ingredient procurement needed — coordinate with Procurement team':'No action required' },
+    { node:'Manufacturing', icon:'⚙️',
+      status:(farV<80||stfV>2)?'warn':(farV<85||stfV>0)?'caution':'ok',
+      msg:farV<80?`Formula Approval Rate ${farV}% — below 80% target; batch parameters need review`
+         :stfV>2?`${stfV} stability failures today — review batch parameters with production`
+         :stfV>0?`${stfV} stability failure today — monitor closely`
+         :`Formula Approval ${farV}% · Stability failures ${stfV} — healthy`,
+      action:(farV<80||stfV>2)?'Formula instability detected — review batch parameters with production':'No action required' },
+    { node:'Marketing', icon:'📣',
+      status:(ctsV<4.2||nplrV<85)?'warn':(ctsV<4.4||nplrV<90)?'caution':'ok',
+      msg:ctsV<4.2?`Consumer Test Score ${ctsV.toFixed(1)} — below 4.2 target; product positioning needs review`
+         :nplrV<85?`Launch Rate ${nplrV}% — below 85%; align with Marketing on pipeline`
+         :ctsV<4.4?`Consumer Test Score ${ctsV.toFixed(1)} — acceptable; room for improvement`
+         :`Consumer Score ${ctsV.toFixed(1)} · Launch Rate ${nplrV}% — marketing KPIs healthy`,
+      action:(ctsV<4.2||nplrV<85)?'Product performance below consumer expectations — align with Marketing on positioning':'No action required' },
+    { node:'Regulatory (BPOM)', icon:'📋',
+      status:(rcrV<98||bspV>3)?'warn':(rcrV<99||bspV>1)?'caution':'ok',
+      msg:rcrV<98?`Regulatory Compliance ${rcrV}% — below 98% BPOM target; escalation required`
+         :bspV>3?`${bspV} BPOM submissions pending — regulatory bottleneck detected`
+         :bspV>1?`${bspV} BPOM submissions pending — monitor approval timeline`
+         :`Compliance ${rcrV}% · ${bspV} pending submissions — regulatory status healthy`,
+      action:(rcrV<98||bspV>3)?'Regulatory bottleneck — escalate submissions to regulatory affairs team':'No action required' }
+  ];
+  grid.innerHTML=flags.map(f=>`
+    <div class="ds-flag ds-${f.status}">
+      <div class="ds-flag-ico">${f.icon}</div>
+      <div>
+        <div class="ds-flag-node">${f.node}</div>
+        <div class="ds-flag-msg">${f.msg}</div>
+        <div class="ds-flag-sub" style="margin-top:3px;font-size:11px;color:#9ca3af">
+          <strong style="color:#6b7280">Action:</strong> ${f.action}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+/* ── RENDER: INNOVATION PIPELINE KANBAN ── */
+function renderRDKanban() {
+  const board=document.getElementById('rd-kanban-board');
+  if(!board) return;
+  const catColors={Skincare:'#0070f2',Haircare:'#0f828f','Body Care':'#107e3e','Color Cosmetics':'#9333ea',Fragrance:'#e76500'};
+  const columns=[
+    { title:'CONCEPT', count:2, bg:'#f8f9fa',
+      cards:[
+        {name:'Brightening Serum V3',cat:'Skincare',days:'8 days',pri:'🔴 High Priority'},
+        {name:'Keratin Hair Mask',cat:'Haircare',days:'5 days',pri:'🟡 Medium'}]},
+    { title:'FORMULATION', count:3, bg:'#eff6ff',
+      cards:[
+        {name:'SPF 50 Sunscreen',cat:'Skincare',days:'22 days',pri:'🔴 High Priority'},
+        {name:'Argan Oil Conditioner',cat:'Haircare',days:'18 days',pri:'🟡 Medium'},
+        {name:'Rose Body Lotion',cat:'Body Care',days:'12 days',pri:'🟢 Normal'}]},
+    { title:'STABILITY TESTING', count:2, bg:'#fff8f0',
+      cards:[
+        {name:'Anti-Aging Eye Cream',cat:'Skincare',days:'35 days',pri:'🔴 High Priority'},
+        {name:'Matte Lipstick Set',cat:'Color Cosmetics',days:'28 days',pri:'🟡 Medium'}]},
+    { title:'CONSUMER TESTING', count:2, bg:'#f0faf4',
+      cards:[
+        {name:'Vitamin C Moisturizer',cat:'Skincare',days:'45 days',pri:'🔴 High Priority'},
+        {name:'Coconut Body Scrub',cat:'Body Care',days:'38 days',pri:'🟢 Normal'}]},
+    { title:'BPOM SUBMISSION', count:2, bg:'#fdf4ff',
+      cards:[
+        {name:'Collagen Face Wash',cat:'Skincare',days:'62 days',pri:'🔴 High Priority'},
+        {name:'Floral Eau de Toilette',cat:'Fragrance',days:'55 days',pri:'🟡 Medium'}]},
+    { title:'LAUNCH READY', count:1, bg:'#f0faf4',
+      cards:[
+        {name:'Hydra-Boost Toner',cat:'Skincare',days:'12 days',pri:'🔴 High Priority',badge:'✅ APPROVED'}]},
+    { title:'LAUNCHED', count:3, bg:'#f0faf4', titleGreen:true,
+      cards:[
+        {name:'Pearl Brightening Cream',cat:'Skincare',days:'Launched Sep-25',pri:'',badge:'🚀 LIVE'},
+        {name:'Bamboo Shampoo',cat:'Haircare',days:'Launched Aug-25',pri:'',badge:'🚀 LIVE'},
+        {name:'Lavender Body Wash',cat:'Body Care',days:'Launched Aug-25',pri:'',badge:'🚀 LIVE'}]}
+  ];
+  board.innerHTML=columns.map(col=>`
+    <div style="flex:1;min-width:130px;display:flex;flex-direction:column">
+      <div style="background:${col.bg};border-radius:6px 6px 0 0;padding:8px 10px;border-bottom:1px solid #e5e7eb">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:${col.titleGreen?'#107e3e':'#4b5563'}">${col.title}</div>
+        <div style="font-size:11px;color:#9ca3af;margin-top:2px">${col.count} product${col.count!==1?'s':''}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;padding:8px 0;background:#f9fafb;border-radius:0 0 6px 6px;min-height:80px">
+        ${col.cards.map(card=>`
+          <div style="background:#fff;border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,0.08);border-left:4px solid ${catColors[card.cat]||'#9ca3af'};padding:8px 10px;margin:0 6px">
+            <div style="font-size:12px;font-weight:700;color:#1d2d3e;margin-bottom:4px;line-height:1.3">${card.name}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin-bottom:3px">
+              <span style="font-size:10px;padding:1px 6px;border-radius:10px;background:${catColors[card.cat]||'#9ca3af'}20;color:${catColors[card.cat]||'#9ca3af'};font-weight:600">${card.cat}</span>
+              ${card.badge?`<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:#f0faf4;color:#107e3e;font-weight:700;border:1px solid #a3d9b1">${card.badge}</span>`:''}
+            </div>
+            <div style="font-size:11px;color:#6b7280">${card.days}</div>
+            ${card.pri?`<div style="font-size:11px;margin-top:3px">${card.pri}</div>`:''}
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+/* ── RENDER: BPOM REGULATORY TRACKER ── */
+function renderRDBPOM() {
+  const summary=document.getElementById('rd-bpom-summary');
+  const tbody=document.getElementById('rd-bpom-body');
+  if(!summary||!tbody) return;
+  summary.innerHTML=`<div style="display:inline-flex;gap:16px;align-items:center;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:8px 16px;font-size:13px">
+    <span>✅ <strong>3</strong> Approved</span>
+    <span>🔄 <strong>2</strong> Under Review</span>
+    <span>📋 <strong>1</strong> Preparing</span>
+    <span>🧪 <strong>2</strong> In Testing</span>
+  </div>`;
+  const rows=[
+    {product:'Collagen Face Wash',cat:'Skincare',sub:'Aug 15, 2025',status:'🔄 Under Review',days:'36 days',exp:'Oct 30, 2025',action:'—',bg:'#eff6ff'},
+    {product:'Floral Eau de Toilette',cat:'Fragrance',sub:'Aug 28, 2025',status:'🔄 Under Review',days:'23 days',exp:'Nov 15, 2025',action:'—',bg:'#eff6ff'},
+    {product:'SPF 50 Sunscreen',cat:'Skincare',sub:'—',status:'📋 Preparing Docs',days:'—',exp:'Dec 2025',action:'⚠️ Docs needed',bg:'#fff8f0'},
+    {product:'Hydra-Boost Toner',cat:'Skincare',sub:'Jul 10, 2025',status:'✅ Approved',days:'51 days',exp:'—',action:'Ready to launch',bg:'#f0faf4'},
+    {product:'Pearl Brightening Cream',cat:'Skincare',sub:'May 20, 2025',status:'✅ Approved',days:'62 days',exp:'—',action:'Launched Sep-25',bg:'#f0faf4'},
+    {product:'Bamboo Shampoo',cat:'Haircare',sub:'Apr 15, 2025',status:'✅ Approved',days:'58 days',exp:'—',action:'Launched Aug-25',bg:'#f0faf4'},
+    {product:'Anti-Aging Eye Cream',cat:'Skincare',sub:'—',status:'🧪 In Stability',days:'—',exp:'Jan 2026',action:'Pending testing',bg:'#f9fafb'},
+    {product:'Matte Lipstick Set',cat:'Color Cosmetics',sub:'—',status:'🧪 In Stability',days:'—',exp:'Feb 2026',action:'Pending testing',bg:'#f9fafb'}
+  ];
+  tbody.innerHTML=rows.map(r=>`
+    <tr style="background:${r.bg}">
+      <td style="font-weight:600">${r.product}</td>
+      <td>${r.cat}</td>
+      <td>${r.sub}</td>
+      <td>${r.status}</td>
+      <td>${r.days}</td>
+      <td>${r.exp}</td>
+      <td style="font-size:12px;color:#6b7280">${r.action}</td>
+    </tr>`).join('');
+}
+
+/* ── RENDER: PRODUCT CATEGORY CARDS ── */
+function renderRDCategoryCards() {
+  const wrap=document.getElementById('rd-category-cards');
+  if(!wrap) return;
+  const cats=[
+    {name:'SKINCARE',icon:'💧',color:'#0070f2',projects:6,value:'IDR 28B',ttm:'195 days',success:'88%'},
+    {name:'HAIRCARE',icon:'💆',color:'#0f828f',projects:2,value:'IDR 10B',ttm:'172 days',success:'92%'},
+    {name:'BODY CARE',icon:'🧴',color:'#107e3e',projects:2,value:'IDR 8B',ttm:'165 days',success:'95%'},
+    {name:'COLOR COSMETICS',icon:'💄',color:'#9333ea',projects:1,value:'IDR 5B',ttm:'210 days',success:'79%'},
+    {name:'FRAGRANCE',icon:'🌸',color:'#e76500',projects:1,value:'IDR 2B',ttm:'225 days',success:'72%'}
+  ];
+  wrap.innerHTML=cats.map(c=>`
+    <div style="flex:1;min-width:160px;background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);border-top:4px solid ${c.color};padding:16px 14px">
+      <div style="font-size:22px;margin-bottom:6px">${c.icon}</div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:${c.color};margin-bottom:10px">${c.name}</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:#6b7280">Active Projects</span><span style="font-weight:700;color:#1d2d3e">${c.projects}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:#6b7280">Pipeline Value</span><span style="font-weight:700;color:#1d2d3e">${c.value}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:#6b7280">Avg TTM</span><span style="font-weight:700;color:#1d2d3e">${c.ttm}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:#6b7280">Launch Success</span><span style="font-weight:700;color:${parseFloat(c.success)>=85?'#107e3e':parseFloat(c.success)>=70?'#e76500':'#bb0000'}">${c.success}</span></div>
+      </div>
+    </div>`).join('');
+}
+
+/* ── RENDER: COMPETITIVE BENCHMARKING TABLE ── */
+function renderRDBenchmarkTable() {
+  const wrap=document.getElementById('rd-benchmark-table-wrap');
+  if(!wrap) return;
+  const metrics=[
+    {name:'Time to Market (days)',paragon:181,loreal:165,wardah:195,ponds:210,lowerBetter:true},
+    {name:'Formula Approval Rate',paragon:'82%',loreal:'88%',wardah:'79%',ponds:'76%',lowerBetter:false,bestVal:88,worstVal:76,pVal:82},
+    {name:'R&D as % of Revenue',paragon:'4.2%',loreal:'3.8%',wardah:'3.1%',ponds:'2.9%',lowerBetter:false,bestVal:4.2,worstVal:2.9,pVal:4.2},
+    {name:'New SKUs per Year',paragon:28,loreal:45,wardah:22,ponds:18,lowerBetter:false},
+    {name:'Consumer Test Score',paragon:4.3,loreal:4.6,wardah:4.1,ponds:4.0,lowerBetter:false},
+    {name:'Regulatory Pass Rate',paragon:'99%',loreal:'98%',wardah:'97%',ponds:'96%',lowerBetter:false,bestVal:99,worstVal:96,pVal:99}
+  ];
+  const isBest=(m,v)=>{
+    const nums=[181,165,195,210];
+    if(m.lowerBetter) return v===Math.min(...[m.paragon,m.loreal,m.wardah,m.ponds].map(x=>typeof x==='string'?parseFloat(x):x));
+    return v===Math.max(...[m.paragon,m.loreal,m.wardah,m.ponds].map(x=>typeof x==='string'?parseFloat(x):x));
+  };
+  const isWorst=(m,v)=>{
+    if(m.lowerBetter) return v===Math.max(...[m.paragon,m.loreal,m.wardah,m.ponds].map(x=>typeof x==='string'?parseFloat(x):x));
+    return v===Math.min(...[m.paragon,m.loreal,m.wardah,m.ponds].map(x=>typeof x==='string'?parseFloat(x):x));
+  };
+  const cellStyle=(m,v)=>{
+    const num=typeof v==='string'?parseFloat(v):v;
+    if(isBest(m,num)) return 'background:#f0faf4;color:#107e3e;font-weight:700';
+    if(isWorst(m,num)) return 'background:#fff8f0;color:#e76500;font-weight:700';
+    return '';
+  };
+  wrap.innerHTML=`<table class="data-table" style="width:100%">
+    <thead><tr><th>Metric</th><th>Paragon</th><th>L'Oréal</th><th>Wardah</th><th>Pond's</th></tr></thead>
+    <tbody>${metrics.map(m=>`
+      <tr>
+        <td style="font-weight:600;font-size:12px">${m.name}</td>
+        <td style="${cellStyle(m,typeof m.paragon==='string'?parseFloat(m.paragon):m.paragon)}">${m.paragon}</td>
+        <td style="${cellStyle(m,typeof m.loreal==='string'?parseFloat(m.loreal):m.loreal)}">${m.loreal}</td>
+        <td style="${cellStyle(m,typeof m.wardah==='string'?parseFloat(m.wardah):m.wardah)}">${m.wardah}</td>
+        <td style="${cellStyle(m,typeof m.ponds==='string'?parseFloat(m.ponds):m.ponds)}">${m.ponds}</td>
+      </tr>`).join('')}
+    </tbody>
+  </table>`;
+}
+
+/* ── CHARTS ── */
+let rdChartsBuilt=false;
+
+function rdInitChartsIfNeeded() {
+  renderRDStrategic();
+  renderRDTactical();
+  renderRDOperational();
+  renderRDNodeConnection();
+  renderRDKanban();
+  renderRDBPOM();
+  renderRDCategoryCards();
+  renderRDBenchmarkTable();
+  if(rdChartsBuilt) return;
+  rdChartsBuilt=true;
+  buildRDTrendChart();
+  buildRDPipelineChart();
+  buildRDCategoryChart();
+  buildRDBenchmarkChart();
+}
+
+function buildRDTrendChart() {
+  const el=document.getElementById('rdTrendChart');
+  if(!el) return;
+  if(el._chartInstance) el._chartInstance.destroy();
+  const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'];
+  const ch=new Chart(el.getContext('2d'),{
+    type:'line',
+    data:{
+      labels:MONTHS,
+      datasets:[
+        {label:'Launch Rate (%)',data:[75,78,80,82,83,85,87,89,90],borderColor:'#0070f2',borderWidth:2,tension:0.3,pointRadius:3,fill:false},
+        {label:'Formula Approval (%)',data:[71,73,74,76,77,78,79,80,82],borderColor:'#107e3e',borderWidth:2,tension:0.3,pointRadius:3,fill:false},
+        {label:'Regulatory Compliance (%)',data:[95,95,96,96,97,97,98,98,99],borderColor:'#0f828f',borderWidth:2,tension:0.3,pointRadius:3,fill:false},
+        {label:'R&D ROI (÷10 for scale)',data:[24.5,25.2,26.1,27.0,27.8,28.5,29.1,29.7,30.4],borderColor:'#9333ea',borderWidth:2,tension:0.3,pointRadius:3,fill:false},
+        {label:'Pipeline Value (IDR B)',data:[38,40,42,44,46,47,48,50,53],borderColor:'#e76500',borderWidth:2,tension:0.3,pointRadius:3,fill:false},
+        {label:'TTM (÷3 for scale)',data:[78.3,76.0,73.3,70.7,68.3,66.0,64.0,62.0,60.3],borderColor:'#6b7280',borderWidth:1.5,borderDash:[4,3],tension:0.3,pointRadius:3,fill:false}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:12}}},
+      scales:{x:{grid:{display:false}},y:{ticks:{font:{size:11}}}}
+    }
+  });
+  el._chartInstance=ch;
+}
+
+function buildRDPipelineChart() {
+  const el=document.getElementById('rdPipelineChart');
+  if(!el) return;
+  if(el._chartInstance) el._chartInstance.destroy();
+  const stages=['Concept','Formulation','Stability Testing','Consumer Testing','BPOM Submission','Launch Ready','Launched'];
+  const counts=[2,3,2,2,2,1,3];
+  const colors=['#0070f2','#0a71d4','#0d6fbd','#0f73a6','#107e3e','#15873b','#1a9242'];
+  const ch=new Chart(el.getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:stages,
+      datasets:[{label:'Products',data:counts,backgroundColor:colors,borderRadius:4,borderSkipped:false}]
+    },
+    options:{
+      indexAxis:'y',
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+ctx.raw+' product'+(ctx.raw!==1?'s':'')}}},
+      scales:{
+        x:{grid:{display:false},ticks:{stepSize:1}},
+        y:{grid:{display:false},ticks:{font:{size:11}}}
+      }
+    }
+  });
+  el._chartInstance=ch;
+}
+
+function buildRDCategoryChart() {
+  const el=document.getElementById('rdCategoryChart');
+  if(!el) return;
+  if(el._chartInstance) el._chartInstance.destroy();
+  const cats=['Skincare','Haircare','Body Care','Color Cosmetics','Fragrance'];
+  const ch=new Chart(el.getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:cats,
+      datasets:[
+        {label:'R&D Spend (IDR B)',data:[8.2,3.1,2.4,1.8,0.9],backgroundColor:'#0070f2',borderRadius:3},
+        {label:'Pipeline Revenue (IDR B)',data:[28,10,8,5,2],backgroundColor:'#107e3e',borderRadius:3}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:12}}},
+      scales:{
+        x:{grid:{display:false}},
+        y:{ticks:{callback:v=>v+'B'}}
+      }
+    }
+  });
+  el._chartInstance=ch;
+}
+
+function buildRDBenchmarkChart() {
+  const el=document.getElementById('rdBenchmarkChart');
+  if(!el) return;
+  if(el._chartInstance) el._chartInstance.destroy();
+  const axes=['TTM Speed','Formula Quality','Innovation Rate','Consumer Satisfaction','Regulatory Compliance'];
+  const ch=new Chart(el.getContext('2d'),{
+    type:'radar',
+    data:{
+      labels:axes,
+      datasets:[
+        {label:'Paragon',data:[75,82,78,86,99],borderColor:'#0070f2',backgroundColor:'rgba(0,112,242,0.12)',borderWidth:2,pointRadius:3},
+        {label:"L'Oréal",data:[85,88,95,92,98],borderColor:'#bb0000',backgroundColor:'rgba(187,0,0,0.08)',borderWidth:2,pointRadius:3},
+        {label:'Wardah',data:[68,79,65,82,97],borderColor:'#107e3e',backgroundColor:'rgba(16,126,62,0.08)',borderWidth:2,pointRadius:3},
+        {label:"Pond's",data:[62,76,58,80,96],borderColor:'#e76500',backgroundColor:'rgba(231,101,0,0.08)',borderWidth:2,pointRadius:3}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:10}}},
+      scales:{r:{min:50,max:100,ticks:{stepSize:10,font:{size:9}},pointLabels:{font:{size:10}}}}
+    }
+  });
+  el._chartInstance=ch;
+}
+
+// === END R&D MODULE ===
 </script>
 </body>
 </html>
