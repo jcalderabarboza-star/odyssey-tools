@@ -693,6 +693,95 @@
       .sc-stats { grid-template-columns: repeat(3, 1fr); gap: 10px; }
       .top-bar { flex-wrap: wrap; height: auto; padding: 8px 14px; gap: 8px; }
     }
+
+    /* === CONTROL TOWER MODULE === */
+    .ct-status-bar {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #f0faf4; border: 1px solid #a3d9b1; border-radius: 20px;
+      padding: 4px 14px; font-size: 13px; color: #374151; margin-top: 6px;
+    }
+    .ct-module-cards {
+      display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px;
+    }
+    .ct-module-card {
+      background: #fff; border-radius: 8px; padding: 14px 12px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.08); cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      border-top: 4px solid transparent;
+    }
+    .ct-module-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.13); }
+    .ct-module-card-name { font-size: 12px; font-weight: 700; color: #374151; margin-bottom: 6px; line-height: 1.3; }
+    .ct-module-health { font-size: 28px; font-weight: 700; margin: 4px 0; line-height: 1; }
+    .ct-module-prog { background: #f3f4f6; border-radius: 4px; height: 5px; margin: 7px 0; overflow: hidden; }
+    .ct-module-prog-inner { height: 100%; border-radius: 4px; }
+    .ct-module-alerts { font-size: 11px; color: #6b7280; }
+    .ct-module-trend { font-size: 11px; margin-top: 4px; }
+    .ct-alert-layout { display: flex; gap: 16px; align-items: flex-start; }
+    .ct-alert-list { flex: 0 0 60%; max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 7px; }
+    .ct-alert-chart-wrap { flex: 1; }
+    .ct-alert-chart-title { font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 8px; text-align: center; }
+    .ct-alert-row {
+      display: flex; align-items: flex-start; gap: 8px;
+      border-left: 4px solid transparent; padding: 8px 10px;
+      background: #fff; border-radius: 0 6px 6px 0;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .ct-alert-badge {
+      font-size: 10px; font-weight: 700; padding: 2px 7px;
+      border-radius: 10px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; color: #fff;
+    }
+    .ct-alert-text { font-size: 12px; color: #374151; flex: 1; line-height: 1.4; }
+    .ct-alert-time { font-size: 11px; color: #9ca3af; white-space: nowrap; flex-shrink: 0; padding-top: 1px; }
+    .ct-alert-btn {
+      font-size: 11px; color: #0070f2; background: none; border: none;
+      cursor: pointer; white-space: nowrap; flex-shrink: 0; padding: 0;
+    }
+    .ct-alert-btn:hover { text-decoration: underline; }
+    .ct-flow-legend { display: flex; gap: 20px; justify-content: center; margin-top: 10px; font-size: 12px; color: #6b7280; }
+    .ct-status-pill {
+      display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600;
+    }
+    .ct-gap-pos { color: #107e3e; font-weight: 600; }
+    .ct-gap-neg { color: #bb0000; font-weight: 600; }
+    .ct-bottleneck-card {
+      background: #fff; border-left: 5px solid transparent; border-radius: 6px;
+      padding: 14px 18px; margin-bottom: 12px; box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    }
+    .ct-bottleneck-header { display: flex; align-items: center; margin-bottom: 8px; gap: 8px; }
+    .ct-bottleneck-rank { font-size: 28px; font-weight: 700; line-height: 1; flex-shrink: 0; }
+    .ct-bottleneck-title { font-size: 14px; font-weight: 700; color: #1f2937; }
+    .ct-bottleneck-issue { font-size: 12px; color: #374151; margin-bottom: 4px; }
+    .ct-bottleneck-root { font-size: 11px; color: #6b7280; font-style: italic; margin-bottom: 8px; }
+    .ct-cascade { display: flex; flex-direction: column; gap: 3px; margin: 8px 0; padding-left: 14px; border-left: 2px solid #e5e7eb; }
+    .ct-cascade-item { font-size: 11px; color: #374151; }
+    .ct-cascade-item::before { content: '→ '; color: #9ca3af; }
+    .ct-action { font-size: 12px; background: #f3f4f6; padding: 8px 12px; border-radius: 5px; margin-top: 8px; color: #374151; }
+    .ct-action strong { color: #0070f2; }
+    .ct-scenario-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .ct-scenario-card { background: #fff; border-radius: 8px; padding: 18px; box-shadow: 0 1px 6px rgba(0,0,0,0.08); }
+    .ct-scenario-title { font-size: 14px; font-weight: 700; color: #1f2937; margin-bottom: 8px; }
+    .ct-scenario-trigger { font-size: 12px; color: #6b7280; margin-bottom: 12px; line-height: 1.5; }
+    .ct-scenario-impact { display: none; margin-top: 12px; border-top: 1px solid #f3f4f6; padding-top: 12px; }
+    .ct-scenario-impact.open { display: block; }
+    .ct-scenario-impact-row { display: flex; justify-content: space-between; font-size: 12px; padding: 5px 0; border-bottom: 1px solid #f9fafb; gap: 8px; }
+    .ct-scenario-impact-row span:first-child { color: #6b7280; flex-shrink: 0; }
+    .ct-scenario-impact-row span:last-child { font-weight: 600; color: #374151; text-align: right; }
+    .ct-scenario-mitigation { font-size: 11px; color: #107e3e; margin-top: 8px; padding: 8px; background: #f0faf4; border-radius: 4px; line-height: 1.5; }
+    .ct-run-btn {
+      color: #fff; border: none; border-radius: 5px; padding: 8px 16px;
+      font-size: 12px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 12px;
+      transition: opacity 0.15s;
+    }
+    .ct-run-btn:hover { opacity: 0.85; }
+    @media (max-width: 1100px) {
+      .ct-module-cards { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 700px) {
+      .ct-module-cards { grid-template-columns: repeat(2, 1fr); }
+      .ct-scenario-grid { grid-template-columns: 1fr; }
+      .ct-alert-layout { flex-direction: column; }
+      .ct-alert-list { flex: none; width: 100%; }
+    }
   </style>
 </head>
 <body>
@@ -740,10 +829,9 @@
     <span class="nav-item-icon">🏭</span>
     <span class="nav-item-label">Suppliers Portal</span>
   </button>
-  <button class="nav-item disabled">
+  <button class="nav-item" id="nav-ct" onclick="switchTab('ct')">
     <span class="nav-item-icon">🎛</span>
     <span class="nav-item-label">Control Tower</span>
-    <span class="nav-soon">Soon</span>
   </button>
   <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 8px 0;"></div>
   <div class="sidebar-section-label">Commercial &amp; Innovation</div>
@@ -1926,6 +2014,128 @@
 
 </div><!-- end panel-suppliers -->
 
+<!-- === CONTROL TOWER MODULE === -->
+<!-- ══════════════════════════════════════════
+     CONTROL TOWER TAB
+══════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-ct">
+
+  <!-- PART 1: HEADER STATUS BAR -->
+  <div class="section-block" style="padding-bottom:12px">
+    <div style="font-size:13px;color:#64748b;margin-bottom:8px">End-to-End Supply Chain Orchestration — Live Network Intelligence</div>
+    <div class="ct-status-bar">🟢 Network Status: 4 modules healthy &nbsp;·&nbsp; ⚠️ 2 modules with warnings &nbsp;·&nbsp; 🔴 0 critical</div>
+  </div>
+
+  <!-- PART 2: NETWORK HEALTH SCORECARD -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">NETWORK HEALTH — ALL MODULES</span></p>
+    </div>
+    <div class="ct-module-cards" id="ct-module-cards"></div>
+  </div>
+
+  <!-- PART 3: LIVE ALERT FEED -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">LIVE ALERT FEED</span></p>
+      <span class="section-sub">Critical and warning signals across all nodes</span>
+    </div>
+    <div class="ct-alert-layout">
+      <div class="ct-alert-list" id="ct-alert-list"></div>
+      <div class="ct-alert-chart-wrap">
+        <div class="ct-alert-chart-title">Alert Distribution</div>
+        <div style="position:relative;height:220px"><canvas id="ctAlertChart"></canvas></div>
+        <div style="text-align:center;font-size:13px;color:#374151;font-weight:600;margin-top:6px">12 Total</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PART 4: E2E FLOW DIAGRAM -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">E2E SUPPLY CHAIN FLOW — LIVE STATUS</span></p>
+      <span class="section-sub">Real-time node health across the full chain</span>
+    </div>
+    <div class="chart-card" style="padding:16px">
+      <div style="overflow-x:auto">
+        <svg id="ct-flow-svg" width="100%" height="200" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet" style="min-width:600px;display:block">
+          <defs>
+            <marker id="ct-arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#9ca3af"/>
+            </marker>
+          </defs>
+          <g id="ct-flow-arrows"></g>
+          <g id="ct-flow-nodes"></g>
+          <g id="ct-flow-dots"></g>
+        </svg>
+      </div>
+      <div class="ct-flow-legend">
+        <span>🟢 On Target</span>
+        <span>⚠️ Warning</span>
+        <span>🔴 Critical</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PART 5: EXECUTIVE KPI SUMMARY -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">EXECUTIVE KPI SUMMARY — TOP 10 CRITICAL KPIs</span></p>
+      <span class="section-sub">Highest priority metrics across all modules | Sep-25</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table" id="ct-kpi-table">
+        <thead>
+          <tr>
+            <th>KPI</th><th>Module</th><th>Current</th><th>Target</th><th>Gap</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="ct-kpi-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PART 6: BOTTLENECK DETECTOR -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag" style="background:#fff0f0;color:#bb0000;border:1px solid #fca5a5">BOTTLENECK DETECTOR</span></p>
+      <span class="section-sub">Auto-ranked supply chain constraints by downstream impact severity</span>
+    </div>
+    <div id="ct-bottlenecks"></div>
+  </div>
+
+  <!-- PART 7: SCENARIO PANEL -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">SCENARIO SIMULATOR — WHAT-IF ANALYSIS</span></p>
+      <span class="section-sub">Pre-built disruption scenarios and impact simulation</span>
+    </div>
+    <div class="ct-scenario-grid" id="ct-scenarios"></div>
+  </div>
+
+  <!-- PART 8: CHARTS -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">E2E Network Health Trend — Jan–Sep 2025</p>
+      <span class="section-sub">Click legend to toggle lines</span>
+    </div>
+    <div class="chart-card">
+      <div class="chart-canvas-wrap" style="height:280px"><canvas id="ctHealthChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">Module Performance Radar — Sep-25</p>
+      <span class="section-sub">Actual performance vs 90% target overlay</span>
+    </div>
+    <div class="chart-card">
+      <div style="max-width:500px;margin:0 auto;height:320px"><canvas id="ctRadarChart"></canvas></div>
+    </div>
+  </div>
+
+</div><!-- end panel-ct -->
+
   </div><!-- end page-content -->
 
   <footer>
@@ -2457,13 +2667,17 @@ function switchTab(tab) {
   document.getElementById('panel-'+tab).classList.add('active');
   const navEl=document.getElementById('nav-'+tab);
   if(navEl) navEl.classList.add('active');
-  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal'};
+  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower'};
   document.getElementById('top-bar-title').textContent=titles[tab]||tab;
   const bcEl=document.getElementById('top-bar-breadcrumb');
   if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
   const weekWrap=document.getElementById('week-seg-wrap');
   if(weekWrap) weekWrap.style.display=(tab==='kpi'||tab==='proc'||tab==='suppliers')?'flex':'none';
   if(tab==='suppliers'){ spInitChartsIfNeeded(); }
+  if(tab==='ct'){
+    if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Master View';
+    ctInitChartsIfNeeded();
+  }
 }
 
 /* ══ TOAST & PDF ══ */
@@ -4519,6 +4733,424 @@ function spInitChartsIfNeeded() {
 
 // === END SUPPLIERS PORTAL MODULE ===
 
+// === CONTROL TOWER MODULE ===
+
+let ctChartsBuilt = false;
+
+/* ── CT MODULE CARDS DATA ── */
+const CT_MODULES = [
+  { name: 'Suppliers Portal',        icon: '🏭', health: 84, status: 'warning',  border: '#e76500', alerts: 2, alertDesc: 'contract expiry + QC hold',                    trend: '▲ +2%', trendDir: 'up',   tab: 'suppliers' },
+  { name: 'Procurement & Purchase',  icon: '🛒', health: 91, status: 'ontarget', border: '#107e3e', alerts: 1, alertDesc: 'RM/PM W3 coverage low',                         trend: '▲ +3%', trendDir: 'up',   tab: 'proc'      },
+  { name: 'Manufacturing',           icon: '⚙️', health: 88, status: 'warning',  border: '#e76500', alerts: 2, alertDesc: 'OEE below target + changeover time',            trend: '→ flat', trendDir: 'flat', tab: 'mfg'       },
+  { name: 'Distribution & Warehouse',icon: '📦', health: 87, status: 'warning',  border: '#e76500', alerts: 3, alertDesc: 'Perfect Order Rate + Network Service Level',    trend: '▲ +1%', trendDir: 'up',   tab: 'kpi'       },
+  { name: 'Transport',               icon: '🚛', health: 92, status: 'ontarget', border: '#107e3e', alerts: 1, alertDesc: 'Middle Mile outer islands delay',               trend: '▲ +2%', trendDir: 'up',   tab: 'transport' },
+  { name: 'Customer Service',        icon: '👤', health: 95, status: 'ontarget', border: '#107e3e', alerts: 0, alertDesc: '',                                              trend: '▲ +1%', trendDir: 'up',   tab: null        }
+];
+
+function renderCTModuleCards() {
+  const container = document.getElementById('ct-module-cards');
+  if (!container) return;
+  container.innerHTML = CT_MODULES.map(function(m) {
+    const hc = m.status === 'ontarget' ? '#107e3e' : m.status === 'warning' ? '#e76500' : '#bb0000';
+    const tc = m.trendDir === 'up' ? '#107e3e' : m.trendDir === 'flat' ? '#6b7280' : '#bb0000';
+    const clickAttr = m.tab
+      ? (m.tab === 'transport' ? 'onclick="switchToTransport()"' : 'onclick="switchTab(\'' + m.tab + '\')"')
+      : '';
+    return '<div class="ct-module-card" style="border-top-color:' + m.border + '" ' + clickAttr + '>' +
+      '<div class="ct-module-card-name">' + m.icon + ' ' + m.name + '</div>' +
+      '<div class="ct-module-health" style="color:' + hc + '">' + m.health + '%</div>' +
+      '<div class="ct-module-prog"><div class="ct-module-prog-inner" style="width:' + m.health + '%;background:' + m.border + '"></div></div>' +
+      '<div class="ct-module-alerts">' + (m.alerts > 0 ? m.alerts + ' active alert' + (m.alerts > 1 ? 's' : '') : 'No active alerts') + '</div>' +
+      '<div class="ct-module-trend" style="color:' + tc + '">' + m.trend + ' vs last week</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* ── CT ALERT FEED DATA ── */
+const CT_ALERTS = [
+  { sev: 'critical', module: 'SUPPLIERS',     text: 'PT Indopack contract EXPIRED — immediate renewal required',       time: '2 hrs ago' },
+  { sev: 'critical', module: 'SUPPLIERS',     text: 'PT Maspion contract expiring in 31 days — initiate negotiation',  time: '1 day ago' },
+  { sev: 'warning',  module: 'DISTRIBUTION',  text: 'Perfect Order Rate 90.3% — below 95% target',                    time: 'Sep-25'    },
+  { sev: 'warning',  module: 'DISTRIBUTION',  text: 'Network Service Level 94.2% — below 97% target',                  time: 'Sep-25'    },
+  { sev: 'warning',  module: 'MANUFACTURING', text: 'OEE 82% — below 85% target',                                      time: 'Week 3'    },
+  { sev: 'warning',  module: 'MANUFACTURING', text: 'Changeover Time 3.2hrs — above 2.5hr target',                     time: 'Week 3'    },
+  { sev: 'warning',  module: 'PROCUREMENT',   text: 'RM/PM Coverage 19 days — below 21-day optimal',                   time: 'Week 3'    },
+  { sev: 'warning',  module: 'TRANSPORT',     text: 'Outer Islands transit 89hrs — above 72hr target',                 time: 'Week 3'    },
+  { sev: 'warning',  module: 'SUPPLIERS',     text: 'QC Hold: 2 batches from PT Cahaya — dimensional defect',          time: 'Today'     },
+  { sev: 'warning',  module: 'SUPPLIERS',     text: 'Packaging OTD 88% — below 95% target',                            time: 'Week 1'    },
+  { sev: 'info',     module: 'TRANSPORT',     text: '3PL Alert: Sumatra route flooding delay',                         time: 'Today'     },
+  { sev: 'info',     module: 'PROCUREMENT',   text: 'Emergency Purchase Rate 6.2% — elevated',                         time: 'Week 3'    }
+];
+
+function renderCTAlertFeed() {
+  const list = document.getElementById('ct-alert-list');
+  if (!list) return;
+  const sevCfg = {
+    critical: { border: '#bb0000', bg: '#fff0f0' },
+    warning:  { border: '#e76500', bg: '#fff8f0' },
+    info:     { border: '#0070f2', bg: '#eff6ff' }
+  };
+  const modColors = {
+    'SUPPLIERS':     '#7c3aed',
+    'DISTRIBUTION':  '#0070f2',
+    'MANUFACTURING': '#e76500',
+    'PROCUREMENT':   '#107e3e',
+    'TRANSPORT':     '#0891b2'
+  };
+  list.innerHTML = CT_ALERTS.map(function(a) {
+    const sc = sevCfg[a.sev];
+    const mc = modColors[a.module] || '#6b7280';
+    return '<div class="ct-alert-row" style="border-left-color:' + sc.border + ';background:' + sc.bg + '">' +
+      '<span class="ct-alert-badge" style="background:' + mc + '">' + a.module + '</span>' +
+      '<span class="ct-alert-text">' + a.text + '</span>' +
+      '<span class="ct-alert-time">' + a.time + '</span>' +
+      '<button class="ct-alert-btn">View →</button>' +
+    '</div>';
+  }).join('');
+}
+
+/* ── CT ALERT DONUT CHART ── */
+function buildCTAlertChart() {
+  const el = document.getElementById('ctAlertChart');
+  if (!el) return;
+  if (el._chartInstance) { el._chartInstance.destroy(); }
+  const ch = new Chart(el.getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Critical', 'Warning', 'Info'],
+      datasets: [{
+        data: [2, 8, 2],
+        backgroundColor: ['#bb0000', '#e76500', '#0070f2'],
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '65%',
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 10 } },
+        tooltip: { callbacks: { label: function(ctx) { return ' ' + ctx.label + ': ' + ctx.raw; } } }
+      }
+    }
+  });
+  el._chartInstance = ch;
+}
+
+/* ── CT FLOW DIAGRAM ── */
+function renderCTFlowDiagram() {
+  const CT_NODES = [
+    { cx: 80,  label: 'Suppliers',    sub: '10 active',    health: 84, status: 'warning',  icon: '🏭' },
+    { cx: 220, label: 'Procurement',  sub: '47 open POs',  health: 91, status: 'ontarget', icon: '🛒' },
+    { cx: 360, label: 'Manufacturing',sub: '4 lines',      health: 88, status: 'warning',  icon: '⚙️' },
+    { cx: 500, label: 'NDC Jakarta',  sub: '847 orders',   health: 87, status: 'warning',  icon: '📦' },
+    { cx: 640, label: 'Distribution', sub: '44 nodes',     health: 87, status: 'warning',  icon: '🔄' },
+    { cx: 780, label: 'Transport',    sub: '336 active',   health: 92, status: 'ontarget', icon: '🚛' },
+    { cx: 920, label: 'Customer',     sub: '1,284 orders', health: 95, status: 'ontarget', icon: '👤' }
+  ];
+  const statusColor = function(s) { return s === 'ontarget' ? '#107e3e' : s === 'warning' ? '#e76500' : '#bb0000'; };
+  const nW = 100, nH = 80, cy = 100;
+
+  const arrowsG = document.getElementById('ct-flow-arrows');
+  const nodesG  = document.getElementById('ct-flow-nodes');
+  const dotsG   = document.getElementById('ct-flow-dots');
+  if (!arrowsG || !nodesG || !dotsG) return;
+
+  var arrowsHTML = '', dotsHTML = '', nodesHTML = '';
+
+  for (var i = 0; i < CT_NODES.length - 1; i++) {
+    var from = CT_NODES[i], to = CT_NODES[i + 1];
+    var x1 = from.cx + nW / 2, x2 = to.cx - nW / 2;
+    var col = statusColor(from.status);
+    var dx = x2 - x1 - 10;
+    arrowsHTML += '<line x1="' + x1 + '" y1="' + cy + '" x2="' + (x2 - 10) + '" y2="' + cy + '" stroke="' + col + '" stroke-width="3" marker-end="url(#ct-arrowhead)"/>';
+    var delay = (i * 0.5).toFixed(1);
+    dotsHTML += '<g transform="translate(' + x1 + ',' + cy + ')">' +
+      '<circle r="5" fill="#0070f2" opacity="0.85">' +
+        '<animateMotion dur="3s" begin="' + delay + 's" repeatCount="indefinite" calcMode="linear" path="M0,0 L' + dx + ',0"/>' +
+      '</circle>' +
+    '</g>';
+  }
+
+  CT_NODES.forEach(function(n) {
+    var x = n.cx - nW / 2, y = cy - nH / 2;
+    var col = statusColor(n.status);
+    nodesHTML += '<g>' +
+      '<rect x="' + x + '" y="' + y + '" width="' + nW + '" height="' + nH + '" rx="8" ry="8" fill="#fff" stroke="' + col + '" stroke-width="2.5"/>' +
+      '<text x="' + n.cx + '" y="' + (y + 21) + '" text-anchor="middle" font-size="18">' + n.icon + '</text>' +
+      '<text x="' + n.cx + '" y="' + (y + 40) + '" text-anchor="middle" font-size="10" font-weight="700" fill="#374151">' + n.label + '</text>' +
+      '<text x="' + n.cx + '" y="' + (y + 54) + '" text-anchor="middle" font-size="12" font-weight="700" fill="' + col + '">' + n.health + '%</text>' +
+      '<text x="' + n.cx + '" y="' + (y + 68) + '" text-anchor="middle" font-size="9" fill="#9ca3af">' + n.sub + '</text>' +
+    '</g>';
+  });
+
+  arrowsG.innerHTML = arrowsHTML;
+  dotsG.innerHTML   = dotsHTML;
+  nodesG.innerHTML  = nodesHTML;
+}
+
+/* ── CT KPI TABLE ── */
+function renderCTKpiTable() {
+  const tbody = document.getElementById('ct-kpi-body');
+  if (!tbody) return;
+  const rows = [
+    { kpi: 'Perfect Order Rate',               module: 'Distribution', current: '90.3%', target: '≥95%',  gap: '-4.7%', gapDir: 'neg', status: 'warning'  },
+    { kpi: 'Supplier Performance Index',       module: 'Suppliers',    current: '91%',   target: '≥90%',  gap: '+1%',   gapDir: 'pos', status: 'ontarget' },
+    { kpi: 'Overall Transport Service Level',  module: 'Transport',    current: '97%',   target: '≥97%',  gap: '0%',    gapDir: '',    status: 'ontarget' },
+    { kpi: 'OEE',                              module: 'Manufacturing', current: '82%',   target: '≥85%',  gap: '-3%',   gapDir: 'neg', status: 'warning'  },
+    { kpi: 'Distribution Network Service Level',module:'Distribution', current: '94.2%', target: '≥97%',  gap: '-2.8%', gapDir: 'neg', status: 'warning'  },
+    { kpi: 'Supplier Defect Rate',             module: 'Suppliers',    current: '1.3%',  target: '≤1.5%', gap: '+0.2%', gapDir: 'pos', status: 'ontarget' },
+    { kpi: 'Procurement Cost Savings',         module: 'Procurement',  current: '5.6%',  target: '≥5%',   gap: '+0.6%', gapDir: 'pos', status: 'ontarget' },
+    { kpi: 'Perfect Delivery Rate',            module: 'Transport',    current: '96%',   target: '≥95%',  gap: '+1%',   gapDir: 'pos', status: 'ontarget' },
+    { kpi: 'Inventory Turnover',               module: 'Distribution', current: '8.1x',  target: '≥8x',   gap: '+0.1x', gapDir: 'pos', status: 'ontarget' },
+    { kpi: 'Supplier Risk Index',              module: 'Suppliers',    current: '10%',   target: '≤10%',  gap: '0%',    gapDir: '',    status: 'ontarget' }
+  ];
+  tbody.innerHTML = rows.map(function(r) {
+    const pill = r.status === 'warning'
+      ? '<span class="ct-status-pill" style="background:#fff8f0;color:#e76500;border:1px solid #f6b26b">⚠️ WARNING</span>'
+      : '<span class="ct-status-pill" style="background:#f0faf4;color:#107e3e;border:1px solid #a3d9b1">✅ ON TARGET</span>';
+    const gapCls = r.gapDir === 'pos' ? 'ct-gap-pos' : r.gapDir === 'neg' ? 'ct-gap-neg' : '';
+    return '<tr>' +
+      '<td style="font-weight:600">' + r.kpi + '</td>' +
+      '<td>' + r.module + '</td>' +
+      '<td style="font-weight:600">' + r.current + '</td>' +
+      '<td style="color:#6b7280">' + r.target + '</td>' +
+      '<td class="' + gapCls + '">' + r.gap + '</td>' +
+      '<td>' + pill + '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+/* ── CT BOTTLENECK DETECTOR ── */
+function renderCTBottlenecks() {
+  const container = document.getElementById('ct-bottlenecks');
+  if (!container) return;
+  const bottlenecks = [
+    {
+      rank: 1, severity: 'CRITICAL', border: '#bb0000',
+      node: 'Distribution &amp; Warehouse',
+      issue: 'Perfect Order Rate 90.3% — 4.7% below target',
+      root:  'Picking accuracy and order processing delays',
+      cascade: ['Customer Service: increased complaints expected','Finance: revenue at risk — IDR 2.3B estimated','Transport: return processing backlog'],
+      action: 'Activate intensive picking audit — review batch/wave strategy immediately'
+    },
+    {
+      rank: 2, severity: 'HIGH IMPACT', border: '#e76500',
+      node: 'Suppliers Portal',
+      issue: '2 contracts expired/expiring — supply continuity risk',
+      root:  'Contract renewal process delayed',
+      cascade: ['Procurement: emergency sourcing may be required','Manufacturing: RM/PM availability risk in 30 days'],
+      action: 'Initiate contract negotiation this week — PT Indopack (expired) and PT Maspion (31 days)'
+    },
+    {
+      rank: 3, severity: 'MEDIUM IMPACT', border: '#e76500',
+      node: 'Manufacturing',
+      issue: 'OEE 82% — 3% below 85% target',
+      root:  'Changeover time elevated + planned downtime overrun',
+      cascade: ['Distribution: production output 6% below plan','Procurement: RM/PM buffer being consumed faster'],
+      action: 'Review SMED process — target changeover reduction of 20%'
+    },
+    {
+      rank: 4, severity: 'LOW IMPACT', border: '#0070f2',
+      node: 'Transport — Middle Mile',
+      issue: 'Outer Islands transit 89hrs vs 72hr target',
+      root:  'Flooding on Sumatra route — 3PL alert active',
+      cascade: ['Distribution: Sumatra DC replenishment delayed'],
+      action: 'Activate alternative routing — coordinate with 3PL backup carrier'
+    },
+    {
+      rank: 5, severity: 'MONITORED', border: '#107e3e',
+      node: 'Procurement',
+      issue: 'RM/PM Coverage W3: 19 days — slightly below optimal',
+      root:  'Higher than planned consumption — Manufacturing OEE impact',
+      cascade: ['Minimal if resolved within 2 weeks'],
+      action: 'Accelerate PO #[2847] — coordinate with PT Dow Chemical'
+    }
+  ];
+  container.innerHTML = bottlenecks.map(function(b) {
+    return '<div class="ct-bottleneck-card" style="border-left-color:' + b.border + '">' +
+      '<div class="ct-bottleneck-header">' +
+        '<span class="ct-bottleneck-rank" style="color:' + b.border + '">#' + b.rank + '</span>' +
+        '<div>' +
+          '<div style="font-size:11px;font-weight:700;color:' + b.border + ';text-transform:uppercase;margin-bottom:2px">' + b.severity + '</div>' +
+          '<div class="ct-bottleneck-title">' + b.node + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="ct-bottleneck-issue">⚠️ ' + b.issue + '</div>' +
+      '<div class="ct-bottleneck-root">Root Cause: ' + b.root + '</div>' +
+      '<div class="ct-cascade">' + b.cascade.map(function(c) { return '<div class="ct-cascade-item">' + c + '</div>'; }).join('') + '</div>' +
+      '<div class="ct-action"><strong>Recommended Action:</strong> ' + b.action + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* ── CT SCENARIO PANEL ── */
+function renderCTScenarios() {
+  const container = document.getElementById('ct-scenarios');
+  if (!container) return;
+  const scenarios = [
+    {
+      id: 'ctSc1', title: '🚨 Key Supplier Failure', btnColor: '#bb0000',
+      trigger: 'Primary RM supplier (BASF Germany) unable to deliver for 30 days',
+      impact: [
+        { label: 'Manufacturing',  val: 'Production stops in 18 days (current RM coverage 19 days)' },
+        { label: 'Distribution',   val: '35% SKU stockout risk' },
+        { label: 'Revenue at Risk',val: 'IDR 12.4B' },
+        { label: 'Recovery Time',  val: '45–60 days' }
+      ],
+      mitigation: 'Activate Clariant China as emergency RM source — 25 day lead time'
+    },
+    {
+      id: 'ctSc2', title: '🚛 Middle Mile Disruption', btnColor: '#e76500',
+      trigger: 'National trucking strike — Middle Mile shutdown for 7 days',
+      impact: [
+        { label: 'NDC Inventory',     val: '+340% buildup (7-day backlog)' },
+        { label: 'Regional DCs',      val: 'Stockout in 4–6 days' },
+        { label: 'Last Mile B2B',     val: '0% fulfillment during strike' },
+        { label: 'Revenue at Risk',   val: 'IDR 8.7B per week' }
+      ],
+      mitigation: 'Emergency air freight for critical SKUs — activate rail alternative'
+    },
+    {
+      id: 'ctSc3', title: '📈 E-Commerce Surge +30%', btnColor: '#0070f2',
+      trigger: 'Viral social media campaign drives 30% B2C demand spike for 14 days',
+      impact: [
+        { label: 'Current B2C Capacity',  val: '1,284 orders/day' },
+        { label: 'Required Capacity',     val: '1,669 orders/day' },
+        { label: 'Gap',                   val: '385 orders/day (30% shortfall)' },
+        { label: 'Warehouse Utilization', val: 'Rises from 78% to 102%' },
+        { label: 'Transport B2C Same-Day',val: 'Rate drops to 61%' }
+      ],
+      mitigation: 'Activate flex workforce (+40 pickers) — pre-book additional last mile B2C capacity'
+    }
+  ];
+  container.innerHTML = scenarios.map(function(s) {
+    return '<div class="ct-scenario-card">' +
+      '<div class="ct-scenario-title">' + s.title + '</div>' +
+      '<div class="ct-scenario-trigger">' + s.trigger + '</div>' +
+      '<button class="ct-run-btn" style="background:' + s.btnColor + '" onclick="ctToggleScenario(\'' + s.id + '\')">Run Scenario ▶</button>' +
+      '<div class="ct-scenario-impact" id="' + s.id + '-impact">' +
+        s.impact.map(function(r) {
+          return '<div class="ct-scenario-impact-row"><span>' + r.label + '</span><span>' + r.val + '</span></div>';
+        }).join('') +
+        '<div class="ct-scenario-mitigation">💡 Mitigation: ' + s.mitigation + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function ctToggleScenario(id) {
+  var el = document.getElementById(id + '-impact');
+  if (el) { el.classList.toggle('open'); }
+}
+
+/* ── CT HEALTH TREND CHART ── */
+function buildCTHealthChart() {
+  var el = document.getElementById('ctHealthChart');
+  if (!el) return;
+  if (el._chartInstance) { el._chartInstance.destroy(); }
+  var CT_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'];
+  var datasets = [
+    { label: 'Suppliers',        data: [78,79,80,81,82,83,84,85,84], borderColor: '#7c3aed', backgroundColor: 'transparent', borderWidth: 2, tension: 0.3, pointRadius: 3 },
+    { label: 'Procurement',      data: [81,82,83,85,86,88,89,90,91], borderColor: '#107e3e', backgroundColor: 'transparent', borderWidth: 2, tension: 0.3, pointRadius: 3 },
+    { label: 'Manufacturing',    data: [82,83,84,85,86,87,87,88,88], borderColor: '#e76500', backgroundColor: 'transparent', borderWidth: 2, tension: 0.3, pointRadius: 3 },
+    { label: 'Distribution',     data: [80,81,82,83,84,85,86,87,87], borderColor: '#0070f2', backgroundColor: 'transparent', borderWidth: 2, tension: 0.3, pointRadius: 3 },
+    { label: 'Transport',        data: [83,84,85,86,88,89,90,91,92], borderColor: '#0891b2', backgroundColor: 'transparent', borderWidth: 2, tension: 0.3, pointRadius: 3 },
+    { label: 'Customer Service', data: [90,91,92,92,93,94,94,95,95], borderColor: '#6b7280', backgroundColor: 'transparent', borderWidth: 2, tension: 0.3, pointRadius: 3 },
+    { label: '90% Target',       data: [90,90,90,90,90,90,90,90,90], borderColor: '#6b7280', borderDash: [5,5], borderWidth: 1.5, backgroundColor: 'transparent', pointRadius: 0, tension: 0 }
+  ];
+  var ch = new Chart(el.getContext('2d'), {
+    type: 'line',
+    data: { labels: CT_MONTHS, datasets: datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 12 } },
+        tooltip: { callbacks: { label: function(ctx) { return ' ' + ctx.dataset.label + ': ' + ctx.raw + '%'; } } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#6b7280' } },
+        y: {
+          min: 60, max: 100,
+          ticks: { font: { size: 11 }, color: '#6b7280', callback: function(v) { return v + '%'; } },
+          grid: { color: '#f3f4f6' }
+        }
+      }
+    }
+  });
+  el._chartInstance = ch;
+}
+
+/* ── CT RADAR CHART ── */
+function buildCTRadarChart() {
+  var el = document.getElementById('ctRadarChart');
+  if (!el) return;
+  if (el._chartInstance) { el._chartInstance.destroy(); }
+  var ch = new Chart(el.getContext('2d'), {
+    type: 'radar',
+    data: {
+      labels: ['Suppliers','Procurement','Manufacturing','Distribution','Transport','Customer Service'],
+      datasets: [
+        {
+          label: 'Actual Sep-25',
+          data: [84, 91, 88, 87, 92, 95],
+          backgroundColor: 'rgba(0,112,242,0.2)',
+          borderColor: '#0070f2',
+          borderWidth: 2,
+          pointRadius: 4,
+          pointBackgroundColor: '#0070f2'
+        },
+        {
+          label: 'Target (90%)',
+          data: [90, 90, 90, 90, 90, 90],
+          backgroundColor: 'transparent',
+          borderColor: '#e76500',
+          borderWidth: 1.5,
+          borderDash: [5, 5],
+          pointRadius: 0
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 12 } } },
+      scales: {
+        r: {
+          min: 60, max: 100,
+          ticks: { font: { size: 10 }, color: '#6b7280', stepSize: 10, callback: function(v) { return v + '%'; } },
+          grid: { color: '#f3f4f6' },
+          pointLabels: { font: { size: 11 }, color: '#374151' }
+        }
+      }
+    }
+  });
+  el._chartInstance = ch;
+}
+
+/* ── CT INIT ── */
+function ctInitChartsIfNeeded() {
+  if (ctChartsBuilt) return;
+  ctChartsBuilt = true;
+  buildCTAlertChart();
+  buildCTHealthChart();
+  buildCTRadarChart();
+}
+
+function ctInit() {
+  renderCTModuleCards();
+  renderCTAlertFeed();
+  renderCTFlowDiagram();
+  renderCTKpiTable();
+  renderCTBottlenecks();
+  renderCTScenarios();
+}
+
+// === END CONTROL TOWER MODULE ===
+
 /* ══ INIT ══ */
 renderMonthChips();
 renderWeekChips();
@@ -4560,6 +5192,9 @@ renderSPScorecard();
 renderSPKraljic();
 renderSPContractTracker();
 renderSPNodeConnection();
+
+// Control Tower module init
+ctInit();
 </script>
 </body>
 </html>
