@@ -1407,32 +1407,329 @@
 
     </div><!-- end transport-sub-firstmile -->
 
-    <!-- ── MIDDLE MILE placeholder ── -->
+    <!-- ── MIDDLE MILE ── -->
     <div id="transport-sub-middlemile" class="transport-sub-panel">
-      <div class="transport-placeholder">
-        <div class="transport-placeholder-icon">🚧</div>
-        <div class="transport-placeholder-title">Coming in next update</div>
-        <div class="transport-placeholder-sub">Middle Mile KPIs — Tactical &amp; Operational</div>
-      </div>
-    </div>
 
-    <!-- ── LAST MILE B2B placeholder ── -->
+      <!-- Middle Mile Header -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+        <span style="font-size:18px">🔄</span>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#1d2d3e">Middle Mile — NDC Jakarta → Regional DCs &amp; Distributors Nationwide</div>
+          <div style="font-size:12px;color:#9ca3af">Route accent: <span style="color:#0070f2;font-weight:700">■</span> SAP Blue (#0070f2)</div>
+        </div>
+      </div>
+
+      <!-- Tactical KPIs Table -->
+      <div class="section-block">
+        <div class="section-hdr">
+          <p class="section-label"><span class="section-tag tag-amber">Tactical KPIs — Weekly</span></p>
+          <span class="section-sub">Week selector in header drives this table</span>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>KPI</th><th>W1</th><th>W2</th><th>W3</th><th>W4</th><th>Target</th><th>Status (Selected Week)</th>
+              </tr>
+            </thead>
+            <tbody id="transport-mm-tactical-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Operational Tiles -->
+      <div class="section-block">
+        <div class="section-hdr">
+          <p class="section-label"><span class="section-tag tag-purple">Operational — Today's Routes</span></p>
+          <span class="section-sub">NDC Jakarta · Live route metrics</span>
+        </div>
+        <div class="ops-board">
+          <div class="ops-tile" style="border-left-color:#0070f2;background:#eff6ff">
+            <div class="ops-tile-name">Active Shipments Java</div>
+            <div class="ops-tile-val" style="color:#0070f2">31</div>
+            <div class="ops-tile-target">routes active</div>
+            <div class="ops-tile-status" style="background:#eff6ff;color:#0070f2;border-color:#bfdbfe">ℹ Informational</div>
+          </div>
+          <div class="ops-tile" style="border-left-color:#0070f2;background:#eff6ff">
+            <div class="ops-tile-name">Active Shipments Outer Islands</div>
+            <div class="ops-tile-val" style="color:#0070f2">16</div>
+            <div class="ops-tile-target">routes active</div>
+            <div class="ops-tile-status" style="background:#eff6ff;color:#0070f2;border-color:#bfdbfe">ℹ Informational</div>
+          </div>
+          <div class="ops-tile yellow" style="animation:pulse-amber-light 1.8s infinite">
+            <div class="ops-tile-name">Delayed Shipments Today</div>
+            <div class="ops-tile-val">3</div>
+            <div class="ops-tile-target">2 weather / 1 ferry schedule</div>
+            <div class="ops-tile-status yellow">⚠ Warning</div>
+          </div>
+          <div class="ops-tile yellow">
+            <div class="ops-tile-name">POD Received Today</div>
+            <div class="ops-tile-val">94<span style="font-size:14px;font-weight:600;color:#6b7280">%</span></div>
+            <div class="ops-tile-target">Target: ≥98%</div>
+            <div class="ops-tile-status yellow">⚠ Warning</div>
+          </div>
+          <div class="ops-tile yellow" style="animation:pulse-amber-light 1.8s infinite">
+            <div class="ops-tile-name">3PL Active Alert</div>
+            <div class="ops-tile-val">1</div>
+            <div class="ops-tile-target">Sumatra route — flooding delay</div>
+            <div class="ops-tile-status yellow">⚠ Warning</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Middle Mile Chart -->
+      <div class="section-block">
+        <div class="chart-card">
+          <div class="chart-card-title">Middle Mile — Cost per Case by Route Cluster (IDR)</div>
+          <div class="chart-canvas-wrap" style="height:280px"><canvas id="transportMiddleMileChart"></canvas></div>
+        </div>
+      </div>
+
+    </div><!-- end transport-sub-middlemile -->
+
+    <!-- ── LAST MILE B2B ── -->
     <div id="transport-sub-lastmileb2b" class="transport-sub-panel">
-      <div class="transport-placeholder">
-        <div class="transport-placeholder-icon">🚧</div>
-        <div class="transport-placeholder-title">Coming in next update</div>
-        <div class="transport-placeholder-sub">Last Mile B2B KPIs — Tactical &amp; Operational</div>
-      </div>
-    </div>
 
-    <!-- ── LAST MILE B2C placeholder ── -->
-    <div id="transport-sub-lastmileb2c" class="transport-sub-panel">
-      <div class="transport-placeholder">
-        <div class="transport-placeholder-icon">🚧</div>
-        <div class="transport-placeholder-title">Coming in next update</div>
-        <div class="transport-placeholder-sub">Last Mile B2C KPIs — Tactical &amp; Operational</div>
+      <!-- Last Mile B2B Header -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+        <span style="font-size:18px">🏪</span>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#1d2d3e">Last Mile B2B — Distributor → Modern Trade / General Trade Outlets</div>
+          <div style="font-size:12px;color:#9ca3af">Route accent: <span style="color:#0f828f;font-weight:700">■</span> Teal (#0f828f)</div>
+        </div>
       </div>
-    </div>
+
+      <!-- Tactical KPIs Table -->
+      <div class="section-block">
+        <div class="section-hdr">
+          <p class="section-label"><span class="section-tag tag-amber">Tactical KPIs — Weekly</span></p>
+          <span class="section-sub">Week selector in header drives this table</span>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>KPI</th><th>W1</th><th>W2</th><th>W3</th><th>W4</th><th>Target</th><th>Status (Selected Week)</th>
+              </tr>
+            </thead>
+            <tbody id="transport-b2b-tactical-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Operational Tiles -->
+      <div class="section-block">
+        <div class="section-hdr">
+          <p class="section-label"><span class="section-tag tag-purple">Operational — Today's Deliveries</span></p>
+          <span class="section-sub">Distributor outlets · Live delivery metrics</span>
+        </div>
+        <div class="ops-board">
+          <div class="ops-tile" style="border-left-color:#0070f2;background:#eff6ff">
+            <div class="ops-tile-name">Deliveries Planned Today</div>
+            <div class="ops-tile-val" style="color:#0070f2">847</div>
+            <div class="ops-tile-target">drops scheduled</div>
+            <div class="ops-tile-status" style="background:#eff6ff;color:#0070f2;border-color:#bfdbfe">ℹ Informational</div>
+          </div>
+          <div class="ops-tile" style="border-left-color:#0070f2;background:#eff6ff">
+            <div class="ops-tile-name">Deliveries Completed</div>
+            <div class="ops-tile-val" style="color:#0070f2">623</div>
+            <div style="margin:4px 0 2px">
+              <div style="background:#e5e7eb;border-radius:4px;height:6px;overflow:hidden"><div style="width:74%;background:#0070f2;height:6px;border-radius:4px"></div></div>
+              <div style="font-size:11px;color:#6b7280;margin-top:3px">74% complete</div>
+            </div>
+            <div class="ops-tile-status" style="background:#eff6ff;color:#0070f2;border-color:#bfdbfe">ℹ In Progress</div>
+          </div>
+          <div class="ops-tile yellow" style="animation:pulse-amber-light 1.8s infinite">
+            <div class="ops-tile-name">Failed Deliveries Today</div>
+            <div class="ops-tile-val">12</div>
+            <div class="ops-tile-target">7 outlet closed / 3 wrong address / 2 refused</div>
+            <div class="ops-tile-status yellow">⚠ Warning</div>
+          </div>
+          <div class="ops-tile green">
+            <div class="ops-tile-name">Returns Processed Today</div>
+            <div class="ops-tile-val">8<span style="font-size:14px;font-weight:600;color:#6b7280"> cases</span></div>
+            <div class="ops-tile-target">Target: ≤15 cases</div>
+            <div class="ops-tile-status green">✓ On Target</div>
+          </div>
+          <div class="ops-tile" style="border-left-color:#0f828f;background:#f0fdfd">
+            <div class="ops-tile-name">MT vs GT Split</div>
+            <div class="ops-tile-val" style="color:#0f828f;font-size:16px;line-height:1.3">MT 34%<br>GT 66%</div>
+            <div class="ops-tile-target">Channel mix today</div>
+            <div class="ops-tile-status" style="background:#f0fdfd;color:#0f828f;border-color:#99e6e6">ℹ Informational</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Channel Breakdown -->
+      <div class="section-block">
+        <div class="section-hdr">
+          <p class="section-label"><span class="section-tag" style="background:#e8f6f7;color:#0f828f">Channel Breakdown</span></p>
+          <span class="section-sub">Modern Trade vs General Trade — today's performance</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <!-- Modern Trade Card -->
+          <div style="background:#fff;border:1px solid #e5e7eb;border-radius:8px;border-top:3px solid #0f828f;padding:20px">
+            <div style="font-size:14px;font-weight:700;color:#0f828f;margin-bottom:8px">🏬 Modern Trade</div>
+            <div style="font-size:12px;color:#6b7280;margin-bottom:12px">Channels: Indomaret, Alfamart, Hypermart, Hero</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+              <div style="text-align:center;background:#f0fdfd;border-radius:6px;padding:10px">
+                <div style="font-size:18px;font-weight:700;color:#0f828f">288</div>
+                <div style="font-size:11px;color:#6b7280">deliveries today</div>
+              </div>
+              <div style="text-align:center;background:#f0fdfd;border-radius:6px;padding:10px">
+                <div style="font-size:18px;font-weight:700;color:#107e3e">96.2%</div>
+                <div style="font-size:11px;color:#6b7280">OTD</div>
+              </div>
+              <div style="text-align:center;background:#f0fdfd;border-radius:6px;padding:10px">
+                <div style="font-size:18px;font-weight:700;color:#1d2d3e">54</div>
+                <div style="font-size:11px;color:#6b7280">avg cases/drop</div>
+              </div>
+            </div>
+          </div>
+          <!-- General Trade Card -->
+          <div style="background:#fff;border:1px solid #e5e7eb;border-radius:8px;border-top:3px solid #0f828f;padding:20px">
+            <div style="font-size:14px;font-weight:700;color:#0f828f;margin-bottom:8px">🏪 General Trade</div>
+            <div style="font-size:12px;color:#6b7280;margin-bottom:12px">Channels: Warung, Toko Kelontong, Mini Distributor</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+              <div style="text-align:center;background:#f0fdfd;border-radius:6px;padding:10px">
+                <div style="font-size:18px;font-weight:700;color:#0f828f">559</div>
+                <div style="font-size:11px;color:#6b7280">deliveries today</div>
+              </div>
+              <div style="text-align:center;background:#f0fdfd;border-radius:6px;padding:10px">
+                <div style="font-size:18px;font-weight:700;color:#e76500">93.1%</div>
+                <div style="font-size:11px;color:#6b7280">OTD</div>
+              </div>
+              <div style="text-align:center;background:#f0fdfd;border-radius:6px;padding:10px">
+                <div style="font-size:18px;font-weight:700;color:#1d2d3e">41</div>
+                <div style="font-size:11px;color:#6b7280">avg cases/drop</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- B2B Chart -->
+      <div class="section-block">
+        <div class="chart-card">
+          <div class="chart-card-title">Last Mile B2B — Delivery Outcome Breakdown (Today)</div>
+          <div class="chart-canvas-wrap" style="height:280px"><canvas id="transportB2BChart"></canvas></div>
+        </div>
+      </div>
+
+    </div><!-- end transport-sub-lastmileb2b -->
+
+    <!-- ── LAST MILE B2C ── -->
+    <div id="transport-sub-lastmileb2c" class="transport-sub-panel">
+
+      <!-- Last Mile B2C Header -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+        <span style="font-size:18px">📦</span>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#1d2d3e">Last Mile B2C — Fulfillment Center → End Consumer (E-Commerce)</div>
+          <div style="font-size:12px;color:#9ca3af">Platforms: Tokopedia, Shopee, Lazada, TikTok Shop, Paragon D2C · Route accent: <span style="color:#107e3e;font-weight:700">■</span> Green (#107e3e)</div>
+        </div>
+      </div>
+
+      <!-- Tactical KPIs Table -->
+      <div class="section-block">
+        <div class="section-hdr">
+          <p class="section-label"><span class="section-tag tag-amber">Tactical KPIs — Weekly</span></p>
+          <span class="section-sub">Week selector in header drives this table</span>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>KPI</th><th>W1</th><th>W2</th><th>W3</th><th>W4</th><th>Target</th><th>Status (Selected Week)</th>
+              </tr>
+            </thead>
+            <tbody id="transport-b2c-tactical-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Operational Tiles -->
+      <div class="section-block">
+        <div class="section-hdr">
+          <p class="section-label"><span class="section-tag tag-purple">Operational — Today's Parcels</span></p>
+          <span class="section-sub">Fulfillment center dispatch · Live delivery metrics</span>
+        </div>
+        <div class="ops-board">
+          <div class="ops-tile" style="border-left-color:#0070f2;background:#eff6ff">
+            <div class="ops-tile-name">Orders Dispatched Today</div>
+            <div class="ops-tile-val" style="color:#0070f2">1,284</div>
+            <div class="ops-tile-target">parcels dispatched</div>
+            <div class="ops-tile-status" style="background:#eff6ff;color:#0070f2;border-color:#bfdbfe">ℹ Informational</div>
+          </div>
+          <div class="ops-tile" style="border-left-color:#0070f2;background:#eff6ff">
+            <div class="ops-tile-name">Out for Delivery</div>
+            <div class="ops-tile-val" style="color:#0070f2">892</div>
+            <div class="ops-tile-target">parcels in transit</div>
+            <div class="ops-tile-status" style="background:#eff6ff;color:#0070f2;border-color:#bfdbfe">ℹ Informational</div>
+          </div>
+          <div class="ops-tile green">
+            <div class="ops-tile-name">Delivered Successfully</div>
+            <div class="ops-tile-val">748</div>
+            <div style="margin:4px 0 2px">
+              <div style="background:#e5e7eb;border-radius:4px;height:6px;overflow:hidden"><div style="width:83.9%;background:#107e3e;height:6px;border-radius:4px"></div></div>
+              <div style="font-size:11px;color:#6b7280;margin-top:3px">83.9% success rate</div>
+            </div>
+            <div class="ops-tile-status green">✓ On Target</div>
+          </div>
+          <div class="ops-tile yellow" style="animation:pulse-amber-light 1.8s infinite">
+            <div class="ops-tile-name">Failed Attempts Today</div>
+            <div class="ops-tile-val">31</div>
+            <div class="ops-tile-target">Target: ≤20 failures</div>
+            <div class="ops-tile-status yellow">⚠ Warning</div>
+          </div>
+          <div class="ops-tile yellow">
+            <div class="ops-tile-name">Customer Rating Today</div>
+            <div class="ops-tile-val">4.4<span style="font-size:16px"> ⭐</span></div>
+            <div class="ops-tile-target">Target: ≥4.5 stars</div>
+            <div class="ops-tile-status yellow">⚠ Warning</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Platform Breakdown -->
+      <div class="section-block">
+        <div class="section-hdr">
+          <p class="section-label"><span class="section-tag" style="background:#e8f5ec;color:#107e3e">Platform Breakdown</span></p>
+          <span class="section-sub">E-commerce platform performance — today</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px">
+          <div style="background:#fff;border:1px solid #e5e7eb;border-radius:8px;border-left:4px solid #107e3e;padding:14px">
+            <div style="font-size:13px;font-weight:700;color:#1d2d3e;margin-bottom:8px">Tokopedia</div>
+            <div style="font-size:12px;color:#6b7280;line-height:1.9">312 orders<br>4.5 ⭐<br>96% OTD</div>
+          </div>
+          <div style="background:#fff;border:1px solid #e5e7eb;border-radius:8px;border-left:4px solid #e76500;padding:14px">
+            <div style="font-size:13px;font-weight:700;color:#1d2d3e;margin-bottom:8px">Shopee</div>
+            <div style="font-size:12px;color:#6b7280;line-height:1.9">428 orders<br>4.3 ⭐<br>94% OTD</div>
+          </div>
+          <div style="background:#fff;border:1px solid #e5e7eb;border-radius:8px;border-left:4px solid #e76500;padding:14px">
+            <div style="font-size:13px;font-weight:700;color:#1d2d3e;margin-bottom:8px">Lazada</div>
+            <div style="font-size:12px;color:#6b7280;line-height:1.9">187 orders<br>4.4 ⭐<br>95% OTD</div>
+          </div>
+          <div style="background:#fff;border:1px solid #e5e7eb;border-radius:8px;border-left:4px solid #107e3e;padding:14px">
+            <div style="font-size:13px;font-weight:700;color:#1d2d3e;margin-bottom:8px">TikTok Shop</div>
+            <div style="font-size:12px;color:#6b7280;line-height:1.9">241 orders<br>4.6 ⭐<br>97% OTD</div>
+          </div>
+          <div style="background:#fff;border:1px solid #e5e7eb;border-radius:8px;border-left:4px solid #107e3e;padding:14px">
+            <div style="font-size:13px;font-weight:700;color:#1d2d3e;margin-bottom:8px">Paragon D2C</div>
+            <div style="font-size:12px;color:#6b7280;line-height:1.9">116 orders<br>4.7 ⭐<br>98% OTD</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- B2C Chart -->
+      <div class="section-block">
+        <div class="chart-card">
+          <div class="chart-card-title">Last Mile B2C — SDD vs NDD Rate (Current Month)</div>
+          <div class="chart-canvas-wrap" style="height:280px"><canvas id="transportB2CChart"></canvas></div>
+        </div>
+      </div>
+
+    </div><!-- end transport-sub-lastmileb2c -->
 
   </div><!-- end transport-subtab-content -->
 
@@ -3030,6 +3327,327 @@ function buildTransportFirstMileChart() {
   });
 }
 
+// === TRANSPORT MIDDLE MILE ===
+const TRANSPORT_MM_TACTICAL = [
+  { id:'mmotd', name:'On-Time Departure from NDC',
+    unit:'%', lowerIsBetter:false, target:97, targetLabel:'≥97%',
+    weeks:[96.1,97.4,95.8,98.2],
+    greenFn:v=>v>=97, yellowFn:v=>v>=93&&v<97, critFn:v=>v<93 },
+  { id:'mmttj', name:'Transit Time Java Intercity',
+    unit:' hrs', lowerIsBetter:true, target:24, targetLabel:'≤24 hrs',
+    weeks:[22,19,28,21],
+    greenFn:v=>v<=24, yellowFn:v=>v>24&&v<=36, critFn:v=>v>36 },
+  { id:'mmtto', name:'Transit Time Outer Islands',
+    unit:' hrs', lowerIsBetter:true, target:72, targetLabel:'≤72 hrs',
+    weeks:[68,71,89,74],
+    greenFn:v=>v<=72, yellowFn:v=>v>72&&v<=96, critFn:v=>v>96 },
+  { id:'mmdna', name:'Delivery Note Accuracy',
+    unit:'%', lowerIsBetter:false, target:99, targetLabel:'≥99%',
+    weeks:[99.3,98.7,99.5,99.1],
+    greenFn:v=>v>=99, yellowFn:v=>v>=96&&v<99, critFn:v=>v<96 },
+  { id:'mmcpc', name:'Middle Mile Cost per Case (IDR)',
+    unit:'', lowerIsBetter:true, target:2500, targetLabel:'≤2,500',
+    weeks:[2380,2450,2890,2340],
+    greenFn:v=>v<=2500, yellowFn:v=>v>2500&&v<=3500, critFn:v=>v>3500 },
+];
+
+let chartTransportMiddleMile = null;
+
+function renderTransportMMTactical() {
+  const tbody = document.getElementById('transport-mm-tactical-body');
+  if (!tbody) return;
+  tbody.innerHTML = TRANSPORT_MM_TACTICAL.map(kpi => {
+    const wIdx = selectedWeekIdx;
+    const val = kpi.weeks[wIdx];
+    let status = 'red';
+    if (kpi.greenFn(val)) status = 'green';
+    else if (kpi.yellowFn(val)) status = 'yellow';
+    const prev = wIdx > 0 ? kpi.weeks[wIdx - 1] : null;
+    const trendDir = prev === null ? null : (val > prev ? '▲' : val < prev ? '▼' : '—');
+    const trendGood = prev === null ? null : kpi.lowerIsBetter ? (val < prev) : (val > prev);
+    const trendCls = trendGood === null ? '' : trendGood ? 'up-good' : 'up-bad';
+    const fmtCell = (w) => kpi.id === 'mmcpc' ? Number(w).toLocaleString() : (Number(w) % 1 === 0 ? Number(w).toFixed(0) : Number(w).toFixed(1));
+    const wCells = kpi.weeks.map((w, i) => {
+      let cls = 'green';
+      if (!kpi.greenFn(w)) cls = kpi.yellowFn(w) ? 'yellow' : 'red';
+      const isSelected = i === wIdx;
+      return `<td class="td-val ${cls}" style="${isSelected?'font-weight:800;background:#eff6ff':''}">${fmtCell(w)}${kpi.unit}</td>`;
+    }).join('');
+    return `<tr>
+      <td class="td-name">${kpi.name}</td>
+      ${wCells}
+      <td style="font-size:12px;color:#6b7280">${kpi.targetLabel}</td>
+      <td><span class="status-badge badge-${status}">${badgeLabel(status)}</span>${prev!==null?`<span class="td-trend ${trendCls}" style="margin-left:4px">${trendDir}</span>`:''}</td>
+    </tr>`;
+  }).join('');
+}
+
+function buildTransportMiddleMileChart() {
+  const el = document.getElementById('transportMiddleMileChart');
+  if (!el) return;
+  if (chartTransportMiddleMile) chartTransportMiddleMile.destroy();
+  chartTransportMiddleMile = new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Java', 'Sumatra', 'Kalimantan', 'Sulawesi', 'Outer Islands'],
+      datasets: [
+        {
+          label: 'Cost per Case (IDR)',
+          data: [2380, 2650, 2890, 3100, 3450],
+          backgroundColor: ['#0070f2','#1a7ff3','#338ef4','#1a9ba8','#0f828f'],
+          borderRadius: 4,
+          borderSkipped: false,
+        },
+        {
+          label: 'Target (IDR 2,500)',
+          data: [2500, 2500, 2500, 2500, 2500],
+          type: 'line',
+          borderColor: '#e76500',
+          borderWidth: 2,
+          borderDash: [6, 4],
+          pointRadius: 0,
+          fill: false,
+          tension: 0,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: {size:10}, boxWidth: 12, color: '#9ca3af' } },
+        tooltip: { backgroundColor:'#fff', borderColor:'#e5e7eb', borderWidth:1, titleColor:'#1d2d3e', bodyColor:'#374151',
+          callbacks: { label: ctx => ' IDR ' + Number(ctx.raw).toLocaleString() }
+        }
+      },
+      scales: {
+        x: { grid: {display:false}, ticks: {font:{size:10}, color:'#9ca3af'} },
+        y: { min: 1800, grid: {color:'#f3f4f6'}, ticks: {font:{size:10}, color:'#9ca3af', callback: v => 'IDR '+Number(v).toLocaleString()} }
+      }
+    }
+  });
+}
+
+// === TRANSPORT LAST MILE B2B ===
+const TRANSPORT_B2B_TACTICAL = [
+  { id:'b2botd', name:'On-Time Delivery to Outlet',
+    unit:'%', lowerIsBetter:false, target:95, targetLabel:'≥95%',
+    weeks:[93.2,95.8,94.1,96.3],
+    greenFn:v=>v>=95, yellowFn:v=>v>=90&&v<95, critFn:v=>v<90 },
+  { id:'b2bds', name:'Drop Size per Delivery (cases)',
+    unit:' cases', lowerIsBetter:false, target:45, targetLabel:'≥45 cases',
+    weeks:[48,52,41,55],
+    greenFn:v=>v>=45, yellowFn:v=>v>=30&&v<45, critFn:v=>v<30 },
+  { id:'b2brr', name:'Return Rate (wrong/damaged)',
+    unit:'%', lowerIsBetter:true, target:1.5, targetLabel:'≤1.5%',
+    weeks:[1.2,1.8,2.1,1.4],
+    greenFn:v=>v<=1.5, yellowFn:v=>v>1.5&&v<=3, critFn:v=>v>3 },
+  { id:'b2bdas', name:'Delivery Attempt Success Rate',
+    unit:'%', lowerIsBetter:false, target:97, targetLabel:'≥97%',
+    weeks:[96.4,97.8,95.9,98.1],
+    greenFn:v=>v>=97, yellowFn:v=>v>=93&&v<97, critFn:v=>v<93 },
+  { id:'b2bcpd', name:'B2B Last Mile Cost per Drop (IDR)',
+    unit:'', lowerIsBetter:true, target:35000, targetLabel:'≤35,000',
+    weeks:[32500,31800,38200,30900],
+    greenFn:v=>v<=35000, yellowFn:v=>v>35000&&v<=50000, critFn:v=>v>50000 },
+];
+
+let chartTransportB2B = null;
+
+function renderTransportB2BTactical() {
+  const tbody = document.getElementById('transport-b2b-tactical-body');
+  if (!tbody) return;
+  tbody.innerHTML = TRANSPORT_B2B_TACTICAL.map(kpi => {
+    const wIdx = selectedWeekIdx;
+    const val = kpi.weeks[wIdx];
+    let status = 'red';
+    if (kpi.greenFn(val)) status = 'green';
+    else if (kpi.yellowFn(val)) status = 'yellow';
+    const prev = wIdx > 0 ? kpi.weeks[wIdx - 1] : null;
+    const trendDir = prev === null ? null : (val > prev ? '▲' : val < prev ? '▼' : '—');
+    const trendGood = prev === null ? null : kpi.lowerIsBetter ? (val < prev) : (val > prev);
+    const trendCls = trendGood === null ? '' : trendGood ? 'up-good' : 'up-bad';
+    const fmtCell = (w) => kpi.id === 'b2bcpd' ? Number(w).toLocaleString() : (Number(w) % 1 === 0 ? Number(w).toFixed(0) : Number(w).toFixed(1));
+    const wCells = kpi.weeks.map((w, i) => {
+      let cls = 'green';
+      if (!kpi.greenFn(w)) cls = kpi.yellowFn(w) ? 'yellow' : 'red';
+      const isSelected = i === wIdx;
+      return `<td class="td-val ${cls}" style="${isSelected?'font-weight:800;background:#eff6ff':''}">${fmtCell(w)}${kpi.unit}</td>`;
+    }).join('');
+    return `<tr>
+      <td class="td-name">${kpi.name}</td>
+      ${wCells}
+      <td style="font-size:12px;color:#6b7280">${kpi.targetLabel}</td>
+      <td><span class="status-badge badge-${status}">${badgeLabel(status)}</span>${prev!==null?`<span class="td-trend ${trendCls}" style="margin-left:4px">${trendDir}</span>`:''}</td>
+    </tr>`;
+  }).join('');
+}
+
+function buildTransportB2BChart() {
+  const el = document.getElementById('transportB2BChart');
+  if (!el) return;
+  if (chartTransportB2B) chartTransportB2B.destroy();
+  chartTransportB2B = new Chart(el.getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Delivered On Time (72%)', 'Delivered Late (15%)', 'Failed (5%)', 'Pending (8%)'],
+      datasets: [{
+        data: [72, 15, 5, 8],
+        backgroundColor: ['#107e3e', '#e76500', '#bb0000', '#6b7280'],
+        borderWidth: 2,
+        borderColor: '#ffffff',
+        hoverOffset: 8,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '60%',
+      plugins: {
+        legend: { position: 'bottom', labels: { font: {size:11}, boxWidth: 14, color: '#374151', padding: 12 } },
+        tooltip: { backgroundColor:'#fff', borderColor:'#e5e7eb', borderWidth:1, titleColor:'#1d2d3e', bodyColor:'#374151',
+          callbacks: { label: ctx => ' ' + ctx.label }
+        }
+      }
+    }
+  });
+}
+
+// === TRANSPORT LAST MILE B2C ===
+const TRANSPORT_B2C_TACTICAL = [
+  { id:'b2csdd', name:'Same-Day Delivery Rate',
+    unit:'%', lowerIsBetter:false, target:85, targetLabel:'≥85%',
+    weeks:[82,87,79,88],
+    greenFn:v=>v>=85, yellowFn:v=>v>=75&&v<85, critFn:v=>v<75 },
+  { id:'b2cndd', name:'Next-Day Delivery Rate',
+    unit:'%', lowerIsBetter:false, target:97, targetLabel:'≥97%',
+    weeks:[95,97,94,98],
+    greenFn:v=>v>=97, yellowFn:v=>v>=93&&v<97, critFn:v=>v<93 },
+  { id:'b2ccde', name:'Customer Delivery Experience',
+    unit:'', lowerIsBetter:false, target:4.5, targetLabel:'≥4.5',
+    weeks:[4.3,4.5,4.2,4.6],
+    greenFn:v=>v>=4.5, yellowFn:v=>v>=4.0&&v<4.5, critFn:v=>v<4.0 },
+  { id:'b2cfdr', name:'Failed Delivery Rate',
+    unit:'%', lowerIsBetter:true, target:2, targetLabel:'≤2%',
+    weeks:[2.8,1.9,3.2,1.7],
+    greenFn:v=>v<=2, yellowFn:v=>v>2&&v<=4, critFn:v=>v>4 },
+  { id:'b2ccpp', name:'B2C Cost per Parcel (IDR)',
+    unit:'', lowerIsBetter:true, target:18000, targetLabel:'≤18,000',
+    weeks:[17500,16800,19200,16500],
+    greenFn:v=>v<=18000, yellowFn:v=>v>18000&&v<=28000, critFn:v=>v>28000 },
+];
+
+const TRANSPORT_B2C_SDD_DATA = [
+  82,85,79,83,87,84,81,86,88,83,
+  80,87,85,82,86,89,84,87,90,85,
+  83,88,86,84,87,85,82,86,88,85
+];
+const TRANSPORT_B2C_NDD_DATA = [
+  95,97,94,96,97,95,96,98,97,95,
+  96,98,97,96,98,99,97,98,99,97,
+  96,98,97,96,97,98,96,97,98,97
+];
+
+let chartTransportB2C = null;
+
+function renderTransportB2CTactical() {
+  const tbody = document.getElementById('transport-b2c-tactical-body');
+  if (!tbody) return;
+  tbody.innerHTML = TRANSPORT_B2C_TACTICAL.map(kpi => {
+    const wIdx = selectedWeekIdx;
+    const val = kpi.weeks[wIdx];
+    let status = 'red';
+    if (kpi.greenFn(val)) status = 'green';
+    else if (kpi.yellowFn(val)) status = 'yellow';
+    const prev = wIdx > 0 ? kpi.weeks[wIdx - 1] : null;
+    const trendDir = prev === null ? null : (val > prev ? '▲' : val < prev ? '▼' : '—');
+    const trendGood = prev === null ? null : kpi.lowerIsBetter ? (val < prev) : (val > prev);
+    const trendCls = trendGood === null ? '' : trendGood ? 'up-good' : 'up-bad';
+    const fmtCell = (w) => kpi.id === 'b2ccpp' ? Number(w).toLocaleString() : (Number(w) % 1 === 0 ? Number(w).toFixed(0) : Number(w).toFixed(1));
+    const wCells = kpi.weeks.map((w, i) => {
+      let cls = 'green';
+      if (!kpi.greenFn(w)) cls = kpi.yellowFn(w) ? 'yellow' : 'red';
+      const isSelected = i === wIdx;
+      return `<td class="td-val ${cls}" style="${isSelected?'font-weight:800;background:#eff6ff':''}">${fmtCell(w)}${kpi.unit}</td>`;
+    }).join('');
+    return `<tr>
+      <td class="td-name">${kpi.name}</td>
+      ${wCells}
+      <td style="font-size:12px;color:#6b7280">${kpi.targetLabel}</td>
+      <td><span class="status-badge badge-${status}">${badgeLabel(status)}</span>${prev!==null?`<span class="td-trend ${trendCls}" style="margin-left:4px">${trendDir}</span>`:''}</td>
+    </tr>`;
+  }).join('');
+}
+
+function buildTransportB2CChart() {
+  const el = document.getElementById('transportB2CChart');
+  if (!el) return;
+  if (chartTransportB2C) chartTransportB2C.destroy();
+  const labels = Array.from({length:30}, (_,i) => `Day ${i+1}`);
+  chartTransportB2C = new Chart(el.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Same-Day Delivery Rate',
+          data: TRANSPORT_B2C_SDD_DATA,
+          borderColor: '#0070f2',
+          backgroundColor: 'rgba(0,112,242,0.07)',
+          borderWidth: 2,
+          pointRadius: 2,
+          pointHoverRadius: 5,
+          fill: false,
+          tension: 0.35,
+        },
+        {
+          label: 'Next-Day Delivery Rate',
+          data: TRANSPORT_B2C_NDD_DATA,
+          borderColor: '#0f828f',
+          backgroundColor: 'rgba(15,130,143,0.07)',
+          borderWidth: 2,
+          pointRadius: 2,
+          pointHoverRadius: 5,
+          fill: false,
+          tension: 0.35,
+        },
+        {
+          label: 'SDD Target (85%)',
+          data: Array(30).fill(85),
+          borderColor: '#e76500',
+          borderWidth: 1.5,
+          borderDash: [5, 4],
+          pointRadius: 0,
+          fill: false,
+          tension: 0,
+        },
+        {
+          label: 'NDD Target (97%)',
+          data: Array(30).fill(97),
+          borderColor: '#6b7280',
+          borderWidth: 1.5,
+          borderDash: [5, 4],
+          pointRadius: 0,
+          fill: false,
+          tension: 0,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: {size:10}, boxWidth: 12, color: '#9ca3af' } },
+        tooltip: { backgroundColor:'#fff', borderColor:'#e5e7eb', borderWidth:1, titleColor:'#1d2d3e', bodyColor:'#374151' }
+      },
+      scales: {
+        x: { grid: {display:false}, ticks: {font:{size:9}, color:'#9ca3af', maxTicksLimit:10} },
+        y: { min: 70, max: 100, grid: {color:'#f3f4f6'}, ticks: {font:{size:10}, color:'#9ca3af', callback: v => v+'%'} }
+      }
+    }
+  });
+}
+
 /* ── Switch Transport Sub-Tab ── */
 function switchTransportSubTab(subTab) {
   document.querySelectorAll('.transport-sub-panel').forEach(p => p.classList.remove('active'));
@@ -3042,6 +3660,15 @@ function switchTransportSubTab(subTab) {
   if (subTab === 'firstmile') {
     renderTransportFMTactical();
     buildTransportFirstMileChart();
+  } else if (subTab === 'middlemile') {
+    renderTransportMMTactical();
+    buildTransportMiddleMileChart();
+  } else if (subTab === 'lastmileb2b') {
+    renderTransportB2BTactical();
+    buildTransportB2BChart();
+  } else if (subTab === 'lastmileb2c') {
+    renderTransportB2CTactical();
+    buildTransportB2CChart();
   }
 }
 
