@@ -65,6 +65,42 @@
       font-size: 9px; color: #64748b; background: #2d3f50;
       padding: 1px 5px; border-radius: 4px; font-weight: 600;
     }
+    .ct-hero-btn {
+      display: block; width: calc(100% - 32px);
+      margin: 12px 16px;
+      background: linear-gradient(135deg, #0070f2, #0f828f) !important;
+      border: none !important; border-left: none !important; border-radius: 10px;
+      padding: 12px 16px !important; cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,112,242,0.3);
+      text-align: left;
+      transition: all 0.2s ease;
+      color: #ffffff !important;
+    }
+    .ct-hero-btn:hover {
+      background: linear-gradient(135deg, #0070f2, #0f828f) !important;
+      box-shadow: 0 6px 20px rgba(0,112,242,0.5);
+      transform: translateY(-1px);
+    }
+    .ct-hero-btn.active {
+      filter: brightness(1.15);
+      border: 1px solid rgba(255,255,255,0.9) !important;
+      background: linear-gradient(135deg, #0070f2, #0f828f) !important;
+    }
+    .ct-hero-line1 {
+      font-size: 10px; color: rgba(255,255,255,0.7);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      font-weight: 500; display: block; margin-bottom: 2px;
+    }
+    .ct-hero-line2 {
+      font-size: 15px; color: #ffffff; font-weight: 700;
+      display: block; margin-bottom: 4px;
+    }
+    .ct-hero-line3 {
+      font-size: 10px; color: rgba(255,255,255,0.8);
+      display: block;
+    }
+    .ct-hero-green { color: #4ade80; }
+    .ct-hero-amber { color: #fbbf24; }
     .sidebar-footer {
       margin-top: auto; padding: 14px 18px;
       border-top: 1px solid #2d3f50;
@@ -808,6 +844,11 @@
       <div style="font-size:9px; font-weight:400; color:#64748b; letter-spacing:0.05em; text-transform:uppercase;">Odyssey Program</div>
     </div>
   </div>
+  <button class="ct-hero-btn nav-item" id="nav-ct" onclick="switchTab('ct')">
+    <span class="ct-hero-line1">🎛 E2E VIEW</span>
+    <span class="ct-hero-line2">Control Tower</span>
+    <span class="ct-hero-line3"><span class="ct-hero-green">●</span> 4 healthy &nbsp;<span class="ct-hero-amber">⚠</span> 2 warnings</span>
+  </button>
   <div class="sidebar-section-label">Supply Chain</div>
   <button class="nav-item active" id="nav-kpi" onclick="switchTab('kpi')">
     <span class="nav-item-icon">📦</span>
@@ -828,10 +869,6 @@
   <button class="nav-item" id="nav-suppliers" onclick="switchTab('suppliers')">
     <span class="nav-item-icon">🏭</span>
     <span class="nav-item-label">Suppliers Portal</span>
-  </button>
-  <button class="nav-item" id="nav-ct" onclick="switchTab('ct')">
-    <span class="nav-item-icon">🎛</span>
-    <span class="nav-item-label">Control Tower</span>
   </button>
   <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 8px 0;"></div>
   <div class="sidebar-section-label">Commercial &amp; Innovation</div>
