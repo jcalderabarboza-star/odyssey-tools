@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Supply Chain KPI Dashboard — Paragon Corp</title>
+  <title>E2E Control Tower | Paragon Corp</title>
   <link href="https://fonts.googleapis.com/css2?family=72:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <style>
@@ -86,10 +86,11 @@
       position: sticky; top: 0; z-index: 50;
       flex-shrink: 0;
     }
+    .top-bar-title-wrap { flex-shrink: 0; margin-right: 8px; display: flex; flex-direction: column; }
     .top-bar-title {
       font-size: 18px; font-weight: 600; color: #1d2d3e;
-      flex-shrink: 0; margin-right: 8px;
     }
+    .top-bar-breadcrumb { font-size: 11px; color: #9ca3af; margin-top: 2px; }
     .top-bar-right {
       margin-left: auto; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
     }
@@ -698,11 +699,27 @@
 
 <!-- ══ SIDEBAR ══ -->
 <aside class="sidebar">
-  <div class="sidebar-logo">
-    <div class="sidebar-logo-title">Paragon Corp</div>
-    <div class="sidebar-logo-sub">Odyssey Program</div>
+  <div class="sidebar-logo" style="padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; min-height: 64px; box-sizing: border-box;">
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+      <polygon points="12,38 28,38 24,22 16,22" fill="none" stroke="#0070f2" stroke-width="1.5"/>
+      <rect x="18" y="12" width="4" height="10" fill="none" stroke="#0070f2" stroke-width="1.5"/>
+      <rect x="15" y="10" width="10" height="3" fill="#0070f2" rx="1"/>
+      <circle cx="20" cy="15" r="1.5" fill="#0070f2"/>
+      <circle cx="20" cy="19" r="1.5" fill="#0070f2"/>
+      <path d="M 14,8 Q 10,5 14,2" fill="none" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M 26,8 Q 30,5 26,2" fill="none" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M 11,10 Q 5,5 11,0" fill="none" stroke="#06b6d4" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 29,10 Q 35,5 29,0" fill="none" stroke="#06b6d4" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 8,12 Q 0,5 8,-2" fill="none" stroke="#06b6d4" stroke-width="1" stroke-linecap="round" opacity="0.4"/>
+      <path d="M 32,12 Q 40,5 32,-2" fill="none" stroke="#06b6d4" stroke-width="1" stroke-linecap="round" opacity="0.4"/>
+    </svg>
+    <div style="display:flex; flex-direction:column; gap:2px;">
+      <div style="font-size:13px; font-weight:700; color:#ffffff; letter-spacing:0.02em;">E2E Control Tower</div>
+      <div style="font-size:10px; font-weight:400; color:#94a3b8; letter-spacing:0.05em; text-transform:uppercase;">Paragon Corp</div>
+      <div style="font-size:9px; font-weight:400; color:#64748b; letter-spacing:0.05em; text-transform:uppercase;">Odyssey Program</div>
+    </div>
   </div>
-  <div class="sidebar-section-label">Modules</div>
+  <div class="sidebar-section-label">Supply Chain</div>
   <button class="nav-item active" id="nav-kpi" onclick="switchTab('kpi')">
     <span class="nav-item-icon">📦</span>
     <span class="nav-item-label">Distribution &amp; Warehouse</span>
@@ -729,11 +746,28 @@
     <span class="nav-item-label">Control Tower</span>
     <span class="nav-soon">Soon</span>
   </button>
+  <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 8px 0;"></div>
+  <div class="sidebar-section-label">Commercial &amp; Innovation</div>
+  <button class="nav-item disabled">
+    <span class="nav-item-icon">🔬</span>
+    <span class="nav-item-label">R&amp;D</span>
+    <span class="nav-soon">Soon</span>
+  </button>
+  <button class="nav-item disabled">
+    <span class="nav-item-icon">📊</span>
+    <span class="nav-item-label">Commercial</span>
+    <span class="nav-soon">Soon</span>
+  </button>
+  <button class="nav-item disabled">
+    <span class="nav-item-icon">📣</span>
+    <span class="nav-item-label">Marketing</span>
+    <span class="nav-soon">Soon</span>
+  </button>
   <button class="nav-item" id="nav-wh" onclick="switchTab('wh')">
     <span class="nav-item-icon">📋</span>
     <span class="nav-item-label">Warehouse Log</span>
   </button>
-  <div class="sidebar-footer">Odyssey Program v2.0</div>
+  <div class="sidebar-footer">E2E Control Tower v2.0 — Odyssey Program</div>
 </aside>
 
 <!-- ══ MAIN CONTENT ══ -->
@@ -741,7 +775,10 @@
 
   <!-- TOP HEADER BAR -->
   <header class="top-bar">
-    <span class="top-bar-title" id="top-bar-title">Distribution &amp; Warehouse</span>
+    <div class="top-bar-title-wrap">
+      <span class="top-bar-title" id="top-bar-title">Distribution &amp; Warehouse</span>
+      <span class="top-bar-breadcrumb" id="top-bar-breadcrumb">E2E Control Tower  ›  Supply Chain</span>
+    </div>
     <div class="top-bar-right">
       <span class="seg-label">Month:</span>
       <div class="seg-control" id="month-chips"></div>
@@ -2283,6 +2320,8 @@ function switchTab(tab) {
   if(navEl) navEl.classList.add('active');
   const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase'};
   document.getElementById('top-bar-title').textContent=titles[tab]||tab;
+  const bcEl=document.getElementById('top-bar-breadcrumb');
+  if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
   const weekWrap=document.getElementById('week-seg-wrap');
   if(weekWrap) weekWrap.style.display=(tab==='kpi'||tab==='proc')?'flex':'none';
 }
@@ -3676,6 +3715,8 @@ function switchTransportSubTab(subTab) {
 function switchToTransport() {
   switchTab('transport');
   document.getElementById('top-bar-title').textContent = 'Transport Management';
+  const bcEl=document.getElementById('top-bar-breadcrumb');
+  if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
   renderTransportStrategic();
   renderTransportFMTactical();
   renderTransportNodeConnection();
