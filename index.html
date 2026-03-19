@@ -849,7 +849,7 @@
     <span class="ct-hero-line2">Control Tower</span>
     <span class="ct-hero-line3"><span class="ct-hero-green">●</span> 4 healthy &nbsp;<span class="ct-hero-amber">⚠</span> 2 warnings</span>
   </button>
-  <div class="sidebar-section-label">Supply Chain</div>
+  <div class="sidebar-section-label">Supply Chain &amp; Finance</div>
   <button class="nav-item active" id="nav-kpi" onclick="switchTab('kpi')">
     <span class="nav-item-icon">📦</span>
     <span class="nav-item-label">Distribution &amp; Warehouse</span>
@@ -869,6 +869,10 @@
   <button class="nav-item" id="nav-suppliers" onclick="switchTab('suppliers')">
     <span class="nav-item-icon">🏭</span>
     <span class="nav-item-label">Suppliers Portal</span>
+  </button>
+  <button class="nav-item" id="nav-finance" onclick="switchTab('finance')">
+    <span class="nav-item-icon">💰</span>
+    <span class="nav-item-label">Finance</span>
   </button>
   <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 8px 0;"></div>
   <div class="sidebar-section-label">Commercial &amp; Innovation</div>
@@ -2202,6 +2206,373 @@
 
 </div><!-- end panel-suppliers -->
 
+<!-- === FINANCE MODULE === -->
+<div class="tab-panel" id="panel-finance">
+
+  <!-- PART 1: HEADER -->
+  <div class="section-block" style="margin-bottom:20px">
+    <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin-bottom:4px">Finance Dashboard</h2>
+    <p style="font-size:11px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">E2E Control Tower &rsaquo; Finance</p>
+    <p style="font-size:13px;color:#374151;margin:6px 0 10px">P&amp;L Performance &middot; Working Capital &middot; Cost Management &middot; Financial Risk</p>
+    <div style="display:inline-flex;align-items:center;flex-wrap:wrap;gap:6px;background:#f0faf4;border:1px solid #a3d9b1;border-radius:20px;padding:5px 16px;font-size:13px;color:#374151">
+      💰 <strong>Sep-25 Revenue: IDR 48.3B</strong> &nbsp;&middot;&nbsp;
+      📈 <strong>Gross Margin: 42.8%</strong> &nbsp;&middot;&nbsp;
+      ⚠️ <strong>Cash Conversion Cycle: 38 days</strong> &nbsp;&middot;&nbsp;
+      🔴 <strong>1 financial risk escalated</strong>
+    </div>
+  </div>
+
+  <!-- SECTION 1: STRATEGIC KPI CARDS -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">Strategic KPIs &mdash; Monthly</span></p>
+      <span class="section-sub">Hover &#402; for formula &middot; Driven by month selector</span>
+    </div>
+    <div class="kpi-grid" id="fn-strategic-grid"></div>
+  </div>
+
+  <!-- SECTION 2: P&L SUMMARY -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">P&amp;L SUMMARY &mdash; MONTHLY</p>
+      <span class="section-sub">Income statement overview | Driven by month selector</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <button id="fn-ytd-btn" onclick="fnToggleYTD()" style="background:#f3f4f6;border:1px solid #e5e7eb;color:#374151;font-size:12px;font-weight:600;padding:5px 14px;border-radius:6px;cursor:pointer">Show YTD</button>
+      <span id="fn-pl-view-label" style="font-size:12px;color:#9ca3af">Showing: Monthly (Sep-25)</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Line Item</th>
+            <th style="text-align:right">Budget (IDR B)</th>
+            <th style="text-align:right">Actual (IDR B)</th>
+            <th style="text-align:right">Variance (IDR B)</th>
+            <th style="text-align:right">Variance %</th>
+            <th style="text-align:center">Status</th>
+          </tr>
+        </thead>
+        <tbody id="fn-pl-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 3: WATERFALL CHART -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">BUDGET VS ACTUAL &mdash; WATERFALL</p>
+      <span class="section-sub">Revenue bridge Jan&ndash;Sep 2025 (IDR B)</span>
+    </div>
+    <div class="chart-card">
+      <div class="chart-canvas-wrap" style="height:300px"><canvas id="fnWaterfallChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: WORKING CAPITAL + CASH FLOW -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">WORKING CAPITAL &amp; CASH FLOW</p>
+      <span class="section-sub">Liquidity and cash cycle management | Sep-25</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <!-- Left: Working Capital Breakdown -->
+      <div>
+        <!-- DIO -->
+        <div style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #e76500;border-radius:8px;padding:16px;margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em">INVENTORY (DIO)</div>
+              <div style="font-size:11px;color:#9ca3af">Days Inventory Outstanding</div>
+            </div>
+            <span class="status-badge badge-yellow">⚠️ WARNING</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px">
+            <span style="font-size:28px;font-weight:700;color:#e76500">42</span>
+            <span style="font-size:14px;color:#6b7280">days</span>
+            <span style="font-size:12px;color:#9ca3af;margin-left:auto">Target: &le;35 days</span>
+          </div>
+          <div style="font-size:12px;color:#374151;margin-bottom:6px">Value on hand: <strong>IDR 24.8B</strong></div>
+          <div style="font-size:11px;color:#6b7280;margin-bottom:8px">RM: IDR 8.4B (34%) &mdash; 28d &nbsp;|&nbsp; WIP: IDR 4.2B (17%) &mdash; 14d &nbsp;|&nbsp; FG: IDR 12.2B (49%) &mdash; 40d</div>
+          <div class="bc-wrap">
+            <div class="bc-row">
+              <span class="bc-label">42d</span>
+              <div class="bc-track"><div class="bc-fill" style="width:100%;background:#bb0000"></div></div>
+              <span class="bc-val" style="color:#bb0000">120% of tgt</span>
+            </div>
+          </div>
+        </div>
+        <!-- DSO -->
+        <div style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #e76500;border-radius:8px;padding:16px;margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em">RECEIVABLES (DSO)</div>
+              <div style="font-size:11px;color:#9ca3af">Days Sales Outstanding</div>
+            </div>
+            <span class="status-badge badge-yellow">⚠️ WARNING</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px">
+            <span style="font-size:28px;font-weight:700;color:#e76500">35</span>
+            <span style="font-size:14px;color:#6b7280">days</span>
+            <span style="font-size:12px;color:#9ca3af;margin-left:auto">Target: &le;30 days</span>
+          </div>
+          <div style="font-size:12px;color:#374151;margin-bottom:6px">Total AR: <strong>IDR 18.4B</strong></div>
+          <div style="font-size:11px;color:#6b7280;margin-bottom:8px">Current (&lt;30d): IDR 12.8B (70%) &nbsp;|&nbsp; 30&ndash;60d: IDR 4.2B (23%) &nbsp;|&nbsp; &gt;60d: IDR 1.4B (7%)</div>
+          <div class="bc-wrap">
+            <div class="bc-row">
+              <span class="bc-label">35d</span>
+              <div class="bc-track"><div class="bc-fill" style="width:87%;background:#e76500"></div></div>
+              <span class="bc-val" style="color:#e76500">117% of tgt</span>
+            </div>
+          </div>
+        </div>
+        <!-- DPO -->
+        <div style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #e76500;border-radius:8px;padding:16px;margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em">PAYABLES (DPO)</div>
+              <div style="font-size:11px;color:#9ca3af">Days Payable Outstanding</div>
+            </div>
+            <span class="status-badge badge-yellow">⚠️ WATCH</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px">
+            <span style="font-size:28px;font-weight:700;color:#e76500">39</span>
+            <span style="font-size:14px;color:#6b7280">days</span>
+            <span style="font-size:12px;color:#9ca3af;margin-left:auto">Target: &ge;40 days</span>
+          </div>
+          <div style="font-size:12px;color:#374151;margin-bottom:6px">Total AP: <strong>IDR 16.2B</strong></div>
+          <div style="font-size:11px;color:#6b7280;margin-bottom:8px">Due this week: IDR 3.8B &nbsp;|&nbsp; Due next week: IDR 4.2B</div>
+          <div class="bc-wrap">
+            <div class="bc-row">
+              <span class="bc-label">39d</span>
+              <div class="bc-track"><div class="bc-fill" style="width:97%;background:#e76500"></div></div>
+              <span class="bc-val" style="color:#e76500">97% of tgt</span>
+            </div>
+          </div>
+        </div>
+        <!-- CCC Box -->
+        <div style="background:#fff8f0;border-left:3px solid #e76500;border-radius:6px;padding:12px 16px;font-size:12px;color:#374151">
+          <strong>Cash Conversion Cycle</strong> = DIO(42) + DSO(35) &minus; DPO(39) = <strong style="font-size:15px;color:#e76500">38 days</strong>
+          &nbsp;|&nbsp; Target: &le;35 days &nbsp;|&nbsp; ⚠️ 3 days above target
+        </div>
+      </div>
+      <!-- Right: Cash Flow Summary -->
+      <div>
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:20px">
+          <div style="font-size:13px;font-weight:700;color:#1d2d3e;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:14px">Cash Flow Summary &mdash; Sep-25</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#f0faf4;border-radius:6px;border-left:3px solid #107e3e">
+              <span style="font-size:13px;color:#374151;font-weight:600">Operating Cash Flow</span>
+              <span style="font-size:16px;font-weight:700;color:#107e3e">+IDR 7.2B ✅</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#f9fafb;border-radius:6px;border-left:3px solid #9ca3af">
+              <span style="font-size:13px;color:#374151;font-weight:600">Investing Cash Flow</span>
+              <span style="font-size:16px;font-weight:700;color:#6b7280">&minus;IDR 2.8B (capex)</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#f9fafb;border-radius:6px;border-left:3px solid #9ca3af">
+              <span style="font-size:13px;color:#374151;font-weight:600">Financing Cash Flow</span>
+              <span style="font-size:16px;font-weight:700;color:#6b7280">&minus;IDR 1.4B (loan repayment)</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#eff6ff;border-radius:6px;border-left:3px solid #0070f2;margin-top:4px">
+              <span style="font-size:13px;color:#0070f2;font-weight:700">Net Cash Movement</span>
+              <span style="font-size:18px;font-weight:700;color:#0070f2">+IDR 3.0B ✅</span>
+            </div>
+          </div>
+          <div style="margin-top:16px;border-top:1px solid #e5e7eb;padding-top:14px">
+            <div style="font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px">Cash Balance</div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;color:#374151;margin-bottom:6px">
+              <span>Opening (Aug-25)</span><strong>IDR 18.4B</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;color:#107e3e;margin-bottom:6px">
+              <span>Net Movement</span><strong>+IDR 3.0B</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:14px;color:#0070f2;font-weight:700;border-top:1px solid #e5e7eb;padding-top:8px;margin-bottom:10px">
+              <span>Closing (Sep-25)</span><strong>IDR 21.4B ✅</strong>
+            </div>
+            <div style="font-size:12px;color:#374151;background:#f0faf4;padding:8px 12px;border-radius:6px">
+              💰 <strong>Cash Runway: 4.8 months</strong> at current burn rate
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: SC COST BREAKDOWN -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">SUPPLY CHAIN COST BREAKDOWN</p>
+      <span class="section-sub">Total SC cost by function | Sep-25 | IDR B</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Function</th>
+              <th style="text-align:right">Budget</th>
+              <th style="text-align:right">Actual</th>
+              <th style="text-align:right">Variance</th>
+              <th style="text-align:right">% Revenue</th>
+            </tr>
+          </thead>
+          <tbody id="fn-sc-cost-body"></tbody>
+        </table>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">SC Cost Mix &mdash; Sep-25</div>
+        <div class="chart-canvas-wrap" style="height:260px"><canvas id="fnCostDonut"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: FINANCIAL RISK REGISTER -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">FINANCIAL RISK REGISTER</p>
+      <span class="section-sub">Active financial risks with mitigation status</span>
+    </div>
+    <div id="fn-risk-register" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:14px"></div>
+  </div>
+
+  <!-- SECTION 7: AR/AP AGING TRACKER -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">AR/AP AGING TRACKER</p>
+      <span class="section-sub">Accounts Receivable and Payable by aging bucket | Sep-25</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <!-- AR Aging -->
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#1d2d3e;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px">Accounts Receivable &mdash; by distributor</div>
+        <div style="font-size:12px;color:#6b7280;margin-bottom:10px">Total AR: <strong style="color:#1d2d3e">IDR 18.4B</strong></div>
+        <div style="display:flex;height:16px;border-radius:6px;overflow:hidden;margin-bottom:8px">
+          <div style="width:70%;background:#107e3e;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700">70%</div>
+          <div style="width:23%;background:#e76500;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700">23%</div>
+          <div style="width:5%;background:#bb0000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700">5%</div>
+          <div style="width:2%;background:#7f1d1d"></div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:#6b7280;margin-bottom:12px">
+          <span><span style="display:inline-block;width:10px;height:10px;background:#107e3e;border-radius:2px;margin-right:3px;vertical-align:middle"></span>0&ndash;30d: IDR 12.8B</span>
+          <span><span style="display:inline-block;width:10px;height:10px;background:#e76500;border-radius:2px;margin-right:3px;vertical-align:middle"></span>31&ndash;60d: IDR 4.2B</span>
+          <span><span style="display:inline-block;width:10px;height:10px;background:#bb0000;border-radius:2px;margin-right:3px;vertical-align:middle"></span>61&ndash;90d: IDR 1.0B</span>
+          <span><span style="display:inline-block;width:10px;height:10px;background:#7f1d1d;border-radius:2px;margin-right:3px;vertical-align:middle"></span>&gt;90d: IDR 0.4B</span>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead><tr><th>Distributor</th><th>Outstanding</th><th>Days</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr style="background:#fff0f0"><td>PT Papua Distribusi</td><td>IDR 0.6B</td><td>72d</td><td>🔴 OVERDUE</td><td>Escalate</td></tr>
+              <tr style="background:#fff8f0"><td>PT Timur Jaya</td><td>IDR 0.4B</td><td>58d</td><td>⚠️ WATCH</td><td>Follow-up</td></tr>
+              <tr style="background:#fff8f0"><td>PT Borneo Trading</td><td>IDR 0.3B</td><td>48d</td><td>⚠️ WATCH</td><td>Reminder</td></tr>
+              <tr style="background:#fff8f0"><td>PT Sulawesi Dist.</td><td>IDR 0.2B</td><td>44d</td><td>⚠️ WATCH</td><td>Reminder</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- AP Aging -->
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#1d2d3e;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px">Accounts Payable &mdash; by supplier</div>
+        <div style="font-size:12px;color:#6b7280;margin-bottom:10px">Total AP: <strong style="color:#1d2d3e">IDR 16.2B</strong></div>
+        <div style="display:flex;height:16px;border-radius:6px;overflow:hidden;margin-bottom:8px">
+          <div style="width:60%;background:#107e3e;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700">60%</div>
+          <div style="width:32%;background:#e76500;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700">32%</div>
+          <div style="width:8%;background:#bb0000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700">8%</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:#6b7280;margin-bottom:12px">
+          <span><span style="display:inline-block;width:10px;height:10px;background:#107e3e;border-radius:2px;margin-right:3px;vertical-align:middle"></span>0&ndash;30d: IDR 9.8B</span>
+          <span><span style="display:inline-block;width:10px;height:10px;background:#e76500;border-radius:2px;margin-right:3px;vertical-align:middle"></span>31&ndash;60d: IDR 5.2B</span>
+          <span><span style="display:inline-block;width:10px;height:10px;background:#bb0000;border-radius:2px;margin-right:3px;vertical-align:middle"></span>61&ndash;90d: IDR 1.2B</span>
+          <span><span style="display:inline-block;width:10px;height:10px;background:#e5e7eb;border-radius:2px;margin-right:3px;vertical-align:middle"></span>&gt;90d: IDR 0.0B</span>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead><tr><th>Supplier</th><th>Amount</th><th>Due Date</th><th>Days Until Due</th><th>Priority</th></tr></thead>
+            <tbody>
+              <tr style="background:#fff0f0"><td>BASF Germany</td><td>IDR 2.4B</td><td>Oct 5</td><td>6 days</td><td>🔴 URGENT</td></tr>
+              <tr style="background:#fff0f0"><td>Amorepacific</td><td>IDR 1.8B</td><td>Oct 8</td><td>9 days</td><td>🔴 URGENT</td></tr>
+              <tr style="background:#fff8f0"><td>PT Dow Chemical</td><td>IDR 1.2B</td><td>Oct 12</td><td>13 days</td><td>⚠️ SOON</td></tr>
+              <tr style="background:#f0faf4"><td>Givaudan</td><td>IDR 0.9B</td><td>Oct 18</td><td>19 days</td><td>✅ SCHEDULED</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 8: TACTICAL KPIs (Weekly) -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">Tactical KPIs &mdash; Weekly</span></p>
+      <span class="section-sub">Week selector in header &middot; Status badges</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>KPI</th>
+            <th>This Week</th>
+            <th>Target</th>
+            <th>Status</th>
+            <th>Threshold</th>
+          </tr>
+        </thead>
+        <tbody id="fn-tactical-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 9: OPERATIONAL TILES (Daily) -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-purple">Operational KPIs &mdash; Daily</span></p>
+      <span class="section-sub">Today&rsquo;s financial activity board</span>
+    </div>
+    <div class="ops-board" id="fn-ops-board"></div>
+  </div>
+
+  <!-- SECTION 10: CHARTS -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">P&amp;L TREND &mdash; JAN&ndash;SEP 2025</p>
+      <span class="section-sub">Revenue, Gross Profit, EBITDA | IDR Billion</span>
+    </div>
+    <div class="chart-card" style="margin-bottom:20px">
+      <div class="chart-canvas-wrap" style="height:280px"><canvas id="fnPlChart"></canvas></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div class="chart-card">
+        <div class="chart-card-title">Cash Conversion Cycle Components Jan&ndash;Sep 2025 (Days)</div>
+        <div class="chart-canvas-wrap" style="height:260px"><canvas id="fnWcChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">Supply Chain Cost as % of Revenue Jan&ndash;Sep 2025</div>
+        <div class="chart-canvas-wrap" style="height:260px"><canvas id="fnScCostChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 11: NODE CONNECTION PANEL -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">Downstream Impact</p>
+      <span class="section-sub">Auto-calculated from current KPI values</span>
+    </div>
+    <div class="ds-panel">
+      <div class="ds-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+          <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+        </svg>
+        Node Connection Indicators
+      </div>
+      <div class="ds-grid" id="fn-node-grid"></div>
+    </div>
+  </div>
+
+</div><!-- end panel-finance -->
+
 <!-- === CONTROL TOWER MODULE === -->
 <!-- ══════════════════════════════════════════
      CONTROL TOWER TAB
@@ -2858,6 +3229,10 @@ function selectMonth(idx) {
     renderMKStrategic();
     renderMKNodeConnection();
   }
+  if (document.getElementById('panel-finance') && document.getElementById('panel-finance').classList.contains('active')) {
+    renderFNStrategic();
+    renderFNNodePanel();
+  }
 }
 
 /* ══ WEEK CHIPS ══ */
@@ -2890,6 +3265,9 @@ function selectWeek(idx) {
   if (document.getElementById('panel-marketing') && document.getElementById('panel-marketing').classList.contains('active')) {
     renderMKTactical();
     renderMKNodeConnection();
+  }
+  if (document.getElementById('panel-finance') && document.getElementById('panel-finance').classList.contains('active')) {
+    renderFNTactical();
   }
 }
 
@@ -3222,12 +3600,12 @@ function switchTab(tab) {
   document.getElementById('panel-'+tab).classList.add('active');
   const navEl=document.getElementById('nav-'+tab);
   if(navEl) navEl.classList.add('active');
-  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard'};
+  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard'};
   document.getElementById('top-bar-title').textContent=titles[tab]||tab;
   const bcEl=document.getElementById('top-bar-breadcrumb');
   if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
   const weekWrap=document.getElementById('week-seg-wrap');
-  if(weekWrap) weekWrap.style.display=(tab==='kpi'||tab==='proc'||tab==='suppliers'||tab==='rd'||tab==='commercial'||tab==='marketing')?'flex':'none';
+  if(weekWrap) weekWrap.style.display=(tab==='kpi'||tab==='proc'||tab==='suppliers'||tab==='rd'||tab==='commercial'||tab==='marketing'||tab==='finance')?'flex':'none';
   if(tab==='suppliers'){ spInitChartsIfNeeded(); }
   if(tab==='ct'){
     if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Master View';
@@ -3244,6 +3622,11 @@ function switchTab(tab) {
   if(tab==='marketing'){
     if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Commercial & Innovation';
     mkInitChartsIfNeeded();
+  }
+  if(tab==='finance'){
+    if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Finance';
+    initFinanceTab();
+    fnInitChartsIfNeeded();
   }
 }
 
@@ -7747,6 +8130,614 @@ function buildMKSentimentChart() {
 }
 
 // === END MARKETING MODULE ===
+
+// === FINANCE MODULE ===
+
+/* ─── FN DATA ─── */
+const FN_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'];
+
+const FN_STRATEGIC = [
+  { id:'rev', name:'Revenue vs Budget', formula:'Actual Revenue / Budget × 100',
+    unit:'B', prefix:'IDR ', lowerIsBetter:false, decimals:1, target:45, responsible:'Finance',
+    monthly:[38.2,39.5,41.2,42.8,43.5,44.8,46.1,47.4,48.3],
+    greenFn:function(v){ return v>=45; }, yellowFn:function(v){ return v>=40&&v<45; },
+    benchmark:'IDR B — Target ≥IDR 45B | Warning IDR 40–44.9B | Critical <IDR 40B' },
+  { id:'gm', name:'Gross Margin %', formula:'(Revenue − COGS) / Revenue × 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:1, target:42, responsible:'Finance / Manufacturing',
+    monthly:[39.2,39.8,40.4,40.9,41.3,41.8,42.2,42.5,42.8],
+    greenFn:function(v){ return v>=42; }, yellowFn:function(v){ return v>=38&&v<42; },
+    benchmark:'FMCG Indonesia cosmetics 38–45%' },
+  { id:'ebitda', name:'EBITDA Margin %', formula:'EBITDA / Revenue × 100',
+    unit:'%', prefix:'', lowerIsBetter:false, decimals:1, target:18, responsible:'Finance',
+    monthly:[14.8,15.2,15.8,16.2,16.6,17.1,17.5,17.8,18.2],
+    greenFn:function(v){ return v>=18; }, yellowFn:function(v){ return v>=14&&v<18; },
+    benchmark:'FMCG Indonesia 15–22%' },
+  { id:'wc', name:'Working Capital Ratio', formula:'Current Assets / Current Liabilities',
+    unit:'x', prefix:'', lowerIsBetter:false, decimals:2, target:1.8, responsible:'Finance / Treasury',
+    monthly:[1.52,1.55,1.58,1.61,1.64,1.68,1.72,1.76,1.80],
+    greenFn:function(v){ return v>=1.8; }, yellowFn:function(v){ return v>=1.4&&v<1.8; },
+    benchmark:'Healthy FMCG 1.5–2.5x' },
+  { id:'ccc', name:'Cash Conversion Cycle', formula:'DIO + DSO − DPO',
+    unit:' days', prefix:'', lowerIsBetter:true, decimals:0, target:35, responsible:'Finance / Supply Chain',
+    monthly:[44,43,42,41,40,39,38,38,38],
+    greenFn:function(v){ return v<=35; }, yellowFn:function(v){ return v>35&&v<=45; },
+    benchmark:'FMCG Indonesia 30–45 days (lower is better)' },
+  { id:'sccost', name:'SC Cost as % Revenue', formula:'Total SC Cost / Net Revenue × 100',
+    unit:'%', prefix:'', lowerIsBetter:true, decimals:1, target:22, responsible:'Supply Chain / Finance',
+    monthly:[26.2,25.8,25.4,24.9,24.4,23.9,23.4,22.9,22.4],
+    greenFn:function(v){ return v<=22; }, yellowFn:function(v){ return v>22&&v<=26; },
+    benchmark:'FMCG Indonesia 20–28% (lower is better)' },
+];
+FN_STRATEGIC.forEach(function(k){
+  k.ytd = +(k.monthly.reduce(function(a,b){return a+b;},0)/k.monthly.length).toFixed(k.decimals);
+});
+
+const FN_TACTICAL = [
+  { id:'wrr', name:'Weekly Revenue Run Rate',
+    formula:'Weekly revenue vs ≥IDR 11.25B/week target',
+    unit:'B', lowerIsBetter:false, target:11.25,
+    weeks:[{current:10.8},{current:11.2},{current:12.4},{current:13.9}],
+    greenFn:function(v){ return v>=11.25; }, yellowFn:function(v){ return v>=10&&v<11.25; },
+    badgeLabels:['ON TARGET','WATCH','CRITICAL'] },
+  { id:'wgm', name:'Gross Margin Weekly',
+    formula:'(Revenue − COGS) / Revenue × 100',
+    unit:'%', lowerIsBetter:false, target:42,
+    weeks:[{current:41.2},{current:42.4},{current:43.1},{current:44.5}],
+    greenFn:function(v){ return v>=42; }, yellowFn:function(v){ return v>=38&&v<42; },
+    badgeLabels:['ON TARGET','WARNING','CRITICAL'] },
+  { id:'cr', name:'Collection Rate (AR)',
+    formula:'Collections received / AR due × 100',
+    unit:'%', lowerIsBetter:false, target:92,
+    weeks:[{current:88},{current:91},{current:86},{current:93}],
+    greenFn:function(v){ return v>=92; }, yellowFn:function(v){ return v>=85&&v<92; },
+    badgeLabels:['STRONG','WATCH','CRITICAL'] },
+  { id:'pc', name:'Payment Compliance (AP)',
+    formula:'Payments made on time / Total payments due × 100',
+    unit:'%', lowerIsBetter:false, target:95,
+    weeks:[{current:96},{current:98},{current:94},{current:99}],
+    greenFn:function(v){ return v>=95; }, yellowFn:function(v){ return v>=88&&v<95; },
+    badgeLabels:['COMPLIANT','WATCH','OVERDUE'] },
+  { id:'bv', name:'Budget Variance (OpEx)',
+    formula:'(Budget − Actual) / Budget × 100',
+    unit:'%', lowerIsBetter:false, target:3,
+    weeks:[{current:2.1},{current:1.8},{current:-0.4},{current:3.2}],
+    greenFn:function(v){ return Math.abs(v)<=3; }, yellowFn:function(v){ return Math.abs(v)>3&&Math.abs(v)<=5; },
+    badgeLabels:['IN CONTROL','WATCH','OVERRUN'] },
+  { id:'scp', name:'SC Cost per Revenue IDR',
+    formula:'Total SC Cost / Net Revenue × 100',
+    unit:'%', lowerIsBetter:true, target:22,
+    weeks:[{current:23.1},{current:22.8},{current:22.4},{current:21.8}],
+    greenFn:function(v){ return v<=22; }, yellowFn:function(v){ return v>22&&v<=26; },
+    badgeLabels:['ON TARGET','WARNING','CRITICAL'] },
+];
+
+const FN_SC_COST = [
+  { fn:'Procurement & Materials', budget:21.7, actual:22.4, variance:-0.7, pct:'46.4%' },
+  { fn:'Manufacturing',           budget:3.6,  actual:3.5,  variance:+0.1, pct:'7.2%'  },
+  { fn:'Warehousing (NDC+DC)',    budget:1.8,  actual:1.9,  variance:-0.1, pct:'3.9%'  },
+  { fn:'Transport (all lanes)',   budget:3.8,  actual:3.7,  variance:+0.1, pct:'7.7%'  },
+  { fn:'Distribution',            budget:1.2,  actual:1.1,  variance:+0.1, pct:'2.3%'  },
+  { fn:'Reverse Logistics',       budget:0.4,  actual:0.4,  variance:0.0,  pct:'0.8%'  },
+  { fn:'SC Technology',           budget:0.4,  actual:0.3,  variance:+0.1, pct:'0.6%'  },
+];
+
+const FN_RISKS = [
+  { rag:'red',   name:'RM Price Inflation — Key Ingredients',       category:'Procurement / Cost',
+    likelihood:'High',       impact:'IDR 3.2B annual exposure',
+    desc:'Global commodity price increase for palm oil derivatives and silicones — core Paragon formulation ingredients',
+    mitigation:'Hedge 60% via 6-month forward contracts — in progress with 3 suppliers',
+    owner:'Procurement + Finance', status:'🔴 ESCALATED — action required' },
+  { rag:'red',   name:'USD/IDR Exchange Rate Volatility',            category:'FX Risk',
+    likelihood:'High',       impact:'IDR 2.8B annual exposure',
+    desc:'28% of RM sourced internationally (USD/EUR denominated) — IDR weakening increases COGS',
+    mitigation:'FX hedging strategy under review — CFO approval pending',
+    owner:'Finance / Treasury',    status:'🔴 OPEN — mitigation pending' },
+  { rag:'amber', name:'Distributor AR Overdue >60 Days',             category:'Credit Risk',
+    likelihood:'Medium',     impact:'IDR 1.4B exposure',
+    desc:'3 distributors with overdue AR exceeding 60-day terms — PT Papua (IDR 0.6B), 2 others',
+    mitigation:'Payment plan agreed with PT Papua — monitoring weekly',
+    owner:'Commercial / Finance',  status:'🟡 MONITORING' },
+  { rag:'amber', name:'Trade Spend Overrun — Q4 Risk',               category:'Commercial / Budget',
+    likelihood:'Medium',     impact:'IDR 1.8B',
+    desc:'GT Ramping + Shopee campaigns trending 8% above budget — Q4 risk if not controlled',
+    mitigation:'Campaign ROI review scheduled Oct 1 — reallocate from underperforming GTM',
+    owner:'Marketing / Finance',   status:'🟡 UNDER REVIEW' },
+  { rag:'amber', name:'Supplier Contract Expiry — Supply Cost Risk', category:'Procurement',
+    likelihood:'Low-Medium', impact:'IDR 0.9B',
+    desc:'PT Indopack and PT Maspion contracts expired/expiring — risk of price increase on renewal',
+    mitigation:'Negotiation initiated — target same pricing + 12-month term',
+    owner:'Procurement',           status:'🟡 IN NEGOTIATION' },
+  { rag:'green', name:'Capex Overrun — Warehouse Automation',        category:'Investment',
+    likelihood:'Low',        impact:'IDR 0.6B',
+    desc:'Warehouse automation project (Odyssey Phase 2) — equipment delivery delays possible',
+    mitigation:'Contingency budget allocated — milestone review monthly',
+    owner:'Operations / Finance',  status:'🟢 CONTROLLED' },
+];
+
+const FN_PL_MONTHLY = [
+  { section:true, label:'REVENUE' },
+  { label:'Gross Revenue',     budget:52.8,  actual:53.6,  varAbs:+0.8,  varPct:'+1.5%',  status:'✅', fav:true },
+  { label:'Trade Deductions',  budget:-4.8,  actual:-5.3,  varAbs:-0.5,  varPct:'-10.4%', status:'⚠️', fav:false },
+  { label:'Net Revenue',       budget:48.0,  actual:48.3,  varAbs:+0.3,  varPct:'+0.6%',  status:'✅', fav:true,  subtotal:true },
+  { section:true, label:'COST OF GOODS SOLD' },
+  { label:'Raw Materials',     budget:16.2,  actual:16.8,  varAbs:-0.6,  varPct:'-3.7%',  status:'⚠️', fav:false },
+  { label:'Packaging',         budget:4.8,   actual:4.9,   varAbs:-0.1,  varPct:'-2.1%',  status:'⚠️', fav:false },
+  { label:'Manufacturing OH',  budget:3.6,   actual:3.5,   varAbs:+0.1,  varPct:'+2.8%',  status:'✅', fav:true },
+  { label:'Total COGS',        budget:24.6,  actual:25.2,  varAbs:-0.6,  varPct:'-2.4%',  status:'⚠️', fav:false, subtotal:true },
+  { label:'GROSS PROFIT',      budget:23.4,  actual:23.1,  varAbs:-0.3,  varPct:'-1.3%',  status:'⚠️', fav:false, total:true },
+  { label:'Gross Margin',      budget:'48.8%', actual:'47.8%', varAbs:'-1.0%', varPct:'—', status:'⚠️', fav:false, pctRow:true },
+  { section:true, label:'OPERATING EXPENSES' },
+  { label:'Sales & Distribution', budget:8.4, actual:8.2, varAbs:+0.2, varPct:'+2.4%', status:'✅', fav:true },
+  { label:'Marketing',         budget:4.8,   actual:4.4,   varAbs:+0.4,  varPct:'+8.3%',  status:'✅', fav:true },
+  { label:'G&A',               budget:2.4,   actual:2.3,   varAbs:+0.1,  varPct:'+4.2%',  status:'✅', fav:true },
+  { label:'R&D',               budget:1.8,   actual:1.8,   varAbs:0.0,   varPct:'0.0%',   status:'✅', fav:true },
+  { label:'Total OpEx',        budget:17.4,  actual:16.7,  varAbs:+0.7,  varPct:'+4.0%',  status:'✅', fav:true,  subtotal:true },
+  { label:'EBITDA',            budget:6.0,   actual:6.4,   varAbs:+0.4,  varPct:'+6.7%',  status:'✅', fav:true,  total:true },
+  { label:'EBITDA Margin',     budget:'12.5%', actual:'13.3%', varAbs:'+0.8%', varPct:'—', status:'✅', fav:true,  pctRow:true },
+];
+
+const FN_PL_YTD = [
+  { section:true, label:'REVENUE (YTD Jan–Sep 2025)' },
+  { label:'Gross Revenue',     budget:432.0, actual:441.5, varAbs:+9.5,  varPct:'+2.2%',  status:'✅', fav:true },
+  { label:'Trade Deductions',  budget:-39.2, actual:-43.1, varAbs:-3.9,  varPct:'-10.0%', status:'⚠️', fav:false },
+  { label:'Net Revenue',       budget:392.8, actual:398.4, varAbs:+5.6,  varPct:'+1.4%',  status:'✅', fav:true,  subtotal:true },
+  { section:true, label:'COST OF GOODS SOLD' },
+  { label:'Raw Materials',     budget:131.2, actual:137.4, varAbs:-6.2,  varPct:'-4.7%',  status:'⚠️', fav:false },
+  { label:'Packaging',         budget:39.2,  actual:40.1,  varAbs:-0.9,  varPct:'-2.3%',  status:'⚠️', fav:false },
+  { label:'Manufacturing OH',  budget:29.4,  actual:28.8,  varAbs:+0.6,  varPct:'+2.0%',  status:'✅', fav:true },
+  { label:'Total COGS',        budget:199.8, actual:206.3, varAbs:-6.5,  varPct:'-3.3%',  status:'⚠️', fav:false, subtotal:true },
+  { label:'GROSS PROFIT',      budget:193.0, actual:192.1, varAbs:-0.9,  varPct:'-0.5%',  status:'⚠️', fav:false, total:true },
+  { label:'Gross Margin',      budget:'49.2%', actual:'48.2%', varAbs:'-1.0%', varPct:'—', status:'⚠️', fav:false, pctRow:true },
+  { section:true, label:'OPERATING EXPENSES' },
+  { label:'Sales & Distribution', budget:68.0, actual:66.4, varAbs:+1.6, varPct:'+2.4%', status:'✅', fav:true },
+  { label:'Marketing',         budget:38.9,  actual:35.8,  varAbs:+3.1,  varPct:'+8.0%',  status:'✅', fav:true },
+  { label:'G&A',               budget:19.5,  actual:18.7,  varAbs:+0.8,  varPct:'+4.1%',  status:'✅', fav:true },
+  { label:'R&D',               budget:14.6,  actual:14.6,  varAbs:0.0,   varPct:'0.0%',   status:'✅', fav:true },
+  { label:'Total OpEx',        budget:141.0, actual:135.5, varAbs:+5.5,  varPct:'+3.9%',  status:'✅', fav:true,  subtotal:true },
+  { label:'EBITDA',            budget:52.0,  actual:56.6,  varAbs:+4.6,  varPct:'+8.8%',  status:'✅', fav:true,  total:true },
+  { label:'EBITDA Margin',     budget:'13.2%', actual:'14.2%', varAbs:'+1.0%', varPct:'—', status:'✅', fav:true,  pctRow:true },
+];
+
+let fnChartsBuilt = false;
+let fnYtdMode = false;
+let chartFnPl = null, chartFnWc = null, chartFnScCost = null, chartFnWaterfall = null, chartFnDonut = null;
+
+/* ─── RENDER: FN STRATEGIC KPIs ─── */
+function renderFNStrategic() {
+  var idx = selectedMonthIdx, grid = document.getElementById('fn-strategic-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  FN_STRATEGIC.forEach(function(kpi) {
+    var val = getVal(kpi, idx), prev = getPrevVal(kpi, idx);
+    var status = getStatus(kpi, val), color = statusColor(status);
+    var scale = Math.max(val, kpi.target) * 1.12;
+    var aPct = Math.min((val / scale) * 100, 100).toFixed(1);
+    var tPct = Math.min((kpi.target / scale) * 100, 100).toFixed(1);
+    var card = document.createElement('div');
+    card.className = 'kpi-card ' + status;
+    card.innerHTML =
+      '<div class="kpi-header">' +
+        '<div>' +
+          '<div class="kpi-name"><span class="formula-wrap">' + kpi.name +
+            '<span class="formula-icon">&#402;</span>' +
+            '<span class="formula-tip"><strong>Formula:</strong> ' + kpi.formula + '<br><strong>Responsible:</strong> ' + kpi.responsible + '<br><strong>Target:</strong> ' + (kpi.lowerIsBetter ? '\u2264 ' : '\u2265 ') + kpi.target + kpi.unit + '</span>' +
+          '</span></div>' +
+          '<div class="kpi-category"><span class="resp-badge">' + kpi.responsible + '</span></div>' +
+        '</div>' +
+        '<span class="status-badge badge-' + status + '">' + badgeLabel(status) + '</span>' +
+      '</div>' +
+      '<div class="kpi-values">' +
+        '<div class="kpi-value-group">' +
+          (kpi.prefix ? '<span class="kpi-prefix">' + kpi.prefix + '</span>' : '') +
+          '<span class="kpi-current" style="color:' + color + '">' + val.toFixed(kpi.decimals) + '</span>' +
+          (kpi.unit.trim() ? '<span class="kpi-unit">' + kpi.unit.trim() + '</span>' : '') +
+        '</div>' +
+        '<div class="trend-arrow">' + (prev !== null ? trendArrowSVG(kpi, val, prev) : '') + '</div>' +
+      '</div>' +
+      '<div class="kpi-target">Target: <strong>' + (kpi.lowerIsBetter ? '\u2264 ' : '\u2265 ') + kpi.target + kpi.unit + '</strong></div>' +
+      '<div class="bc-wrap">' +
+        '<div class="bc-row">' +
+          '<span class="bc-label">Actual</span>' +
+          '<div class="bc-track"><div class="bc-fill" style="width:' + aPct + '%;background:' + color + '"></div></div>' +
+          '<span class="bc-val" style="color:' + color + '">' + val.toFixed(kpi.decimals) + kpi.unit + '</span>' +
+        '</div>' +
+        '<div class="bc-row">' +
+          '<span class="bc-label">Target</span>' +
+          '<div class="bc-track"><div class="bc-fill" style="width:' + tPct + '%;background:#e5e7eb"></div></div>' +
+          '<span class="bc-val" style="color:#9ca3af">' + (kpi.lowerIsBetter ? '\u2264' : '\u2265') + kpi.target + kpi.unit + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="kpi-bench">Benchmark: ' + kpi.benchmark + '</div>';
+    grid.appendChild(card);
+  });
+}
+
+/* ─── RENDER: FN P&L TABLE ─── */
+function renderFNPL() {
+  var tbody = document.getElementById('fn-pl-body');
+  if (!tbody) return;
+  var rows = fnYtdMode ? FN_PL_YTD : FN_PL_MONTHLY;
+  var label = document.getElementById('fn-pl-view-label');
+  if (label) label.textContent = fnYtdMode ? 'Showing: YTD Jan\u2013Sep 2025' : 'Showing: Monthly (Sep-25)';
+  var btn = document.getElementById('fn-ytd-btn');
+  if (btn) btn.textContent = fnYtdMode ? 'Show Monthly' : 'Show YTD';
+  tbody.innerHTML = '';
+  rows.forEach(function(row) {
+    if (row.section) {
+      var tr = document.createElement('tr');
+      tr.style.background = '#f3f4f6';
+      tr.innerHTML = '<td colspan="6" style="font-weight:700;font-size:12px;color:#1d2d3e;text-transform:uppercase;letter-spacing:0.05em;padding:8px 14px">' + row.label + '</td>';
+      tbody.appendChild(tr);
+      return;
+    }
+    var tr = document.createElement('tr');
+    if (row.total || row.subtotal) {
+      tr.style.background = '#f3f4f6';
+      tr.style.fontWeight = '700';
+    } else if (row.fav) {
+      tr.style.background = '#f0faf4';
+    } else {
+      tr.style.background = '#fff8f0';
+    }
+    var budgetStr = row.pctRow ? row.budget : (typeof row.budget === 'number' ? (row.budget < 0 ? '\u2212' : '') + Math.abs(row.budget).toFixed(1) + 'B' : row.budget);
+    var actualStr = row.pctRow ? row.actual : (typeof row.actual === 'number' ? (row.actual < 0 ? '\u2212' : '') + Math.abs(row.actual).toFixed(1) + 'B' : row.actual);
+    var varStr = row.pctRow ? row.varAbs : (typeof row.varAbs === 'number' ? (row.varAbs >= 0 ? '+' : '') + row.varAbs.toFixed(1) + 'B' : row.varAbs);
+    var varColor = row.fav ? '#107e3e' : (typeof row.varAbs === 'number' && row.varAbs === 0) ? '#6b7280' : '#e76500';
+    tr.innerHTML =
+      '<td style="font-weight:' + ((row.total || row.subtotal) ? '700' : '500') + ';font-size:13px">' + row.label + '</td>' +
+      '<td style="font-size:13px;color:#374151;text-align:right">' + budgetStr + '</td>' +
+      '<td style="font-size:13px;color:#374151;text-align:right">' + actualStr + '</td>' +
+      '<td style="font-size:13px;font-weight:600;color:' + varColor + ';text-align:right">' + varStr + '</td>' +
+      '<td style="font-size:13px;font-weight:600;color:' + varColor + ';text-align:right">' + row.varPct + '</td>' +
+      '<td style="text-align:center;font-size:14px">' + row.status + '</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function fnToggleYTD() {
+  fnYtdMode = !fnYtdMode;
+  renderFNPL();
+}
+
+/* ─── RENDER: FN SC COST TABLE ─── */
+function renderFNSCCost() {
+  var tbody = document.getElementById('fn-sc-cost-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  FN_SC_COST.forEach(function(row) {
+    var favorable = row.variance >= 0;
+    var varStr = (row.variance > 0 ? '+' : '') + row.variance.toFixed(1) + 'B';
+    var varColor = favorable ? '#107e3e' : '#e76500';
+    var tr = document.createElement('tr');
+    tr.style.background = favorable ? '#f0faf4' : '#fff8f0';
+    tr.innerHTML =
+      '<td style="font-size:13px">' + row.fn + '</td>' +
+      '<td style="text-align:right">' + row.budget.toFixed(1) + 'B</td>' +
+      '<td style="text-align:right">' + row.actual.toFixed(1) + 'B</td>' +
+      '<td style="text-align:right;font-weight:600;color:' + varColor + '">' + varStr + '</td>' +
+      '<td style="text-align:right">' + row.pct + '</td>';
+    tbody.appendChild(tr);
+  });
+  var total = document.createElement('tr');
+  total.style.background = '#f3f4f6';
+  total.style.fontWeight = '700';
+  total.innerHTML =
+    '<td>Total SC Cost</td>' +
+    '<td style="text-align:right">32.9B</td>' +
+    '<td style="text-align:right">33.3B</td>' +
+    '<td style="text-align:right;color:#e76500">\u22120.4B</td>' +
+    '<td style="text-align:right">22.4% \u26a0\ufe0f</td>';
+  tbody.appendChild(total);
+}
+
+/* ─── RENDER: FN RISK REGISTER ─── */
+function renderFNRiskRegister() {
+  var container = document.getElementById('fn-risk-register');
+  if (!container) return;
+  var ragBorder = { red:'#bb0000', amber:'#e76500', green:'#107e3e' };
+  var ragBg    = { red:'#fff0f0', amber:'#fff8f0', green:'#f0faf4' };
+  container.innerHTML = FN_RISKS.map(function(r) {
+    return '<div style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid ' + ragBorder[r.rag] + ';border-radius:8px;padding:16px">' +
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">' +
+        '<div>' +
+          '<div style="font-size:13px;font-weight:700;color:#1d2d3e;margin-bottom:2px">' + r.name + '</div>' +
+          '<div style="font-size:11px;color:#9ca3af">' + r.category + '</div>' +
+        '</div>' +
+        '<span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;white-space:nowrap;background:' + ragBg[r.rag] + ';color:' + ragBorder[r.rag] + ';border:1px solid ' + ragBorder[r.rag] + '40">' + r.rag.toUpperCase() + '</span>' +
+      '</div>' +
+      '<div style="font-size:11px;color:#6b7280;margin-bottom:6px"><strong>Likelihood:</strong> ' + r.likelihood + ' &nbsp;&middot;&nbsp; <strong>Impact:</strong> ' + r.impact + '</div>' +
+      '<div style="font-size:12px;color:#374151;margin-bottom:8px">' + r.desc + '</div>' +
+      '<div style="font-size:11px;background:#f9fafb;border-radius:4px;padding:6px 10px;margin-bottom:8px"><strong style="color:#6b7280">Mitigation:</strong> ' + r.mitigation + '</div>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px">' +
+        '<span style="color:#9ca3af"><strong>Owner:</strong> ' + r.owner + '</span>' +
+        '<span style="color:' + ragBorder[r.rag] + ';font-weight:700">' + r.status + '</span>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* ─── RENDER: FN TACTICAL TABLE ─── */
+function renderFNTactical() {
+  var tbody = document.getElementById('fn-tactical-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  FN_TACTICAL.forEach(function(kpi) {
+    var val = kpi.weeks[selectedWeekIdx].current;
+    var status = kpi.greenFn(val) ? 'green' : kpi.yellowFn(val) ? 'yellow' : 'red';
+    var dotCls = { green:'dot-g', yellow:'dot-y', red:'dot-r' }[status];
+    var badgeText = status === 'green' ? kpi.badgeLabels[0] : status === 'yellow' ? kpi.badgeLabels[1] : kpi.badgeLabels[2];
+    var threshLabel = kpi.lowerIsBetter ? '\u2264' + kpi.target + kpi.unit + ' target' : '\u2265' + kpi.target + kpi.unit + ' target';
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><span class="td-status-dot ' + dotCls + '"></span></td>' +
+      '<td class="td-name">' + kpi.name + '</td>' +
+      '<td class="td-val ' + status + '">' + val + kpi.unit + '</td>' +
+      '<td style="color:#6b7280;font-weight:600">' + (kpi.lowerIsBetter ? '\u2264 ' : '\u2265 ') + kpi.target + kpi.unit + '</td>' +
+      '<td><span class="status-badge badge-' + status + '">' + badgeText + '</span></td>' +
+      '<td style="font-size:11px;color:#9ca3af">' + threshLabel + '</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+/* ─── RENDER: FN OPERATIONAL BOARD ─── */
+function renderFNOperational() {
+  var board = document.getElementById('fn-ops-board');
+  if (!board) return;
+  var tiles = [
+    { name:'Revenue Booked Today',   val:'IDR 2,840M',         color:'teal',   statusLabel:'INFORMATIONAL', sub:'On pace for IDR 48.8B month' },
+    { name:'Invoices Issued Today',  val:'284 invoices',        color:'blue',   statusLabel:'INFORMATIONAL', sub:'IDR 3.2B total value' },
+    { name:'Payments Received Today',val:'IDR 1,840M',          color:'green',  statusLabel:'ON TARGET',     sub:'64.8% of daily AR target' },
+    { name:'Overdue AR Today',       val:'IDR 1.4B',            color:'yellow', statusLabel:'WARNING',       pulse:true, sub:'4 distributors overdue' },
+    { name:'Payments Due Today',     val:'IDR 840M',            color:'green',  statusLabel:'ON TARGET',     sub:'2 supplier payments scheduled' },
+    { name:'FX Rate Alert',          val:'USD/IDR 15,842',      color:'yellow', statusLabel:'WARNING',       sub:'\u2191 +0.8% vs yesterday \u2014 monitor import costs' },
+    { name:'Budget Utilization MTD', val:'94.2% of Sep budget', color:'green',  statusLabel:'ON TARGET',     sub:'IDR 2.8B remaining headroom' },
+    { name:'Financial Risks Active', val:'2 HIGH risk items',   color:'red',    statusLabel:'WARNING',       pulse:true, sub:'RM inflation + FX volatility' },
+  ];
+  board.innerHTML = tiles.map(function(t) {
+    var tileClass = 'ops-tile';
+    var valColor = '#1d2d3e';
+    var badgeStyle = '';
+    if (t.color === 'green') { tileClass += ' green'; valColor = '#107e3e'; }
+    else if (t.color === 'yellow') { tileClass += ' yellow'; valColor = '#e76500'; }
+    else if (t.color === 'red') { tileClass += ' red'; valColor = '#bb0000'; }
+    else if (t.color === 'teal') { tileClass += ' teal-tile'; valColor = '#0f828f'; badgeStyle = 'style="background:#f0fdfa;color:#0f828f;border-color:#99f6e4"'; }
+    else { tileClass += ' teal-tile'; valColor = '#0070f2'; badgeStyle = 'style="background:#eff6ff;color:#0070f2;border-color:#bfdbfe"'; }
+    if (t.pulse) tileClass += ' critical';
+    var statusCls = (t.color === 'green') ? 'green' : (t.color === 'yellow') ? 'yellow' : (t.color === 'red') ? 'red' : '';
+    return '<div class="' + tileClass + '">' +
+      '<div class="ops-tile-name">' + t.name + '</div>' +
+      '<div class="ops-tile-val" style="color:' + valColor + ';font-size:20px;line-height:1.2;margin-bottom:4px">' + t.val + '</div>' +
+      '<div style="margin-top:4px"><span class="ops-tile-status ' + statusCls + '" ' + badgeStyle + '>' + t.statusLabel + '</span></div>' +
+      '<div style="font-size:11px;color:#9ca3af;margin-top:4px">' + t.sub + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* ─── RENDER: FN NODE PANEL ─── */
+function renderFNNodePanel() {
+  var grid = document.getElementById('fn-node-grid');
+  if (!grid) return;
+  var flags = [
+    { node:'Procurement',      icon:'\ud83d\uded2', status:'warn',
+      msg:'RM cost variance \u22123.7% in Sep \u2014 raw material cost overrun vs budget',
+      action:'Cost overrun risk \u2014 review PO pricing and activate hedging strategy' },
+    { node:'Commercial',       icon:'\ud83d\udcca', status:'caution',
+      msg:'AR overdue IDR 1.4B \u2014 4 distributors with outstanding receivables',
+      action:'Receivables risk \u2014 escalate to commercial team for distributor follow-up' },
+    { node:'Supply Chain (All)',icon:'\ud83d\udd17', status:'caution',
+      msg:'SC cost as % revenue at 22.4% \u2014 approaching 22% target',
+      action:'SC cost near threshold \u2014 monitor all SC function spend closely' },
+    { node:'Marketing',        icon:'\ud83d\udce3', status:'ok',
+      msg:'Trade spend within budget \u2014 campaigns tracking normally',
+      action:'No action required \u2014 monitor Q4 campaign spend for overrun risk' },
+    { node:'Executive',        icon:'\ud83d\udd34', status:'warn',
+      msg:'2 HIGH financial risks active: RM price inflation + USD/IDR FX volatility',
+      action:'Financial performance alert \u2014 escalate to CFO and Executive team' },
+  ];
+  grid.innerHTML = flags.map(function(f) {
+    return '<div class="ds-flag ds-' + f.status + '">' +
+      '<div class="ds-flag-ico">' + f.icon + '</div>' +
+      '<div>' +
+        '<div class="ds-flag-node">' + f.node + '</div>' +
+        '<div class="ds-flag-msg">' + f.msg + '</div>' +
+        '<div class="ds-flag-sub" style="margin-top:3px"><strong style="color:#6b7280">Action:</strong> ' + f.action + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* ─── CHART: FN P&L TREND ─── */
+function buildFNPlChart() {
+  var el = document.getElementById('fnPlChart');
+  if (!el) return;
+  if (chartFnPl) chartFnPl.destroy();
+  chartFnPl = new Chart(el.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: FN_MONTHS,
+      datasets: [
+        { label:'Revenue (IDR B)',      data:[38.2,39.5,41.2,42.8,43.5,44.8,46.1,47.4,48.3], borderColor:'#0070f2', backgroundColor:'#0070f210', borderWidth:3, pointRadius:3, pointHoverRadius:5, tension:0.35, fill:false },
+        { label:'Gross Profit (IDR B)', data:[15.0,15.6,16.7,17.6,18.0,18.7,19.4,20.1,20.7], borderColor:'#107e3e', backgroundColor:'#107e3e10', borderWidth:2, pointRadius:3, pointHoverRadius:5, tension:0.35, fill:false },
+        { label:'EBITDA (IDR B)',       data:[5.7,6.0,6.5,6.9,7.2,7.7,8.1,8.5,8.8],          borderColor:'#0f828f', backgroundColor:'#0f828f10', borderWidth:2, pointRadius:3, pointHoverRadius:5, tension:0.35, fill:false },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:'index', intersect:false },
+      plugins:{
+        title:{ display:true, text:'P&L Trend Jan\u2013Sep 2025 (IDR B)', color:'#1d2d3e', font:{ size:13, weight:'600' } },
+        legend:{ position:'bottom', labels:{ font:{ size:10 }, padding:12, boxWidth:12, color:'#9ca3af' } },
+        tooltip:{ backgroundColor:'#fff', borderColor:'#e5e7eb', borderWidth:1, titleColor:'#1d2d3e', bodyColor:'#374151' }
+      },
+      scales:{
+        y:{ grid:{ color:'#f3f4f6' }, ticks:{ font:{ size:10 }, color:'#9ca3af' } },
+        x:{ grid:{ color:'#f3f4f6' }, ticks:{ font:{ size:10 }, color:'#9ca3af' } }
+      }
+    }
+  });
+}
+
+/* ─── CHART: FN WORKING CAPITAL TREND ─── */
+function buildFNWcChart() {
+  var el = document.getElementById('fnWcChart');
+  if (!el) return;
+  if (chartFnWc) chartFnWc.destroy();
+  chartFnWc = new Chart(el.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: FN_MONTHS,
+      datasets: [
+        { label:'DIO (days)', data:[48,47,46,45,44,43,43,42,42], borderColor:'#e76500', backgroundColor:'#e7650010', borderWidth:2, pointRadius:3, tension:0.35, fill:false },
+        { label:'DSO (days)', data:[38,37,37,36,36,36,35,35,35], borderColor:'#bb0000', backgroundColor:'#bb000010', borderWidth:2, pointRadius:3, tension:0.35, fill:false },
+        { label:'DPO (days)', data:[36,37,37,38,38,39,39,39,39], borderColor:'#107e3e', backgroundColor:'#107e3e10', borderWidth:2, pointRadius:3, tension:0.35, fill:false },
+        { label:'CCC (days)', data:[50,47,46,43,42,40,39,38,38], borderColor:'#0070f2', backgroundColor:'#0070f210', borderWidth:3, pointRadius:3, tension:0.35, fill:false },
+        { label:'CCC Target (35d)', data:[35,35,35,35,35,35,35,35,35], borderColor:'#0070f260', borderDash:[6,4], borderWidth:1.5, pointRadius:0, fill:false },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:'index', intersect:false },
+      plugins:{
+        legend:{ position:'bottom', labels:{ font:{ size:10 }, padding:10, boxWidth:12, color:'#9ca3af' } },
+        tooltip:{ backgroundColor:'#fff', borderColor:'#e5e7eb', borderWidth:1, titleColor:'#1d2d3e', bodyColor:'#374151' }
+      },
+      scales:{
+        y:{ grid:{ color:'#f3f4f6' }, ticks:{ font:{ size:10 }, color:'#9ca3af' } },
+        x:{ grid:{ color:'#f3f4f6' }, ticks:{ font:{ size:10 }, color:'#9ca3af' } }
+      }
+    }
+  });
+}
+
+/* ─── CHART: FN SC COST TREND ─── */
+function buildFNScCostChart() {
+  var el = document.getElementById('fnScCostChart');
+  if (!el) return;
+  if (chartFnScCost) chartFnScCost.destroy();
+  chartFnScCost = new Chart(el.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: FN_MONTHS,
+      datasets: [
+        { label:'SC Cost % Revenue', data:[26.2,25.8,25.4,24.9,24.4,23.9,23.4,22.9,22.4], borderColor:'#9333ea', backgroundColor:'rgba(147,51,234,0.08)', borderWidth:2, pointRadius:3, tension:0.35, fill:true },
+        { label:'Target (22%)', data:[22,22,22,22,22,22,22,22,22], borderColor:'#9333ea60', borderDash:[6,4], borderWidth:1.5, pointRadius:0, fill:false },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:'index', intersect:false },
+      plugins:{
+        legend:{ position:'bottom', labels:{ font:{ size:10 }, padding:10, boxWidth:12, color:'#9ca3af' } },
+        tooltip:{
+          backgroundColor:'#fff', borderColor:'#e5e7eb', borderWidth:1, titleColor:'#1d2d3e', bodyColor:'#374151',
+          callbacks:{ label:function(ctx){ return ' ' + ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1) + '%'; } }
+        }
+      },
+      scales:{
+        y:{ grid:{ color:'#f3f4f6' }, ticks:{ font:{ size:10 }, color:'#9ca3af', callback:function(v){ return v+'%'; } }, min:20, max:28 },
+        x:{ grid:{ color:'#f3f4f6' }, ticks:{ font:{ size:10 }, color:'#9ca3af' } }
+      }
+    }
+  });
+}
+
+/* ─── CHART: FN WATERFALL ─── */
+function buildFNWaterfallChart() {
+  var el = document.getElementById('fnWaterfallChart');
+  if (!el) return;
+  if (chartFnWaterfall) chartFnWaterfall.destroy();
+  // Floating bars [min, max] to simulate waterfall
+  var floatingData = [
+    [0,    45.0], // Budget baseline
+    [45.0, 47.8], // Volume Effect +2.8
+    [47.8, 49.2], // Price Effect +1.4
+    [49.2, 49.8], // Mix Effect +0.6
+    [48.3, 49.8], // Trade Deductions -1.5 (floats)
+    [0,    48.3], // Actual
+  ];
+  var colors = ['#0070f2','#107e3e','#107e3e','#107e3e','#bb0000','#0070f2'];
+  chartFnWaterfall = new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Budget','Volume Effect','Price Effect','Mix Effect','Trade Deductions','Actual'],
+      datasets: [{ label:'Revenue Bridge (IDR B)', data:floatingData, backgroundColor:colors, borderRadius:4, borderSkipped:false }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        title:{ display:true, text:'Revenue Waterfall \u2014 Budget to Actual Sep-25', color:'#1d2d3e', font:{ size:13, weight:'600' } },
+        legend:{ display:false },
+        tooltip:{
+          backgroundColor:'#fff', borderColor:'#e5e7eb', borderWidth:1, titleColor:'#1d2d3e', bodyColor:'#374151',
+          callbacks:{
+            label:function(ctx){
+              var d = ctx.raw;
+              var val = Array.isArray(d) ? Math.abs(d[1]-d[0]).toFixed(1) : d.toFixed(1);
+              var sign = Array.isArray(d) && d[1] < d[0] ? '-' : '+';
+              if (ctx.dataIndex === 0 || ctx.dataIndex === 5) return ' IDR ' + val + 'B';
+              return ' ' + sign + 'IDR ' + val + 'B';
+            }
+          }
+        }
+      },
+      scales:{
+        y:{ grid:{ color:'#f3f4f6' }, ticks:{ font:{ size:10 }, color:'#9ca3af', callback:function(v){ return 'IDR '+v+'B'; } }, min:0, max:55 },
+        x:{ grid:{ display:false }, ticks:{ font:{ size:10 }, color:'#9ca3af' } }
+      }
+    }
+  });
+}
+
+/* ─── CHART: FN COST DONUT ─── */
+function buildFNCostDonut() {
+  var el = document.getElementById('fnCostDonut');
+  if (!el) return;
+  if (chartFnDonut) chartFnDonut.destroy();
+  chartFnDonut = new Chart(el.getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Materials','Manufacturing','Transport','Warehousing','Distribution','Other'],
+      datasets: [{
+        data: [67,10,11,6,4,2],
+        backgroundColor: ['#0070f2','#0f828f','#107e3e','#e76500','#9333ea','#6b7280'],
+        borderColor: '#fff',
+        borderWidth: 2,
+      }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      cutout:'65%',
+      plugins:{
+        legend:{ position:'bottom', labels:{ font:{ size:11 }, padding:10 } },
+        tooltip:{ callbacks:{ label:function(ctx){ return ctx.label+': '+ctx.parsed+'%'; } } }
+      }
+    }
+  });
+}
+
+/* ─── CHART LAZY INIT ─── */
+function fnInitChartsIfNeeded() {
+  if (fnChartsBuilt) return;
+  fnChartsBuilt = true;
+  buildFNPlChart();
+  buildFNWcChart();
+  buildFNScCostChart();
+  buildFNWaterfallChart();
+  buildFNCostDonut();
+}
+
+/* ─── INIT FINANCE TAB ─── */
+function initFinanceTab() {
+  renderFNStrategic();
+  renderFNPL();
+  renderFNSCCost();
+  renderFNRiskRegister();
+  renderFNTactical();
+  renderFNOperational();
+  renderFNNodePanel();
+}
+
+// === END FINANCE MODULE ===
 </script>
 </body>
 </html>
