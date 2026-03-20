@@ -2587,7 +2587,7 @@
   <!-- PART 1: HEADER STATUS BAR -->
   <div class="section-block" style="padding-bottom:12px">
     <div style="font-size:13px;color:#64748b;margin-bottom:8px">End-to-End Supply Chain Orchestration — Live Network Intelligence</div>
-    <div class="ct-status-bar">🟢 Network Status: 4 modules healthy &nbsp;·&nbsp; ⚠️ 2 modules with warnings &nbsp;·&nbsp; 🔴 0 critical</div>
+    <div class="ct-status-bar">🟢 Network Status: 4 modules healthy &nbsp;·&nbsp; ⚠️ 3 modules with warnings &nbsp;·&nbsp; 🔴 0 critical</div>
   </div>
 
   <!-- PART 2: NETWORK HEALTH SCORECARD -->
@@ -2609,7 +2609,7 @@
       <div class="ct-alert-chart-wrap">
         <div class="ct-alert-chart-title">Alert Distribution</div>
         <div style="position:relative;height:220px"><canvas id="ctAlertChart"></canvas></div>
-        <div style="text-align:center;font-size:13px;color:#374151;font-weight:600;margin-top:6px">12 Total</div>
+        <div style="text-align:center;font-size:13px;color:#374151;font-weight:600;margin-top:6px">15 Total</div><!-- === CONTROL TOWER FINANCE INTEGRATION === -->
       </div>
     </div>
   </div>
@@ -2622,7 +2622,8 @@
     </div>
     <div class="chart-card" style="padding:16px">
       <div style="overflow-x:auto">
-        <svg id="ct-flow-svg" width="100%" height="200" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet" style="min-width:600px;display:block">
+        <!-- === CONTROL TOWER FINANCE INTEGRATION === height expanded to 290 to accommodate Finance overlay node -->
+        <svg id="ct-flow-svg" width="100%" height="290" viewBox="0 0 1000 290" preserveAspectRatio="xMidYMid meet" style="min-width:600px;display:block">
           <defs>
             <marker id="ct-arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
               <path d="M0,0 L0,6 L8,3 z" fill="#9ca3af"/>
@@ -2631,6 +2632,8 @@
           <g id="ct-flow-arrows"></g>
           <g id="ct-flow-nodes"></g>
           <g id="ct-flow-dots"></g>
+          <!-- === CONTROL TOWER FINANCE INTEGRATION === Finance monitoring overlay -->
+          <g id="ct-flow-finance"></g>
         </svg>
       </div>
       <div class="ct-flow-legend">
@@ -2644,7 +2647,8 @@
   <!-- PART 5: EXECUTIVE KPI SUMMARY -->
   <div class="section-block">
     <div class="section-hdr">
-      <p class="section-label"><span class="section-tag tag-blue">EXECUTIVE KPI SUMMARY — TOP 10 CRITICAL KPIs</span></p>
+      <!-- === CONTROL TOWER FINANCE INTEGRATION === updated to TOP 13 -->
+      <p class="section-label"><span class="section-tag tag-blue">EXECUTIVE KPI SUMMARY — TOP 13 CRITICAL KPIs</span></p>
       <span class="section-sub">Highest priority metrics across all modules | Sep-25</span>
     </div>
     <div class="table-scroll">
@@ -5730,7 +5734,9 @@ const CT_MODULES = [
   { name: 'Manufacturing',           icon: '⚙️', health: 88, status: 'warning',  border: '#e76500', alerts: 2, alertDesc: 'OEE below target + changeover time',            trend: '→ flat', trendDir: 'flat', tab: 'mfg'       },
   { name: 'Distribution & Warehouse',icon: '📦', health: 87, status: 'warning',  border: '#e76500', alerts: 3, alertDesc: 'Perfect Order Rate + Network Service Level',    trend: '▲ +1%', trendDir: 'up',   tab: 'kpi'       },
   { name: 'Transport',               icon: '🚛', health: 92, status: 'ontarget', border: '#107e3e', alerts: 1, alertDesc: 'Middle Mile outer islands delay',               trend: '▲ +2%', trendDir: 'up',   tab: 'transport' },
-  { name: 'Customer Service',        icon: '👤', health: 95, status: 'ontarget', border: '#107e3e', alerts: 0, alertDesc: '',                                              trend: '▲ +1%', trendDir: 'up',   tab: null        }
+  { name: 'Customer Service',        icon: '👤', health: 95, status: 'ontarget', border: '#107e3e', alerts: 0, alertDesc: '',                                              trend: '▲ +1%', trendDir: 'up',   tab: null        },
+  // === CONTROL TOWER FINANCE INTEGRATION ===
+  { name: 'Finance',                 icon: '💰', health: 86, status: 'warning',  border: '#e76500', alerts: 2, alertDesc: 'RM inflation risk + FX volatility',                trend: '▲ +2%', trendDir: 'up',   tab: 'finance'   }
 ];
 
 function renderCTModuleCards() {
@@ -5754,18 +5760,24 @@ function renderCTModuleCards() {
 
 /* ── CT ALERT FEED DATA ── */
 const CT_ALERTS = [
-  { sev: 'critical', module: 'SUPPLIERS',     text: 'PT Indopack contract EXPIRED — immediate renewal required',       time: '2 hrs ago' },
-  { sev: 'critical', module: 'SUPPLIERS',     text: 'PT Maspion contract expiring in 31 days — initiate negotiation',  time: '1 day ago' },
-  { sev: 'warning',  module: 'DISTRIBUTION',  text: 'Perfect Order Rate 90.3% — below 95% target',                    time: 'Sep-25'    },
-  { sev: 'warning',  module: 'DISTRIBUTION',  text: 'Network Service Level 94.2% — below 97% target',                  time: 'Sep-25'    },
-  { sev: 'warning',  module: 'MANUFACTURING', text: 'OEE 82% — below 85% target',                                      time: 'Week 3'    },
-  { sev: 'warning',  module: 'MANUFACTURING', text: 'Changeover Time 3.2hrs — above 2.5hr target',                     time: 'Week 3'    },
-  { sev: 'warning',  module: 'PROCUREMENT',   text: 'RM/PM Coverage 19 days — below 21-day optimal',                   time: 'Week 3'    },
-  { sev: 'warning',  module: 'TRANSPORT',     text: 'Outer Islands transit 89hrs — above 72hr target',                 time: 'Week 3'    },
-  { sev: 'warning',  module: 'SUPPLIERS',     text: 'QC Hold: 2 batches from PT Cahaya — dimensional defect',          time: 'Today'     },
-  { sev: 'warning',  module: 'SUPPLIERS',     text: 'Packaging OTD 88% — below 95% target',                            time: 'Week 1'    },
-  { sev: 'info',     module: 'TRANSPORT',     text: '3PL Alert: Sumatra route flooding delay',                         time: 'Today'     },
-  { sev: 'info',     module: 'PROCUREMENT',   text: 'Emergency Purchase Rate 6.2% — elevated',                         time: 'Week 3'    }
+  { sev: 'critical', module: 'SUPPLIERS',     text: 'PT Indopack contract EXPIRED — immediate renewal required',                          time: '2 hrs ago' },
+  { sev: 'critical', module: 'SUPPLIERS',     text: 'PT Maspion contract expiring in 31 days — initiate negotiation',                     time: '1 day ago' },
+  // === CONTROL TOWER FINANCE INTEGRATION ===
+  { sev: 'critical', module: 'FINANCE',       text: '[FINANCE] RM Price Inflation risk escalated — IDR 3.2B annual exposure',             time: '1 day ago' },
+  { sev: 'warning',  module: 'DISTRIBUTION',  text: 'Perfect Order Rate 90.3% — below 95% target',                                       time: 'Sep-25'    },
+  { sev: 'warning',  module: 'DISTRIBUTION',  text: 'Network Service Level 94.2% — below 97% target',                                    time: 'Sep-25'    },
+  { sev: 'warning',  module: 'MANUFACTURING', text: 'OEE 82% — below 85% target',                                                        time: 'Week 3'    },
+  // === CONTROL TOWER FINANCE INTEGRATION ===
+  { sev: 'warning',  module: 'FINANCE',       text: '[FINANCE] USD/IDR rate +0.8% today — import cost impact on COGS',                   time: 'Today'     },
+  { sev: 'warning',  module: 'MANUFACTURING', text: 'Changeover Time 3.2hrs — above 2.5hr target',                                       time: 'Week 3'    },
+  { sev: 'warning',  module: 'PROCUREMENT',   text: 'RM/PM Coverage 19 days — below 21-day optimal',                                     time: 'Week 3'    },
+  // === CONTROL TOWER FINANCE INTEGRATION ===
+  { sev: 'warning',  module: 'FINANCE',       text: '[FINANCE] AR overdue >60 days: IDR 1.4B — PT Papua + 2 distributors',              time: 'Sep-25'    },
+  { sev: 'warning',  module: 'TRANSPORT',     text: 'Outer Islands transit 89hrs — above 72hr target',                                   time: 'Week 3'    },
+  { sev: 'warning',  module: 'SUPPLIERS',     text: 'QC Hold: 2 batches from PT Cahaya — dimensional defect',                            time: 'Today'     },
+  { sev: 'warning',  module: 'SUPPLIERS',     text: 'Packaging OTD 88% — below 95% target',                                             time: 'Week 1'    },
+  { sev: 'info',     module: 'TRANSPORT',     text: '3PL Alert: Sumatra route flooding delay',                                           time: 'Today'     },
+  { sev: 'info',     module: 'PROCUREMENT',   text: 'Emergency Purchase Rate 6.2% — elevated',                                          time: 'Week 3'    }
 ];
 
 function renderCTAlertFeed() {
@@ -5781,7 +5793,8 @@ function renderCTAlertFeed() {
     'DISTRIBUTION':  '#0070f2',
     'MANUFACTURING': '#e76500',
     'PROCUREMENT':   '#107e3e',
-    'TRANSPORT':     '#0891b2'
+    'TRANSPORT':     '#0891b2',
+    'FINANCE':       '#9333ea'  // === CONTROL TOWER FINANCE INTEGRATION ===
   };
   list.innerHTML = CT_ALERTS.map(function(a) {
     const sc = sevCfg[a.sev];
@@ -5805,7 +5818,7 @@ function buildCTAlertChart() {
     data: {
       labels: ['Critical', 'Warning', 'Info'],
       datasets: [{
-        data: [2, 8, 2],
+        data: [3, 10, 2],  // === CONTROL TOWER FINANCE INTEGRATION === Critical 3, Warning 10, Info 2 (total 15)
         backgroundColor: ['#bb0000', '#e76500', '#0070f2'],
         borderWidth: 2,
         borderColor: '#fff'
@@ -5874,6 +5887,27 @@ function renderCTFlowDiagram() {
   arrowsG.innerHTML = arrowsHTML;
   dotsG.innerHTML   = dotsHTML;
   nodesG.innerHTML  = nodesHTML;
+
+  // === CONTROL TOWER FINANCE INTEGRATION ===
+  // Finance overlay node: positioned below main flow, monitoring all nodes
+  var financeG = document.getElementById('ct-flow-finance');
+  if (financeG) {
+    var fCx = 500, fCy = 230, fW = 130, fH = 60;
+    var finHTML = '';
+    // Dashed monitoring lines from Finance node to each main flow node
+    CT_NODES.forEach(function(n) {
+      finHTML += '<line x1="' + fCx + '" y1="' + (fCy - fH / 2) + '" x2="' + n.cx + '" y2="' + (cy + nH / 2) + '" stroke="#e76500" stroke-dasharray="3,3" stroke-width="1" opacity="0.3"/>';
+    });
+    // Finance node: rounded rect with dashed border
+    finHTML += '<rect x="' + (fCx - fW / 2) + '" y="' + (fCy - fH / 2) + '" width="' + fW + '" height="' + fH + '" rx="8" ry="8" fill="#fff" stroke="#e76500" stroke-width="2" stroke-dasharray="5,3"/>';
+    finHTML += '<text x="' + fCx + '" y="' + (fCy - fH / 2 + 18) + '" text-anchor="middle" font-size="16">💰</text>';
+    finHTML += '<text x="' + fCx + '" y="' + (fCy - fH / 2 + 33) + '" text-anchor="middle" font-size="10" font-weight="700" fill="#374151">Finance</text>';
+    finHTML += '<text x="' + fCx + '" y="' + (fCy - fH / 2 + 45) + '" text-anchor="middle" font-size="9" fill="#e76500" font-weight="700">86% — WARNING</text>';
+    finHTML += '<text x="' + fCx + '" y="' + (fCy - fH / 2 + 57) + '" text-anchor="middle" font-size="8" fill="#9ca3af">Monitoring all nodes</text>';
+    // Label near Finance node
+    finHTML += '<text x="' + fCx + '" y="' + (fCy + fH / 2 + 16) + '" text-anchor="middle" font-size="10" fill="#6b7280" font-style="italic">💰 Finance monitors all SC nodes</text>';
+    financeG.innerHTML = finHTML;
+  }
 }
 
 /* ── CT KPI TABLE ── */
@@ -5890,7 +5924,11 @@ function renderCTKpiTable() {
     { kpi: 'Procurement Cost Savings',         module: 'Procurement',  current: '5.6%',  target: '≥5%',   gap: '+0.6%', gapDir: 'pos', status: 'ontarget' },
     { kpi: 'Perfect Delivery Rate',            module: 'Transport',    current: '96%',   target: '≥95%',  gap: '+1%',   gapDir: 'pos', status: 'ontarget' },
     { kpi: 'Inventory Turnover',               module: 'Distribution', current: '8.1x',  target: '≥8x',   gap: '+0.1x', gapDir: 'pos', status: 'ontarget' },
-    { kpi: 'Supplier Risk Index',              module: 'Suppliers',    current: '10%',   target: '≤10%',  gap: '0%',    gapDir: '',    status: 'ontarget' }
+    { kpi: 'Supplier Risk Index',              module: 'Suppliers',    current: '10%',   target: '≤10%',  gap: '0%',    gapDir: '',    status: 'ontarget' },
+    // === CONTROL TOWER FINANCE INTEGRATION ===
+    { kpi: 'Gross Margin %',                   module: 'Finance',      current: '42.8%', target: '≥42%',  gap: '+0.8%', gapDir: 'pos', status: 'ontarget' },
+    { kpi: 'EBITDA Margin %',                  module: 'Finance',      current: '18.2%', target: '≥18%',  gap: '+0.2%', gapDir: 'pos', status: 'ontarget' },
+    { kpi: 'Cash Conversion Cycle',            module: 'Finance',      current: '38 days',target: '≤35 days',gap: '+3 days',gapDir: 'neg', status: 'warning'  }
   ];
   tbody.innerHTML = rows.map(function(r) {
     const pill = r.status === 'warning'
@@ -5929,8 +5967,17 @@ function renderCTBottlenecks() {
       cascade: ['Procurement: emergency sourcing may be required','Manufacturing: RM/PM availability risk in 30 days'],
       action: 'Initiate contract negotiation this week — PT Indopack (expired) and PT Maspion (31 days)'
     },
+    // === CONTROL TOWER FINANCE INTEGRATION ===
     {
       rank: 3, severity: 'MEDIUM IMPACT', border: '#e76500',
+      node: 'Finance',
+      issue: '2 HIGH financial risks active — RM inflation + FX volatility',
+      root:  'Global commodity prices rising + IDR weakening vs USD',
+      cascade: ['Procurement: RM cost overrun expected Q4','EBITDA: margin pressure if unhedged'],
+      action: 'Activate FX hedging strategy — CFO approval required this week'
+    },
+    {
+      rank: 4, severity: 'MEDIUM IMPACT', border: '#e76500',
       node: 'Manufacturing',
       issue: 'OEE 82% — 3% below 85% target',
       root:  'Changeover time elevated + planned downtime overrun',
@@ -5938,7 +5985,7 @@ function renderCTBottlenecks() {
       action: 'Review SMED process — target changeover reduction of 20%'
     },
     {
-      rank: 4, severity: 'LOW IMPACT', border: '#0070f2',
+      rank: 5, severity: 'LOW IMPACT', border: '#0070f2',
       node: 'Transport — Middle Mile',
       issue: 'Outer Islands transit 89hrs vs 72hr target',
       root:  'Flooding on Sumatra route — 3PL alert active',
@@ -5946,7 +5993,7 @@ function renderCTBottlenecks() {
       action: 'Activate alternative routing — coordinate with 3PL backup carrier'
     },
     {
-      rank: 5, severity: 'MONITORED', border: '#107e3e',
+      rank: 6, severity: 'MONITORED', border: '#107e3e',
       node: 'Procurement',
       issue: 'RM/PM Coverage W3: 19 days — slightly below optimal',
       root:  'Higher than planned consumption — Manufacturing OEE impact',
@@ -6009,6 +6056,19 @@ function renderCTScenarios() {
         { label: 'Transport B2C Same-Day',val: 'Rate drops to 61%' }
       ],
       mitigation: 'Activate flex workforce (+40 pickers) — pre-book additional last mile B2C capacity'
+    },
+    // === CONTROL TOWER FINANCE INTEGRATION ===
+    {
+      id: 'ctSc4', title: '💸 FX + Commodity Shock', btnColor: '#9333ea',
+      trigger: 'IDR depreciates 10% + palm oil price increases 20% simultaneously',
+      impact: [
+        { label: 'COGS Impact',     val: '+IDR 4.8B annually' },
+        { label: 'Gross Margin',    val: 'Drops from 42.8% to 38.2%' },
+        { label: 'EBITDA Impact',   val: '-IDR 2.4B (from 18.2% to 13.2%)' },
+        { label: 'Working Capital', val: 'Tightens by IDR 3.2B' },
+        { label: 'Cash Runway',     val: 'Reduces from 4.8 to 3.1 months' }
+      ],
+      mitigation: 'Hedge 80% FX exposure + activate commodity forward contracts — IDR 1.2B hedging cost vs IDR 4.8B exposure'
     }
   ];
   container.innerHTML = scenarios.map(function(s) {
@@ -6044,6 +6104,8 @@ function buildCTHealthChart() {
     { label: 'Distribution',     data: [80,81,82,83,84,85,86,87,87], borderColor: '#0070f2', backgroundColor: 'transparent', borderWidth: 2, tension: 0.3, pointRadius: 3 },
     { label: 'Transport',        data: [83,84,85,86,88,89,90,91,92], borderColor: '#0891b2', backgroundColor: 'transparent', borderWidth: 2, tension: 0.3, pointRadius: 3 },
     { label: 'Customer Service', data: [90,91,92,92,93,94,94,95,95], borderColor: '#6b7280', backgroundColor: 'transparent', borderWidth: 2, tension: 0.3, pointRadius: 3 },
+    // === CONTROL TOWER FINANCE INTEGRATION ===
+    { label: 'Finance',          data: [78,79,80,81,82,83,84,85,86], borderColor: '#9333ea', backgroundColor: 'transparent', borderWidth: 2, tension: 0.3, pointRadius: 3 },
     { label: '90% Target',       data: [90,90,90,90,90,90,90,90,90], borderColor: '#6b7280', borderDash: [5,5], borderWidth: 1.5, backgroundColor: 'transparent', pointRadius: 0, tension: 0 }
   ];
   var ch = new Chart(el.getContext('2d'), {
@@ -6078,11 +6140,12 @@ function buildCTRadarChart() {
   var ch = new Chart(el.getContext('2d'), {
     type: 'radar',
     data: {
-      labels: ['Suppliers','Procurement','Manufacturing','Distribution','Transport','Customer Service'],
+      // === CONTROL TOWER FINANCE INTEGRATION === Finance added as 7th axis
+      labels: ['Suppliers','Procurement','Manufacturing','Distribution','Transport','Customer Service','Finance'],
       datasets: [
         {
           label: 'Actual Sep-25',
-          data: [84, 91, 88, 87, 92, 95],
+          data: [84, 91, 88, 87, 92, 95, 86],
           backgroundColor: 'rgba(0,112,242,0.2)',
           borderColor: '#0070f2',
           borderWidth: 2,
@@ -6091,7 +6154,7 @@ function buildCTRadarChart() {
         },
         {
           label: 'Target (90%)',
-          data: [90, 90, 90, 90, 90, 90],
+          data: [90, 90, 90, 90, 90, 90, 90],
           backgroundColor: 'transparent',
           borderColor: '#e76500',
           borderWidth: 1.5,
