@@ -40,7 +40,10 @@
     .sidebar-section-label {
       font-size: 10px; color: #64748b; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.1em;
-      padding: 16px 18px 6px;
+      padding: 16px 20px 6px;
+    }
+    .sidebar-section-divider {
+      height: 1px; background: rgba(255,255,255,0.06); margin: 8px 0;
     }
     .nav-item {
       display: flex; align-items: center; gap: 10px;
@@ -849,7 +852,7 @@
     <span class="ct-hero-line2">Control Tower</span>
     <span class="ct-hero-line3"><span class="ct-hero-green">●</span> 4 healthy &nbsp;<span class="ct-hero-amber">⚠</span> 2 warnings</span>
   </button>
-  <div class="sidebar-section-label">Supply Chain &amp; Finance</div>
+  <div class="sidebar-section-label">Supply Chain</div>
   <button class="nav-item active" id="nav-kpi" onclick="switchTab('kpi')">
     <span class="nav-item-icon">📦</span>
     <span class="nav-item-label">Distribution &amp; Warehouse</span>
@@ -870,11 +873,17 @@
     <span class="nav-item-icon">🏭</span>
     <span class="nav-item-label">Suppliers Portal</span>
   </button>
+  <button class="nav-item" id="nav-wh" onclick="switchTab('wh')">
+    <span class="nav-item-icon">📋</span>
+    <span class="nav-item-label">Warehouse Log</span>
+  </button>
+  <div class="sidebar-section-divider"></div>
+  <div class="sidebar-section-label">Finance</div>
   <button class="nav-item" id="nav-finance" onclick="switchTab('finance')">
     <span class="nav-item-icon">💰</span>
     <span class="nav-item-label">Finance</span>
   </button>
-  <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 8px 0;"></div>
+  <div class="sidebar-section-divider"></div>
   <div class="sidebar-section-label">Commercial &amp; Innovation</div>
   <button class="nav-item" id="nav-rd" onclick="switchTab('rd')">
     <span class="nav-item-icon">🔬</span>
@@ -887,10 +896,6 @@
   <button class="nav-item" id="nav-marketing" onclick="switchTab('marketing')">
     <span class="nav-item-icon">📣</span>
     <span class="nav-item-label">Marketing</span>
-  </button>
-  <button class="nav-item" id="nav-wh" onclick="switchTab('wh')">
-    <span class="nav-item-icon">📋</span>
-    <span class="nav-item-label">Warehouse Log</span>
   </button>
   <div class="sidebar-footer">E2E Control Tower v2.0 — Odyssey Program</div>
 </aside>
