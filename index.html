@@ -3274,6 +3274,9 @@ function selectWeek(idx) {
   if (document.getElementById('panel-finance') && document.getElementById('panel-finance').classList.contains('active')) {
     renderFNTactical();
   }
+  if (document.getElementById('panel-wh') && document.getElementById('panel-wh').classList.contains('active')) {
+    renderWarehouseLog();
+  }
 }
 
 /* ══ RENDER: D&W STRATEGIC CARDS ══ */
@@ -3599,6 +3602,30 @@ function renderWarehouseLog() {
 }
 
 /* ══ TAB SWITCHING ══ */
+function whInitChartsIfNeeded() {
+  if(whChartsBuilt) return;
+  whChartsBuilt=true;
+  buildWHSparklines();
+  buildWHGapChart();
+  buildWHThroughputChart();
+}
+
+function mfgInitChartsIfNeeded() {
+  if(mfgChartsBuilt) return;
+  mfgChartsBuilt=true;
+  buildMfgOeeChart();
+  buildMfgProdChart();
+  buildMfgDowntimeChart();
+}
+
+function procInitChartsIfNeeded() {
+  if(procChartsBuilt) return;
+  procChartsBuilt=true;
+  buildProcTrendChart();
+  buildProcRadarChart();
+  buildProcActivityChart();
+}
+
 function switchTab(tab) {
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
@@ -3611,6 +3638,9 @@ function switchTab(tab) {
   if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
   const weekWrap=document.getElementById('week-seg-wrap');
   if(weekWrap) weekWrap.style.display=(tab==='kpi'||tab==='proc'||tab==='suppliers'||tab==='rd'||tab==='commercial'||tab==='marketing'||tab==='finance')?'flex':'none';
+  if(tab==='wh'){ whInitChartsIfNeeded(); }
+  if(tab==='mfg'){ mfgInitChartsIfNeeded(); }
+  if(tab==='proc'){ procInitChartsIfNeeded(); }
   if(tab==='suppliers'){ spInitChartsIfNeeded(); }
   if(tab==='ct'){
     if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Master View';
@@ -3869,6 +3899,7 @@ let chartDWTrend=null, chartDWGaugeWu=null, chartDWGaugeOct=null, chartDWGaugeDc
 let chartWHPor=null, chartWHIt=null, chartWHGap=null, chartWHThroughput=null;
 let chartMfgOee=null, chartMfgProd=null, chartMfgDowntime=null;
 let chartProcTrend=null, chartProcRadar=null, chartProcActivity=null;
+let whChartsBuilt=false, mfgChartsBuilt=false, procChartsBuilt=false;
 
 function buildDWTrendChart(){
   const el=document.getElementById('chart-dw-trend');
@@ -6123,18 +6154,9 @@ renderProcNodeConnection();
 const weekWrapInit=document.getElementById('week-seg-wrap');
 if(weekWrapInit) weekWrapInit.style.display='flex';
 
-// Charts
+// Charts — only build for initially-active D&W tab; others use lazy init on tab open
 buildDWTrendChart();
 buildDWGauges();
-buildWHSparklines();
-buildWHGapChart();
-buildWHThroughputChart();
-buildMfgOeeChart();
-buildMfgProdChart();
-buildMfgDowntimeChart();
-buildProcTrendChart();
-buildProcRadarChart();
-buildProcActivityChart();
 
 // Transport module init
 initTransportMapTooltips();
