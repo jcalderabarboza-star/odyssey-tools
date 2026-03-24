@@ -13448,5 +13448,197 @@ function exportBoardPack() {
 
 })();
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════
+     ODYSSEY SIGNAL BADGES
+     Sidebar nav badge overlays wired to OdysseySignalEngine.
+     Additive only — no existing markup or scripts modified.
+════════════════════════════════════════════════════════════ -->
+<style id="odyssey-signal-badges-css">
+  /* Make nav items a positioning context for the badge dot */
+  .nav-item { position: relative; }
+
+  /* Base badge — hidden red dot, top-right of nav item */
+  .nav-signal-badge {
+    display: none;
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ef4444;
+    border: 1.5px solid #1d2d3e;
+    z-index: 10;
+    pointer-events: none;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+  }
+
+  /* Visible state */
+  .nav-signal-badge.badge-visible {
+    display: flex;
+  }
+
+  /* Expand to pill when showing a count > 1 */
+  .nav-signal-badge.badge-has-count {
+    width: auto;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    padding: 0 4px;
+    font-size: 9px;
+    top: 5px;
+    right: 5px;
+  }
+
+  /* Severity colours */
+  .nav-signal-badge.badge-critical { background: #ef4444; }
+  .nav-signal-badge.badge-warning  { background: #f59e0b; }
+</style>
+
+<script>
+/* ── Odyssey Signal Badge System ─────────────────────────────
+   Wires OdysseySignalEngine signals to sidebar nav badge dots.
+   Each module subscribes to the engine; showSidebarBadge()
+   filters signals and updates the overlay element.
+────────────────────────────────────────────────────────────── */
+(function() {
+  'use strict';
+
+  /**
+   * Module config: maps a logical moduleId to the sidebar button ID
+   * and which signal names it cares about.
+   * signals: array of signal names to accept, or null to accept ALL CRITICAL.
+   */
+  var MODULE_CONFIG = {
+    'dist-warehouse':    { navId: 'nav-kpi',  signals: ['VIRAL_SPIKE', 'STOCK_RISK'] },
+    'procurement':       { navId: 'nav-proc', signals: ['VIRAL_SPIKE'] },
+    'manufacturing':     { navId: 'nav-mfg',  signals: ['STOCK_RISK'] },
+    'executive-summary': { navId: 'nav-exec', signals: null }   // null = all CRITICAL
+  };
+
+  /** Per-module unseen signal counts */
+  var pendingCounts = {};
+  /** Per-module highest severity seen ('CRITICAL' beats 'WARNING') */
+  var pendingSeverity = {};
+
+  /** Called by each module's subscription callback */
+  function showSidebarBadge(moduleId, signal) {
+    var cfg = MODULE_CONFIG[moduleId];
+    if (!cfg) return;
+
+    // Filter: is this signal relevant for the module?
+    if (cfg.signals !== null) {
+      if (cfg.signals.indexOf(signal.name) === -1) return;
+    } else {
+      // null = accept all CRITICAL signals only
+      if (signal.severity !== 'CRITICAL') return;
+    }
+
+    pendingCounts[moduleId] = (pendingCounts[moduleId] || 0) + 1;
+
+    // Escalate severity only — never downgrade
+    if (!pendingSeverity[moduleId] || signal.severity === 'CRITICAL') {
+      pendingSeverity[moduleId] = signal.severity;
+    }
+
+    renderBadge(moduleId);
+  }
+
+  /** Re-render the badge element for a module */
+  function renderBadge(moduleId) {
+    var cfg = MODULE_CONFIG[moduleId];
+    if (!cfg) return;
+    var btn = document.getElementById(cfg.navId);
+    if (!btn) return;
+    var badge = btn.querySelector('.nav-signal-badge');
+    if (!badge) return;
+
+    var count    = pendingCounts[moduleId] || 0;
+    var severity = pendingSeverity[moduleId] || 'CRITICAL';
+
+    // Reset classes
+    badge.className = 'nav-signal-badge';
+    badge.textContent = '';
+
+    if (count === 0) return;   // nothing to show
+
+    badge.classList.add('badge-visible');
+    badge.classList.add(severity === 'WARNING' ? 'badge-warning' : 'badge-critical');
+
+    if (count > 1) {
+      badge.classList.add('badge-has-count');
+      badge.textContent = String(count);
+    }
+  }
+
+  /** Clear the badge when the user visits/clicks the module */
+  function clearBadge(moduleId) {
+    pendingCounts[moduleId]   = 0;
+    pendingSeverity[moduleId] = null;
+    var cfg = MODULE_CONFIG[moduleId];
+    if (!cfg) return;
+    var btn = document.getElementById(cfg.navId);
+    if (!btn) return;
+    var badge = btn.querySelector('.nav-signal-badge');
+    if (badge) {
+      badge.className  = 'nav-signal-badge';
+      badge.textContent = '';
+    }
+  }
+
+  /** Append a badge <span> to each tracked nav button */
+  function injectBadgeElements() {
+    Object.keys(MODULE_CONFIG).forEach(function(moduleId) {
+      var cfg = MODULE_CONFIG[moduleId];
+      var btn = document.getElementById(cfg.navId);
+      if (!btn) return;
+      if (btn.querySelector('.nav-signal-badge')) return; // idempotent
+
+      var badge = document.createElement('span');
+      badge.className = 'nav-signal-badge';
+      badge.setAttribute('aria-label', 'Unread signal alerts');
+      badge.setAttribute('aria-live',  'polite');
+      btn.appendChild(badge);
+
+      // "Seen" — clear badge on click
+      btn.addEventListener('click', function() { clearBadge(moduleId); });
+    });
+  }
+
+  /** Wire up the four module subscriptions */
+  function subscribeModules() {
+    OdysseySignalEngine.subscribe('dist-warehouse', function(signal) {
+      showSidebarBadge('dist-warehouse', signal);
+    });
+    OdysseySignalEngine.subscribe('procurement', function(signal) {
+      showSidebarBadge('procurement', signal);
+    });
+    OdysseySignalEngine.subscribe('manufacturing', function(signal) {
+      showSidebarBadge('manufacturing', signal);
+    });
+    OdysseySignalEngine.subscribe('executive-summary', function(signal) {
+      showSidebarBadge('executive-summary', signal);
+    });
+  }
+
+  function init() {
+    injectBadgeElements();
+    subscribeModules();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
+</script>
 </body>
 </html>
