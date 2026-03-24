@@ -4805,6 +4805,257 @@
     </div>
   </div>
 
+
+  <!-- SECTION 4: QC CLASSIFICATION REPORT -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-teal">QC Classification Report</span></p>
+      <span class="section-sub">Mar 2026 &middot; 340 returned units inspected &middot; All channels</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table" style="min-width:700px">
+        <thead>
+          <tr>
+            <th style="text-align:left">Classification</th>
+            <th style="text-align:center">Count</th>
+            <th style="text-align:center">% of Returns</th>
+            <th style="text-align:left">Action Required</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-name">Resalable (Restock)</td>
+            <td style="text-align:center;font-weight:700">178</td>
+            <td style="text-align:center"><span class="td-val green">52.4%</span></td>
+            <td>Return to available inventory; update bin location in WMS</td>
+          </tr>
+          <tr>
+            <td class="td-name">Needs Rework</td>
+            <td style="text-align:center;font-weight:700">64</td>
+            <td style="text-align:center"><span class="td-val yellow">18.8%</span></td>
+            <td>Route to rework station; re-label or repackage before restock</td>
+          </tr>
+          <tr>
+            <td class="td-name">Disposal Required</td>
+            <td style="text-align:center;font-weight:700">41</td>
+            <td style="text-align:center"><span class="td-val red">12.1%</span></td>
+            <td>Coordinate with waste disposal vendor; log destruction certificate</td>
+          </tr>
+          <tr>
+            <td class="td-name">Donated</td>
+            <td style="text-align:center;font-weight:700">22</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#f0faf4;color:#107e3e;border:1px solid #a3d9b1;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">6.5%</span>
+            </td>
+            <td>Transfer to CSR donation partner; issue donation receipt</td>
+          </tr>
+          <tr style="background:#fefce8">
+            <td class="td-name" style="font-weight:700;color:#92400e">Pending QC &#9201;</td>
+            <td style="text-align:center;font-weight:700;color:#92400e">35</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fef3c7;color:#92400e;border:1px solid #fde68a;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">10.3%</span>
+            </td>
+            <td style="color:#92400e;font-weight:600">Awaiting QC inspection — escalate if &gt;24h unresolved</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:#9ca3af;margin-top:10px">
+      * Amber row = items awaiting QC decision. Target: zero Pending QC items older than 24h. Rework items must be cleared within 48h of receipt.
+    </div>
+  </div>
+
+  <!-- SECTION 5: REFUND SLA COMPLIANCE -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">Refund SLA Compliance</span></p>
+      <span class="section-sub">Mar 2026 &middot; All refund types &middot; SLA target: &le; 3 business days</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table" style="min-width:820px">
+        <thead>
+          <tr>
+            <th style="text-align:left">Channel</th>
+            <th style="text-align:center">Total Refunds Due</th>
+            <th style="text-align:center">Within SLA</th>
+            <th style="text-align:center">SLA Breach</th>
+            <th style="text-align:center">Breach Rate (%)</th>
+            <th style="text-align:center">Avg Refund Time (days)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-name">B2C E-commerce</td>
+            <td style="text-align:center;font-weight:700">143</td>
+            <td style="text-align:center;color:#107e3e;font-weight:700">131</td>
+            <td style="text-align:center;color:#bb0000;font-weight:700">12</td>
+            <td style="text-align:center"><span class="td-val green">8.4%</span></td>
+            <td style="text-align:center;font-weight:600">2.1</td>
+          </tr>
+          <tr>
+            <td class="td-name">B2C Marketplace (Shopee / Tokopedia)</td>
+            <td style="text-align:center;font-weight:700">96</td>
+            <td style="text-align:center;color:#107e3e;font-weight:700">79</td>
+            <td style="text-align:center;color:#bb0000;font-weight:700">17</td>
+            <td style="text-align:center"><span class="td-val yellow">17.7%</span></td>
+            <td style="text-align:center;font-weight:600">3.4</td>
+          </tr>
+          <tr>
+            <td class="td-name">B2B Standard</td>
+            <td style="text-align:center;font-weight:700">62</td>
+            <td style="text-align:center;color:#107e3e;font-weight:700">55</td>
+            <td style="text-align:center;color:#bb0000;font-weight:700">7</td>
+            <td style="text-align:center"><span class="td-val green">11.3%</span></td>
+            <td style="text-align:center;font-weight:600">2.7</td>
+          </tr>
+          <tr>
+            <td class="td-name">B2B Key Account</td>
+            <td style="text-align:center;font-weight:700">39</td>
+            <td style="text-align:center;color:#107e3e;font-weight:700">31</td>
+            <td style="text-align:center;color:#bb0000;font-weight:700">8</td>
+            <td style="text-align:center"><span class="td-val red">20.5%</span></td>
+            <td style="text-align:center;font-weight:600">3.9</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:#9ca3af;margin-top:10px">
+      * SLA = 3 business days from return receipt confirmation to refund credited. Breach Rate &gt;15% triggers escalation to Finance &amp; Customer Experience leads. B2B Key Account breaches require direct account manager notification within 4h.
+    </div>
+  </div>
+
+  <!-- SECTION 6: HIGH-RETURN SKU HEATMAP -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">High-Return SKU Heatmap</span></p>
+      <span class="section-sub">Mar 2026 &middot; Top 8 SKUs by return rate &middot; All channels &middot; Paragon Corp portfolio</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table" style="min-width:960px">
+        <thead>
+          <tr>
+            <th style="text-align:left">SKU Name</th>
+            <th style="text-align:left">Category</th>
+            <th style="text-align:center">Return Rate (%)</th>
+            <th style="text-align:center">Return Count</th>
+            <th style="text-align:left">Top Reason</th>
+            <th style="text-align:center">Return Trend</th>
+            <th style="text-align:center">Action Flag</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-name">Brightskin Liquid Foundation SPF30</td>
+            <td>Face — Foundation</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">9.8%</span>
+            </td>
+            <td style="text-align:center;font-weight:700">48</td>
+            <td>Shade mismatch / wrong undertone</td>
+            <td style="text-align:center"><span style="color:#bb0000;font-weight:700">&#9650; +11</span></td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">Escalate</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-name">VelvetMatte Lipstick — Berry Rush</td>
+            <td>Lips — Lipstick</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">7.2%</span>
+            </td>
+            <td style="text-align:center;font-weight:700">36</td>
+            <td>Colour different from online image</td>
+            <td style="text-align:center"><span style="color:#bb0000;font-weight:700">&#9650; +7</span></td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">Investigate</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-name">AquaGlow Hydrating Serum 30ml</td>
+            <td>Skincare — Serum</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">6.9%</span>
+            </td>
+            <td style="text-align:center;font-weight:700">34</td>
+            <td>Skin irritation / allergic reaction</td>
+            <td style="text-align:center"><span style="color:#bb0000;font-weight:700">&#9650; +9</span></td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">Escalate</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-name">ShieldUp Sunscreen SPF50 PA++++</td>
+            <td>Skincare — Sunscreen</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fefce8;color:#92400e;border:1px solid #fde68a;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">5.4%</span>
+            </td>
+            <td style="text-align:center;font-weight:700">27</td>
+            <td>White cast / greasy texture</td>
+            <td style="text-align:center"><span style="color:#6b7280;font-weight:700">&#9644; 0</span></td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">Investigate</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-name">ClearBalance Toner Essence 150ml</td>
+            <td>Skincare — Toner</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fefce8;color:#92400e;border:1px solid #fde68a;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">4.7%</span>
+            </td>
+            <td style="text-align:center;font-weight:700">23</td>
+            <td>Leaking bottle / damaged in transit</td>
+            <td style="text-align:center"><span style="color:#107e3e;font-weight:700">&#9660; &minus;3</span></td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#eff6ff;color:#0070f2;border:1px solid #bfdbfe;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">Monitor</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-name">PetalBlush Pressed Powder — Rose 02</td>
+            <td>Face — Blush</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fefce8;color:#92400e;border:1px solid #fde68a;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">4.2%</span>
+            </td>
+            <td style="text-align:center;font-weight:700">21</td>
+            <td>Compact cracked / poor packaging</td>
+            <td style="text-align:center"><span style="color:#bb0000;font-weight:700">&#9650; +4</span></td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">Investigate</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-name">LashMaxx Volumizing Mascara Black</td>
+            <td>Eyes — Mascara</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#f0faf4;color:#107e3e;border:1px solid #a3d9b1;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">3.1%</span>
+            </td>
+            <td style="text-align:center;font-weight:700">15</td>
+            <td>Dried-out formula / defective wand</td>
+            <td style="text-align:center"><span style="color:#107e3e;font-weight:700">&#9660; &minus;2</span></td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#eff6ff;color:#0070f2;border:1px solid #bfdbfe;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">Monitor</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-name">DailyDew Rich Moisturizer 50ml</td>
+            <td>Skincare — Moisturizer</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#f0faf4;color:#107e3e;border:1px solid #a3d9b1;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">2.6%</span>
+            </td>
+            <td style="text-align:center;font-weight:700">13</td>
+            <td>Customer changed mind</td>
+            <td style="text-align:center"><span style="color:#107e3e;font-weight:700">&#9660; &minus;5</span></td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#eff6ff;color:#0070f2;border:1px solid #bfdbfe;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">Monitor</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:#9ca3af;margin-top:10px">
+      * Return Rate = (returns / units shipped) for Mar 2026. Trend = change vs. prior 7-day rolling window. <strong style="color:#bb0000">Escalate</strong> = immediate product/quality review required. <strong style="color:#e76500">Investigate</strong> = root-cause analysis within 48h. <strong style="color:#0070f2">Monitor</strong> = track weekly; no immediate action.
+    </div>
+  </div>
+
 </div>
 <!-- === END RETURNS & REVERSE LOGISTICS MODULE === -->
 
