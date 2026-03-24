@@ -13640,5 +13640,179 @@ function exportBoardPack() {
 
 })();
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════
+     ODYSSEY SIGNAL ALERT CARDS
+     Wires OdysseySignalEngine to inject alert cards into the
+     Distribution & Warehouse and Procurement & Purchase modules.
+     Additive only — no existing markup or scripts modified.
+════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Per-module dedup registry ─────────────────────────────── */
+  var injected = { dw: {}, proc: {} };
+
+  /* ── Minimal HTML-escape helper ────────────────────────────── */
+  function esc(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  /**
+   * Build and return an alert-card wrapper element.
+   *
+   * Reuses .ds-flag / .ds-flag-msg / .ds-flag-sub — the same visual
+   * language already used throughout the platform for flagged items.
+   *
+   * @param {string} id          Unique DOM id for the outer wrapper
+   * @param {string} borderColor Left-border and badge background colour
+   * @param {string} bgColor     Card background colour
+   * @param {string} badgeText   Text inside the severity pill
+   * @param {string} title       Bold headline
+   * @param {string} bodyHtml    Detail line (may contain <strong>)
+   * @param {string} action      Action-required text (prefix "→" added)
+   * @param {string} actionColor Colour for the action line
+   */
+  function makeAlertCard(id, borderColor, bgColor, badgeText, title, bodyHtml, action, actionColor) {
+    /* outer wrapper — same margin rhythm as .section-block */
+    var wrap = document.createElement('div');
+    wrap.id = id;
+    wrap.style.cssText = 'margin-bottom:12px';
+
+    /* card shell — extends .ds-flag pattern */
+    var card = document.createElement('div');
+    card.className = 'ds-flag';
+    card.style.cssText =
+      'border-left-color:' + borderColor + ';' +
+      'background:' + bgColor + ';' +
+      'position:relative;' +
+      'flex-direction:column;' +
+      'gap:4px;' +
+      'padding:14px 48px 14px 16px';   /* right padding for dismiss btn */
+
+    /* severity badge pill */
+    var badge = document.createElement('span');
+    badge.style.cssText =
+      'display:inline-block;margin-bottom:5px;' +
+      'font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;' +
+      'background:' + borderColor + ';color:#fff;border-radius:4px;padding:2px 8px';
+    badge.textContent = badgeText;
+
+    /* headline */
+    var titleEl = document.createElement('div');
+    titleEl.className = 'ds-flag-msg';
+    titleEl.textContent = title;
+
+    /* SKU / trigger condition */
+    var bodyEl = document.createElement('div');
+    bodyEl.className = 'ds-flag-msg';
+    bodyEl.style.fontWeight = '400';
+    bodyEl.innerHTML = bodyHtml;
+
+    /* action line */
+    var actionEl = document.createElement('div');
+    actionEl.className = 'ds-flag-sub';
+    actionEl.style.cssText = 'color:' + actionColor + ';font-weight:600;margin-top:5px';
+    actionEl.textContent = '\u2192 ' + action;
+
+    /* timestamp */
+    var tsEl = document.createElement('div');
+    tsEl.className = 'ds-flag-sub';
+    tsEl.style.marginTop = '2px';
+    tsEl.textContent = 'Just now';
+
+    /* dismiss button */
+    var btn = document.createElement('button');
+    btn.textContent = 'Dismiss';
+    btn.style.cssText =
+      'position:absolute;top:10px;right:10px;' +
+      'font-size:10px;font-weight:600;' +
+      'color:#6b7280;background:#f3f4f6;' +
+      'border:1px solid #e5e7eb;border-radius:4px;' +
+      'padding:2px 8px;cursor:pointer;line-height:1.6';
+    btn.addEventListener('click', function () {
+      if (wrap.parentNode) { wrap.parentNode.removeChild(wrap); }
+    });
+
+    card.appendChild(badge);
+    card.appendChild(titleEl);
+    card.appendChild(bodyEl);
+    card.appendChild(actionEl);
+    card.appendChild(tsEl);
+    card.appendChild(btn);
+    wrap.appendChild(card);
+    return wrap;
+  }
+
+  /* ── Distribution & Warehouse: VIRAL_SPIKE + STOCK_RISK ───── */
+  OdysseySignalEngine.subscribe('dw-alert-cards', function (signal) {
+    /* Only handle the two signals this module cares about */
+    if (signal.name !== 'VIRAL_SPIKE' && signal.name !== 'STOCK_RISK') { return; }
+
+    /* Dedup: one card per signal type, even if signal fires multiple times */
+    if (injected.dw[signal.name]) { return; }
+    injected.dw[signal.name] = true;
+
+    var container = document.getElementById('kpi-sub-dw');
+    if (!container) { return; }
+
+    var cardId = 'sig-alert-dw-' + signal.name;
+    if (document.getElementById(cardId)) { return; }   /* extra DOM guard */
+
+    var sku  = signal.product     || signal.name;
+    var cond = signal.description || (signal.metric + ' ' + signal.operator + ' ' + signal.threshold + signal.unit);
+
+    var card = makeAlertCard(
+      cardId,
+      '#bb0000',
+      '#fff0f0',
+      '\uD83D\uDD34 Critical',
+      'Cross-Node Alert \u2014 from Demand Sensing',
+      '<strong>' + esc(sku) + '</strong> \u00B7 ' + esc(cond),
+      'Check stock levels \u2014 replenishment may be required',
+      '#bb0000'
+    );
+
+    container.insertBefore(card, container.firstChild);
+  });
+
+  /* ── Procurement & Purchase: VIRAL_SPIKE only ─────────────── */
+  OdysseySignalEngine.subscribe('proc-alert-cards', function (signal) {
+    /* Only handle VIRAL_SPIKE */
+    if (signal.name !== 'VIRAL_SPIKE') { return; }
+
+    /* Dedup */
+    if (injected.proc[signal.name]) { return; }
+    injected.proc[signal.name] = true;
+
+    var container = document.getElementById('panel-proc');
+    if (!container) { return; }
+
+    var cardId = 'sig-alert-proc-' + signal.name;
+    if (document.getElementById(cardId)) { return; }
+
+    var sku = signal.product || signal.name;
+
+    var card = makeAlertCard(
+      cardId,
+      '#e76500',
+      '#fff8f0',
+      '\u26A0 Pre-Alert',
+      'Demand Signal \u2014 Pre-alert from Demand Sensing',
+      'Trending SKU detected \u2014 review RM availability \u00B7 <strong>' + esc(sku) + '</strong>',
+      'Validate raw material stock for ' + esc(sku),
+      '#e76500'
+    );
+
+    container.insertBefore(card, container.firstChild);
+  });
+
+})();
+</script>
 </body>
 </html>
