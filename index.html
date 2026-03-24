@@ -3593,6 +3593,289 @@
 
   </div><!-- end section-block -->
 
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- TACTICAL LAYER: ACTION PLANNING                -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="section-block" style="margin-top:32px">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">Tactical View — Action Planning</span></p>
+      <span class="section-sub">Channel signals → SKU prioritization → Demand spike alerts · Mar 2026</span>
+    </div>
+
+    <!-- ── 1. CHANNEL TREND CONTRIBUTION TABLE ── -->
+    <div class="section-hdr" style="margin-top:16px;margin-bottom:8px">
+      <p class="section-label" style="font-size:13px;font-weight:700;color:#374151">Channel Trend Contribution</p>
+      <span class="section-sub">Trend share &amp; engagement by channel · current week</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Channel</th>
+            <th style="text-align:right">Trend Share (%)</th>
+            <th style="text-align:right">Engagement Rate (%)</th>
+            <th style="text-align:right">Conversion Rate (%)</th>
+            <th style="text-align:center">Trending SKUs</th>
+            <th style="text-align:center">Trend vs Last Week</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="status-badge" style="background:#000;color:#fff;border-color:#000;font-size:11px;padding:3px 10px">TikTok</span></td>
+            <td style="text-align:right"><span class="td-val red">38%</span></td>
+            <td style="text-align:right"><span class="td-val green">6.2%</span></td>
+            <td style="text-align:right"><span class="td-val" style="color:#374151">3.1%</span></td>
+            <td style="text-align:center;font-weight:600;color:#1d2d3e">4 SKUs</td>
+            <td style="text-align:center;font-size:18px;color:#107e3e;font-weight:700">↑</td>
+          </tr>
+          <tr>
+            <td><span class="status-badge" style="background:#ee4d2d;color:#fff;border-color:#ee4d2d;font-size:11px;padding:3px 10px">Shopee</span></td>
+            <td style="text-align:right"><span class="td-val yellow">27%</span></td>
+            <td style="text-align:right"><span class="td-val" style="color:#374151">4.8%</span></td>
+            <td style="text-align:right"><span class="td-val green">5.4%</span></td>
+            <td style="text-align:center;font-weight:600;color:#1d2d3e">3 SKUs</td>
+            <td style="text-align:center;font-size:18px;color:#107e3e;font-weight:700">↑</td>
+          </tr>
+          <tr>
+            <td><span class="status-badge" style="background:#111;color:#ff6b35;border-color:#ff6b35;font-size:11px;padding:3px 10px">TikTok Shop</span></td>
+            <td style="text-align:right"><span class="td-val" style="color:#374151">18%</span></td>
+            <td style="text-align:right"><span class="td-val" style="color:#374151">5.1%</span></td>
+            <td style="text-align:right"><span class="td-val green">7.2%</span></td>
+            <td style="text-align:center;font-weight:600;color:#1d2d3e">2 SKUs</td>
+            <td style="text-align:center;font-size:18px;color:#107e3e;font-weight:700">↑</td>
+          </tr>
+          <tr>
+            <td><span class="status-badge" style="background:#0f3fd4;color:#fff;border-color:#0f3fd4;font-size:11px;padding:3px 10px">Lazada</span></td>
+            <td style="text-align:right"><span class="td-val" style="color:#374151">11%</span></td>
+            <td style="text-align:right"><span class="td-val" style="color:#374151">3.2%</span></td>
+            <td style="text-align:right"><span class="td-val" style="color:#374151">4.1%</span></td>
+            <td style="text-align:center;font-weight:600;color:#1d2d3e">1 SKU</td>
+            <td style="text-align:center;font-size:18px;color:#6b7280;font-weight:700">→</td>
+          </tr>
+          <tr>
+            <td><span class="status-badge" style="background:#c13584;color:#fff;border-color:#c13584;font-size:11px;padding:3px 10px">Instagram</span></td>
+            <td style="text-align:right"><span class="td-val" style="color:#374151">6%</span></td>
+            <td style="text-align:right"><span class="td-val yellow">2.9%</span></td>
+            <td style="text-align:right"><span class="td-val red">1.8%</span></td>
+            <td style="text-align:center;font-weight:600;color:#1d2d3e">1 SKU</td>
+            <td style="text-align:center;font-size:18px;color:#bb0000;font-weight:700">↓</td>
+          </tr>
+        </tbody>
+      </table>
+    </div><!-- end channel trend table -->
+
+    <!-- ── 2. SKU PRIORITY MATRIX ── -->
+    <div class="section-hdr" style="margin-top:28px;margin-bottom:8px">
+      <p class="section-label" style="font-size:13px;font-weight:700;color:#374151">SKU Priority Matrix</p>
+      <span class="section-sub">High trend velocity + low stock coverage = high risk · Top 3 require immediate action</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 280px;gap:20px;align-items:start">
+      <!-- Priority table -->
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:32px">#</th>
+              <th>SKU</th>
+              <th style="text-align:right">Trend Velocity</th>
+              <th style="text-align:right">Stock Coverage (days)</th>
+              <th style="text-align:right">Opportunity Score</th>
+              <th style="text-align:right">Risk Score</th>
+              <th style="text-align:center">Action Required</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Top 3: Replenish NOW (high trend + stock < 5d) -->
+            <tr style="background:#fff5f5">
+              <td style="font-weight:700;color:#bb0000;text-align:center">1</td>
+              <td class="td-name">Wardah Niacinamide Serum 10%</td>
+              <td style="text-align:right"><span class="td-val red">92%</span></td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">4 days</td>
+              <td style="text-align:right"><span class="td-val green">92</span></td>
+              <td style="text-align:right"><span class="td-val red">95</span></td>
+              <td style="text-align:center;white-space:nowrap"><span style="background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:700">🔴 Replenish NOW</span></td>
+            </tr>
+            <tr style="background:#fff5f5">
+              <td style="font-weight:700;color:#bb0000;text-align:center">2</td>
+              <td class="td-name">Emina Sun Protection SPF 50</td>
+              <td style="text-align:right"><span class="td-val red">87%</span></td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">3 days</td>
+              <td style="text-align:right"><span class="td-val green">87</span></td>
+              <td style="text-align:right"><span class="td-val red">93</span></td>
+              <td style="text-align:center;white-space:nowrap"><span style="background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:700">🔴 Replenish NOW</span></td>
+            </tr>
+            <tr style="background:#fff5f5">
+              <td style="font-weight:700;color:#bb0000;text-align:center">3</td>
+              <td class="td-name">Make Over Powerstay Foundation</td>
+              <td style="text-align:right"><span class="td-val red">81%</span></td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">4 days</td>
+              <td style="text-align:right"><span class="td-val green">81</span></td>
+              <td style="text-align:right"><span class="td-val red">88</span></td>
+              <td style="text-align:center;white-space:nowrap"><span style="background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:700">🔴 Replenish NOW</span></td>
+            </tr>
+            <!-- Monitor: moderate trend, moderate stock -->
+            <tr>
+              <td style="font-weight:700;color:#e76500;text-align:center">4</td>
+              <td class="td-name">Wardah Lightening Series Toner</td>
+              <td style="text-align:right"><span class="td-val yellow">74%</span></td>
+              <td style="text-align:right;color:#6b7280;font-weight:600">14 days</td>
+              <td style="text-align:right"><span class="td-val" style="color:#374151">74</span></td>
+              <td style="text-align:right"><span class="td-val yellow">61</span></td>
+              <td style="text-align:center;white-space:nowrap"><span style="background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:700">🟡 Monitor</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;color:#e76500;text-align:center">5</td>
+              <td class="td-name">Scarlett Whitening Body Lotion</td>
+              <td style="text-align:right"><span class="td-val yellow">69%</span></td>
+              <td style="text-align:right;color:#6b7280;font-weight:600">18 days</td>
+              <td style="text-align:right"><span class="td-val" style="color:#374151">69</span></td>
+              <td style="text-align:right"><span class="td-val yellow">51</span></td>
+              <td style="text-align:center;white-space:nowrap"><span style="background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:700">🟡 Monitor</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;color:#e76500;text-align:center">6</td>
+              <td class="td-name">Implora Glass Skin Essence</td>
+              <td style="text-align:right"><span class="td-val yellow">65%</span></td>
+              <td style="text-align:right;color:#6b7280;font-weight:600">22 days</td>
+              <td style="text-align:right"><span class="td-val" style="color:#374151">65</span></td>
+              <td style="text-align:right"><span class="td-val yellow">43</span></td>
+              <td style="text-align:center;white-space:nowrap"><span style="background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:700">🟡 Monitor</span></td>
+            </tr>
+            <!-- Stable: lower trend, high stock -->
+            <tr>
+              <td style="font-weight:600;color:#6b7280;text-align:center">7</td>
+              <td class="td-name">BLP Beauty Lip Coat</td>
+              <td style="text-align:right"><span class="td-val" style="color:#374151">58%</span></td>
+              <td style="text-align:right;color:#107e3e;font-weight:600">28 days</td>
+              <td style="text-align:right"><span class="td-val" style="color:#374151">58</span></td>
+              <td style="text-align:right"><span class="td-val green">30</span></td>
+              <td style="text-align:center;white-space:nowrap"><span style="background:#f0faf4;color:#107e3e;border:1px solid #a3d9b1;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:700">🟢 Stable</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:#6b7280;text-align:center">8</td>
+              <td class="td-name">Azarine Hydrasoothe Sunscreen</td>
+              <td style="text-align:right"><span class="td-val" style="color:#374151">52%</span></td>
+              <td style="text-align:right;color:#107e3e;font-weight:600">31 days</td>
+              <td style="text-align:right"><span class="td-val" style="color:#374151">52</span></td>
+              <td style="text-align:right"><span class="td-val green">23</span></td>
+              <td style="text-align:center;white-space:nowrap"><span style="background:#f0faf4;color:#107e3e;border:1px solid #a3d9b1;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:700">🟢 Stable</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:#6b7280;text-align:center">9</td>
+              <td class="td-name">Rollover Reaction Suede Lip Crayon</td>
+              <td style="text-align:right"><span class="td-val" style="color:#374151">47%</span></td>
+              <td style="text-align:right;color:#107e3e;font-weight:600">35 days</td>
+              <td style="text-align:right"><span class="td-val" style="color:#374151">47</span></td>
+              <td style="text-align:right"><span class="td-val green">17</span></td>
+              <td style="text-align:center;white-space:nowrap"><span style="background:#f0faf4;color:#107e3e;border:1px solid #a3d9b1;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:700">🟢 Stable</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:#6b7280;text-align:center">10</td>
+              <td class="td-name">Mineral Botanica Loose Powder</td>
+              <td style="text-align:right"><span class="td-val" style="color:#374151">41%</span></td>
+              <td style="text-align:right;color:#107e3e;font-weight:600">42 days</td>
+              <td style="text-align:right"><span class="td-val" style="color:#374151">41</span></td>
+              <td style="text-align:right"><span class="td-val green">10</span></td>
+              <td style="text-align:center;white-space:nowrap"><span style="background:#f0faf4;color:#107e3e;border:1px solid #a3d9b1;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:700">🟢 Stable</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div><!-- end priority table -->
+
+      <!-- Right column: action summary + scoring legend -->
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <!-- Action summary cards -->
+        <div style="background:#fff0f0;border:1px solid #f4a0a0;border-radius:10px;padding:14px 16px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#bb0000;margin-bottom:6px">🔴 Replenish NOW</div>
+          <div style="font-size:26px;font-weight:800;color:#bb0000;line-height:1">3 SKUs</div>
+          <div style="font-size:11px;color:#7f1d1d;margin-top:4px">Stock &lt; 5 days · Immediate PO required</div>
+        </div>
+        <div style="background:#fff8f0;border:1px solid #f6b26b;border-radius:10px;padding:14px 16px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#e76500;margin-bottom:6px">🟡 Monitor</div>
+          <div style="font-size:26px;font-weight:800;color:#e76500;line-height:1">3 SKUs</div>
+          <div style="font-size:11px;color:#7c2d12;margin-top:4px">Stock 14–22 days · Review weekly</div>
+        </div>
+        <div style="background:#f0faf4;border:1px solid #a3d9b1;border-radius:10px;padding:14px 16px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#107e3e;margin-bottom:6px">🟢 Stable</div>
+          <div style="font-size:26px;font-weight:800;color:#107e3e;line-height:1">4 SKUs</div>
+          <div style="font-size:11px;color:#14532d;margin-top:4px">Stock 28–42 days · Routine monitoring</div>
+        </div>
+        <!-- Scoring legend -->
+        <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6b7280;margin-bottom:8px">Score Logic</div>
+          <div style="font-size:11px;color:#374151;line-height:1.7">
+            <div><strong>Opportunity</strong> = Trend Velocity</div>
+            <div><strong>Risk</strong> = Trend × (1 − Stock/60)</div>
+            <div style="margin-top:6px;color:#6b7280">Higher trend + lower stock → higher risk score</div>
+          </div>
+        </div>
+      </div><!-- end right column -->
+    </div><!-- end 2-col priority matrix -->
+
+    <!-- ── 3. DEMAND SPIKE INDEX TABLE ── -->
+    <div class="section-hdr" style="margin-top:28px;margin-bottom:8px">
+      <p class="section-label" style="font-size:13px;font-weight:700;color:#374151">Demand Spike Index</p>
+      <span class="section-sub">SKUs with current sales &gt; +30% above baseline · alerts require supply chain response</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>SKU</th>
+            <th style="text-align:right">Avg Daily Sales</th>
+            <th style="text-align:right">Current Sales</th>
+            <th style="text-align:right">Spike Index (%)</th>
+            <th style="text-align:right">vs Baseline</th>
+            <th style="text-align:center">Alert Level</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#fff5f5">
+            <td class="td-name">Wardah Niacinamide Serum 10%</td>
+            <td style="text-align:right;color:#6b7280">120 units/day</td>
+            <td style="text-align:right;font-weight:700;color:#bb0000">220 units/day</td>
+            <td style="text-align:right"><span class="td-val red">+83%</span></td>
+            <td style="text-align:right;font-weight:700;color:#bb0000">+100 units</td>
+            <td style="text-align:center"><span style="background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700">🔴 CRITICAL</span></td>
+          </tr>
+          <tr style="background:#fff5f5">
+            <td class="td-name">Emina Sun Protection SPF 50</td>
+            <td style="text-align:right;color:#6b7280">95 units/day</td>
+            <td style="text-align:right;font-weight:700;color:#bb0000">162 units/day</td>
+            <td style="text-align:right"><span class="td-val red">+71%</span></td>
+            <td style="text-align:right;font-weight:700;color:#bb0000">+67 units</td>
+            <td style="text-align:center"><span style="background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700">🔴 CRITICAL</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Make Over Powerstay Foundation</td>
+            <td style="text-align:right;color:#6b7280">80 units/day</td>
+            <td style="text-align:right;font-weight:700;color:#bb0000">130 units/day</td>
+            <td style="text-align:right"><span class="td-val red">+63%</span></td>
+            <td style="text-align:right;font-weight:700;color:#bb0000">+50 units</td>
+            <td style="text-align:center"><span style="background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700">🔴 HIGH</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Wardah Lightening Series Toner</td>
+            <td style="text-align:right;color:#6b7280">150 units/day</td>
+            <td style="text-align:right;font-weight:700;color:#e76500">218 units/day</td>
+            <td style="text-align:right"><span class="td-val yellow">+45%</span></td>
+            <td style="text-align:right;font-weight:600;color:#e76500">+68 units</td>
+            <td style="text-align:center"><span style="background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700">🟡 ELEVATED</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Scarlett Whitening Body Lotion</td>
+            <td style="text-align:right;color:#6b7280">200 units/day</td>
+            <td style="text-align:right;font-weight:700;color:#e76500">274 units/day</td>
+            <td style="text-align:right"><span class="td-val yellow">+37%</span></td>
+            <td style="text-align:right;font-weight:600;color:#e76500">+74 units</td>
+            <td style="text-align:center"><span style="background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700">🟡 ELEVATED</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div><!-- end demand spike table -->
+
+  </div><!-- end tactical layer section-block -->
+
 </div><!-- end panel-demand-sensing -->
 
 <!-- === COMMERCIAL MODULE HTML === -->
