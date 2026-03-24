@@ -665,6 +665,8 @@
     .transport-pill.active { background: #0070f2; color: #ffffff; }
     .transport-sub-panel { display: none; }
     .transport-sub-panel.active { display: block; }
+    .kpi-sub-panel { display: none; }
+    .kpi-sub-panel.active { display: block; }
     .transport-shipment-bar {
       display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 0;
     }
@@ -887,10 +889,6 @@
     <span class="nav-item-icon">🏪</span>
     <span class="nav-item-label">3PL / Logistics</span>
   </button>
-  <button class="nav-item" id="nav-wh" onclick="switchTab('wh')">
-    <span class="nav-item-icon">📋</span>
-    <span class="nav-item-label">Warehouse Log</span>
-  </button>
   <div class="sidebar-section-divider"></div>
   <div class="sidebar-section-label">Finance</div>
   <button class="nav-item" id="nav-finance" onclick="switchTab('finance')">
@@ -960,6 +958,17 @@
      TAB 1: DISTRIBUTION & WAREHOUSE
 ══════════════════════════════════════════ -->
 <div class="tab-panel active" id="panel-kpi">
+
+  <!-- SUB-TAB NAVIGATION -->
+  <div class="section-block" style="margin-bottom:12px">
+    <div class="transport-subtab-nav" id="kpi-subtab-nav">
+      <button class="transport-pill active" onclick="switchKpiSubTab('dw')">📦 Distribution &amp; Warehouse</button>
+      <button class="transport-pill" onclick="switchKpiSubTab('wh')">📋 Warehouse Log</button>
+    </div>
+  </div>
+
+  <!-- SUB-TAB: Distribution & Warehouse -->
+  <div class="kpi-sub-panel active" id="kpi-sub-dw">
 
   <!-- STRATEGIC KPIs -->
   <div class="section-block">
@@ -1063,12 +1072,10 @@
     </div>
   </div>
 
-</div><!-- end panel-kpi -->
+  </div><!-- end kpi-sub-dw -->
 
-<!-- ══════════════════════════════════════════
-     TAB 2: WAREHOUSE LOG
-══════════════════════════════════════════ -->
-<div class="tab-panel" id="panel-wh">
+  <!-- SUB-TAB: Warehouse Log -->
+  <div class="kpi-sub-panel" id="kpi-sub-wh">
 
   <!-- STRATEGIC SUMMARY -->
   <div class="section-block">
@@ -1138,7 +1145,9 @@
     </div>
   </div>
 
-</div><!-- end panel-wh -->
+  </div><!-- end kpi-sub-wh -->
+
+</div><!-- end panel-kpi -->
 
 <!-- ══════════════════════════════════════════
      R&D MODULE
@@ -4448,7 +4457,7 @@ function selectWeek(idx) {
   if (document.getElementById('panel-finance') && document.getElementById('panel-finance').classList.contains('active')) {
     renderFNTactical();
   }
-  if (document.getElementById('panel-wh') && document.getElementById('panel-wh').classList.contains('active')) {
+  if (document.getElementById('kpi-sub-wh') && document.getElementById('kpi-sub-wh').classList.contains('active')) {
     renderWarehouseLog();
   }
 }
@@ -4800,19 +4809,29 @@ function procInitChartsIfNeeded() {
   buildProcActivityChart();
 }
 
+function switchKpiSubTab(subTab) {
+  document.querySelectorAll('.kpi-sub-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#kpi-subtab-nav .transport-pill').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('kpi-sub-' + subTab);
+  if (panel) panel.classList.add('active');
+  const pills = document.querySelectorAll('#kpi-subtab-nav .transport-pill');
+  const map = {dw: 0, wh: 1};
+  if (pills[map[subTab]]) pills[map[subTab]].classList.add('active');
+  if (subTab === 'wh') { whInitChartsIfNeeded(); }
+}
+
 function switchTab(tab) {
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
   document.getElementById('panel-'+tab).classList.add('active');
   const navEl=document.getElementById('nav-'+tab);
   if(navEl) navEl.classList.add('active');
-  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard',exec:'Executive Summary','it-systems':'IT / Systems','3pl-logistics':'3PL / Logistics'};
+  const titles={kpi:'Distribution & Warehouse',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard',exec:'Executive Summary','it-systems':'IT / Systems','3pl-logistics':'3PL / Logistics'};
   document.getElementById('top-bar-title').textContent=titles[tab]||tab;
   const bcEl=document.getElementById('top-bar-breadcrumb');
   if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
   const weekWrap=document.getElementById('week-seg-wrap');
   if(weekWrap) weekWrap.style.display=(tab==='kpi'||tab==='proc'||tab==='suppliers'||tab==='rd'||tab==='commercial'||tab==='marketing'||tab==='finance')?'flex':'none';
-  if(tab==='wh'){ whInitChartsIfNeeded(); }
   if(tab==='mfg'){ mfgInitChartsIfNeeded(); }
   if(tab==='proc'){ procInitChartsIfNeeded(); }
   if(tab==='suppliers'){ spInitChartsIfNeeded(); }
