@@ -3334,6 +3334,265 @@
     <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin:0 0 4px">Demand Sensing</h2>
     <div style="font-size:13px;color:#6b7280;margin-bottom:10px">Social signal → Demand → Inventory → Action</div>
   </div>
+
+  <!-- STRATEGIC LAYER: TREND INTELLIGENCE -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-purple">Strategic View — Trend Intelligence</span></p>
+      <span class="section-sub">Real-time social signals · TikTok · Shopee · Lazada · Instagram</span>
+    </div>
+
+    <!-- 5 KPI CARDS -->
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:24px">
+
+      <!-- Card 1: Trend Velocity Index — red (hot) -->
+      <div class="kpi-card red">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Trend Velocity Index</div>
+            <div class="kpi-category">7-day momentum score</div>
+          </div>
+          <span class="status-badge badge-red">HOT</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-prefix">+</span>
+            <span class="kpi-current" style="color:#bb0000">73</span>
+            <span class="kpi-unit">%</span>
+          </div>
+        </div>
+        <div class="kpi-target">vs. prior 7d: <strong>+41%</strong></div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <div class="bc-track"><div class="bc-fill" style="width:73%;background:#bb0000"></div></div>
+            <span class="bc-val" style="color:#bb0000">73%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Sentiment Score — green -->
+      <div class="kpi-card green">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Sentiment Score</div>
+            <div class="kpi-category">Positive mentions ratio</div>
+          </div>
+          <span class="status-badge badge-green">POSITIVE</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current" style="color:#107e3e">84</span>
+            <span class="kpi-unit">%</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>&ge; 75%</strong></div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <div class="bc-track"><div class="bc-fill" style="width:84%;background:#107e3e"></div></div>
+            <span class="bc-val" style="color:#107e3e">84%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Share of Voice — amber -->
+      <div class="kpi-card yellow">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Share of Voice</div>
+            <div class="kpi-category">Category SOV across channels</div>
+          </div>
+          <span class="status-badge badge-yellow">WATCH</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current" style="color:#e76500">31</span>
+            <span class="kpi-unit">%</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>&ge; 35%</strong></div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <div class="bc-track"><div class="bc-fill" style="width:31%;background:#e76500"></div></div>
+            <span class="bc-val" style="color:#e76500">31%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Top Trending SKU Count — blue -->
+      <div class="kpi-card" style="border-left-color:#0070f2">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Top Trending SKUs</div>
+            <div class="kpi-category">Active high-velocity SKUs</div>
+          </div>
+          <span class="status-badge" style="background:#eff6ff;color:#0070f2;border-color:#bfdbfe">ACTIVE</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current" style="color:#0070f2">7</span>
+            <span class="kpi-unit">SKUs</span>
+          </div>
+        </div>
+        <div class="kpi-target">Threshold: <strong>&ge; 5 SKUs</strong></div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <div class="bc-track"><div class="bc-fill" style="width:70%;background:#0070f2"></div></div>
+            <span class="bc-val" style="color:#0070f2">7 / 10</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5: Trend-to-Sales Correlation — green -->
+      <div class="kpi-card green">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Trend-to-Sales Correlation</div>
+            <div class="kpi-category">Pearson r · rolling 30d</div>
+          </div>
+          <span class="status-badge badge-green">STRONG</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current" style="color:#107e3e">0.87</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>&ge; 0.70</strong></div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <div class="bc-track"><div class="bc-fill" style="width:87%;background:#107e3e"></div></div>
+            <span class="bc-val" style="color:#107e3e">0.87</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end 5-card grid -->
+
+    <!-- TOP 10 TRENDING SKUs TABLE -->
+    <div class="section-hdr" style="margin-top:8px">
+      <p class="section-label">Top 10 Trending SKUs</p>
+      <span class="section-sub">Ranked by Trend Velocity · Data: Mar 2026</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width:40px">Rank</th>
+            <th>SKU Name</th>
+            <th>Category</th>
+            <th>Trend Velocity (%)</th>
+            <th>Sentiment (%)</th>
+            <th>Channel</th>
+            <th>Stock Coverage (days)</th>
+            <th>Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:700;color:#bb0000;text-align:center">1</td>
+            <td class="td-name">Somethin' Wardah Niacinamide Serum 10%</td>
+            <td>Skincare</td>
+            <td><span class="td-val red">92%</span></td>
+            <td><span class="td-val green">88%</span></td>
+            <td><span class="status-badge" style="background:#000;color:#fff;border-color:#000;font-size:10px">TikTok</span></td>
+            <td style="color:#bb0000;font-weight:700">4 days</td>
+            <td><span class="status-badge badge-red">Critical</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:700;color:#bb0000;text-align:center">2</td>
+            <td class="td-name">Emina Sun Protection SPF 50</td>
+            <td>Suncare</td>
+            <td><span class="td-val red">87%</span></td>
+            <td><span class="td-val green">91%</span></td>
+            <td><span class="status-badge" style="background:#ee4d2d;color:#fff;border-color:#ee4d2d;font-size:10px">Shopee</span></td>
+            <td style="color:#bb0000;font-weight:700">6 days</td>
+            <td><span class="status-badge badge-red">Critical</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:700;color:#bb0000;text-align:center">3</td>
+            <td class="td-name">Make Over Powerstay Foundation</td>
+            <td>Makeup</td>
+            <td><span class="td-val red">81%</span></td>
+            <td><span class="td-val green">85%</span></td>
+            <td><span class="status-badge" style="background:#000;color:#fff;border-color:#000;font-size:10px">TikTok</span></td>
+            <td style="color:#bb0000;font-weight:700">8 days</td>
+            <td><span class="status-badge badge-red">Critical</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:700;color:#e76500;text-align:center">4</td>
+            <td class="td-name">Wardah Lightening Series Toner</td>
+            <td>Skincare</td>
+            <td><span class="td-val yellow">74%</span></td>
+            <td><span class="td-val green">79%</span></td>
+            <td><span class="status-badge" style="background:#0f3fd4;color:#fff;border-color:#0f3fd4;font-size:10px">Lazada</span></td>
+            <td style="color:#6b7280;font-weight:600">14 days</td>
+            <td><span class="status-badge badge-yellow">Watch</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:700;color:#e76500;text-align:center">5</td>
+            <td class="td-name">Scarlett Whitening Body Lotion</td>
+            <td>Bodycare</td>
+            <td><span class="td-val yellow">69%</span></td>
+            <td><span class="td-val green">83%</span></td>
+            <td><span class="status-badge" style="background:#ee4d2d;color:#fff;border-color:#ee4d2d;font-size:10px">Shopee</span></td>
+            <td style="color:#6b7280;font-weight:600">18 days</td>
+            <td><span class="status-badge badge-yellow">Watch</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:700;color:#e76500;text-align:center">6</td>
+            <td class="td-name">Implora Glass Skin Essence</td>
+            <td>Skincare</td>
+            <td><span class="td-val yellow">65%</span></td>
+            <td><span class="td-val yellow">77%</span></td>
+            <td><span class="status-badge" style="background:#c13584;color:#fff;border-color:#c13584;font-size:10px">IG</span></td>
+            <td style="color:#6b7280;font-weight:600">22 days</td>
+            <td><span class="status-badge badge-yellow">Watch</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:#6b7280;text-align:center">7</td>
+            <td class="td-name">BLP Beauty Lip Coat</td>
+            <td>Makeup</td>
+            <td><span class="td-val" style="color:#374151">58%</span></td>
+            <td><span class="td-val green">81%</span></td>
+            <td><span class="status-badge" style="background:#000;color:#fff;border-color:#000;font-size:10px">TikTok</span></td>
+            <td style="color:#107e3e;font-weight:600">28 days</td>
+            <td><span class="status-badge badge-green">Stable</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:#6b7280;text-align:center">8</td>
+            <td class="td-name">Azarine Hydrasoothe Sunscreen</td>
+            <td>Suncare</td>
+            <td><span class="td-val" style="color:#374151">52%</span></td>
+            <td><span class="td-val" style="color:#374151">74%</span></td>
+            <td><span class="status-badge" style="background:#ee4d2d;color:#fff;border-color:#ee4d2d;font-size:10px">Shopee</span></td>
+            <td style="color:#107e3e;font-weight:600">31 days</td>
+            <td><span class="status-badge badge-green">Stable</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:#6b7280;text-align:center">9</td>
+            <td class="td-name">Rollover Reaction Suede Lip Crayon</td>
+            <td>Makeup</td>
+            <td><span class="td-val" style="color:#374151">47%</span></td>
+            <td><span class="td-val" style="color:#374151">72%</span></td>
+            <td><span class="status-badge" style="background:#c13584;color:#fff;border-color:#c13584;font-size:10px">IG</span></td>
+            <td style="color:#107e3e;font-weight:600">35 days</td>
+            <td><span class="status-badge badge-green">Stable</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:#6b7280;text-align:center">10</td>
+            <td class="td-name">Mineral Botanica Loose Powder</td>
+            <td>Makeup</td>
+            <td><span class="td-val" style="color:#374151">41%</span></td>
+            <td><span class="td-val" style="color:#374151">68%</span></td>
+            <td><span class="status-badge" style="background:#0f3fd4;color:#fff;border-color:#0f3fd4;font-size:10px">Lazada</span></td>
+            <td style="color:#107e3e;font-weight:600">42 days</td>
+            <td><span class="status-badge badge-green">Stable</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div><!-- end table-scroll -->
+
+  </div><!-- end section-block -->
+
 </div><!-- end panel-demand-sensing -->
 
 <!-- === COMMERCIAL MODULE HTML === -->
