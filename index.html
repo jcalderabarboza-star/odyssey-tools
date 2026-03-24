@@ -898,11 +898,7 @@
     <span class="nav-item-label">Finance</span>
   </button>
   <div class="sidebar-section-divider"></div>
-  <div class="sidebar-section-label">Commercial &amp; Innovation</div>
-  <button class="nav-item" id="nav-rd" onclick="switchTab('rd')">
-    <span class="nav-item-icon">🔬</span>
-    <span class="nav-item-label">R&amp;D</span>
-  </button>
+  <div class="sidebar-section-label">Commercial — Demand Side</div>
   <button class="nav-item" id="nav-commercial" onclick="switchTab('commercial')">
     <span class="nav-item-icon">📊</span>
     <span class="nav-item-label">Commercial</span>
@@ -911,11 +907,27 @@
     <span class="nav-item-icon">📣</span>
     <span class="nav-item-label">Marketing</span>
   </button>
+  <button class="nav-item" id="nav-rd" onclick="switchTab('rd')">
+    <span class="nav-item-icon">🔬</span>
+    <span class="nav-item-label">R&amp;D</span>
+  </button>
   <div class="sidebar-section-divider"></div>
-  <div class="sidebar-section-label">IT / Systems</div>
+  <div class="sidebar-section-label">Support Functions</div>
   <button class="nav-item" id="nav-it-systems" onclick="switchTab('it-systems')">
     <span class="nav-item-icon">🖥️</span>
     <span class="nav-item-label">IT / Systems</span>
+  </button>
+  <div class="sidebar-section-divider"></div>
+  <div class="sidebar-section-label">Post-Delivery</div>
+  <button class="nav-item disabled" id="nav-customer-service" onclick="switchTab('customer-service')">
+    <span class="nav-item-icon">🎧</span>
+    <span class="nav-item-label">Customer Service</span>
+    <span class="nav-soon">Soon</span>
+  </button>
+  <button class="nav-item disabled" id="nav-returns-logistics" onclick="switchTab('returns-logistics')">
+    <span class="nav-item-icon">↩️</span>
+    <span class="nav-item-label">Returns &amp; Reverse Logistics</span>
+    <span class="nav-soon">Soon</span>
   </button>
   <div class="sidebar-footer">E2E Control Tower v2.0 — Odyssey Program</div>
 </aside>
@@ -3489,6 +3501,34 @@
 
 </div>
 <!-- === END IT / SYSTEMS MODULE HTML === -->
+
+<!-- === CUSTOMER SERVICE PLACEHOLDER === -->
+<div class="tab-panel" id="panel-customer-service">
+  <div style="margin-bottom:20px">
+    <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin:0 0 4px">Customer Service</h2>
+    <div style="font-size:12px;color:#9ca3af;margin-bottom:6px">E2E Control Tower &rsaquo; Post-Delivery</div>
+  </div>
+  <div id="customer-service" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;text-align:center;color:#9ca3af">
+    <div style="font-size:48px;margin-bottom:16px">🎧</div>
+    <div style="font-size:18px;font-weight:600;color:#374151;margin-bottom:8px">Coming soon</div>
+    <div style="font-size:13px">Customer Service dashboard is under development.</div>
+  </div>
+</div>
+<!-- === END CUSTOMER SERVICE PLACEHOLDER === -->
+
+<!-- === RETURNS & REVERSE LOGISTICS PLACEHOLDER === -->
+<div class="tab-panel" id="panel-returns-logistics">
+  <div style="margin-bottom:20px">
+    <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin:0 0 4px">Returns &amp; Reverse Logistics</h2>
+    <div style="font-size:12px;color:#9ca3af;margin-bottom:6px">E2E Control Tower &rsaquo; Post-Delivery</div>
+  </div>
+  <div id="returns-logistics" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;text-align:center;color:#9ca3af">
+    <div style="font-size:48px;margin-bottom:16px">↩️</div>
+    <div style="font-size:18px;font-weight:600;color:#374151;margin-bottom:8px">Coming soon</div>
+    <div style="font-size:13px">Returns &amp; Reverse Logistics dashboard is under development.</div>
+  </div>
+</div>
+<!-- === END RETURNS & REVERSE LOGISTICS PLACEHOLDER === -->
 
 <!-- === 3PL / LOGISTICS MODULE HTML === -->
 <div class="tab-panel" id="panel-3pl-logistics">
