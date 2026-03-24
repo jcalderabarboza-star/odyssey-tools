@@ -6862,75 +6862,16 @@
     </div>
   </div>
 
-  <!-- PART 3c: ACTIVE CRITICAL ALERTS FEED -->
+  <!-- PART 3c: ACTIVE CRITICAL ALERTS FEED — dynamic via OdysseySignalEngine -->
   <div class="section-block ex-page-break">
-    <div class="section-hdr">
-      <p class="section-label" style="font-size:13px;font-weight:700;color:#1d2d3e;text-transform:uppercase;letter-spacing:0.06em">Active Critical Alerts &mdash; Cross-Node</p>
-      <span class="section-sub">Real-time alerts requiring immediate action</span>
+    <div class="section-hdr" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div>
+        <p class="section-label" style="font-size:13px;font-weight:700;color:#1d2d3e;text-transform:uppercase;letter-spacing:0.06em">Active Critical Alerts &mdash; Cross-Node</p>
+        <span class="section-sub">Real-time alerts requiring immediate action</span>
+      </div>
+      <button id="exec-clear-alerts-btn" onclick="(function(){var f=document.getElementById('exec-live-alerts');if(f)f.innerHTML=''})()" style="font-size:11px;font-weight:600;color:#6b7280;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;padding:4px 12px;cursor:pointer;white-space:nowrap">Clear all</button>
     </div>
-    <div style="display:flex;flex-direction:column;gap:8px">
-
-      <!-- Alert 1: Viral Spike + Stock Risk -->
-      <div style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #fde8e8;border-left:4px solid #bb0000;border-radius:8px;padding:10px 14px">
-        <span style="font-size:18px;line-height:1;flex-shrink:0">&#128308;</span>
-        <span style="font-size:10px;font-weight:700;color:#fff;background:#bb0000;padding:2px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0;text-transform:uppercase;letter-spacing:0.04em">CRITICAL</span>
-        <div style="flex:1;min-width:0">
-          <span style="font-size:13px;font-weight:700;color:#1d2d3e">Viral Spike + Stock Risk</span>
-          <span style="font-size:12px;color:#6b7280;margin-left:8px">Wardah Niacinamide Serum</span>
-          <span style="font-size:11px;color:#9ca3af;margin-left:8px">&bull; TikTok +127% mentions &bull; Stock: 3 days</span>
-        </div>
-        <span style="font-size:11px;font-weight:700;color:#bb0000;white-space:nowrap;flex-shrink:0;background:#fff5f5;padding:2px 10px;border-radius:10px">NOW</span>
-      </div>
-
-      <!-- Alert 2: Stock Risk on Trending SKU -->
-      <div style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #fde8e8;border-left:4px solid #bb0000;border-radius:8px;padding:10px 14px">
-        <span style="font-size:18px;line-height:1;flex-shrink:0">&#128308;</span>
-        <span style="font-size:10px;font-weight:700;color:#fff;background:#bb0000;padding:2px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0;text-transform:uppercase;letter-spacing:0.04em">CRITICAL</span>
-        <div style="flex:1;min-width:0">
-          <span style="font-size:13px;font-weight:700;color:#1d2d3e">Stock Risk on Trending SKU</span>
-          <span style="font-size:12px;color:#6b7280;margin-left:8px">Azarine Sunscreen SPF50</span>
-          <span style="font-size:11px;color:#9ca3af;margin-left:8px">&bull; Coverage: 3 days &bull; Replenish triggered</span>
-        </div>
-        <span style="font-size:11px;font-weight:700;color:#bb0000;white-space:nowrap;flex-shrink:0;background:#fff5f5;padding:2px 10px;border-radius:10px">NOW</span>
-      </div>
-
-      <!-- Alert 3: Conversion Drop -->
-      <div style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #fde8e8;border-left:4px solid #bb0000;border-radius:8px;padding:10px 14px">
-        <span style="font-size:18px;line-height:1;flex-shrink:0">&#128308;</span>
-        <span style="font-size:10px;font-weight:700;color:#fff;background:#bb0000;padding:2px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0;text-transform:uppercase;letter-spacing:0.04em">CRITICAL</span>
-        <div style="flex:1;min-width:0">
-          <span style="font-size:13px;font-weight:700;color:#1d2d3e">Conversion Drop</span>
-          <span style="font-size:12px;color:#6b7280;margin-left:8px">Emina Sun Protection</span>
-          <span style="font-size:11px;color:#9ca3af;margin-left:8px">&bull; Engagement &uarr; but Conversion -34% &bull; Action: Pricing review</span>
-        </div>
-        <span style="font-size:11px;font-weight:700;color:#bb0000;white-space:nowrap;flex-shrink:0;background:#fff5f5;padding:2px 10px;border-radius:10px">&lt;6h</span>
-      </div>
-
-      <!-- Alert 4: Negative Sentiment -->
-      <div style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #fef3c7;border-left:4px solid #f59e0b;border-radius:8px;padding:10px 14px">
-        <span style="font-size:18px;line-height:1;flex-shrink:0">&#128993;</span>
-        <span style="font-size:10px;font-weight:700;color:#92400e;background:#fef3c7;padding:2px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0;text-transform:uppercase;letter-spacing:0.04em">WARNING</span>
-        <div style="flex:1;min-width:0">
-          <span style="font-size:13px;font-weight:700;color:#1d2d3e">Negative Sentiment</span>
-          <span style="font-size:12px;color:#6b7280;margin-left:8px">Make Over Foundation</span>
-          <span style="font-size:11px;color:#9ca3af;margin-left:8px">&bull; 33% negative mentions &bull; QA investigation needed</span>
-        </div>
-        <span style="font-size:11px;font-weight:700;color:#b45309;white-space:nowrap;flex-shrink:0;background:#fffbeb;padding:2px 10px;border-radius:10px">&lt;2h</span>
-      </div>
-
-      <!-- Alert 5: Overstock + Declining Trend -->
-      <div style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #fef3c7;border-left:4px solid #f59e0b;border-radius:8px;padding:10px 14px">
-        <span style="font-size:18px;line-height:1;flex-shrink:0">&#128993;</span>
-        <span style="font-size:10px;font-weight:700;color:#92400e;background:#fef3c7;padding:2px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0;text-transform:uppercase;letter-spacing:0.04em">WARNING</span>
-        <div style="flex:1;min-width:0">
-          <span style="font-size:13px;font-weight:700;color:#1d2d3e">Overstock + Declining Trend</span>
-          <span style="font-size:12px;color:#6b7280;margin-left:8px">Implora Glass Skin Essence</span>
-          <span style="font-size:11px;color:#9ca3af;margin-left:8px">&bull; 42 days coverage &bull; Slow production</span>
-        </div>
-        <span style="font-size:11px;font-weight:700;color:#b45309;white-space:nowrap;flex-shrink:0;background:#fffbeb;padding:2px 10px;border-radius:10px">&lt;24h</span>
-      </div>
-
-    </div>
+    <div id="exec-live-alerts" style="display:flex;flex-direction:column;gap:8px"></div>
   </div>
 
   <!-- PART 4: TOP 5 STRATEGIC RISKS -->
@@ -13811,6 +13752,181 @@ function exportBoardPack() {
 
     container.insertBefore(card, container.firstChild);
   });
+
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════
+     EXECUTIVE SUMMARY — DYNAMIC ALERT FEED
+     Replaces the static EX2 alert list with a live feed driven
+     by OdysseySignalEngine. Additive only — no other markup or
+     scripts modified.
+════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  var EXEC_MAX_ALERTS = 8;
+
+  /* ── CSS for fade-in animation (injected once) ───────────── */
+  var styleEl = document.createElement('style');
+  styleEl.textContent =
+    '@keyframes execAlertFadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}' +
+    '.exec-alert-card{animation:execAlertFadeIn 0.3s ease both}';
+  document.head.appendChild(styleEl);
+
+  /* ── Minimal HTML-escape helper ─────────────────────────── */
+  function esc(str) {
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  /* ── Elapsed-time formatter ─────────────────────────────── */
+  function elapsed(ts) {
+    var mins = Math.floor((Date.now() - new Date(ts).getTime()) / 60000);
+    if (mins < 1)  return 'Just now';
+    if (mins < 60) return mins + ' min ago';
+    var hrs = Math.floor(mins / 60);
+    return hrs + 'h ago';
+  }
+
+  /* ── Auto-update all timestamp spans every 60 s ─────────── */
+  setInterval(function () {
+    var feed = document.getElementById('exec-live-alerts');
+    if (!feed) return;
+    var spans = feed.querySelectorAll('[data-fired-at]');
+    for (var i = 0; i < spans.length; i++) {
+      spans[i].textContent = elapsed(spans[i].getAttribute('data-fired-at'));
+    }
+  }, 60000);
+
+  /* ── Build one alert card row ───────────────────────────── */
+  function buildCard(severity, signalName, sku, trigger, firedAt) {
+    var isCritical = (severity === 'CRITICAL');
+    var borderColor = isCritical ? '#bb0000' : '#f59e0b';
+    var borderBg    = isCritical ? '#fde8e8' : '#fef3c7';
+    var badgeBg     = isCritical ? '#bb0000' : '#fef3c7';
+    var badgeColor  = isCritical ? '#fff'    : '#92400e';
+    var timeBg      = isCritical ? '#fff5f5' : '#fffbeb';
+    var timeColor   = isCritical ? '#bb0000' : '#b45309';
+    var icon        = isCritical ? '&#128308;' : '&#128993;';
+    var badgeText   = isCritical ? 'CRITICAL'  : 'WARNING';
+
+    var card = document.createElement('div');
+    card.className = 'exec-alert-card';
+    card.style.cssText =
+      'display:flex;align-items:center;gap:12px;' +
+      'background:#fff;' +
+      'border:1px solid ' + borderBg + ';' +
+      'border-left:4px solid ' + borderColor + ';' +
+      'border-radius:8px;padding:10px 14px';
+
+    var iconEl = document.createElement('span');
+    iconEl.style.cssText = 'font-size:18px;line-height:1;flex-shrink:0';
+    iconEl.innerHTML = icon;
+
+    var badge = document.createElement('span');
+    badge.style.cssText =
+      'font-size:10px;font-weight:700;color:' + badgeColor + ';' +
+      'background:' + badgeBg + ';padding:2px 8px;border-radius:10px;' +
+      'white-space:nowrap;flex-shrink:0;text-transform:uppercase;letter-spacing:0.04em';
+    badge.textContent = badgeText;
+
+    var body = document.createElement('div');
+    body.style.cssText = 'flex:1;min-width:0';
+
+    var name = document.createElement('span');
+    name.style.cssText = 'font-size:13px;font-weight:700;color:#1d2d3e';
+    name.textContent = signalName;
+
+    var skuEl = document.createElement('span');
+    skuEl.style.cssText = 'font-size:12px;color:#6b7280;margin-left:8px';
+    skuEl.textContent = sku;
+
+    var trigEl = document.createElement('span');
+    trigEl.style.cssText = 'font-size:11px;color:#9ca3af;margin-left:8px';
+    trigEl.textContent = '\u2022 ' + trigger;
+
+    body.appendChild(name);
+    body.appendChild(skuEl);
+    body.appendChild(trigEl);
+
+    var tsEl = document.createElement('span');
+    tsEl.setAttribute('data-fired-at', firedAt);
+    tsEl.style.cssText =
+      'font-size:11px;font-weight:700;color:' + timeColor + ';' +
+      'white-space:nowrap;flex-shrink:0;background:' + timeBg + ';' +
+      'padding:2px 10px;border-radius:10px';
+    tsEl.textContent = elapsed(firedAt);
+
+    card.appendChild(iconEl);
+    card.appendChild(badge);
+    card.appendChild(body);
+    card.appendChild(tsEl);
+    return card;
+  }
+
+  /* ── Map a signal object to display fields ──────────────── */
+  function signalToDisplay(signal) {
+    var name     = (signal.name || '').replace(/_/g, ' ');
+    /* Capitalise first letter of each word */
+    name = name.replace(/\b\w/g, function(c){ return c.toUpperCase(); });
+    var sku      = signal.product || signal.name || '';
+    var trigger  = signal.description || (signal.metric + ' ' + signal.operator + ' ' + signal.threshold + (signal.unit || ''));
+    var severity = signal.severity || 'CRITICAL';
+    var firedAt  = signal.firedAt  || new Date().toISOString();
+    return { name: name, sku: sku, trigger: trigger, severity: severity, firedAt: firedAt };
+  }
+
+  /* ── Main render function ───────────────────────────────── */
+  window.renderExecAlert = function renderExecAlert(signal) {
+    var feed = document.getElementById('exec-live-alerts');
+    if (!feed) return;
+
+    var d = signalToDisplay(signal);
+    var card = buildCard(d.severity, esc(d.name), esc(d.sku), esc(d.trigger), d.firedAt);
+
+    /* Prepend — newest at top */
+    feed.insertBefore(card, feed.firstChild);
+
+    /* Enforce max 8 */
+    while (feed.children.length > EXEC_MAX_ALERTS) {
+      feed.removeChild(feed.lastChild);
+    }
+  };
+
+  /* ── Subscribe to ALL signals (unique id to avoid overwriting sidebar badge wiring) ── */
+  OdysseySignalEngine.subscribe('exec-alert-feed', function (signal) {
+    renderExecAlert(signal);
+  });
+
+  /* ── Pre-populate with the 5 original static alerts ────── */
+  var now = Date.now();
+  var SEED_ALERTS = [
+    /* oldest → inserted first, ends up at bottom */
+    { severity:'WARNING',  name:'Overstock + Declining Trend', sku:'Implora Glass Skin Essence',  trigger:'42 days coverage \u2022 Slow production',                            firedAt: new Date(now - 24*60*60000).toISOString() },
+    { severity:'WARNING',  name:'Negative Sentiment',          sku:'Make Over Foundation',         trigger:'33% negative mentions \u2022 QA investigation needed',               firedAt: new Date(now - 2*60*60000).toISOString() },
+    { severity:'CRITICAL', name:'Conversion Drop',             sku:'Emina Sun Protection',         trigger:'Engagement \u2191 but Conversion -34% \u2022 Action: Pricing review', firedAt: new Date(now - 6*60*60000).toISOString() },
+    { severity:'CRITICAL', name:'Stock Risk on Trending SKU',  sku:'Azarine Sunscreen SPF50',      trigger:'Coverage: 3 days \u2022 Replenish triggered',                        firedAt: new Date(now - 1*60000).toISOString() },
+    { severity:'CRITICAL', name:'Viral Spike + Stock Risk',    sku:'Wardah Niacinamide Serum',     trigger:'TikTok +127% mentions \u2022 Stock: 3 days',                         firedAt: new Date(now).toISOString() }
+  ];
+
+  function seedExecFeed() {
+    var feed = document.getElementById('exec-live-alerts');
+    if (!feed) return;
+    /* Insert in reverse order so newest ends at top */
+    SEED_ALERTS.forEach(function (d) {
+      var card = buildCard(d.severity, esc(d.name), esc(d.sku), esc(d.trigger), d.firedAt);
+      feed.insertBefore(card, feed.firstChild);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', seedExecFeed);
+  } else {
+    seedExecFeed();
+  }
 
 })();
 </script>
