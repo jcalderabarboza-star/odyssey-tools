@@ -3654,6 +3654,338 @@
     </div>
   </div>
 
+  <!-- SECTION: LOGISTICS FINANCE KPI SUMMARY -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">Logistics Finance &mdash; KPI Summary</span></p>
+      <span class="section-sub">Sep-25 &middot; Cost efficiency &amp; budget adherence</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+
+      <!-- Logistics Cost per Order -->
+      <div class="kpi-card yellow">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Logistics Cost per Order</div>
+            <div class="kpi-category">Per Order Cost</div>
+          </div>
+          <span class="status-badge badge-yellow">&#9888;&#xFE0F; Watch</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-prefix">IDR</span>
+            <span class="kpi-current" style="font-size:22px">18,400</span>
+          </div>
+        </div>
+        <div class="kpi-target">Benchmark: <strong>IDR 18,000</strong></div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <div class="bc-track" style="flex:1"><div class="bc-fill" style="width:82%;background:#e76500"></div></div>
+            <div class="bc-val" style="color:#e76500">+2.2%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Freight Invoice Accuracy -->
+      <div class="kpi-card yellow">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Freight Invoice Accuracy</div>
+            <div class="kpi-category">Invoice Validation</div>
+          </div>
+          <span class="status-badge badge-yellow">&#9888;&#xFE0F; Watch</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current">94.2</span>
+            <span class="kpi-unit">%</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>&ge; 98%</strong></div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <div class="bc-track" style="flex:1"><div class="bc-fill" style="width:94%;background:#e76500"></div></div>
+            <div class="bc-val" style="color:#e76500">94.2%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Warehouse Cost per Unit -->
+      <div class="kpi-card green">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Warehouse Cost per Unit</div>
+            <div class="kpi-category">Per Unit Cost</div>
+          </div>
+          <span class="status-badge badge-green">&#10003; On Track</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-prefix">IDR</span>
+            <span class="kpi-current" style="font-size:22px">2,150</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>&le; IDR 2,200</strong></div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <div class="bc-track" style="flex:1"><div class="bc-fill" style="width:97%;background:#107e3e"></div></div>
+            <div class="bc-val" style="color:#107e3e">97.7%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Budget Variance (Logistics) -->
+      <div class="kpi-card red">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Budget Variance (Logistics)</div>
+            <div class="kpi-category">Budget Adherence</div>
+          </div>
+          <span class="status-badge badge-red">&#9679; Over Budget</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current" style="color:#bb0000">+4.8</span>
+            <span class="kpi-unit">%</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>&le; 0%</strong> variance</div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <div class="bc-track" style="flex:1"><div class="bc-fill" style="width:100%;background:#bb0000"></div></div>
+            <div class="bc-val" style="color:#bb0000">+4.8%</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION: LOGISTICS COST DASHBOARD -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">LOGISTICS COST DASHBOARD</p>
+      <span class="section-sub">Budget vs Actual by cost category | Sep-25 | IDR</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Cost Category</th>
+            <th style="text-align:right">Budget (IDR)</th>
+            <th style="text-align:right">Actual (IDR)</th>
+            <th style="text-align:right">Variance (IDR)</th>
+            <th style="text-align:right">Variance (%)</th>
+            <th style="text-align:center">Status</th>
+            <th style="text-align:center">Trend</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#fff0f0">
+            <td style="font-weight:600">Transport &mdash; Linehaul</td>
+            <td style="text-align:right">2,400,000,000</td>
+            <td style="text-align:right">2,510,000,000</td>
+            <td style="text-align:right;color:#bb0000;font-weight:600">+110,000,000</td>
+            <td style="text-align:right;color:#bb0000;font-weight:600">+4.6%</td>
+            <td style="text-align:center"><span class="status-badge badge-red">Over</span></td>
+            <td style="text-align:center;font-size:16px;color:#bb0000">&#8593;</td>
+          </tr>
+          <tr style="background:#fff0f0">
+            <td style="font-weight:600">Transport &mdash; Last Mile</td>
+            <td style="text-align:right">1,800,000,000</td>
+            <td style="text-align:right">1,920,000,000</td>
+            <td style="text-align:right;color:#bb0000;font-weight:600">+120,000,000</td>
+            <td style="text-align:right;color:#bb0000;font-weight:600">+6.7%</td>
+            <td style="text-align:center"><span class="status-badge badge-red">Over</span></td>
+            <td style="text-align:center;font-size:16px;color:#bb0000">&#8593;</td>
+          </tr>
+          <tr style="background:#f0faf4">
+            <td style="font-weight:600">Warehouse Operations</td>
+            <td style="text-align:right">3,200,000,000</td>
+            <td style="text-align:right">3,180,000,000</td>
+            <td style="text-align:right;color:#107e3e;font-weight:600">&minus;20,000,000</td>
+            <td style="text-align:right;color:#107e3e;font-weight:600">&minus;0.6%</td>
+            <td style="text-align:center"><span class="status-badge badge-green">On Budget</span></td>
+            <td style="text-align:center;font-size:16px;color:#6b7280">&#8594;</td>
+          </tr>
+          <tr style="background:#fff0f0">
+            <td style="font-weight:600">Fulfillment &amp; Packing</td>
+            <td style="text-align:right">980,000,000</td>
+            <td style="text-align:right">1,010,000,000</td>
+            <td style="text-align:right;color:#bb0000;font-weight:600">+30,000,000</td>
+            <td style="text-align:right;color:#bb0000;font-weight:600">+3.1%</td>
+            <td style="text-align:center"><span class="status-badge badge-red">Over</span></td>
+            <td style="text-align:center;font-size:16px;color:#bb0000">&#8593;</td>
+          </tr>
+          <tr style="background:#f0faf4">
+            <td style="font-weight:600">Returns Handling</td>
+            <td style="text-align:right">420,000,000</td>
+            <td style="text-align:right">390,000,000</td>
+            <td style="text-align:right;color:#107e3e;font-weight:600">&minus;30,000,000</td>
+            <td style="text-align:right;color:#107e3e;font-weight:600">&minus;7.1%</td>
+            <td style="text-align:center"><span class="status-badge badge-green">Under</span></td>
+            <td style="text-align:center;font-size:16px;color:#107e3e">&#8595;</td>
+          </tr>
+          <tr style="background:#fff0f0;border-top:2px solid #e5e7eb">
+            <td style="font-weight:700;color:#1d2d3e">Total Logistics</td>
+            <td style="text-align:right;font-weight:700">8,800,000,000</td>
+            <td style="text-align:right;font-weight:700">9,010,000,000</td>
+            <td style="text-align:right;color:#bb0000;font-weight:700">+210,000,000</td>
+            <td style="text-align:right;color:#bb0000;font-weight:700">+2.4%</td>
+            <td style="text-align:center"><span class="status-badge badge-red">Over</span></td>
+            <td style="text-align:center;font-size:16px;color:#bb0000">&#8593;</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION: COST-TO-SERVE PER CHANNEL -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">COST-TO-SERVE PER CHANNEL</p>
+      <span class="section-sub">Logistics cost efficiency by sales channel | Sep-25</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Channel</th>
+            <th style="text-align:right">Total Orders</th>
+            <th style="text-align:right">Total Cost (IDR)</th>
+            <th style="text-align:right">Cost per Order (IDR)</th>
+            <th style="text-align:right">Revenue (IDR)</th>
+            <th style="text-align:right">Cost-to-Serve (%)</th>
+            <th style="text-align:right">vs Benchmark (%)</th>
+            <th style="text-align:center">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#fff8f0">
+            <td style="font-weight:600">B2C E-commerce</td>
+            <td style="text-align:right">48,200</td>
+            <td style="text-align:right">IDR 887M</td>
+            <td style="text-align:right">IDR 18,400</td>
+            <td style="text-align:right">IDR 4.2B</td>
+            <td style="text-align:right;font-weight:600;color:#e76500">21.1%</td>
+            <td style="text-align:right;color:#6b7280">20% benchmark</td>
+            <td style="text-align:center"><span class="status-badge badge-yellow">&#9888;&#xFE0F; Watch</span></td>
+          </tr>
+          <tr style="background:#f0faf4">
+            <td style="font-weight:600">B2C Marketplace (Shopee/Tokopedia)</td>
+            <td style="text-align:right">62,400</td>
+            <td style="text-align:right">IDR 1.12B</td>
+            <td style="text-align:right">IDR 17,900</td>
+            <td style="text-align:right">IDR 5.8B</td>
+            <td style="text-align:right;font-weight:600;color:#107e3e">19.3%</td>
+            <td style="text-align:right;color:#6b7280">20% benchmark</td>
+            <td style="text-align:center"><span class="status-badge badge-green">&#10003; On Track</span></td>
+          </tr>
+          <tr style="background:#f0faf4">
+            <td style="font-weight:600">B2B Modern Trade</td>
+            <td style="text-align:right">8,400</td>
+            <td style="text-align:right">IDR 168M</td>
+            <td style="text-align:right">IDR 20,000</td>
+            <td style="text-align:right">IDR 2.1B</td>
+            <td style="text-align:right;font-weight:600;color:#107e3e">8.0%</td>
+            <td style="text-align:right;color:#6b7280">10% benchmark</td>
+            <td style="text-align:center"><span class="status-badge badge-green">&#10003; On Track</span></td>
+          </tr>
+          <tr style="background:#fff8f0">
+            <td style="font-weight:600">B2B Traditional Trade</td>
+            <td style="text-align:right">12,800</td>
+            <td style="text-align:right">IDR 294M</td>
+            <td style="text-align:right">IDR 22,900</td>
+            <td style="text-align:right">IDR 1.9B</td>
+            <td style="text-align:right;font-weight:600;color:#e76500">15.5%</td>
+            <td style="text-align:right;color:#6b7280">15% benchmark</td>
+            <td style="text-align:center"><span class="status-badge badge-yellow">&#9888;&#xFE0F; Watch</span></td>
+          </tr>
+          <tr style="background:#f0faf4">
+            <td style="font-weight:600">Social Commerce (TikTok Shop)</td>
+            <td style="text-align:right">18,600</td>
+            <td style="text-align:right">IDR 316M</td>
+            <td style="text-align:right">IDR 17,000</td>
+            <td style="text-align:right">IDR 1.6B</td>
+            <td style="text-align:right;font-weight:600;color:#107e3e">19.8%</td>
+            <td style="text-align:right;color:#6b7280">20% benchmark</td>
+            <td style="text-align:center"><span class="status-badge badge-green">&#10003; On Track</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION: FREIGHT INVOICE VALIDATION BOARD -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label">FREIGHT INVOICE VALIDATION BOARD</p>
+      <span class="section-sub">3PL invoice accuracy &amp; dispute tracking | Sep-25</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>3PL Partner</th>
+            <th style="text-align:right">Invoices Submitted</th>
+            <th style="text-align:right">Invoices Validated</th>
+            <th style="text-align:right">Discrepancies Found</th>
+            <th style="text-align:right">Overcharge (IDR)</th>
+            <th style="text-align:center">Status</th>
+            <th>Action Required</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#fff0f0">
+            <td style="font-weight:600">JNE</td>
+            <td style="text-align:right">142</td>
+            <td style="text-align:right">138</td>
+            <td style="text-align:right;color:#bb0000;font-weight:600">8</td>
+            <td style="text-align:right;color:#bb0000;font-weight:600">IDR 24,500,000</td>
+            <td style="text-align:center"><span class="status-badge badge-red">&#9679; Disputed</span></td>
+            <td>Review overcharge claims with JNE account team</td>
+          </tr>
+          <tr style="background:#f0faf4">
+            <td style="font-weight:600">J&amp;T Express</td>
+            <td style="text-align:right">186</td>
+            <td style="text-align:right">186</td>
+            <td style="text-align:right;color:#107e3e;font-weight:600">0</td>
+            <td style="text-align:right;color:#6b7280">&mdash;</td>
+            <td style="text-align:center"><span class="status-badge badge-green">&#10003; Cleared</span></td>
+            <td style="color:#6b7280">None</td>
+          </tr>
+          <tr style="background:#fff0f0">
+            <td style="font-weight:600">SiCepat</td>
+            <td style="text-align:right">124</td>
+            <td style="text-align:right">121</td>
+            <td style="text-align:right;color:#bb0000;font-weight:600">11</td>
+            <td style="text-align:right;color:#bb0000;font-weight:600">IDR 18,200,000</td>
+            <td style="text-align:center"><span class="status-badge badge-red">&#9679; Disputed</span></td>
+            <td>Raise formal dispute &mdash; overcharge on zone surcharge fees</td>
+          </tr>
+          <tr style="background:#fff8f0">
+            <td style="font-weight:600">Anteraja</td>
+            <td style="text-align:right">98</td>
+            <td style="text-align:right">95</td>
+            <td style="text-align:right;color:#e76500;font-weight:600">3</td>
+            <td style="text-align:right;color:#6b7280">&mdash;</td>
+            <td style="text-align:center"><span class="status-badge badge-yellow">&#8987; Pending</span></td>
+            <td>Awaiting invoice validation &mdash; due Oct 5</td>
+          </tr>
+          <tr style="background:#f0faf4">
+            <td style="font-weight:600">SAP Express</td>
+            <td style="text-align:right">76</td>
+            <td style="text-align:right">76</td>
+            <td style="text-align:right;color:#107e3e;font-weight:600">0</td>
+            <td style="text-align:right;color:#6b7280">&mdash;</td>
+            <td style="text-align:center"><span class="status-badge badge-green">&#10003; Cleared</span></td>
+            <td style="color:#6b7280">None</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <!-- SECTION 1: STRATEGIC KPI CARDS -->
   <div class="section-block">
     <div class="section-hdr">
