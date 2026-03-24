@@ -904,6 +904,12 @@
     <span class="nav-item-icon">📣</span>
     <span class="nav-item-label">Marketing</span>
   </button>
+  <div class="sidebar-section-divider"></div>
+  <div class="sidebar-section-label">IT / Systems</div>
+  <button class="nav-item" id="nav-it-systems" onclick="switchTab('it-systems')">
+    <span class="nav-item-icon">🖥️</span>
+    <span class="nav-item-label">IT / Systems</span>
+  </button>
   <div class="sidebar-footer">E2E Control Tower v2.0 — Odyssey Program</div>
 </aside>
 
@@ -3055,6 +3061,12 @@
 </div><!-- end panel-marketing -->
 <!-- === END MARKETING MODULE HTML === -->
 
+<!-- === IT / SYSTEMS MODULE HTML === -->
+<div class="tab-panel" id="panel-it-systems">
+  <h2 style="padding:40px 32px;font-size:22px;font-weight:700;color:#1d2d3e;">IT / Systems — coming soon</h2>
+</div>
+<!-- === END IT / SYSTEMS MODULE HTML === -->
+
 <!-- === EXECUTIVE SUMMARY MODULE HTML === -->
 <div class="tab-panel" id="panel-exec">
 <div class="executive-summary-content">
@@ -3772,7 +3784,7 @@ function switchTab(tab) {
   document.getElementById('panel-'+tab).classList.add('active');
   const navEl=document.getElementById('nav-'+tab);
   if(navEl) navEl.classList.add('active');
-  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard',exec:'Executive Summary'};
+  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard',exec:'Executive Summary','it-systems':'IT / Systems'};
   document.getElementById('top-bar-title').textContent=titles[tab]||tab;
   const bcEl=document.getElementById('top-bar-breadcrumb');
   if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
