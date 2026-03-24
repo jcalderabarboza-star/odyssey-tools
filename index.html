@@ -877,6 +877,10 @@
     <span class="nav-item-icon">🚛</span>
     <span class="nav-item-label">Transport</span>
   </button>
+  <button class="nav-item" id="nav-3pl-logistics" onclick="switchTab('3pl-logistics')">
+    <span class="nav-item-icon">🏪</span>
+    <span class="nav-item-label">3PL / Logistics</span>
+  </button>
   <button class="nav-item" id="nav-suppliers" onclick="switchTab('suppliers')">
     <span class="nav-item-icon">🏭</span>
     <span class="nav-item-label">Suppliers Portal</span>
@@ -3484,6 +3488,12 @@
 </div>
 <!-- === END IT / SYSTEMS MODULE HTML === -->
 
+<!-- === 3PL / LOGISTICS MODULE HTML === -->
+<div class="tab-panel" id="panel-3pl-logistics">
+  <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin:0">3PL / Logistics — coming soon</h2>
+</div>
+<!-- === END 3PL / LOGISTICS MODULE HTML === -->
+
 <!-- === EXECUTIVE SUMMARY MODULE HTML === -->
 <div class="tab-panel" id="panel-exec">
 <div class="executive-summary-content">
@@ -4201,7 +4211,7 @@ function switchTab(tab) {
   document.getElementById('panel-'+tab).classList.add('active');
   const navEl=document.getElementById('nav-'+tab);
   if(navEl) navEl.classList.add('active');
-  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard',exec:'Executive Summary','it-systems':'IT / Systems'};
+  const titles={kpi:'Distribution & Warehouse',wh:'Warehouse Log',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard',exec:'Executive Summary','it-systems':'IT / Systems','3pl-logistics':'3PL / Logistics'};
   document.getElementById('top-bar-title').textContent=titles[tab]||tab;
   const bcEl=document.getElementById('top-bar-breadcrumb');
   if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
