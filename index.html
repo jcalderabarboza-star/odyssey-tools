@@ -3063,7 +3063,256 @@
 
 <!-- === IT / SYSTEMS MODULE HTML === -->
 <div class="tab-panel" id="panel-it-systems">
-  <h2 style="padding:40px 32px;font-size:22px;font-weight:700;color:#1d2d3e;">IT / Systems — coming soon</h2>
+
+  <!-- PAGE HEADER -->
+  <div style="margin-bottom:20px">
+    <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin:0 0 4px">IT / Systems Dashboard</h2>
+    <div style="font-size:12px;color:#9ca3af;margin-bottom:6px">E2E Control Tower &rsaquo; IT &amp; Systems</div>
+    <div style="font-size:13px;color:#6b7280;margin-bottom:10px">System Health &middot; Integration Monitoring &middot; Uptime &middot; Incident Tracking</div>
+    <div style="display:inline-flex;align-items:center;gap:8px;background:#f0faf4;border:1px solid #a3d9b1;border-radius:20px;padding:6px 16px;font-size:13px;color:#1d2d3e;flex-wrap:wrap">
+      🟢 <strong>6 of 7 systems operational</strong> &nbsp;&middot;&nbsp; ⚠️ <strong>1 system degraded</strong> &nbsp;&middot;&nbsp; 🔴 <strong>2 open incidents</strong> &nbsp;&middot;&nbsp; 🕐 Last sync: 08:42 WIB
+    </div>
+  </div>
+
+  <!-- SECTION 1: KPI SUMMARY CARDS -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-teal">System Health KPIs</span></p>
+      <span class="section-sub">As of 24 Mar 2026 &middot; 08:45 WIB</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+
+      <!-- Card 1: System Uptime -->
+      <div class="kpi-card green">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">System Uptime</div>
+            <div class="kpi-category">Avg across all systems</div>
+          </div>
+          <span class="status-badge badge-green">ON TARGET</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current">99.2</span>
+            <span class="kpi-unit">%</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>&ge; 99.0%</strong></div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <div class="bc-track"><div class="bc-fill" style="width:99.2%;background:#107e3e"></div></div>
+            <span class="bc-val" style="color:#107e3e">99.2%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Data Latency -->
+      <div class="kpi-card yellow">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Data Latency</div>
+            <div class="kpi-category">Avg integration delay (min)</div>
+          </div>
+          <span class="status-badge badge-yellow">WARNING</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current">4.7</span>
+            <span class="kpi-unit">min</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>&le; 3.0 min</strong></div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <div class="bc-track"><div class="bc-fill" style="width:63%;background:#e76500"></div></div>
+            <span class="bc-val" style="color:#e76500">4.7 min</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Integration Error Rate -->
+      <div class="kpi-card green">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Integration Error Rate</div>
+            <div class="kpi-category">Failed transactions / total</div>
+          </div>
+          <span class="status-badge badge-green">ON TARGET</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current">0.3</span>
+            <span class="kpi-unit">%</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>&le; 0.5%</strong></div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <div class="bc-track"><div class="bc-fill" style="width:30%;background:#107e3e"></div></div>
+            <span class="bc-val" style="color:#107e3e">0.3%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Open Incidents -->
+      <div class="kpi-card yellow">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Open Incidents</div>
+            <div class="kpi-category">Active issues requiring attention</div>
+          </div>
+          <span class="status-badge badge-yellow">WARNING</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current">2</span>
+            <span class="kpi-unit">open</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>0 P1 incidents</strong></div>
+        <div style="font-size:11px;color:#9ca3af;margin-top:6px">1 × P1 &nbsp;·&nbsp; 1 × P2 &nbsp;·&nbsp; 0 × P3</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 2: SYSTEM STATUS GRID -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">System Status Grid</span></p>
+      <span class="section-sub">7 integrated systems &middot; Real-time health snapshot &middot; 24 Mar 2026</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>System</th>
+            <th>Status</th>
+            <th style="text-align:right">Uptime %</th>
+            <th>Last Sync</th>
+            <th style="text-align:right">Latency (min)</th>
+            <th>Owner</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- SAP S/4HANA -->
+          <tr>
+            <td>
+              <div class="td-name" style="display:flex;align-items:center;gap:8px">
+                <span style="width:8px;height:8px;border-radius:50%;background:#107e3e;display:inline-block;flex-shrink:0"></span>
+                SAP S/4HANA
+              </div>
+              <div style="font-size:11px;color:#9ca3af;padding-left:16px">ERP Core</div>
+            </td>
+            <td><span class="status-badge badge-green">OPERATIONAL</span></td>
+            <td style="text-align:right;font-weight:700;color:#107e3e">99.8%</td>
+            <td style="font-size:12px;color:#374151">08:42 WIB</td>
+            <td style="text-align:right;font-weight:700;color:#107e3e">1.2</td>
+            <td style="font-size:12px;color:#6b7280">IT Infra</td>
+            <td style="font-size:12px;color:#9ca3af">All modules running</td>
+          </tr>
+          <!-- SAP IBP -->
+          <tr>
+            <td>
+              <div class="td-name" style="display:flex;align-items:center;gap:8px">
+                <span style="width:8px;height:8px;border-radius:50%;background:#107e3e;display:inline-block;flex-shrink:0"></span>
+                SAP IBP
+              </div>
+              <div style="font-size:11px;color:#9ca3af;padding-left:16px">Integrated Business Planning</div>
+            </td>
+            <td><span class="status-badge badge-green">OPERATIONAL</span></td>
+            <td style="text-align:right;font-weight:700;color:#107e3e">99.4%</td>
+            <td style="font-size:12px;color:#374151">08:40 WIB</td>
+            <td style="text-align:right;font-weight:700;color:#107e3e">2.1</td>
+            <td style="font-size:12px;color:#6b7280">Supply Chain IT</td>
+            <td style="font-size:12px;color:#9ca3af">Demand &amp; supply sync OK</td>
+          </tr>
+          <!-- OMS -->
+          <tr>
+            <td>
+              <div class="td-name" style="display:flex;align-items:center;gap:8px">
+                <span style="width:8px;height:8px;border-radius:50%;background:#107e3e;display:inline-block;flex-shrink:0"></span>
+                OMS
+              </div>
+              <div style="font-size:11px;color:#9ca3af;padding-left:16px">Order Management System</div>
+            </td>
+            <td><span class="status-badge badge-green">OPERATIONAL</span></td>
+            <td style="text-align:right;font-weight:700;color:#107e3e">99.1%</td>
+            <td style="font-size:12px;color:#374151">08:44 WIB</td>
+            <td style="text-align:right;font-weight:700;color:#107e3e">1.8</td>
+            <td style="font-size:12px;color:#6b7280">Commercial IT</td>
+            <td style="font-size:12px;color:#9ca3af">Order flow healthy</td>
+          </tr>
+          <!-- WMS/Heron -->
+          <tr>
+            <td>
+              <div class="td-name" style="display:flex;align-items:center;gap:8px">
+                <span style="width:8px;height:8px;border-radius:50%;background:#e76500;display:inline-block;flex-shrink:0"></span>
+                WMS / Heron
+              </div>
+              <div style="font-size:11px;color:#9ca3af;padding-left:16px">Warehouse Management System</div>
+            </td>
+            <td><span class="status-badge badge-yellow">DEGRADED</span></td>
+            <td style="text-align:right;font-weight:700;color:#e76500">97.3%</td>
+            <td style="font-size:12px;color:#e76500">07:15 WIB ⚠</td>
+            <td style="text-align:right;font-weight:700;color:#e76500">9.4</td>
+            <td style="font-size:12px;color:#6b7280">DC IT</td>
+            <td style="font-size:12px;color:#e76500">High latency — P1 open</td>
+          </tr>
+          <!-- TMS -->
+          <tr>
+            <td>
+              <div class="td-name" style="display:flex;align-items:center;gap:8px">
+                <span style="width:8px;height:8px;border-radius:50%;background:#107e3e;display:inline-block;flex-shrink:0"></span>
+                TMS
+              </div>
+              <div style="font-size:11px;color:#9ca3af;padding-left:16px">Transport Management System</div>
+            </td>
+            <td><span class="status-badge badge-green">OPERATIONAL</span></td>
+            <td style="text-align:right;font-weight:700;color:#107e3e">99.5%</td>
+            <td style="font-size:12px;color:#374151">08:43 WIB</td>
+            <td style="text-align:right;font-weight:700;color:#107e3e">2.5</td>
+            <td style="font-size:12px;color:#6b7280">Logistics IT</td>
+            <td style="font-size:12px;color:#9ca3af">Route optimization active</td>
+          </tr>
+          <!-- Power BI -->
+          <tr>
+            <td>
+              <div class="td-name" style="display:flex;align-items:center;gap:8px">
+                <span style="width:8px;height:8px;border-radius:50%;background:#107e3e;display:inline-block;flex-shrink:0"></span>
+                Power BI
+              </div>
+              <div style="font-size:11px;color:#9ca3af;padding-left:16px">Reporting &amp; Analytics</div>
+            </td>
+            <td><span class="status-badge badge-green">OPERATIONAL</span></td>
+            <td style="text-align:right;font-weight:700;color:#107e3e">99.9%</td>
+            <td style="font-size:12px;color:#374151">08:30 WIB</td>
+            <td style="text-align:right;font-weight:700;color:#107e3e">3.0</td>
+            <td style="font-size:12px;color:#6b7280">Analytics IT</td>
+            <td style="font-size:12px;color:#9ca3af">Dashboards refreshed</td>
+          </tr>
+          <!-- SAP LBN -->
+          <tr>
+            <td>
+              <div class="td-name" style="display:flex;align-items:center;gap:8px">
+                <span style="width:8px;height:8px;border-radius:50%;background:#107e3e;display:inline-block;flex-shrink:0"></span>
+                SAP LBN
+              </div>
+              <div style="font-size:11px;color:#9ca3af;padding-left:16px">Logistics Business Network</div>
+            </td>
+            <td><span class="status-badge badge-green">OPERATIONAL</span></td>
+            <td style="text-align:right;font-weight:700;color:#107e3e">98.7%</td>
+            <td style="font-size:12px;color:#374151">08:38 WIB</td>
+            <td style="text-align:right;font-weight:700;color:#107e3e">3.8</td>
+            <td style="font-size:12px;color:#6b7280">IT Infra</td>
+            <td style="font-size:12px;color:#9ca3af">P2 incident resolved</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
 <!-- === END IT / SYSTEMS MODULE HTML === -->
 
