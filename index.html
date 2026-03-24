@@ -13230,5 +13230,223 @@ function exportBoardPack() {
 
 // === END EXECUTIVE SUMMARY MODULE ===
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════
+     ODYSSEY SIGNAL ENGINE
+     Global pub/sub signal bus for cross-module communication.
+     Do NOT modify existing scripts above — this block is additive only.
+════════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  /* ── Signal Engine Definition ─────────────────────────────── */
+  var OdysseySignalEngine = {
+
+    /** Array of currently active signal objects */
+    signals: [],
+
+    /**
+     * Threshold conditions pre-loaded from dummy data.
+     * Each key is a signalName; value describes the trigger rule.
+     */
+    thresholds: {
+      VIRAL_SPIKE: {
+        product:    'Wardah Niacinamide Serum',
+        metric:     'Trend Velocity',
+        value:      127,
+        unit:       '%',
+        threshold:  50,
+        operator:   '>',
+        description:'Trend Velocity +127% — threshold > 50%',
+        severity:   'CRITICAL'
+      },
+      STOCK_RISK: {
+        product:    'Azarine Sunscreen SPF50',
+        metric:     'Stock Coverage',
+        value:      3,
+        unit:       'days',
+        threshold:  7,
+        operator:   '<',
+        description:'Stock Coverage 3 days — threshold < 7 days',
+        severity:   'CRITICAL'
+      },
+      DEMAND_SPIKE: {
+        product:    'Scarlett Body Lotion',
+        metric:     'Spike Index',
+        value:      89,
+        unit:       '%',
+        threshold:  30,
+        operator:   '>',
+        description:'Spike Index +89% — threshold > 30%',
+        severity:   'WARNING'
+      },
+      CONVERSION_DROP: {
+        product:    'Emina Sun Protection',
+        metric:     'Conversion Rate',
+        value:      -34,
+        unit:       '%',
+        threshold:  20,
+        operator:   'drop>',
+        description:'Conversion -34% — threshold > 20% drop',
+        severity:   'CRITICAL'
+      }
+    },
+
+    /**
+     * Registry of subscriber callbacks.
+     * Key: moduleId (string), Value: callback function(signal)
+     */
+    subscribers: {},
+
+    /**
+     * Register a module to receive all fired signals.
+     * @param {string}   moduleId  Unique identifier for the module
+     * @param {Function} callback  Called with the signal object when fired
+     */
+    subscribe: function(moduleId, callback) {
+      if (typeof moduleId !== 'string' || typeof callback !== 'function') {
+        console.warn('[SignalEngine] subscribe() requires a string moduleId and a function callback.');
+        return;
+      }
+      this.subscribers[moduleId] = callback;
+      console.log('[SignalEngine] Module subscribed:', moduleId);
+    },
+
+    /**
+     * Trigger a named signal, appending it to active signals and broadcasting.
+     * @param {string} signalName  Key from thresholds (or custom name)
+     * @param {Object} [data]      Optional extra payload merged into the signal
+     */
+    fire: function(signalName, data) {
+      var def = this.thresholds[signalName] || {};
+      var signal = Object.assign({}, def, data || {}, {
+        name:      signalName,
+        firedAt:   new Date().toISOString(),
+        id:        signalName + '_' + Date.now()
+      });
+      this.signals.push(signal);
+      console.log('[SignalEngine] Signal fired:', signalName, signal);
+      this.broadcast(signal);
+      return signal;
+    },
+
+    /**
+     * Push a signal object to every registered subscriber.
+     * @param {Object} signal
+     */
+    broadcast: function(signal) {
+      var ids = Object.keys(this.subscribers);
+      if (ids.length === 0) {
+        console.log('[SignalEngine] Broadcast: no subscribers yet for', signal.name);
+        return;
+      }
+      ids.forEach(function(id) {
+        try {
+          OdysseySignalEngine.subscribers[id](signal);
+        } catch(e) {
+          console.error('[SignalEngine] Error in subscriber "' + id + '":', e);
+        }
+      });
+    },
+
+    /**
+     * Reset all active signals (does not notify subscribers).
+     */
+    clearSignals: function() {
+      this.signals = [];
+      console.log('[SignalEngine] All active signals cleared.');
+    }
+  };
+
+  /* ── Expose globally ──────────────────────────────────────── */
+  window.OdysseySignalEngine = OdysseySignalEngine;
+
+  /* ── simulateSignal: re-fire any signal by name ───────────── */
+  window.simulateSignal = function(signalName) {
+    if (!signalName) {
+      console.warn('[SignalEngine] simulateSignal() requires a signal name. Available:', Object.keys(OdysseySignalEngine.thresholds));
+      return;
+    }
+    return OdysseySignalEngine.fire(signalName);
+  };
+
+  /* ── Auto-fire CRITICAL signals 1.5 s after DOMContentLoaded ─ */
+  function autofireCriticalSignals() {
+    var criticalSignals = Object.keys(OdysseySignalEngine.thresholds).filter(function(name) {
+      return OdysseySignalEngine.thresholds[name].severity === 'CRITICAL';
+    });
+    console.log('[SignalEngine] Auto-firing CRITICAL signals:', criticalSignals);
+    criticalSignals.forEach(function(name) {
+      OdysseySignalEngine.fire(name);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(autofireCriticalSignals, 1500);
+    });
+  } else {
+    // DOMContentLoaded already fired (script is deferred/async)
+    setTimeout(autofireCriticalSignals, 1500);
+  }
+
+  /* ── Floating "Simulate Signals" demo button ──────────────── */
+  function createSimulateButton() {
+    var btn = document.createElement('button');
+    btn.id = 'odyssey-simulate-btn';
+    btn.textContent = '⚡ Simulate Signals';
+    btn.title = 'Fire all Odyssey signals simultaneously (demo)';
+
+    var style = btn.style;
+    style.position      = 'fixed';
+    style.bottom        = '24px';
+    style.right         = '24px';
+    style.zIndex        = '9999';
+    style.background    = '#1d2d3e';
+    style.color         = '#ffffff';
+    style.border        = '1px solid rgba(255,255,255,0.15)';
+    style.borderRadius  = '8px';
+    style.padding       = '9px 14px';
+    style.fontSize      = '12px';
+    style.fontWeight    = '600';
+    style.fontFamily    = "'72', 'Inter', system-ui, sans-serif";
+    style.cursor        = 'pointer';
+    style.boxShadow     = '0 4px 12px rgba(0,0,0,0.3)';
+    style.letterSpacing = '0.03em';
+    style.transition    = 'background 0.15s, box-shadow 0.15s, transform 0.1s';
+
+    btn.addEventListener('mouseenter', function() {
+      this.style.background   = '#0070f2';
+      this.style.boxShadow    = '0 6px 20px rgba(0,112,242,0.45)';
+      this.style.transform    = 'translateY(-1px)';
+    });
+    btn.addEventListener('mouseleave', function() {
+      this.style.background   = '#1d2d3e';
+      this.style.boxShadow    = '0 4px 12px rgba(0,0,0,0.3)';
+      this.style.transform    = '';
+    });
+    btn.addEventListener('mousedown', function() { this.style.transform = 'scale(0.97)'; });
+    btn.addEventListener('mouseup',   function() { this.style.transform = 'translateY(-1px)'; });
+
+    btn.addEventListener('click', function() {
+      var allSignals = Object.keys(OdysseySignalEngine.thresholds);
+      console.log('[SignalEngine] Demo button clicked — firing all signals:', allSignals);
+      allSignals.forEach(function(name) {
+        OdysseySignalEngine.fire(name);
+      });
+    });
+
+    document.body.appendChild(btn);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', createSimulateButton);
+  } else {
+    createSimulateButton();
+  }
+
+})();
+</script>
 </body>
 </html>
