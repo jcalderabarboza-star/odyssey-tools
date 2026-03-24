@@ -3335,6 +3335,18 @@
     <div style="font-size:13px;color:#6b7280;margin-bottom:10px">Social signal → Demand → Inventory → Action</div>
   </div>
 
+  <!-- SIGNAL ENGINE STATUS ROW -->
+  <div id="signal-engine-status-row" style="display:flex;align-items:center;gap:18px;padding:9px 14px;background:#f0f4f8;border:1px solid #d1dde8;border-radius:7px;margin-bottom:20px;flex-wrap:wrap">
+    <span style="font-size:11px;font-weight:700;color:#1d2d3e;text-transform:uppercase;letter-spacing:0.07em;flex-shrink:0">Signal Engine Status</span>
+    <span style="display:flex;align-items:center;gap:5px;font-size:12px;color:#374151">
+      <span id="se-status-dot" style="width:8px;height:8px;border-radius:50%;background:#16a34a;display:inline-block;flex-shrink:0"></span>
+      <span id="se-status-label" style="color:#16a34a;font-weight:600">Active</span>
+    </span>
+    <span style="font-size:12px;color:#6b7280;border-left:1px solid #d1dde8;padding-left:14px">Signals fired today: <strong id="se-fired-count" style="color:#1d2d3e">0</strong></span>
+    <span style="font-size:12px;color:#6b7280;border-left:1px solid #d1dde8;padding-left:14px">Last signal: <strong id="se-last-signal" style="color:#1d2d3e">—</strong></span>
+    <span style="font-size:12px;color:#6b7280;border-left:1px solid #d1dde8;padding-left:14px">Active subscriptions: <strong id="se-sub-count" style="color:#1d2d3e">0</strong></span>
+  </div>
+
   <!-- STRATEGIC LAYER: TREND INTELLIGENCE -->
   <div class="section-block">
     <div class="section-hdr">
@@ -13332,59 +13344,215 @@ function exportBoardPack() {
     setTimeout(autofireCriticalSignals, 1500);
   }
 
-  /* ── Floating "Simulate Signals" demo button ──────────────── */
-  function createSimulateButton() {
-    var btn = document.createElement('button');
-    btn.id = 'odyssey-simulate-btn';
-    btn.textContent = '⚡ Simulate Signals';
-    btn.title = 'Fire all Odyssey signals simultaneously (demo)';
+  /* ═══════════════════════════════════════════════════════════
+     SIGNAL SIMULATOR DEMO PANEL  (bottom-right, collapsible)
+  ════════════════════════════════════════════════════════════ */
+  function createSimulatorPanel() {
+    var CSS = [
+      '#ose-demo-panel{position:fixed;bottom:0;right:24px;z-index:9999;font-family:"72","Inter",system-ui,sans-serif}',
+      '#ose-demo-tab{display:inline-flex;align-items:center;gap:6px;background:#1d2d3e;color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:6px 6px 0 0;cursor:pointer;user-select:none;border:1px solid rgba(255,255,255,.13);border-bottom:none;transition:background .15s}',
+      '#ose-demo-tab:hover{background:#0070f2}',
+      '#ose-demo-tab .ose-chevron{font-size:9px;transition:transform .2s}',
+      '#ose-demo-body{background:#1d2d3e;border:1px solid rgba(255,255,255,.13);border-radius:6px 0 0 0;padding:10px 12px 12px;width:230px;display:none}',
+      '#ose-demo-body.open{display:block}',
+      '.ose-panel-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}',
+      '.ose-sig-btn{display:block;width:100%;text-align:left;background:rgba(255,255,255,.06);color:#e2e8f0;border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:6px 10px;font-size:11px;font-weight:600;cursor:pointer;margin-bottom:5px;transition:background .13s,border-color .13s;font-family:inherit}',
+      '.ose-sig-btn:last-child{margin-bottom:0}',
+      '.ose-sig-btn:hover{background:rgba(0,112,242,.35);border-color:rgba(0,112,242,.6);color:#fff}',
+      '.ose-sig-btn.all-btn{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3);color:#fca5a5}',
+      '.ose-sig-btn.all-btn:hover{background:rgba(239,68,68,.3);border-color:#ef4444;color:#fff}'
+    ].join('');
 
-    var style = btn.style;
-    style.position      = 'fixed';
-    style.bottom        = '24px';
-    style.right         = '24px';
-    style.zIndex        = '9999';
-    style.background    = '#1d2d3e';
-    style.color         = '#ffffff';
-    style.border        = '1px solid rgba(255,255,255,0.15)';
-    style.borderRadius  = '8px';
-    style.padding       = '9px 14px';
-    style.fontSize      = '12px';
-    style.fontWeight    = '600';
-    style.fontFamily    = "'72', 'Inter', system-ui, sans-serif";
-    style.cursor        = 'pointer';
-    style.boxShadow     = '0 4px 12px rgba(0,0,0,0.3)';
-    style.letterSpacing = '0.03em';
-    style.transition    = 'background 0.15s, box-shadow 0.15s, transform 0.1s';
+    var styleEl = document.createElement('style');
+    styleEl.textContent = CSS;
+    document.head.appendChild(styleEl);
 
-    btn.addEventListener('mouseenter', function() {
-      this.style.background   = '#0070f2';
-      this.style.boxShadow    = '0 6px 20px rgba(0,112,242,0.45)';
-      this.style.transform    = 'translateY(-1px)';
+    var panel = document.createElement('div');
+    panel.id = 'ose-demo-panel';
+
+    var tab = document.createElement('div');
+    tab.id = 'ose-demo-tab';
+    tab.innerHTML = '&#9889; Demo <span class="ose-chevron">&#9650;</span>';
+
+    var body = document.createElement('div');
+    body.id = 'ose-demo-body';
+
+    var title = document.createElement('div');
+    title.className = 'ose-panel-title';
+    title.textContent = 'Signal Simulator \u2014 Demo Mode';
+    body.appendChild(title);
+
+    var signals = [
+      { label: 'Fire: Viral Spike',   key: 'VIRAL_SPIKE' },
+      { label: 'Fire: Stock Risk',    key: 'STOCK_RISK' },
+      { label: 'Fire: Demand Spike',  key: 'DEMAND_SPIKE' },
+      { label: 'Fire: All Signals',   key: '__ALL__', cls: 'all-btn' }
+    ];
+
+    signals.forEach(function(sig) {
+      var btn = document.createElement('button');
+      btn.className = 'ose-sig-btn' + (sig.cls ? ' ' + sig.cls : '');
+      btn.textContent = sig.label;
+      btn.addEventListener('click', function() {
+        if (sig.key === '__ALL__') {
+          Object.keys(OdysseySignalEngine.thresholds).forEach(function(k) {
+            OdysseySignalEngine.fire(k);
+          });
+        } else {
+          OdysseySignalEngine.fire(sig.key);
+        }
+      });
+      body.appendChild(btn);
     });
-    btn.addEventListener('mouseleave', function() {
-      this.style.background   = '#1d2d3e';
-      this.style.boxShadow    = '0 4px 12px rgba(0,0,0,0.3)';
-      this.style.transform    = '';
-    });
-    btn.addEventListener('mousedown', function() { this.style.transform = 'scale(0.97)'; });
-    btn.addEventListener('mouseup',   function() { this.style.transform = 'translateY(-1px)'; });
 
-    btn.addEventListener('click', function() {
-      var allSignals = Object.keys(OdysseySignalEngine.thresholds);
-      console.log('[SignalEngine] Demo button clicked — firing all signals:', allSignals);
-      allSignals.forEach(function(name) {
-        OdysseySignalEngine.fire(name);
+    panel.appendChild(tab);
+    panel.appendChild(body);
+    document.body.appendChild(panel);
+
+    var open = true;
+    body.classList.add('open');
+    tab.querySelector('.ose-chevron').style.transform = 'rotate(0deg)';
+
+    tab.addEventListener('click', function() {
+      open = !open;
+      body.classList.toggle('open', open);
+      tab.querySelector('.ose-chevron').style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
+    });
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     SIGNAL ACTIVITY LOG  (bottom-left, collapsible)
+  ════════════════════════════════════════════════════════════ */
+  function createActivityLog() {
+    var CSS2 = [
+      '#ose-log-panel{position:fixed;bottom:0;left:24px;z-index:9999;font-family:"72","Inter",system-ui,sans-serif}',
+      '#ose-log-tab{display:inline-flex;align-items:center;gap:6px;background:#1d2d3e;color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:6px 6px 0 0;cursor:pointer;user-select:none;border:1px solid rgba(255,255,255,.13);border-bottom:none;transition:background .15s}',
+      '#ose-log-tab:hover{background:#0070f2}',
+      '#ose-log-tab .ose-log-chevron{font-size:9px;transition:transform .2s}',
+      '#ose-log-body{background:#1d2d3e;border:1px solid rgba(255,255,255,.13);border-radius:6px 0 0 0;padding:10px 12px 12px;width:300px;display:none}',
+      '#ose-log-body.open{display:block}',
+      '.ose-log-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}',
+      '#ose-log-list{list-style:none;margin:0;padding:0;max-height:190px;overflow-y:auto}',
+      '#ose-log-list::-webkit-scrollbar{width:4px}',
+      '#ose-log-list::-webkit-scrollbar-track{background:transparent}',
+      '#ose-log-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:2px}',
+      '.ose-log-item{padding:5px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:11px;color:#cbd5e1}',
+      '.ose-log-item:last-child{border-bottom:none}',
+      '.ose-log-item .ose-log-time{font-size:10px;color:rgba(255,255,255,.38);margin-right:5px;font-variant-numeric:tabular-nums}',
+      '.ose-log-item .ose-log-name{font-weight:700;color:#e2e8f0;margin-right:4px}',
+      '.ose-log-item .ose-log-sev{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;margin-right:4px}',
+      '.ose-log-item .ose-log-sev.sev-critical{background:rgba(239,68,68,.25);color:#fca5a5}',
+      '.ose-log-item .ose-log-sev.sev-warning{background:rgba(251,191,36,.2);color:#fde68a}',
+      '.ose-log-item .ose-log-sev.sev-info{background:rgba(96,165,250,.2);color:#93c5fd}',
+      '.ose-log-item .ose-log-modules{font-size:10px;color:rgba(255,255,255,.35);display:block;margin-top:1px}',
+      '.ose-log-empty{font-size:11px;color:rgba(255,255,255,.3);text-align:center;padding:12px 0}'
+    ].join('');
+
+    var styleEl2 = document.createElement('style');
+    styleEl2.textContent = CSS2;
+    document.head.appendChild(styleEl2);
+
+    var panel = document.createElement('div');
+    panel.id = 'ose-log-panel';
+
+    var tab = document.createElement('div');
+    tab.id = 'ose-log-tab';
+    tab.innerHTML = '&#128221; Signal Log <span class="ose-log-chevron">&#9650;</span>';
+
+    var body = document.createElement('div');
+    body.id = 'ose-log-body';
+
+    var title = document.createElement('div');
+    title.className = 'ose-log-title';
+    title.textContent = 'Signal Activity Log';
+    body.appendChild(title);
+
+    var list = document.createElement('ul');
+    list.id = 'ose-log-list';
+    var empty = document.createElement('li');
+    empty.className = 'ose-log-empty';
+    empty.textContent = 'No signals fired yet.';
+    list.appendChild(empty);
+    body.appendChild(list);
+
+    panel.appendChild(tab);
+    panel.appendChild(body);
+    document.body.appendChild(panel);
+
+    var logOpen = true;
+    body.classList.add('open');
+
+    tab.addEventListener('click', function() {
+      logOpen = !logOpen;
+      body.classList.toggle('open', logOpen);
+      tab.querySelector('.ose-log-chevron').style.transform = logOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+    });
+
+    /* Subscribe to OdysseySignalEngine to capture all fired signals */
+    var logEntries = [];
+    OdysseySignalEngine.subscribe('__activity-log__', function(signal) {
+      var d = new Date(signal.firedAt);
+      var hhmm = d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0') + ':' + d.getSeconds().toString().padStart(2,'0');
+      var subs = Object.keys(OdysseySignalEngine.subscribers).filter(function(id){ return id !== '__activity-log__'; });
+      logEntries.unshift({ time: hhmm, name: signal.name, severity: (signal.severity || 'INFO'), modules: subs });
+      if (logEntries.length > 10) logEntries.length = 10;
+
+      /* Re-render */
+      list.innerHTML = '';
+      logEntries.forEach(function(e) {
+        var li = document.createElement('li');
+        li.className = 'ose-log-item';
+        var sevCls = e.severity === 'CRITICAL' ? 'sev-critical' : e.severity === 'WARNING' ? 'sev-warning' : 'sev-info';
+        li.innerHTML =
+          '<span class="ose-log-time">' + e.time + '</span>' +
+          '<span class="ose-log-name">' + e.name + '</span>' +
+          '<span class="ose-log-sev ' + sevCls + '">' + e.severity + '</span>' +
+          '<span class="ose-log-modules">Notified: ' + (e.modules.length ? e.modules.join(', ') : 'none') + '</span>';
+        list.appendChild(li);
       });
     });
+  }
 
-    document.body.appendChild(btn);
+  /* ═══════════════════════════════════════════════════════════
+     DEMAND SENSING: SIGNAL ENGINE STATUS ROW  (live updates)
+  ════════════════════════════════════════════════════════════ */
+  function wireSignalEngineStatusRow() {
+    var firedCount = 0;
+
+    function updateSubCount() {
+      var el = document.getElementById('se-sub-count');
+      if (el) el.textContent = Object.keys(OdysseySignalEngine.subscribers).length;
+    }
+
+    OdysseySignalEngine.subscribe('__status-row__', function(signal) {
+      firedCount++;
+      var firedEl = document.getElementById('se-fired-count');
+      if (firedEl) firedEl.textContent = firedCount;
+
+      var lastEl = document.getElementById('se-last-signal');
+      if (lastEl) {
+        var d = new Date(signal.firedAt);
+        var t = d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+        lastEl.textContent = signal.name + ' @ ' + t;
+      }
+
+      updateSubCount();
+    });
+
+    /* Initial sub count after all subscriptions are registered */
+    setTimeout(updateSubCount, 100);
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', createSimulateButton);
+    document.addEventListener('DOMContentLoaded', function() {
+      createSimulatorPanel();
+      createActivityLog();
+      wireSignalEngineStatusRow();
+    });
   } else {
-    createSimulateButton();
+    createSimulatorPanel();
+    createActivityLog();
+    wireSignalEngineStatusRow();
   }
 
 })();
