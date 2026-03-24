@@ -4535,12 +4535,276 @@
 
 <!-- === RETURNS & REVERSE LOGISTICS MODULE === -->
 <div class="tab-panel" id="panel-returns-logistics">
+
   <!-- PAGE HEADER -->
   <div style="margin-bottom:20px">
     <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin:0 0 4px">Returns &amp; Reverse Logistics</h2>
     <div style="font-size:12px;color:#9ca3af;margin-bottom:6px">E2E Control Tower &rsaquo; Post-Delivery</div>
     <div style="font-size:13px;color:#6b7280;margin-bottom:10px">Managing everything after delivery — returns, refunds, asset recovery, and feedback loops</div>
   </div>
+
+  <!-- SECTION 1: KPI SUMMARY CARDS -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-teal">KPI Summary — Returns &amp; Reverse Logistics</span></p>
+      <span class="section-sub">Mar 2026 &middot; All Channels &middot; National</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+
+      <!-- Card 1: Return Rate -->
+      <div class="kpi-card green">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Return Rate</div>
+            <div class="kpi-category">% of orders returned</div>
+          </div>
+          <span class="status-badge badge-green">ON TARGET</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current">3.2</span>
+            <span class="kpi-unit">%</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>&le; 5.0%</strong></div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <div class="bc-track"><div class="bc-fill" style="width:64%;background:#107e3e"></div></div>
+            <span class="bc-val" style="color:#107e3e">3.2%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Return Lead Time -->
+      <div class="kpi-card green">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Return Lead Time</div>
+            <div class="kpi-category">Avg days to process return</div>
+          </div>
+          <span class="status-badge badge-green">ON TARGET</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current">2.4</span>
+            <span class="kpi-unit">days</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>&le; 3.0 days</strong></div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <div class="bc-track"><div class="bc-fill" style="width:80%;background:#107e3e"></div></div>
+            <span class="bc-val" style="color:#107e3e">2.4 days</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Resale Recovery Rate -->
+      <div class="kpi-card yellow">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Resale Recovery Rate</div>
+            <div class="kpi-category">% of returns resold/recovered</div>
+          </div>
+          <span class="status-badge badge-yellow">WARNING</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current">61</span>
+            <span class="kpi-unit">%</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>&ge; 70%</strong></div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <div class="bc-track"><div class="bc-fill" style="width:61%;background:#e76500"></div></div>
+            <span class="bc-val" style="color:#e76500">61%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Refund Cycle Time -->
+      <div class="kpi-card yellow">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Refund Cycle Time</div>
+            <div class="kpi-category">Avg days to complete refund</div>
+          </div>
+          <span class="status-badge badge-yellow">WARNING</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current">3.1</span>
+            <span class="kpi-unit">days</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>&le; 3.0 days</strong></div>
+        <div class="bc-wrap">
+          <div class="bc-row">
+            <div class="bc-track"><div class="bc-fill" style="width:77%;background:#e76500"></div></div>
+            <span class="bc-val" style="color:#e76500">3.1 days</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 2: RETURN VOLUME & REASON TABLE -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">Return Volume &amp; Reason</span></p>
+      <span class="section-sub">W12 Mar 2026 &middot; 340 returns total &middot; All channels</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table" style="min-width:900px">
+        <thead>
+          <tr>
+            <th style="text-align:left">Return Reason</th>
+            <th style="text-align:center">Count (this week)</th>
+            <th style="text-align:center">% of Total</th>
+            <th style="text-align:center">Channel</th>
+            <th style="text-align:left">Top SKU</th>
+            <th style="text-align:center">Trend</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-name">Wrong Item Delivered</td>
+            <td style="text-align:center;font-weight:700">98</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">28.8%</span>
+            </td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#eff6ff;color:#0070f2;border:1px solid #bfdbfe;border-radius:4px;padding:2px 7px;font-size:11px;font-weight:600;margin-right:3px">B2C</span>
+              <span style="display:inline-block;background:#f5f3ff;color:#7c3aed;border:1px solid #ddd6fe;border-radius:4px;padding:2px 7px;font-size:11px;font-weight:600">B2B</span>
+            </td>
+            <td>SKU-MLTV-002</td>
+            <td style="text-align:center"><span style="color:#bb0000;font-weight:700">&#9650; +14</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Product Defect</td>
+            <td style="text-align:center;font-weight:700">72</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">21.2%</span>
+            </td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#eff6ff;color:#0070f2;border:1px solid #bfdbfe;border-radius:4px;padding:2px 7px;font-size:11px;font-weight:600">B2C</span>
+            </td>
+            <td>SKU-BVTL-007</td>
+            <td style="text-align:center"><span style="color:#107e3e;font-weight:700">&#9660; &minus;6</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Damaged in Transit</td>
+            <td style="text-align:center;font-weight:700">61</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">17.9%</span>
+            </td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#f5f3ff;color:#7c3aed;border:1px solid #ddd6fe;border-radius:4px;padding:2px 7px;font-size:11px;font-weight:600">B2B</span>
+            </td>
+            <td>SKU-SUPP-011</td>
+            <td style="text-align:center"><span style="color:#6b7280;font-weight:700">&#9644; 0</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Customer Changed Mind</td>
+            <td style="text-align:center;font-weight:700">44</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fefce8;color:#92400e;border:1px solid #fde68a;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">12.9%</span>
+            </td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#eff6ff;color:#0070f2;border:1px solid #bfdbfe;border-radius:4px;padding:2px 7px;font-size:11px;font-weight:600">B2C</span>
+            </td>
+            <td>SKU-SKNG-004</td>
+            <td style="text-align:center"><span style="color:#107e3e;font-weight:700">&#9660; &minus;3</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Incorrect Quantity</td>
+            <td style="text-align:center;font-weight:700">32</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fefce8;color:#92400e;border:1px solid #fde68a;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">9.4%</span>
+            </td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#f5f3ff;color:#7c3aed;border:1px solid #ddd6fe;border-radius:4px;padding:2px 7px;font-size:11px;font-weight:600">B2B</span>
+            </td>
+            <td>SKU-MLTV-002</td>
+            <td style="text-align:center"><span style="color:#6b7280;font-weight:700">&#9644; 0</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Expired / Near-Expiry</td>
+            <td style="text-align:center;font-weight:700">21</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#f0faf4;color:#107e3e;border:1px solid #a3d9b1;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">6.2%</span>
+            </td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#f5f3ff;color:#7c3aed;border:1px solid #ddd6fe;border-radius:4px;padding:2px 7px;font-size:11px;font-weight:600">B2B</span>
+            </td>
+            <td>SKU-BVTL-003</td>
+            <td style="text-align:center"><span style="color:#bb0000;font-weight:700">&#9650; +5</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">SLA Failure</td>
+            <td style="text-align:center;font-weight:700">12</td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#f0faf4;color:#107e3e;border:1px solid #a3d9b1;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">3.5%</span>
+            </td>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#f5f3ff;color:#7c3aed;border:1px solid #ddd6fe;border-radius:4px;padding:2px 7px;font-size:11px;font-weight:600">B2B</span>
+            </td>
+            <td>SKU-SUPP-011</td>
+            <td style="text-align:center"><span style="color:#bb0000;font-weight:700">&#9650; +4</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:#9ca3af;margin-top:10px">
+      * Trend = change in weekly return volume vs. prior 7-day period. Red &#9650; = volume increasing (concern). Green &#9660; = volume declining (improving). Total returns this week: 340 across B2B &amp; B2C channels.
+    </div>
+  </div>
+
+  <!-- SECTION 3: RETURN PROCESSING SLA TRACKER -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">Return Processing SLA Tracker</span></p>
+      <span class="section-sub">Mar 2026 &middot; All open &amp; recently closed returns &middot; SLA target: processed within 24h</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table" style="min-width:560px">
+        <thead>
+          <tr>
+            <th style="text-align:left">Age Bucket</th>
+            <th style="text-align:center">Count</th>
+            <th style="text-align:center">% of Total</th>
+            <th style="text-align:center">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-name">Under 24h</td>
+            <td style="text-align:center;font-weight:700">218</td>
+            <td style="text-align:center"><span class="td-val green">64.1%</span></td>
+            <td style="text-align:center"><span class="status-badge badge-green">On Time</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">24 – 48h</td>
+            <td style="text-align:center;font-weight:700">81</td>
+            <td style="text-align:center"><span class="td-val yellow">23.8%</span></td>
+            <td style="text-align:center"><span class="status-badge badge-yellow">At Risk</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Over 48h — unprocessed</td>
+            <td style="text-align:center;font-weight:700">41</td>
+            <td style="text-align:center"><span class="td-val red">12.1%</span></td>
+            <td style="text-align:center"><span class="status-badge badge-red">SLA Breached</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:#9ca3af;margin-top:10px">
+      * SLA target: all returns to be acknowledged and processing initiated within 24 hours of receipt. Over 48h cases require immediate escalation to Returns Ops team.
+    </div>
+  </div>
+
 </div>
 <!-- === END RETURNS & REVERSE LOGISTICS MODULE === -->
 
