@@ -3876,6 +3876,288 @@
 
   </div><!-- end tactical layer section-block -->
 
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- OPERATIONAL LAYER: REAL-TIME ALERTS            -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="section-block" style="margin-top:32px">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-red">Operational View — Real-Time Alerts</span></p>
+      <span class="section-sub">Live signal thresholds · Triggered conditions requiring immediate owner action · Mar 2026</span>
+    </div>
+
+    <!-- ── ACTIVE ALERTS PANEL ── -->
+    <div style="margin-top:16px;margin-bottom:8px">
+      <p style="font-size:13px;font-weight:700;color:#374151;margin:0 0 4px">Active Alerts Panel</p>
+      <p style="font-size:12px;color:#6b7280;margin:0">Real-time alert feed — threshold breach conditions requiring owner response within SLA</p>
+    </div>
+
+    <!-- Alert summary badges -->
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+      <span style="display:inline-flex;align-items:center;gap:6px;background:#fff0f0;border:1px solid #f4a0a0;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700;color:#bb0000">
+        🔴 Critical &nbsp;<span style="background:#bb0000;color:#fff;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px">3</span>
+      </span>
+      <span style="display:inline-flex;align-items:center;gap:6px;background:#fff8f0;border:1px solid #f6b26b;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700;color:#e76500">
+        🟡 Warning &nbsp;<span style="background:#e76500;color:#fff;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px">4</span>
+      </span>
+      <span style="display:inline-flex;align-items:center;gap:6px;background:#f0faf4;border:1px solid #a3d9b1;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700;color:#107e3e">
+        🟢 Info &nbsp;<span style="background:#107e3e;color:#fff;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px">1</span>
+      </span>
+      <span style="margin-left:auto;font-size:11px;color:#9ca3af;align-self:center">Last refreshed: 24 Mar 2026 · 09:47 WIB</span>
+    </div>
+
+    <div class="table-scroll">
+      <table class="data-table" style="min-width:1100px">
+        <thead>
+          <tr>
+            <th style="width:90px;text-align:center">Severity</th>
+            <th>Alert Name</th>
+            <th>SKU / Topic</th>
+            <th>Trigger Condition</th>
+            <th style="text-align:right">Current Value</th>
+            <th style="text-align:right">Threshold</th>
+            <th>Action Required</th>
+            <th>Owner</th>
+            <th style="text-align:center">SLA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- CRITICAL #1 -->
+          <tr style="background:#fff5f5">
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700;white-space:nowrap">🔴 Critical</span>
+            </td>
+            <td style="font-weight:700;color:#bb0000">Viral Spike Alert</td>
+            <td class="td-name">Wardah Niacinamide Serum</td>
+            <td style="font-size:12px;color:#374151">Mentions ↑ &gt;50% in 24h</td>
+            <td style="text-align:right;font-weight:700;color:#bb0000">+127%</td>
+            <td style="text-align:right;color:#6b7280">&gt;50%</td>
+            <td style="font-size:12px;color:#1d2d3e">Notify Marketing + Supply Chain</td>
+            <td style="font-size:12px;font-weight:600;color:#374151">Marketing / Planning</td>
+            <td style="text-align:center"><span style="background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">&lt;2 hours</span></td>
+          </tr>
+          <!-- CRITICAL #2 -->
+          <tr style="background:#fff5f5">
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700;white-space:nowrap">🔴 Critical</span>
+            </td>
+            <td style="font-weight:700;color:#bb0000">Stock Risk on Trending SKU</td>
+            <td class="td-name">Azarine Sunscreen SPF50</td>
+            <td style="font-size:12px;color:#374151">Trend ↑ + Coverage &lt;7 days</td>
+            <td style="text-align:right;font-weight:700;color:#bb0000">3 days</td>
+            <td style="text-align:right;color:#6b7280">&lt;7 days</td>
+            <td style="font-size:12px;color:#1d2d3e">Trigger replenishment</td>
+            <td style="font-size:12px;font-weight:600;color:#374151">Supply Chain</td>
+            <td style="text-align:center"><span style="background:#bb0000;color:#fff;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">Immediate</span></td>
+          </tr>
+          <!-- CRITICAL #3 -->
+          <tr style="background:#fff5f5">
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700;white-space:nowrap">🔴 Critical</span>
+            </td>
+            <td style="font-weight:700;color:#bb0000">Conversion Drop Alert</td>
+            <td class="td-name">Emina Sun Protection</td>
+            <td style="font-size:12px;color:#374151">Engagement ↑ high, Conversion ↓</td>
+            <td style="text-align:right;font-weight:700;color:#bb0000">−34% conv</td>
+            <td style="text-align:right;color:#6b7280">Eng ↑30% + Conv ↓20%</td>
+            <td style="font-size:12px;color:#1d2d3e">Adjust pricing/promo</td>
+            <td style="font-size:12px;font-weight:600;color:#374151">E-commerce</td>
+            <td style="text-align:center"><span style="background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">&lt;6 hours</span></td>
+          </tr>
+          <!-- WARNING #1 -->
+          <tr style="background:#fffbf5">
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700;white-space:nowrap">🟡 Warning</span>
+            </td>
+            <td style="font-weight:700;color:#e76500">Negative Sentiment Spike</td>
+            <td class="td-name">Make Over Foundation</td>
+            <td style="font-size:12px;color:#374151">Negative mentions rising</td>
+            <td style="text-align:right;font-weight:700;color:#e76500">33% negative</td>
+            <td style="text-align:right;color:#6b7280">&gt;30%</td>
+            <td style="font-size:12px;color:#1d2d3e">Trigger QA + CS investigation</td>
+            <td style="font-size:12px;font-weight:600;color:#374151">Marketing / QA</td>
+            <td style="text-align:center"><span style="background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">&lt;2 hours</span></td>
+          </tr>
+          <!-- WARNING #2 -->
+          <tr style="background:#fffbf5">
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700;white-space:nowrap">🟡 Warning</span>
+            </td>
+            <td style="font-weight:700;color:#e76500">Sustained Trend Growth</td>
+            <td class="td-name">Scarlett Body Lotion</td>
+            <td style="font-size:12px;color:#374151">Growth &gt;20% for 3 days</td>
+            <td style="text-align:right;font-weight:700;color:#e76500">+28% 3-day</td>
+            <td style="text-align:right;color:#6b7280">&gt;20% for 3d</td>
+            <td style="font-size:12px;color:#1d2d3e">Monitor and validate demand</td>
+            <td style="font-size:12px;font-weight:600;color:#374151">Marketing</td>
+            <td style="text-align:center"><span style="background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">&lt;24 hours</span></td>
+          </tr>
+          <!-- WARNING #3 -->
+          <tr style="background:#fffbf5">
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700;white-space:nowrap">🟡 Warning</span>
+            </td>
+            <td style="font-weight:700;color:#e76500">Overstock on Declining Trend</td>
+            <td class="td-name">Implora Glass Skin</td>
+            <td style="font-size:12px;color:#374151">Trend ↓ + high stock</td>
+            <td style="text-align:right;font-weight:700;color:#e76500">Coverage 42d</td>
+            <td style="text-align:right;color:#6b7280">Trend ↓20% + Cov&gt;30d</td>
+            <td style="font-size:12px;color:#1d2d3e">Slow production / push sales</td>
+            <td style="font-size:12px;font-weight:600;color:#374151">Planning</td>
+            <td style="text-align:center"><span style="background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">&lt;24 hours</span></td>
+          </tr>
+          <!-- WARNING #4 -->
+          <tr style="background:#fffbf5">
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700;white-space:nowrap">🟡 Warning</span>
+            </td>
+            <td style="font-weight:700;color:#e76500">Channel Imbalance</td>
+            <td class="td-name">BLP Lip Coat</td>
+            <td style="font-size:12px;color:#374151">&gt;60% demand from TikTok</td>
+            <td style="text-align:right;font-weight:700;color:#e76500">71% TikTok</td>
+            <td style="text-align:right;color:#6b7280">&gt;60% 1 channel</td>
+            <td style="font-size:12px;color:#1d2d3e">Rebalance stock allocation</td>
+            <td style="font-size:12px;font-weight:600;color:#374151">Supply Chain</td>
+            <td style="text-align:center"><span style="background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">&lt;24 hours</span></td>
+          </tr>
+          <!-- INFO #1 -->
+          <tr>
+            <td style="text-align:center">
+              <span style="display:inline-block;background:#f0faf4;color:#107e3e;border:1px solid #a3d9b1;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700;white-space:nowrap">🟢 Info</span>
+            </td>
+            <td style="font-weight:700;color:#107e3e">Influencer Spike</td>
+            <td class="td-name">Rollover Reaction Lip Crayon</td>
+            <td style="font-size:12px;color:#374151">KOL post engagement spike</td>
+            <td style="text-align:right;font-weight:700;color:#107e3e">+89% eng</td>
+            <td style="text-align:right;color:#6b7280">&gt;40% baseline</td>
+            <td style="font-size:12px;color:#1d2d3e">Evaluate amplification</td>
+            <td style="font-size:12px;font-weight:600;color:#374151">Marketing</td>
+            <td style="text-align:center"><span style="background:#f0faf4;color:#107e3e;border:1px solid #a3d9b1;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">&lt;6 hours</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div><!-- end alert feed table -->
+
+    <!-- ── TREND COVERAGE GAP TABLE ── -->
+    <div style="margin-top:32px">
+      <!-- Headline callout -->
+      <div style="background:linear-gradient(135deg,#bb0000 0%,#7f1d1d 100%);border-radius:10px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:16px">
+        <div style="font-size:28px;line-height:1">🚨</div>
+        <div>
+          <div style="font-size:15px;font-weight:800;color:#fff;letter-spacing:0.01em">Virality without supply response = lost revenue.</div>
+          <div style="font-size:12px;color:#fca5a5;margin-top:3px">SKUs where social demand signal outpaces available stock — coverage gap &gt;20% triggers revenue risk</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:8px">
+        <p style="font-size:13px;font-weight:700;color:#374151;margin:0 0 2px">Trend Coverage Gap</p>
+        <p style="font-size:12px;color:#6b7280;margin:0">Social demand outpacing physical stock · Gap &gt;20% = revenue at risk · Mar 2026</p>
+      </div>
+
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th style="text-align:center">Social Demand Signal</th>
+              <th style="text-align:right">Available Stock</th>
+              <th style="text-align:right">Coverage Gap (%)</th>
+              <th style="text-align:right">Revenue at Risk (IDR)</th>
+              <th style="text-align:center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Gap 93% -->
+            <tr style="background:#fff5f5">
+              <td class="td-name">Azarine Sunscreen SPF50</td>
+              <td style="text-align:center">
+                <span style="display:inline-flex;align-items:center;gap:4px;background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700">📈 Viral +91%</span>
+              </td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">3 days</td>
+              <td style="text-align:right">
+                <span style="display:inline-block;background:#bb0000;color:#fff;border-radius:5px;padding:3px 10px;font-size:12px;font-weight:800">93%</span>
+              </td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">IDR 3.1B</td>
+              <td style="text-align:center">
+                <span style="background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap">🔴 Emergency PO</span>
+              </td>
+            </tr>
+            <!-- Gap 90% -->
+            <tr style="background:#fff5f5">
+              <td class="td-name">Emina Sun Protection SPF50</td>
+              <td style="text-align:center">
+                <span style="display:inline-flex;align-items:center;gap:4px;background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700">📈 Engagement +71%</span>
+              </td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">3 days</td>
+              <td style="text-align:right">
+                <span style="display:inline-block;background:#bb0000;color:#fff;border-radius:5px;padding:3px 10px;font-size:12px;font-weight:800">90%</span>
+              </td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">IDR 2.2B</td>
+              <td style="text-align:center">
+                <span style="background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap">🔴 Priority Restock</span>
+              </td>
+            </tr>
+            <!-- Gap 87% -->
+            <tr style="background:#fff5f5">
+              <td class="td-name">Wardah Niacinamide Serum 10%</td>
+              <td style="text-align:center">
+                <span style="display:inline-flex;align-items:center;gap:4px;background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700">📢 Mentions +127%</span>
+              </td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">4 days</td>
+              <td style="text-align:right">
+                <span style="display:inline-block;background:#bb0000;color:#fff;border-radius:5px;padding:3px 10px;font-size:12px;font-weight:800">87%</span>
+              </td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">IDR 2.8B</td>
+              <td style="text-align:center">
+                <span style="background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap">🔴 Emergency PO</span>
+              </td>
+            </tr>
+            <!-- Gap 85% -->
+            <tr style="background:#fff5f5">
+              <td class="td-name">Make Over Powerstay Foundation</td>
+              <td style="text-align:center">
+                <span style="display:inline-flex;align-items:center;gap:4px;background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700">📈 Trend +63%</span>
+              </td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">4 days</td>
+              <td style="text-align:right">
+                <span style="display:inline-block;background:#bb0000;color:#fff;border-radius:5px;padding:3px 10px;font-size:12px;font-weight:800">85%</span>
+              </td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">IDR 1.9B</td>
+              <td style="text-align:center">
+                <span style="background:#fff0f0;color:#bb0000;border:1px solid #f4a0a0;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap">🔴 Fast-track Prod.</span>
+              </td>
+            </tr>
+            <!-- Gap 35% -->
+            <tr style="background:#fffbf5">
+              <td class="td-name">Scarlett Whitening Body Lotion</td>
+              <td style="text-align:center">
+                <span style="display:inline-flex;align-items:center;gap:4px;background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700">📊 Growth +28% / 3d</span>
+              </td>
+              <td style="text-align:right;font-weight:600;color:#e76500">18 days</td>
+              <td style="text-align:right">
+                <span style="display:inline-block;background:#e76500;color:#fff;border-radius:5px;padding:3px 10px;font-size:12px;font-weight:800">35%</span>
+              </td>
+              <td style="text-align:right;font-weight:700;color:#e76500">IDR 890M</td>
+              <td style="text-align:center">
+                <span style="background:#fff8f0;color:#e76500;border:1px solid #f6b26b;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap">🟡 Accelerate Delivery</span>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr style="background:#fef2f2;border-top:2px solid #f4a0a0">
+              <td colspan="3" style="font-weight:700;color:#7f1d1d;font-size:12px">Total Revenue at Risk</td>
+              <td style="text-align:right">
+                <span style="display:inline-block;background:#7f1d1d;color:#fff;border-radius:5px;padding:3px 10px;font-size:12px;font-weight:800">Avg 78%</span>
+              </td>
+              <td style="text-align:right;font-weight:800;color:#bb0000;font-size:14px">IDR 10.9B</td>
+              <td style="text-align:center;font-size:11px;color:#7f1d1d;font-weight:600">Requires immediate supply response</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div><!-- end coverage gap table -->
+    </div><!-- end trend coverage gap section -->
+
+  </div><!-- end operational layer section-block -->
+
 </div><!-- end panel-demand-sensing -->
 
 <!-- === COMMERCIAL MODULE HTML === -->
