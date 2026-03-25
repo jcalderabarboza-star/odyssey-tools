@@ -20172,8 +20172,689 @@ function exportBoardPack() {
     }
   };
 
+  /* ── Expose for ARIA quick-chat overlay (additive) ──────────── */
+  window._ariaGetHistory = function () { return ariaConversation.slice(); };
+
+  window._ariaQuickSend = function (userText, callbacks) {
+    if (ariaIsThinking) {
+      if (callbacks.onBusy) callbacks.onBusy();
+      return;
+    }
+
+    ariaConversation.push({ role: 'user', content: userText });
+    if (ariaConversation.length > ARIA_MAX_HISTORY) {
+      ariaConversation = ariaConversation.slice(ariaConversation.length - ARIA_MAX_HISTORY);
+    }
+
+    ariaIsThinking = true;
+
+    var systemPrompt = '';
+    try {
+      systemPrompt = window.ARIAContext
+        ? window.ARIAContext.buildSystemPrompt()
+        : 'You are ARIA, an AI assistant for Paragon Corp supply chain operations.';
+    } catch (e) {
+      systemPrompt = 'You are ARIA, an AI assistant for Paragon Corp supply chain operations.';
+    }
+
+    fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1024,
+        system: systemPrompt,
+        messages: ariaConversation
+      })
+    })
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      var text = (data.content && data.content[0] && data.content[0].text)
+        ? data.content[0].text : 'No response received.';
+      ariaConversation.push({ role: 'assistant', content: text });
+      if (ariaConversation.length > ARIA_MAX_HISTORY) {
+        ariaConversation = ariaConversation.slice(ariaConversation.length - ARIA_MAX_HISTORY);
+      }
+      ariaIsThinking = false;
+      if (callbacks.onResponse) callbacks.onResponse(text);
+    })
+    .catch(function (err) {
+      ariaIsThinking = false;
+      if (callbacks.onError) callbacks.onError(err.message || 'Unknown error');
+    });
+  };
+
   console.log('[ARIAPanel] Loaded \u2014 v1.0.0');
 
+}());
+</script>
+<!-- ═══════════════════════════════════════════════════════════════════
+     ARIA FLOATING QUICK-ACCESS BUTTON + OVERLAY
+     Additive only — does not modify existing demo or signal log panels
+     Position: bottom-center, between the two existing corner panels
+═══════════════════════════════════════════════════════════════════ -->
+<style>
+/* ── FAB button ──────────────────────────────────────────────── */
+#aria-fab {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+}
+
+#aria-fab-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(124,58,237,0.55);
+  position: relative;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.5px;
+  outline: none;
+}
+
+#aria-fab-btn:hover {
+  transform: scale(1.09);
+  box-shadow: 0 6px 28px rgba(124,58,237,0.75);
+}
+
+/* Ambient glow ring */
+#aria-fab-btn::before {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%);
+  z-index: -1;
+  animation: ariaFabGlow 3s ease-in-out infinite;
+}
+
+@keyframes ariaFabGlow {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50%       { opacity: 1;    transform: scale(1.18); }
+}
+
+/* Tooltip */
+#aria-fab-btn::after {
+  content: 'Ask ARIA';
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15,23,42,0.93);
+  color: #e2e8f0;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+#aria-fab-btn:hover::after { opacity: 1; }
+
+/* Critical-escalation pulse (replaces glow animation) */
+#aria-fab-btn.aria-fab-critical {
+  animation: ariaFabCritical 1.15s ease-in-out infinite;
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  box-shadow: 0 4px 24px rgba(220,38,38,0.7);
+}
+
+@keyframes ariaFabCritical {
+  0%, 100% { box-shadow: 0 4px 20px rgba(220,38,38,0.5); transform: scale(1); }
+  50%       { box-shadow: 0 6px 34px rgba(220,38,38,0.95); transform: scale(1.11); }
+}
+
+/* Badge */
+#aria-fab-badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: #ef4444;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  font-family: 'Inter', sans-serif;
+  border: 2px solid #0d1117;
+  line-height: 1;
+}
+
+/* ── Quick-chat overlay ──────────────────────────────────────── */
+#aria-quick-overlay {
+  position: fixed;
+  bottom: 86px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 380px;
+  height: 500px;
+  background: #0f1629;
+  border: 1px solid rgba(124,58,237,0.35);
+  border-radius: 16px;
+  display: none;
+  flex-direction: column;
+  z-index: 10001;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.72), 0 0 40px rgba(124,58,237,0.14);
+  overflow: hidden;
+}
+
+#aria-quick-overlay.aria-qo-open {
+  display: flex;
+  animation: ariaQoSlideIn 0.22s ease-out;
+}
+
+@keyframes ariaQoSlideIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(14px) scale(0.97); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0)   scale(1);    }
+}
+
+/* Header */
+#aria-qo-header {
+  background: linear-gradient(135deg, rgba(124,58,237,0.22), rgba(88,28,235,0.12));
+  border-bottom: 1px solid rgba(124,58,237,0.22);
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+#aria-qo-title-text {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #e2e8f0;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aria-qo-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #a855f7;
+  flex-shrink: 0;
+  animation: ariaFabGlow 2s ease-in-out infinite;
+}
+
+#aria-qo-close-btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 17px;
+  line-height: 1;
+  padding: 3px 7px;
+  border-radius: 5px;
+  transition: color 0.15s, background 0.15s;
+  font-family: monospace;
+}
+#aria-qo-close-btn:hover { color: #e2e8f0; background: rgba(255,255,255,0.06); }
+
+/* Messages area */
+#aria-qo-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124,58,237,0.3) transparent;
+}
+#aria-qo-messages::-webkit-scrollbar       { width: 4px; }
+#aria-qo-messages::-webkit-scrollbar-track { background: transparent; }
+#aria-qo-messages::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.3); border-radius: 2px; }
+
+/* Greeting banner */
+.aria-qo-greeting {
+  font-size: 12px;
+  color: #94a3b8;
+  font-style: italic;
+  text-align: center;
+  padding: 7px 12px;
+  background: rgba(124,58,237,0.08);
+  border-radius: 8px;
+  border: 1px solid rgba(124,58,237,0.15);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.45;
+}
+
+/* Message bubbles */
+.aria-qo-row { display: flex; gap: 6px; max-width: 100%; }
+.aria-qo-row.user { flex-direction: row-reverse; }
+
+.aria-qo-bubble {
+  font-size: 12.5px;
+  line-height: 1.5;
+  padding: 8px 11px;
+  border-radius: 10px;
+  max-width: 87%;
+  word-wrap: break-word;
+  font-family: 'Inter', sans-serif;
+  white-space: pre-wrap;
+}
+.aria-qo-row.user .aria-qo-bubble {
+  background: #2563eb;
+  color: #fff;
+  border-radius: 10px 10px 2px 10px;
+}
+.aria-qo-row.assistant .aria-qo-bubble {
+  background: rgba(255,255,255,0.055);
+  color: #e2e8f0;
+  border: 1px solid rgba(124,58,237,0.18);
+  border-left: 3px solid #7c3aed;
+  border-radius: 10px 10px 10px 2px;
+}
+
+/* Thinking dots */
+.aria-qo-thinking {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #64748b;
+  font-style: italic;
+  font-family: 'Inter', sans-serif;
+}
+.aria-qo-thinking.active { display: flex; }
+
+.aria-qo-dots span {
+  display: inline-block;
+  width: 5px; height: 5px;
+  background: #7c3aed;
+  border-radius: 50%;
+  margin: 0 1px;
+  animation: ariaQoDot 1.2s ease-in-out infinite;
+}
+.aria-qo-dots span:nth-child(2) { animation-delay: 0.2s; }
+.aria-qo-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes ariaQoDot {
+  0%,80%,100% { opacity: 0.2; transform: scale(0.8); }
+  40%         { opacity: 1;   transform: scale(1);   }
+}
+
+/* Footer link */
+#aria-qo-full-link {
+  padding: 5px 14px 3px;
+  text-align: right;
+  flex-shrink: 0;
+}
+#aria-qo-full-link a {
+  font-size: 11px;
+  color: #a855f7;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+#aria-qo-full-link a:hover { text-decoration: underline; }
+
+/* Input row */
+#aria-qo-input-row {
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 10px 12px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.018);
+}
+
+#aria-qo-input {
+  flex: 1;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(124,58,237,0.3);
+  border-radius: 8px;
+  color: #e2e8f0;
+  font-size: 13px;
+  padding: 7px 11px;
+  resize: none;
+  min-height: 36px;
+  max-height: 80px;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.4;
+  outline: none;
+  transition: border-color 0.2s;
+  overflow-y: auto;
+}
+#aria-qo-input:focus         { border-color: rgba(124,58,237,0.6); }
+#aria-qo-input::placeholder  { color: #475569; }
+
+#aria-qo-send-btn {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 0 14px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: opacity 0.15s, transform 0.1s;
+  height: 36px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+#aria-qo-send-btn:hover    { opacity: 0.88; transform: translateY(-1px); }
+#aria-qo-send-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+</style>
+
+<!-- Floating ARIA Button -->
+<div id="aria-fab">
+  <button id="aria-fab-btn" onclick="ariaFabToggle()">
+    A
+    <span id="aria-fab-badge"></span>
+  </button>
+</div>
+
+<!-- ARIA Quick-Chat Overlay -->
+<div id="aria-quick-overlay">
+  <div id="aria-qo-header">
+    <div id="aria-qo-title-text">
+      <div class="aria-qo-dot"></div>
+      ARIA Intelligence
+    </div>
+    <button id="aria-qo-close-btn" onclick="ariaFabClose()">&#x2715;</button>
+  </div>
+  <div id="aria-qo-messages"></div>
+  <div id="aria-qo-full-link">
+    <a href="#" onclick="ariaFabOpenFull(); return false;">&#x2197; Open Full ARIA</a>
+  </div>
+  <div id="aria-qo-input-row">
+    <textarea id="aria-qo-input"
+      placeholder="Ask ARIA anything&#x2026;"
+      rows="1"
+      onkeydown="ariaQoKey(event)"
+      oninput="ariaQoResize(this)"></textarea>
+    <button id="aria-qo-send-btn" onclick="ariaQoSend()">Send</button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   ARIA FLOATING QUICK-ACCESS — Logic
+   Additive only.
+═══════════════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+
+  var _open          = false;
+  var _criticalCount = 0;   // Rung-3 escalations seen
+
+  /* ── Detect active module ──────────────────────────────────── */
+  function activeModule() {
+    var nav = document.querySelector('.nav-item.active');
+    return nav ? (nav.id || '').replace(/^nav-/, '') : '';
+  }
+
+  /* ── Context-aware greeting ────────────────────────────────── */
+  function buildGreeting() {
+    var mod = activeModule();
+    try {
+      var ctx = window.ARIAContext;
+      if (mod === 'demand-sensing') {
+        var snap = ctx ? ctx.collect() : null;
+        var n = snap ? (snap.signals.totalFired || 0) : 0;
+        return 'I can see ' + n + ' active signal' + (n === 1 ? '' : 's') +
+               ' in Demand Sensing. What would you like to know?';
+      }
+      if (mod === 'exec') {
+        var snap2  = ctx ? ctx.collect() : null;
+        var crits = snap2 && snap2.escalations && snap2.escalations.stats
+          ? (snap2.escalations.stats.rung3 || 0) : 0;
+        return 'The platform currently has ' + crits + ' critical alert' +
+               (crits === 1 ? '' : 's') + '. How can I help?';
+      }
+    } catch (e) { /* ignore */ }
+    return 'ARIA is online. What can I help you with?';
+  }
+
+  /* ── Render history (last 3 msgs) + greeting ───────────────── */
+  function renderMessages() {
+    var box = document.getElementById('aria-qo-messages');
+    if (!box) return;
+    box.innerHTML = '';
+
+    // Greeting
+    var greet = document.createElement('div');
+    greet.className = 'aria-qo-greeting';
+    greet.textContent = buildGreeting();
+    box.appendChild(greet);
+
+    // History
+    var history = window._ariaGetHistory ? window._ariaGetHistory() : [];
+    history.slice(-3).forEach(function (msg) {
+      var row = document.createElement('div');
+      row.className = 'aria-qo-row ' + msg.role;
+      var bub = document.createElement('div');
+      bub.className = 'aria-qo-bubble';
+      bub.textContent = msg.content.length > 320
+        ? msg.content.slice(0, 320) + '\u2026'
+        : msg.content;
+      row.appendChild(bub);
+      box.appendChild(row);
+    });
+
+    // Thinking indicator (hidden by default)
+    var think = document.createElement('div');
+    think.className = 'aria-qo-thinking';
+    think.id = 'aria-qo-think';
+    think.innerHTML = 'ARIA is thinking\u2026 ' +
+      '<span class="aria-qo-dots"><span></span><span></span><span></span></span>';
+    box.appendChild(think);
+
+    box.scrollTop = box.scrollHeight;
+  }
+
+  /* ── Append one message bubble ─────────────────────────────── */
+  function appendMsg(role, text) {
+    var box   = document.getElementById('aria-qo-messages');
+    var think = document.getElementById('aria-qo-think');
+    if (!box) return;
+
+    var row = document.createElement('div');
+    row.className = 'aria-qo-row ' + role;
+    var bub = document.createElement('div');
+    bub.className = 'aria-qo-bubble';
+    bub.textContent = text;
+    row.appendChild(bub);
+
+    if (think) box.insertBefore(row, think);
+    else       box.appendChild(row);
+
+    box.scrollTop = box.scrollHeight;
+  }
+
+  /* ── Show / hide thinking indicator ───────────────────────── */
+  function setThinking(on) {
+    var el = document.getElementById('aria-qo-think');
+    if (el) el.classList.toggle('active', on);
+    var box = document.getElementById('aria-qo-messages');
+    if (box) box.scrollTop = box.scrollHeight;
+  }
+
+  /* ── Toggle (open / close) ─────────────────────────────────── */
+  window.ariaFabToggle = function () {
+    if (_open) { ariaFabClose(); return; }
+
+    _open = true;
+    var ov = document.getElementById('aria-quick-overlay');
+    if (ov) ov.classList.add('aria-qo-open');
+
+    renderMessages();
+
+    // If triggered by a critical escalation, pre-fill message
+    if (_criticalCount > 0) {
+      var inp = document.getElementById('aria-qo-input');
+      if (inp && !inp.value.trim()) {
+        inp.value = 'A critical escalation has reached leadership level. What should be done?';
+        ariaQoResize(inp);
+      }
+    }
+
+    setTimeout(function () {
+      var inp = document.getElementById('aria-qo-input');
+      if (inp) inp.focus();
+    }, 60);
+  };
+
+  /* ── Close ─────────────────────────────────────────────────── */
+  window.ariaFabClose = function () {
+    _open = false;
+    var ov = document.getElementById('aria-quick-overlay');
+    if (ov) ov.classList.remove('aria-qo-open');
+  };
+
+  /* ── Open full ARIA panel ───────────────────────────────────── */
+  window.ariaFabOpenFull = function () {
+    ariaFabClose();
+    if (typeof switchTab === 'function') switchTab('aria-intelligence');
+  };
+
+  /* ── Keyboard ───────────────────────────────────────────────── */
+  window.ariaQoKey = function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      ariaQoSend();
+    }
+  };
+
+  /* ── Auto-resize textarea ───────────────────────────────────── */
+  window.ariaQoResize = function (el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+  };
+
+  /* ── Send message ───────────────────────────────────────────── */
+  window.ariaQoSend = function () {
+    var inp  = document.getElementById('aria-qo-input');
+    var send = document.getElementById('aria-qo-send-btn');
+    if (!inp) return;
+    var text = inp.value.trim();
+    if (!text) return;
+
+    inp.value = '';
+    ariaQoResize(inp);
+
+    appendMsg('user', text);
+    setThinking(true);
+    if (send) send.disabled = true;
+
+    if (!window._ariaQuickSend) {
+      setThinking(false);
+      appendMsg('assistant',
+        'ARIA module not yet initialised. Open the full ARIA panel first.');
+      if (send) send.disabled = false;
+      return;
+    }
+
+    window._ariaQuickSend(text, {
+      onResponse: function (reply) {
+        setThinking(false);
+        appendMsg('assistant', reply);
+        if (send) send.disabled = false;
+        var i = document.getElementById('aria-qo-input');
+        if (i) i.focus();
+      },
+      onError: function (msg) {
+        setThinking(false);
+        appendMsg('assistant', 'ARIA is temporarily unavailable. (' + msg + ')');
+        if (send) send.disabled = false;
+      },
+      onBusy: function () {
+        setThinking(false);
+        appendMsg('assistant', 'ARIA is currently processing another request. Please wait.');
+        if (send) send.disabled = false;
+      }
+    });
+  };
+
+  /* ── Update FAB badge & pulse ───────────────────────────────── */
+  function refreshFab() {
+    var btn   = document.getElementById('aria-fab-btn');
+    var badge = document.getElementById('aria-fab-badge');
+    if (!btn || !badge) return;
+
+    if (_criticalCount > 0) {
+      btn.classList.add('aria-fab-critical');
+      badge.style.display = 'flex';
+      badge.textContent   = _criticalCount;
+    } else {
+      btn.classList.remove('aria-fab-critical');
+      badge.style.display = 'none';
+    }
+  }
+
+  /* ── Watch OdysseySignalEngine for Rung-3 escalations ──────── */
+  function watchEscalations() {
+    if (!window.OdysseySignalEngine) {
+      setTimeout(watchEscalations, 600);
+      return;
+    }
+    window.OdysseySignalEngine.subscribe('__aria-fab__', function (sig) {
+      if (sig.name === '__ESCALATION_RUNG_CHANGE__' && sig.newRung === 3) {
+        _criticalCount++;
+        refreshFab();
+        // Auto-open overlay with pre-filled critical message
+        if (!_open) window.ariaFabToggle();
+      }
+    });
+  }
+
+  /* ── Poll escalation engine to keep badge in sync ───────────── */
+  function pollEscalationEngine() {
+    var eng = window.OdysseyEscalationEngine;
+    if (!eng || !eng.getStats) return;
+    var s = eng.getStats();
+    var n = s.rung3 || 0;
+    if (n !== _criticalCount) {
+      _criticalCount = n;
+      refreshFab();
+    }
+  }
+
+  /* ── Close overlay on Escape ─────────────────────────────────── */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && _open) ariaFabClose();
+  });
+
+  /* ── Boot ───────────────────────────────────────────────────── */
+  function boot() {
+    watchEscalations();
+    setInterval(pollEscalationEngine, 5000);
+    console.log('[ARIAFab] Floating ARIA button loaded \u2014 v1.0.0');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
 }());
 </script>
 </body>
