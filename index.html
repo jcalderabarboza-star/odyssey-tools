@@ -17026,5 +17026,308 @@ function exportBoardPack() {
 
 })();
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ODYSSEY ESCALATION ENGINE
+     Listens to OdysseySignalEngine, manages SLA rungs and ownership
+     routing. No UI rendered here — pure logic and state.
+     ═══════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── ESCALATION LADDER ──────────────────────────────────────── */
+  var ESCALATION_LADDER = {
+    1: { rung: 1, label: 'Owner Response',     realHours: '0–2h',  demoSeconds: 15, color: 'green', nextRung: 2 },
+    2: { rung: 2, label: 'Manager Escalation', realHours: '2–6h',  demoSeconds: 30, color: 'amber', nextRung: 3 },
+    3: { rung: 3, label: 'Leadership Alert',   realHours: '6–12h', demoSeconds: 50, color: 'red',   nextRung: null }
+  };
+
+  /* ── OWNERSHIP MAP ──────────────────────────────────────────── */
+  var OWNERSHIP_MAP = {
+    VIRAL_SPIKE:                { layer: 'Execution', owner: 'Demand Planning Lead',  manager: 'VP Commercial',   leadership: 'Group CEO' },
+    STOCK_RISK:                 { layer: 'Execution', owner: 'Supply Chain Planner',  manager: 'VP Supply Chain', leadership: 'Group CEO' },
+    DEMAND_SPIKE:               { layer: 'Tactical',  owner: 'Demand Planner',        manager: 'VP SCM Digital',  leadership: 'CFO'       },
+    CONVERSION_DROP:            { layer: 'Tactical',  owner: 'E-commerce Manager',    manager: 'VP Commercial',   leadership: 'CFO'       },
+    SUPPLIER_OTIF_BREACH:       { layer: 'Tactical',  owner: 'Procurement Manager',   manager: 'VP Supply Chain', leadership: 'Group CEO' },
+    RM_SHORTAGE_RISK:           { layer: 'Execution', owner: 'Manufacturing Planner', manager: 'VP Operations',   leadership: 'Group CEO' },
+    PRODUCTION_DELAY_RISK:      { layer: 'Tactical',  owner: 'Production Manager',    manager: 'VP Operations',   leadership: 'COO'       },
+    RETURN_RATE_SPIKE:          { layer: 'Execution', owner: 'QA Manager',            manager: 'VP Commercial',   leadership: 'Group CEO' },
+    COMPLAINT_SURGE:            { layer: 'Execution', owner: 'CS Manager',            manager: 'VP Commercial',   leadership: 'Group CEO' },
+    NEGATIVE_SENTIMENT_FEEDBACK:{ layer: 'Tactical',  owner: 'Marketing Manager',     manager: 'VP Commercial',   leadership: 'CMO'       }
+  };
+
+  /* ── ENGINE ─────────────────────────────────────────────────── */
+  var OdysseyEscalationEngine = {
+
+    ESCALATION_LADDER: ESCALATION_LADDER,
+    OWNERSHIP_MAP:     OWNERSHIP_MAP,
+
+    /** Active escalations keyed by signal name */
+    active: {},
+
+    /** Internal tick interval handle */
+    _tickInterval: null,
+
+    /**
+     * Register a new escalation for a fired signal.
+     * Creates a record and starts the SLA countdown.
+     * @param {Object} signal  Signal object from OdysseySignalEngine
+     */
+    register: function (signal) {
+      var name = signal && signal.name;
+      if (!name) return;
+
+      // Do not re-register while still active and unresolved
+      if (this.active[name] && !this.active[name].resolvedAt) {
+        return;
+      }
+
+      var record = {
+        signalName:     name,
+        startTime:      Date.now(),
+        currentRung:    1,
+        acknowledged:   false,
+        acknowledgedBy: null,
+        resolvedAt:     null,
+        signal:         signal,
+        ownership:      OWNERSHIP_MAP[name] || null,
+        history:        []
+      };
+
+      record.history.push({
+        event:     'REGISTERED',
+        rung:      1,
+        timestamp: new Date().toISOString(),
+        detail:    'Escalation started — Rung 1: ' + ESCALATION_LADDER[1].label
+      });
+
+      this.active[name] = record;
+      console.log(
+        '[EscalationEngine] Registered:', name,
+        '| Owner:', record.ownership ? record.ownership.owner : 'Unknown'
+      );
+
+      this._ensureTick();
+    },
+
+    /**
+     * Advance an escalation to the specified rung and broadcast
+     * the change back through OdysseySignalEngine subscribers.
+     * @param {string} signalName
+     * @param {number} newRung
+     */
+    escalate: function (signalName, newRung) {
+      var record = this.active[signalName];
+      if (!record || record.resolvedAt) return;
+
+      var ladder = ESCALATION_LADDER[newRung];
+      if (!ladder) return;
+
+      var prevRung     = record.currentRung;
+      record.currentRung = newRung;
+
+      record.history.push({
+        event:     'ESCALATED',
+        rung:      newRung,
+        timestamp: new Date().toISOString(),
+        detail:    'Escalated Rung ' + prevRung + ' → Rung ' + newRung + ': ' + ladder.label
+      });
+
+      console.warn(
+        '[EscalationEngine] ESCALATED —', signalName,
+        '→ Rung', newRung, '(' + ladder.label + ')'
+      );
+
+      this._broadcastRungChange(signalName, record, prevRung, newRung);
+    },
+
+    /**
+     * Mark an escalation as acknowledged, stopping further rung advances.
+     * @param {string} signalName
+     * @param {string} responderRole
+     */
+    acknowledge: function (signalName, responderRole) {
+      var record = this.active[signalName];
+      if (!record || record.resolvedAt) {
+        console.warn('[EscalationEngine] Cannot acknowledge — not found or already resolved:', signalName);
+        return;
+      }
+
+      record.acknowledged   = true;
+      record.acknowledgedBy = responderRole || 'Unknown';
+
+      record.history.push({
+        event:     'ACKNOWLEDGED',
+        rung:      record.currentRung,
+        timestamp: new Date().toISOString(),
+        detail:    'Acknowledged by: ' + record.acknowledgedBy
+      });
+
+      console.log('[EscalationEngine] Acknowledged:', signalName, '| By:', record.acknowledgedBy);
+    },
+
+    /**
+     * Mark an escalation as fully resolved and log the resolution.
+     * @param {string} signalName
+     * @param {string} resolution  Free-text description of action taken
+     */
+    resolve: function (signalName, resolution) {
+      var record = this.active[signalName];
+      if (!record) {
+        console.warn('[EscalationEngine] Cannot resolve — not found:', signalName);
+        return;
+      }
+
+      record.resolvedAt = new Date().toISOString();
+
+      record.history.push({
+        event:     'RESOLVED',
+        rung:      record.currentRung,
+        timestamp: record.resolvedAt,
+        detail:    resolution || 'Resolved without detail'
+      });
+
+      console.log('[EscalationEngine] Resolved:', signalName);
+    },
+
+    /**
+     * Returns all unresolved escalations sorted by rung descending.
+     * @returns {Array}
+     */
+    getActive: function () {
+      var self = this;
+      return Object.keys(this.active)
+        .map(function (k) { return self.active[k]; })
+        .filter(function (r) { return !r.resolvedAt; })
+        .sort(function (a, b) { return b.currentRung - a.currentRung; });
+    },
+
+    /**
+     * Returns aggregate counts across all escalation states.
+     * @returns {{ total: number, rung1: number, rung2: number, rung3: number, resolved: number }}
+     */
+    getStats: function () {
+      var self  = this;
+      var keys  = Object.keys(this.active);
+      var stats = { total: keys.length, rung1: 0, rung2: 0, rung3: 0, resolved: 0 };
+
+      keys.forEach(function (k) {
+        var r = self.active[k];
+        if (r.resolvedAt)      { stats.resolved++;                 return; }
+        if (r.currentRung === 1) stats.rung1++;
+        else if (r.currentRung === 2) stats.rung2++;
+        else if (r.currentRung === 3) stats.rung3++;
+      });
+
+      return stats;
+    },
+
+    /* ── Private helpers ──────────────────────────────────────── */
+
+    /** Start the per-second tick loop if it is not already running. */
+    _ensureTick: function () {
+      if (this._tickInterval) return;
+      var self = this;
+      this._tickInterval = setInterval(function () { self._tick(); }, 1000);
+      console.log('[EscalationEngine] Tick loop started.');
+    },
+
+    /**
+     * Called every second. Checks SLA windows and auto-escalates
+     * any unacknowledged records whose demoSeconds have elapsed.
+     */
+    _tick: function () {
+      var now      = Date.now();
+      var self     = this;
+      var hasWork  = false;
+
+      Object.keys(this.active).forEach(function (name) {
+        var record = self.active[name];
+        if (record.resolvedAt || record.acknowledged) return;
+
+        hasWork = true;
+        var elapsedSec = (now - record.startTime) / 1000;
+        var ladder     = ESCALATION_LADDER[record.currentRung];
+        if (!ladder) return;
+
+        if (elapsedSec > ladder.demoSeconds && ladder.nextRung !== null) {
+          self.escalate(name, ladder.nextRung);
+        }
+      });
+
+      // Stop the loop when there is nothing left to watch
+      if (!hasWork) {
+        clearInterval(this._tickInterval);
+        this._tickInterval = null;
+        console.log('[EscalationEngine] Tick loop stopped — no active unresolved escalations.');
+      }
+    },
+
+    /**
+     * Notifies all OdysseySignalEngine subscribers of a rung change
+     * so that other modules can react (e.g., update UI badges).
+     */
+    _broadcastRungChange: function (signalName, record, prevRung, newRung) {
+      if (!window.OdysseySignalEngine) return;
+
+      var ladder    = ESCALATION_LADDER[newRung];
+      var ownership = OWNERSHIP_MAP[signalName];
+      var notifyRole = ownership
+        ? (newRung === 1 ? ownership.owner : newRung === 2 ? ownership.manager : ownership.leadership)
+        : null;
+
+      var escalationSignal = {
+        name:           '__ESCALATION_RUNG_CHANGE__',
+        escalationName: signalName,
+        prevRung:       prevRung,
+        newRung:        newRung,
+        rungLabel:      ladder ? ladder.label : 'Unknown',
+        rungColor:      ladder ? ladder.color : 'gray',
+        notifyRole:     notifyRole,
+        record:         record,
+        firedAt:        new Date().toISOString()
+      };
+
+      var subs = window.OdysseySignalEngine.subscribers;
+      Object.keys(subs).forEach(function (moduleId) {
+        try {
+          subs[moduleId](escalationSignal);
+        } catch (e) {
+          /* Subscribers may not handle escalation signals — silently ignore */
+        }
+      });
+    }
+  };
+
+  /* ── Subscribe to OdysseySignalEngine ──────────────────────── */
+  function wireSubscription() {
+    if (!window.OdysseySignalEngine) {
+      setTimeout(wireSubscription, 500);
+      return;
+    }
+
+    window.OdysseySignalEngine.subscribe('__escalation-engine__', function (signal) {
+      // Ignore our own broadcast events to prevent infinite loops
+      if (signal.name === '__ESCALATION_RUNG_CHANGE__') return;
+      OdysseyEscalationEngine.register(signal);
+    });
+
+    console.log('[EscalationEngine] Subscribed to OdysseySignalEngine.');
+  }
+
+  /* ── Expose globally ─────────────────────────────────────────── */
+  window.OdysseyEscalationEngine = OdysseyEscalationEngine;
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wireSubscription);
+  } else {
+    wireSubscription();
+  }
+
+  console.log('[EscalationEngine] OdysseyEscalationEngine loaded — v1.0.0');
+
+}());
+</script>
 </body>
 </html>
