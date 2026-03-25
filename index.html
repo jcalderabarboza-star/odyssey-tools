@@ -16417,5 +16417,313 @@ function exportBoardPack() {
 
 })();
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAIN 3 SIGNAL WIRING — ADDITIVE EXTENSIONS
+     Adds: Returns origin banner · Custom DS sentiment card
+           Activity log coral styling · Status row chain info
+           Fire: All Chains master button
+     No existing code modified.
+════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── minimal HTML-escape helper ──────────────────────────── */
+  function esc(str) {
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     1.  RETURNS & REVERSE LOGISTICS — Chain 3 Origin Banner
+         Fires when RETURN_RATE_SPIKE is received.
+         Injects a compact coral "Origin Signal" banner at the
+         top of the Returns & Reverse Logistics panel.
+  ═══════════════════════════════════════════════════════════ */
+  var returnsBannerInjected = false;
+
+  OdysseySignalEngine.subscribe('returns-logistics-c3-origin', function (signal) {
+    if (signal.name !== 'RETURN_RATE_SPIKE') { return; }
+    if (returnsBannerInjected) { return; }
+    returnsBannerInjected = true;
+
+    var container = document.getElementById('panel-returns-logistics');
+    if (!container) { return; }
+
+    var bannerId = 'sig-c3-returns-origin-banner';
+    if (document.getElementById(bannerId)) { return; }
+
+    var borderColor = '#e11d48';
+    var bgColor     = '#fff1f2';
+
+    var wrap = document.createElement('div');
+    wrap.id = bannerId;
+    wrap.style.cssText = 'margin-bottom:16px';
+
+    var banner = document.createElement('div');
+    banner.style.cssText =
+      'display:flex;align-items:flex-start;justify-content:space-between;gap:12px;' +
+      'padding:12px 14px;' +
+      'background:' + bgColor + ';' +
+      'border-left:4px solid ' + borderColor + ';' +
+      'border-radius:0 6px 6px 0;' +
+      'box-shadow:0 1px 4px rgba(225,29,72,.12)';
+
+    var content = document.createElement('div');
+    content.style.cssText = 'flex:1;min-width:0';
+
+    var label = document.createElement('div');
+    label.style.cssText =
+      'font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;' +
+      'color:' + borderColor + ';margin-bottom:4px;display:flex;align-items:center;gap:6px';
+    label.innerHTML =
+      '<span style="background:' + borderColor + ';color:#fff;border-radius:4px;' +
+      'padding:1px 7px;font-size:9px;font-weight:700">ORIGIN</span>' +
+      'Chain 3 Origin \u2014 Return Spike Detected';
+
+    var msg = document.createElement('div');
+    msg.style.cssText = 'font-size:12px;color:#374151;font-weight:500;line-height:1.5';
+    msg.textContent =
+      'Make Over Powerstay Foundation Shade 03N: 11.4% return rate detected \u2014 ' +
+      'signal propagating to Customer Service \u2192 Marketing \u2192 Demand Sensing';
+
+    content.appendChild(label);
+    content.appendChild(msg);
+
+    var dismissBtn = document.createElement('button');
+    dismissBtn.textContent = 'Dismiss';
+    dismissBtn.style.cssText =
+      'flex-shrink:0;font-size:10px;font-weight:600;' +
+      'color:#6b7280;background:#f3f4f6;' +
+      'border:1px solid #e5e7eb;border-radius:4px;' +
+      'padding:2px 8px;cursor:pointer;line-height:1.6;margin-top:1px';
+    dismissBtn.addEventListener('click', function () {
+      if (wrap.parentNode) { wrap.parentNode.removeChild(wrap); }
+    });
+
+    banner.appendChild(content);
+    banner.appendChild(dismissBtn);
+    wrap.appendChild(banner);
+    container.insertBefore(wrap, container.firstChild);
+  });
+
+  /* ══════════════════════════════════════════════════════════
+     2.  DEMAND SENSING — Custom NEGATIVE_SENTIMENT_FEEDBACK card
+         Overrides the default Chain 3 demand-sensing subscriber
+         using the established last-write-wins subscribe() pattern.
+         Custom card shows: title, message, action items, source chain.
+         Other Chain 3 signals fall through to the default handler.
+  ═══════════════════════════════════════════════════════════ */
+  var dsCustomInjected = {};
+
+  OdysseySignalEngine.subscribe('demand-sensing', function (signal) {
+    if (signal.chain !== 3) { return; }
+
+    if (signal.name === 'NEGATIVE_SENTIMENT_FEEDBACK') {
+      var key = 'demand-sensing::' + signal.name;
+      if (dsCustomInjected[key]) { return; }
+      dsCustomInjected[key] = true;
+
+      var container = document.getElementById('panel-demand-sensing');
+      if (!container) { return; }
+
+      var cardId = 'sig-c3-ds-sentiment-custom';
+      if (document.getElementById(cardId)) { return; }
+
+      var borderColor = '#f43f5e';   /* WARNING severity — coral */
+      var bgColor     = '#fff5f6';
+
+      var wrap = document.createElement('div');
+      wrap.id = cardId;
+      wrap.style.cssText = 'margin-bottom:12px';
+
+      var card = document.createElement('div');
+      card.className = 'ds-flag';
+      card.style.cssText =
+        'border-left-color:' + borderColor + ';' +
+        'background:' + bgColor + ';' +
+        'position:relative;flex-direction:column;gap:4px;padding:14px 56px 14px 16px';
+
+      /* Chain + severity badge */
+      var chainBadge = document.createElement('span');
+      chainBadge.style.cssText =
+        'display:inline-block;margin-bottom:5px;' +
+        'font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;' +
+        'background:' + borderColor + ';color:#fff;border-radius:4px;padding:2px 8px';
+      chainBadge.textContent = 'Chain 3 \u2014 Feedback Loop \u00b7 WARNING';
+
+      /* Title */
+      var titleEl = document.createElement('div');
+      titleEl.className = 'ds-flag-msg';
+      titleEl.textContent = 'Feedback Loop Alert \u2014 Sentiment Risk from Returns';
+
+      /* Main message */
+      var msgEl = document.createElement('div');
+      msgEl.className = 'ds-flag-msg';
+      msgEl.style.fontWeight = '400';
+      msgEl.textContent =
+        'Make Over Powerstay Foundation showing sentiment drop linked to return ' +
+        'complaints. Shade oxidation issue suspected. Social monitoring escalated.';
+
+      /* Action items */
+      var actionsEl = document.createElement('div');
+      actionsEl.className = 'ds-flag-sub';
+      actionsEl.style.cssText = 'margin-top:6px;line-height:1.75';
+      actionsEl.innerHTML =
+        '<strong style="color:' + borderColor + '">Action Items:</strong><br>' +
+        '1. Monitor social mentions for foundation complaints<br>' +
+        '2. Check QA batch traceability<br>' +
+        '3. Pause paid amplification on this SKU<br>' +
+        '4. Brief Marketing on messaging adjustment';
+
+      /* Source chain */
+      var sourceEl = document.createElement('div');
+      sourceEl.className = 'ds-flag-sub';
+      sourceEl.style.cssText = 'margin-top:5px;color:#9ca3af;font-style:italic';
+      sourceEl.textContent =
+        'Signal origin: Returns \u2192 Customer Service \u2192 Marketing \u2192 Demand Sensing';
+
+      /* Dismiss */
+      var dismissBtn = document.createElement('button');
+      dismissBtn.textContent = 'Dismiss';
+      dismissBtn.style.cssText =
+        'position:absolute;top:10px;right:10px;' +
+        'font-size:10px;font-weight:600;' +
+        'color:#6b7280;background:#f3f4f6;' +
+        'border:1px solid #e5e7eb;border-radius:4px;' +
+        'padding:2px 8px;cursor:pointer;line-height:1.6';
+      dismissBtn.addEventListener('click', function () {
+        if (wrap.parentNode) { wrap.parentNode.removeChild(wrap); }
+      });
+
+      card.appendChild(chainBadge);
+      card.appendChild(titleEl);
+      card.appendChild(msgEl);
+      card.appendChild(actionsEl);
+      card.appendChild(sourceEl);
+      card.appendChild(dismissBtn);
+      wrap.appendChild(card);
+      container.insertBefore(wrap, container.firstChild);
+
+    } else {
+      /* Default handler for RETURN_RATE_SPIKE and COMPLAINT_SURGE */
+      window.injectChain3Alert('demand-sensing', signal);
+    }
+  });
+
+  /* ══════════════════════════════════════════════════════════
+     3.  SIGNAL ACTIVITY LOG — Chain 3 coral color indicator
+         Adds .sev-chain3 CSS class (coral/rose) distinct from
+         Chain 1 red (sev-critical) and Chain 2 amber (sev-warning).
+         Subscribes after __activity-log__ so DOM is ready; uses a
+         micro-timeout to let the log re-render first.
+  ═══════════════════════════════════════════════════════════ */
+  (function () {
+    var styleEl = document.createElement('style');
+    styleEl.textContent =
+      '.ose-log-item .ose-log-sev.sev-chain3' +
+        '{background:rgba(228,29,72,.2);color:#fda4af}' +
+      '.ose-log-item.log-chain3 .ose-log-name{color:#fda4af}';
+    document.head.appendChild(styleEl);
+  }());
+
+  OdysseySignalEngine.subscribe('__log-chain3-styler__', function (signal) {
+    if (signal.chain !== 3) { return; }
+    /* Allow __activity-log__ subscriber to render the entry first */
+    setTimeout(function () {
+      var list = document.getElementById('ose-log-list');
+      if (!list) { return; }
+      var items = list.querySelectorAll('.ose-log-item');
+      for (var i = 0; i < items.length; i++) {
+        var nameEl = items[i].querySelector('.ose-log-name');
+        if (nameEl && nameEl.textContent === signal.name) {
+          var sevEl = items[i].querySelector('.ose-log-sev');
+          if (sevEl && !sevEl.classList.contains('sev-chain3')) {
+            sevEl.classList.remove('sev-critical', 'sev-warning', 'sev-info');
+            sevEl.classList.add('sev-chain3');
+            sevEl.textContent = 'C3';
+          }
+          items[i].classList.add('log-chain3');
+          break;
+        }
+      }
+    }, 30);
+  });
+
+  /* ══════════════════════════════════════════════════════════
+     4.  SIGNAL ENGINE STATUS ROW — All 3 active chains
+         Injects "Active chains: 3" and "Signals defined: N" spans
+         into the existing #signal-engine-status-row element.
+  ═══════════════════════════════════════════════════════════ */
+  function extendSignalEngineStatusRow() {
+    var row = document.getElementById('signal-engine-status-row');
+    if (!row || document.getElementById('se-active-chains')) { return; }
+
+    var chainSpan = document.createElement('span');
+    chainSpan.style.cssText =
+      'font-size:12px;color:#6b7280;border-left:1px solid #d1dde8;padding-left:14px';
+    chainSpan.innerHTML =
+      'Active chains: <strong id="se-active-chains" style="color:#1d2d3e">3</strong>';
+
+    var totalCount = Object.keys(OdysseySignalEngine.thresholds).length;
+    var totalSpan = document.createElement('span');
+    totalSpan.style.cssText =
+      'font-size:12px;color:#6b7280;border-left:1px solid #d1dde8;padding-left:14px';
+    totalSpan.innerHTML =
+      'Signals defined: <strong id="se-total-signals" style="color:#1d2d3e">' +
+      totalCount + '</strong>';
+
+    row.appendChild(chainSpan);
+    row.appendChild(totalSpan);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', extendSignalEngineStatusRow);
+  } else {
+    extendSignalEngineStatusRow();
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     5.  SIMULATOR PANEL — "Fire: All Chains" master button
+         Fires every registered signal in sequence with 1-second
+         gaps between each — covers all 3 chains for a full demo.
+  ═══════════════════════════════════════════════════════════ */
+  function addFireAllChainsButton() {
+    var body = document.getElementById('ose-demo-body');
+    if (!body || document.getElementById('ose-all-chains-btn')) { return; }
+
+    var sep = document.createElement('div');
+    sep.style.cssText = 'border-top:1px solid rgba(255,255,255,.15);margin:8px 0 6px';
+    body.appendChild(sep);
+
+    var btn = document.createElement('button');
+    btn.id  = 'ose-all-chains-btn';
+    btn.className = 'ose-sig-btn';
+    btn.textContent = '\u26a1 Fire: All Chains';
+    btn.style.background    = 'rgba(228,29,72,.18)';
+    btn.style.borderColor   = 'rgba(228,29,72,.45)';
+    btn.style.color         = '#fda4af';
+    btn.style.fontWeight    = '700';
+    btn.addEventListener('click', function () {
+      var allSignals = Object.keys(OdysseySignalEngine.thresholds);
+      allSignals.forEach(function (key, idx) {
+        setTimeout(function () {
+          OdysseySignalEngine.fire(key);
+        }, idx * 1000);
+      });
+    });
+    body.appendChild(btn);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', addFireAllChainsButton);
+  } else {
+    addFireAllChainsButton();
+  }
+
+})();
+</script>
 </body>
 </html>
