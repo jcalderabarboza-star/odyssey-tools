@@ -17757,5 +17757,520 @@ function exportBoardPack() {
   console.log('[EscalationControlPanel] Loaded — v1.0.0');
 }());
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════
+     ESCALATION CARD WIRER  v1.0.0
+     Wires OdysseyEscalationEngine rung changes into the injected
+     module-level alert cards from all three signal chains.
+     Additive only — no existing card HTML/CSS modified directly.
+     All changes applied via JavaScript after card injection.
+════════════════════════════════════════════════════════════ -->
+<style id="ecw-styles">
+  /* ── Rung 3 pulsing red glow on .ds-flag cards ─────────────── */
+  @keyframes ecw-rung3-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0);   border-left-width: 4px; }
+    50%       { box-shadow: 0 0 10px 4px rgba(239,68,68,0.45); border-left-width: 6px; }
+  }
+  .ecw-rung3-glow {
+    animation: ecw-rung3-glow 1.4s ease-in-out infinite !important;
+  }
+
+  /* ── Sidebar badge pulsing for Rung 3 critical escalation ───── */
+  @keyframes ecw-badge-pulse {
+    0%, 100% { transform: scale(1);    opacity: 1;   }
+    50%       { transform: scale(1.35); opacity: 0.65; }
+  }
+  .nav-signal-badge.ecw-badge-rung3 {
+    animation: ecw-badge-pulse 0.85s ease-in-out infinite !important;
+    background: #ef4444 !important;
+  }
+
+  /* ── Escalation rung badge pill ─────────────────────────────── */
+  [data-ecw-role="rung-badge"] {
+    display: inline-block;
+    margin-bottom: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #fff;
+    border-radius: 4px;
+    padding: 2px 8px;
+    transition: background 0.5s ease, color 0.3s ease;
+  }
+
+  /* ── Owner line ──────────────────────────────────────────────── */
+  [data-ecw-role="owner-line"] {
+    font-size: 11px;
+    color: #6b7280;
+    margin-top: 2px;
+  }
+
+  /* ── Live countdown line ─────────────────────────────────────── */
+  [data-ecw-role="countdown"] {
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+    transition: color 0.4s ease;
+  }
+
+  /* ── Acknowledge button ──────────────────────────────────────── */
+  [data-ecw-role="ack-btn"] {
+    display: inline-block;
+    margin-top: 8px;
+    margin-right: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 11px;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #f0faf4;
+    color: #166534;
+    border: 1px solid #a3d9b1;
+    font-family: inherit;
+    transition: background 0.15s;
+    line-height: 1.6;
+  }
+  [data-ecw-role="ack-btn"]:hover:not(:disabled) { background: #dcfce7; }
+  [data-ecw-role="ack-btn"]:disabled {
+    background: #f3f4f6;
+    color: #9ca3af;
+    border-color: #e5e7eb;
+    cursor: default;
+  }
+
+  /* ── Escalation timeline ─────────────────────────────────────── */
+  [data-ecw-role="timeline"] {
+    margin-top: 9px;
+    padding-top: 7px;
+    border-top: 1px solid rgba(0,0,0,0.07);
+    font-size: 10px;
+    color: #6b7280;
+    line-height: 1.6;
+  }
+  .ecw-tl-title {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 9px;
+    color: #9ca3af;
+    margin-bottom: 4px;
+  }
+  .ecw-tl-row {
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+    padding: 1px 0;
+  }
+  .ecw-tl-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-top: 3px;
+    flex-shrink: 0;
+    transition: background 0.4s;
+  }
+</style>
+
+<script>
+/* ── ESCALATION CARD WIRER ──────────────────────────────────────
+   Subscribes to OdysseySignalEngine and OdysseyEscalationEngine
+   broadcasts. Decorates injected module-level alert cards with:
+     • Rung-aware border colour & severity badge
+     • Current owner name from the ownership map
+     • Live countdown to next escalation rung
+     • Rung 3 pulsing glow + sidebar badge pulse
+     • Per-card Acknowledge button
+     • Running escalation timeline
+   ─────────────────────────────────────────────────────────────── */
+(function () {
+  'use strict';
+
+  /* ── Rung colour constants ─────────────────────────────────── */
+  var RUNG_BORDER  = { 1: '#22c55e', 2: '#f59e0b', 3: '#ef4444' };
+  var RUNG_BADGE   = { 1: '#166534', 2: '#92400e', 3: '#991b1b' };
+  var RUNG_DOT     = { 1: '#22c55e', 2: '#f59e0b', 3: '#ef4444' };
+
+  /* ── Signal → sidebar nav-IDs (for Rung 3 badge pulsing) ───── */
+  var SIGNAL_NAV = {
+    VIRAL_SPIKE:                 ['nav-kpi', 'nav-proc'],
+    STOCK_RISK:                  ['nav-kpi'],
+    DEMAND_SPIKE:                ['nav-exec'],
+    CONVERSION_DROP:             ['nav-exec'],
+    SUPPLIER_OTIF_BREACH:        ['nav-mfg'],
+    RM_SHORTAGE_RISK:            ['nav-mfg', 'nav-kpi'],
+    PRODUCTION_DELAY_RISK:       ['nav-kpi'],
+    RETURN_RATE_SPIKE:           ['nav-customer-service'],
+    COMPLAINT_SURGE:             ['nav-marketing'],
+    NEGATIVE_SENTIMENT_FEEDBACK: ['nav-demand-sensing']
+  };
+
+  /* ── Tiny helpers ──────────────────────────────────────────── */
+  function eng()   { return window.OdysseyEscalationEngine; }
+  function esc(s)  {
+    return String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  /* ── Find all module-level card wrapper divs for a signal ─── */
+  function findWrappers(signalName) {
+    var result = [];
+
+    /* Chain 1 — known fixed IDs */
+    ['sig-alert-dw-', 'sig-alert-proc-'].forEach(function (pfx) {
+      var el = document.getElementById(pfx + signalName);
+      if (el) result.push(el);
+    });
+
+    /* Chain 2 & 3 — scan by prefix + suffix */
+    var suffix = '-' + signalName;
+    ['sig-c2-', 'sig-c3-'].forEach(function (pfx) {
+      var candidates = document.querySelectorAll('div[id^="' + pfx + '"]');
+      for (var i = 0; i < candidates.length; i++) {
+        var el = candidates[i];
+        if (el.id.slice(-suffix.length) === suffix) result.push(el);
+      }
+    });
+
+    return result;
+  }
+
+  /* ── Get the .ds-flag card inside a wrapper ─────────────────── */
+  function getCard(wrapper) { return wrapper.querySelector('.ds-flag'); }
+
+  /* ── Owner name for a rung from the ownership map ─────────── */
+  function ownerAt(signalName, rung) {
+    var e = eng();
+    if (!e) return 'Owner';
+    var o = e.OWNERSHIP_MAP[signalName];
+    if (!o) return 'Owner';
+    return rung === 1 ? o.owner : rung === 2 ? o.manager : o.leadership;
+  }
+
+  /* ── Badge text by rung ───────────────────────────────────── */
+  function rungBadgeText(rung, ownerName) {
+    if (rung === 1) return 'Rung 1 \u2014 ' + (ownerName || 'Owner');
+    if (rung === 2) return 'Rung 2 \u2014 Manager Escalated';
+    return 'Rung 3 \u2014 LEADERSHIP ALERT';
+  }
+
+  /* ── Apply escalation state to a single wrapper ─────────────── */
+  function updateCard(wrapper, signalName, rung, record) {
+    /* Tag wrapper for fast future lookups */
+    wrapper.setAttribute('data-escalation-signal', signalName);
+
+    var card = getCard(wrapper);
+    if (!card) return;
+
+    var owner       = ownerAt(signalName, rung);
+    var borderColor = RUNG_BORDER[rung] || '#ef4444';
+    var badgeBg     = RUNG_BADGE[rung]  || '#991b1b';
+    var e           = eng();
+    var ladder      = e && e.ESCALATION_LADDER[rung];
+    var isAcked     = record && record.acknowledged;
+
+    /* 1 ── Left border colour ─────────────────────────────── */
+    card.style.borderLeftColor = borderColor;
+
+    /* 2 ── Escalation rung badge (inserted once, updated) ─── */
+    var rungBadge = card.querySelector('[data-ecw-role="rung-badge"]');
+    if (!rungBadge) {
+      rungBadge = document.createElement('span');
+      rungBadge.setAttribute('data-ecw-role', 'rung-badge');
+      /* Place it as the second child — right after the original
+         severity / chain badge (first child of the flex column) */
+      var firstMsg = card.querySelector('.ds-flag-msg');
+      if (firstMsg) {
+        card.insertBefore(rungBadge, firstMsg);
+      } else {
+        var fc = card.firstElementChild;
+        if (fc && fc.nextSibling) card.insertBefore(rungBadge, fc.nextSibling);
+        else card.appendChild(rungBadge);
+      }
+    }
+    if (isAcked) {
+      rungBadge.textContent     = '\u2713 Acknowledged';
+      rungBadge.style.background = '#107e3e';
+    } else {
+      rungBadge.textContent     = rungBadgeText(rung, owner);
+      rungBadge.style.background = badgeBg;
+    }
+
+    /* 3 ── Current owner line (dynamic from ownership map) ─── */
+    var ownerLine = card.querySelector('[data-ecw-role="owner-line"]');
+    if (!ownerLine) {
+      ownerLine = document.createElement('div');
+      ownerLine.setAttribute('data-ecw-role', 'owner-line');
+      /* Insert after the rung badge */
+      var rb = card.querySelector('[data-ecw-role="rung-badge"]');
+      if (rb && rb.nextSibling) card.insertBefore(ownerLine, rb.nextSibling);
+      else card.appendChild(ownerLine);
+    }
+    ownerLine.textContent = isAcked
+      ? 'Acknowledged by: Module Operator'
+      : 'Owner: ' + owner;
+
+    /* 4 ── Live countdown line ────────────────────────────── */
+    var cdEl = card.querySelector('[data-ecw-role="countdown"]');
+    var hasNextRung = ladder && ladder.nextRung !== null;
+
+    if (isAcked || !hasNextRung) {
+      /* Hide countdown once acknowledged or at final rung */
+      if (cdEl) cdEl.style.display = 'none';
+    } else {
+      if (!cdEl) {
+        cdEl = document.createElement('div');
+        cdEl.setAttribute('data-ecw-role', 'countdown');
+        /* Insert after owner line */
+        var ol = card.querySelector('[data-ecw-role="owner-line"]');
+        if (ol && ol.nextSibling) card.insertBefore(cdEl, ol.nextSibling);
+        else card.appendChild(cdEl);
+      }
+      cdEl.style.display = '';
+      cdEl.style.color   = borderColor;
+      /* Store context for the tick loop */
+      cdEl.setAttribute('data-ecw-signal',     signalName);
+      cdEl.setAttribute('data-ecw-next-owner', ownerAt(signalName, rung + 1));
+    }
+
+    /* 5 ── Rung 3 pulsing glow ────────────────────────────── */
+    if (rung === 3 && !isAcked) {
+      card.classList.add('ecw-rung3-glow');
+    } else {
+      card.classList.remove('ecw-rung3-glow');
+    }
+
+    /* 6 ── Acknowledge button ─────────────────────────────── */
+    ensureAckButton(card, signalName, record);
+
+    /* 7 ── Escalation timeline at the bottom ─────────────── */
+    if (record) renderTimeline(card, record, signalName);
+  }
+
+  /* ── Ensure the Acknowledge button exists on a card ─────── */
+  function ensureAckButton(card, signalName, record) {
+    var btn = card.querySelector('[data-ecw-role="ack-btn"]');
+    var isAcked = record && record.acknowledged;
+
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.setAttribute('data-ecw-role', 'ack-btn');
+
+      btn.addEventListener('click', function () {
+        var e = eng();
+        if (e) e.acknowledge(signalName, 'Module Operator');
+        handleAck(signalName);
+      });
+
+      /* Insert before the existing (absolute-positioned) Dismiss button */
+      var dismissBtn = card.querySelector('button:not([data-ecw-role])');
+      if (dismissBtn) card.insertBefore(btn, dismissBtn);
+      else card.appendChild(btn);
+    }
+
+    if (isAcked) {
+      btn.textContent   = '\u2713 Acknowledged';
+      btn.disabled      = true;
+    } else {
+      btn.textContent   = 'Acknowledge';
+      btn.disabled      = false;
+    }
+  }
+
+  /* ── Handle acknowledgement across all cards for a signal ── */
+  function handleAck(signalName) {
+    var wrappers = document.querySelectorAll(
+      '[data-escalation-signal="' + signalName + '"]'
+    );
+    for (var i = 0; i < wrappers.length; i++) {
+      var wrapper = wrappers[i];
+      var card    = getCard(wrapper);
+      if (!card) continue;
+
+      /* Dim the wrapper */
+      wrapper.style.transition = 'opacity 0.5s ease';
+      wrapper.style.opacity    = '0.6';
+
+      /* Remove glow */
+      card.classList.remove('ecw-rung3-glow');
+
+      /* Hide countdown */
+      var cd = card.querySelector('[data-ecw-role="countdown"]');
+      if (cd) cd.style.display = 'none';
+
+      /* Update rung badge → Acknowledged */
+      var rb = card.querySelector('[data-ecw-role="rung-badge"]');
+      if (rb) { rb.textContent = '\u2713 Acknowledged'; rb.style.background = '#107e3e'; }
+
+      /* Update owner line */
+      var ol = card.querySelector('[data-ecw-role="owner-line"]');
+      if (ol) ol.textContent = 'Acknowledged by: Module Operator';
+
+      /* Disable ack button */
+      var ackBtn = card.querySelector('[data-ecw-role="ack-btn"]');
+      if (ackBtn) { ackBtn.textContent = '\u2713 Acknowledged'; ackBtn.disabled = true; }
+
+      /* Refresh timeline */
+      var e = eng();
+      var record = e && e.active[signalName];
+      if (record) renderTimeline(card, record, signalName);
+    }
+
+    /* Remove sidebar badge Rung 3 pulse */
+    setSidebarPulse(signalName, false);
+  }
+
+  /* ── Toggle Rung 3 pulsing on sidebar badge ─────────────── */
+  function setSidebarPulse(signalName, on) {
+    (SIGNAL_NAV[signalName] || []).forEach(function (navId) {
+      var btn   = document.getElementById(navId);
+      if (!btn) return;
+      var badge = btn.querySelector('.nav-signal-badge');
+      if (!badge) return;
+      if (on) badge.classList.add('ecw-badge-rung3');
+      else    badge.classList.remove('ecw-badge-rung3');
+    });
+  }
+
+  /* ── Render the escalation timeline at the bottom of a card ─ */
+  function renderTimeline(card, record, signalName) {
+    var tl = card.querySelector('[data-ecw-role="timeline"]');
+    if (!tl) {
+      tl = document.createElement('div');
+      tl.setAttribute('data-ecw-role', 'timeline');
+      card.appendChild(tl);
+    }
+
+    var startMs  = record.startTime;
+    var history  = record.history || [];
+    var e        = eng();
+
+    var html = '<div class="ecw-tl-title">Escalation Timeline</div>';
+
+    history.forEach(function (h) {
+      var elapsedSec = Math.round((new Date(h.timestamp).getTime() - startMs) / 1000);
+      var dotColor   = '#9ca3af';
+      var label      = '';
+
+      if (h.event === 'REGISTERED') {
+        dotColor = RUNG_DOT[1];
+        label    = 'Fired \u2192 Rung\u00a01 (' + esc(ownerAt(signalName, 1)) + ') at 0s';
+      } else if (h.event === 'ESCALATED') {
+        dotColor = RUNG_DOT[h.rung] || '#f59e0b';
+        var rLbl = (e && e.ESCALATION_LADDER[h.rung])
+          ? e.ESCALATION_LADDER[h.rung].label
+          : 'Rung ' + h.rung;
+        label = 'Rung\u00a0' + h.rung + ' \u2014 ' + esc(rLbl) +
+                ' (' + esc(ownerAt(signalName, h.rung)) + ') at ' + elapsedSec + 's';
+      } else if (h.event === 'ACKNOWLEDGED') {
+        dotColor = '#107e3e';
+        label    = '\u2713 Acknowledged by Module Operator at ' + elapsedSec + 's';
+      } else if (h.event === 'RESOLVED') {
+        dotColor = '#0070f2';
+        label    = 'Resolved at ' + elapsedSec + 's';
+      } else {
+        label = esc(h.event) + ' at ' + elapsedSec + 's';
+      }
+
+      html +=
+        '<div class="ecw-tl-row">' +
+        '<span class="ecw-tl-dot" style="background:' + dotColor + '"></span>' +
+        '<span>' + label + '</span>' +
+        '</div>';
+    });
+
+    tl.innerHTML = html;
+  }
+
+  /* ── Per-second countdown tick ───────────────────────────── */
+  setInterval(function () {
+    var cdEls = document.querySelectorAll('[data-ecw-role="countdown"]');
+    for (var i = 0; i < cdEls.length; i++) {
+      var cdEl = cdEls[i];
+      if (cdEl.style.display === 'none') continue;
+
+      var signalName = cdEl.getAttribute('data-ecw-signal');
+      var nextOwner  = cdEl.getAttribute('data-ecw-next-owner');
+      if (!signalName) continue;
+
+      var e = eng();
+      if (!e) continue;
+      var record = e.active[signalName];
+      if (!record || record.acknowledged || record.resolvedAt) {
+        cdEl.style.display = 'none';
+        continue;
+      }
+
+      var ladder = e.ESCALATION_LADDER[record.currentRung];
+      if (!ladder || ladder.nextRung === null) {
+        cdEl.style.display = 'none';
+        continue;
+      }
+
+      var elapsed = (Date.now() - record.startTime) / 1000;
+      var remain  = Math.ceil(ladder.demoSeconds - elapsed);
+      cdEl.textContent = remain > 0
+        ? 'Escalates to ' + (nextOwner || 'next rung') + ' in ' + remain + 's'
+        : 'Escalating\u2026';
+    }
+  }, 1000);
+
+  /* ── Main subscription ───────────────────────────────────── */
+  function wireCards() {
+    if (!window.OdysseySignalEngine) {
+      setTimeout(wireCards, 300);
+      return;
+    }
+
+    OdysseySignalEngine.subscribe('__escalation-card-wirer__', function (signal) {
+
+      /* ── Rung change broadcast from OdysseyEscalationEngine ── */
+      if (signal.name === '__ESCALATION_RUNG_CHANGE__') {
+        var sName  = signal.escalationName;
+        var rung   = signal.newRung;
+        var record = signal.record;
+
+        /* Prefer tagged wrappers, fall back to ID-based scan */
+        var tagged = document.querySelectorAll(
+          '[data-escalation-signal="' + sName + '"]'
+        );
+        var wrappers = tagged.length ? tagged : findWrappers(sName);
+
+        for (var i = 0; i < wrappers.length; i++) {
+          updateCard(wrappers[i], sName, rung, record);
+        }
+
+        /* Rung 3 → add sidebar badge pulse */
+        if (rung === 3) setSidebarPulse(sName, true);
+
+        return;
+      }
+
+      /* ── Normal signal fired — set Rung 1 state after injection ─ */
+      /* Use a short delay so card-injection subscribers run first   */
+      var name = signal.name;
+      setTimeout(function () {
+        var e      = eng();
+        var record = e && e.active[name];
+        var wrappers = findWrappers(name);
+        for (var i = 0; i < wrappers.length; i++) {
+          updateCard(wrappers[i], name, 1, record || null);
+        }
+      }, 120);
+    });
+
+    console.log('[EscalationCardWirer] Subscribed — v1.0.0');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wireCards);
+  } else {
+    wireCards();
+  }
+
+}());
+</script>
 </body>
 </html>
