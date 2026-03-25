@@ -8493,6 +8493,71 @@
     </div>
   </div>
 
+  <!-- PART 9: ESCALATION CONTROL PANEL — LIVE -->
+  <div class="section-block ex-page-break" id="ecp-section" style="margin-top:24px">
+    <div class="section-hdr" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div>
+        <p class="section-label" style="font-size:13px;font-weight:700;color:#1d2d3e;text-transform:uppercase;letter-spacing:0.06em">ESCALATION CONTROL PANEL &mdash; LIVE</p>
+        <span class="section-sub">Real-time escalation tracking | Powered by OdysseyEscalationEngine</span>
+      </div>
+      <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#107e3e;background:#dcfce7;padding:4px 14px;border-radius:20px;border:1px solid #bbf7d0">
+        <span id="ecp-live-dot" style="width:8px;height:8px;background:#107e3e;border-radius:50%;display:inline-block"></span>LIVE
+      </span>
+    </div>
+
+    <!-- Stats Row: 4 cards updated every second -->
+    <div id="ecp-stats-row" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px"></div>
+
+    <!-- Live Escalation Board -->
+    <div style="margin-bottom:24px">
+      <div style="font-size:12px;font-weight:700;color:#1d2d3e;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;display:flex;align-items:center;gap:8px">
+        Live Escalation Board
+        <span id="ecp-board-count" style="font-size:11px;font-weight:600;color:#6b7280;background:#f3f4f6;padding:2px 8px;border-radius:12px">0 escalations</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table id="ecp-board-table" style="width:100%;border-collapse:collapse;font-size:12px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,0.07);display:none">
+          <thead>
+            <tr style="background:#1d2d3e;color:#fff">
+              <th style="padding:10px 14px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;white-space:nowrap">Signal Name</th>
+              <th style="padding:10px 14px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;white-space:nowrap">Chain</th>
+              <th style="padding:10px 14px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;white-space:nowrap">Layer</th>
+              <th style="padding:10px 14px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;white-space:nowrap">Current Rung</th>
+              <th style="padding:10px 14px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;white-space:nowrap">Current Owner</th>
+              <th style="padding:10px 14px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;white-space:nowrap">Time Elapsed</th>
+              <th style="padding:10px 14px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;white-space:nowrap">SLA Status</th>
+              <th style="padding:10px 14px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;white-space:nowrap" colspan="2">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="ecp-board-tbody"></tbody>
+        </table>
+        <div id="ecp-empty-board" style="text-align:center;padding:32px;background:#f8fafc;border-radius:10px;border:1px dashed #e5e7eb;color:#9ca3af;font-size:13px">
+          &#10003; No active escalations &mdash; all clear.
+        </div>
+      </div>
+    </div>
+
+    <!-- Escalation History -->
+    <div style="margin-bottom:20px">
+      <div style="font-size:12px;font-weight:700;color:#1d2d3e;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Escalation History</div>
+      <div id="ecp-history-log" style="background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;padding:12px 16px;font-size:12px;font-family:monospace;max-height:160px;overflow-y:auto;color:#374151">
+        <span style="color:#9ca3af;font-style:italic">No escalation transitions yet&hellip;</span>
+      </div>
+    </div>
+
+    <!-- Resolved Escalations Log (collapsed) -->
+    <details id="ecp-resolved-details" style="border:1px solid #e5e7eb;border-radius:8px;background:#fafbfc">
+      <summary style="padding:12px 16px;cursor:pointer;font-size:12px;font-weight:700;color:#1d2d3e;text-transform:uppercase;letter-spacing:0.05em;user-select:none;list-style:none;display:flex;align-items:center;gap:8px">
+        &#9660; Resolved Escalations Log
+        <span id="ecp-resolved-count" style="font-size:11px;font-weight:600;color:#6b7280;background:#e5e7eb;padding:2px 8px;border-radius:12px">0</span>
+      </summary>
+      <div style="padding:0 16px 16px">
+        <div id="ecp-resolved-log">
+          <div style="color:#9ca3af;font-size:13px;padding:12px 0;font-style:italic">No resolved escalations yet.</div>
+        </div>
+      </div>
+    </details>
+  </div><!-- end ecp-section -->
+
 </div><!-- end executive-summary-content -->
 </div><!-- end panel-exec -->
 <!-- === END EXECUTIVE SUMMARY MODULE HTML === -->
@@ -17327,6 +17392,369 @@ function exportBoardPack() {
 
   console.log('[EscalationEngine] OdysseyEscalationEngine loaded — v1.0.0');
 
+}());
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════
+     ESCALATION CONTROL PANEL — Live UI
+     Additive only. Reads from OdysseyEscalationEngine.
+═══════════════════════════════════════════════════════════ -->
+<style>
+  @keyframes ecp-pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50%      { opacity:0.45; transform:scale(0.8); }
+  }
+  #ecp-live-dot { animation: ecp-pulse 1.2s ease-in-out infinite; }
+</style>
+<script>
+(function () {
+  'use strict';
+
+  /* ── Helpers ─────────────────────────────────────────────── */
+  function ecpEsc(str) {
+    return String(str == null ? '' : str)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function ecpFmtElapsed(ms) {
+    var sec = Math.floor(Math.abs(ms) / 1000);
+    return Math.floor(sec / 60) + 'm ' + (sec % 60) + 's';
+  }
+
+  function ecpGetChain(record) {
+    return (record.signal && record.signal.chain) || 1;
+  }
+
+  function ecpGetOwner(record) {
+    var o = record.ownership;
+    if (!o) return 'Unknown';
+    return record.currentRung === 1 ? o.owner
+         : record.currentRung === 2 ? o.manager
+         : o.leadership;
+  }
+
+  function ecpRungColors(rung) {
+    if (rung === 1) return { bg:'#dcfce7', text:'#166534', border:'#bbf7d0' };
+    if (rung === 2) return { bg:'#fef9c3', text:'#854d0e', border:'#fde68a' };
+    return              { bg:'#fee2e2', text:'#991b1b', border:'#fecaca' };
+  }
+
+  function ecpRowBg(rung) {
+    if (rung === 1) return 'rgba(220,252,231,0.18)';
+    if (rung === 2) return 'rgba(254,249,195,0.32)';
+    return              'rgba(254,226,226,0.38)';
+  }
+
+  function ecpChainStyle(chain) {
+    if (chain === 2) return { bg:'#fef3c7', text:'#92400e' };
+    if (chain === 3) return { bg:'#fce7f3', text:'#9d174d' };
+    return               { bg:'#e0f2fe', text:'#0369a1' };
+  }
+
+  function ecpSLAStatus(record) {
+    var eng = window.OdysseyEscalationEngine;
+    if (!eng) return '&mdash;';
+    if (record.acknowledged) return '<span style="color:#107e3e;font-weight:600">&#10003; Acknowledged</span>';
+    var ladder = eng.ESCALATION_LADDER[record.currentRung];
+    if (!ladder) return '&mdash;';
+    var elapsed = (Date.now() - record.startTime) / 1000;
+    var remain  = ladder.demoSeconds - elapsed;
+    if (remain > 0) {
+      return 'Escalates in <strong>' + Math.ceil(remain) + 's</strong>';
+    }
+    return ladder.nextRung !== null
+      ? '<span style="color:#bb0000;font-weight:700">BREACHED &rarr; Escalating&hellip;</span>'
+      : '<span style="color:#bb0000;font-weight:700">FINAL RUNG BREACHED</span>';
+  }
+
+  /* ── Stats Row ───────────────────────────────────────────── */
+  function ecpStatCard(label, value, c) {
+    return '<div style="background:' + c.bg + ';border:1px solid ' + c.border + ';border-radius:10px;padding:16px 14px">' +
+           '<div style="font-size:11px;font-weight:600;color:' + c.text + ';text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;opacity:0.85">' + label + '</div>' +
+           '<div style="font-size:30px;font-weight:700;color:' + c.text + ';line-height:1">' + value + '</div>' +
+           '</div>';
+  }
+
+  function ecpRenderStats(stats, active) {
+    var el = document.getElementById('ecp-stats-row');
+    if (!el) return;
+    var highRung = 0;
+    active.forEach(function (r) { if (r.currentRung > highRung) highRung = r.currentRung; });
+    var totalC = highRung > 0 ? ecpRungColors(highRung) : { bg:'#f3f4f6', text:'#6b7280', border:'#e5e7eb' };
+    var totalActive = stats.total - stats.resolved;
+    el.innerHTML =
+      ecpStatCard('Total Active Escalations', totalActive,  totalC) +
+      ecpStatCard('At Rung 1 (Owner)',        stats.rung1,  { bg:'#dcfce7', text:'#166534', border:'#bbf7d0' }) +
+      ecpStatCard('At Rung 2 (Manager)',      stats.rung2,  { bg:'#fef9c3', text:'#854d0e', border:'#fde68a' }) +
+      ecpStatCard('At Rung 3 (Leadership)',   stats.rung3,  { bg:'#fee2e2', text:'#991b1b', border:'#fecaca' });
+  }
+
+  /* ── Live Board ──────────────────────────────────────────── */
+  var _ecpRows = {};  // signalName → <tr> element
+
+  function ecpRenderBoard(active) {
+    var tbody    = document.getElementById('ecp-board-tbody');
+    var table    = document.getElementById('ecp-board-table');
+    var emptyDiv = document.getElementById('ecp-empty-board');
+    var countBdg = document.getElementById('ecp-board-count');
+    if (!tbody) return;
+
+    if (countBdg) countBdg.textContent = active.length ? active.length + ' active' : '0 escalations';
+
+    if (active.length === 0) {
+      if (table)    table.style.display    = 'none';
+      if (emptyDiv) emptyDiv.style.display = '';
+      tbody.innerHTML = '';
+      _ecpRows = {};
+      return;
+    }
+    if (table)    table.style.display    = '';
+    if (emptyDiv) emptyDiv.style.display = 'none';
+
+    var activeNames = active.map(function (r) { return r.signalName; });
+
+    // Remove rows no longer active
+    Object.keys(_ecpRows).forEach(function (name) {
+      if (activeNames.indexOf(name) === -1) {
+        var stale = _ecpRows[name];
+        if (stale && stale.parentNode) stale.parentNode.removeChild(stale);
+        delete _ecpRows[name];
+      }
+    });
+
+    active.forEach(function (record, idx) {
+      var name   = record.signalName;
+      var rung   = record.currentRung;
+      var rc     = ecpRungColors(rung);
+      var chainN = ecpGetChain(record);
+      var cs     = ecpChainStyle(chainN);
+      var layer  = (record.ownership && record.ownership.layer) || '&mdash;';
+      var owner  = ecpGetOwner(record);
+      var elapsed = Date.now() - record.startTime;
+      var rowBg  = ecpRowBg(rung);
+      var eng    = window.OdysseyEscalationEngine;
+      var rungLbl = eng ? eng.ESCALATION_LADDER[rung].label : 'Rung ' + rung;
+
+      var existing = _ecpRows[name];
+      if (existing) {
+        // Update only the live-changing cells
+        existing.style.background = rowBg;
+        var ec = existing.querySelector('[data-ecp="elapsed"]');
+        if (ec) ec.textContent = ecpFmtElapsed(elapsed);
+        var sc = existing.querySelector('[data-ecp="sla"]');
+        if (sc) sc.innerHTML = ecpSLAStatus(record);
+        var oc = existing.querySelector('[data-ecp="owner"]');
+        if (oc) oc.textContent = owner;
+        var rb = existing.querySelector('[data-ecp="rungbadge"]');
+        if (rb) {
+          rb.style.background = rc.bg;
+          rb.style.color      = rc.text;
+          rb.style.border     = '1px solid ' + rc.border;
+          rb.textContent      = 'Rung ' + rung + ' \u2014 ' + rungLbl;
+        }
+        // Maintain sort order (rung desc)
+        var allRows = Array.prototype.slice.call(tbody.querySelectorAll('tr[data-ecp-sig]'));
+        if (allRows[idx] && allRows[idx] !== existing) tbody.insertBefore(existing, allRows[idx]);
+        return;
+      }
+
+      /* Build new row */
+      var safeName = name.replace(/[^a-z0-9]/gi, '_');
+      var ackId  = 'ecp-ack-'  + safeName;
+      var resId  = 'ecp-res-'  + safeName;
+      var inpId  = 'ecp-inp-'  + safeName;
+      var cfmId  = 'ecp-cfm-'  + safeName;
+      var noteId = 'ecp-note-' + safeName;
+
+      var ackDisabled = record.acknowledged ? 'disabled' : '';
+      var ackStyleStr = record.acknowledged
+        ? 'background:#f3f4f6;color:#9ca3af;border:1px solid #e5e7eb;cursor:default'
+        : 'background:#dcfce7;color:#166534;border:1px solid #bbf7d0;cursor:pointer';
+      var ackLabel = record.acknowledged ? '&#10003; Acknowledged' : 'Acknowledge';
+
+      var tr = document.createElement('tr');
+      tr.setAttribute('data-ecp-sig', name);
+      tr.style.background   = rowBg;
+      tr.style.borderBottom = '1px solid #f1f5f9';
+      tr.style.transition   = 'background 0.6s, opacity 0.5s';
+
+      tr.innerHTML =
+        '<td style="padding:10px 14px;font-weight:600;color:#1d2d3e;white-space:nowrap">' + ecpEsc(name) + '</td>' +
+        '<td style="padding:10px 14px;text-align:center"><span style="font-size:11px;font-weight:600;background:' + cs.bg + ';color:' + cs.text + ';padding:2px 9px;border-radius:12px;white-space:nowrap">Chain ' + chainN + '</span></td>' +
+        '<td style="padding:10px 14px;text-align:center;font-size:12px;color:#374151;white-space:nowrap">' + layer + '</td>' +
+        '<td style="padding:10px 14px;text-align:center"><span data-ecp="rungbadge" style="font-size:11px;font-weight:700;background:' + rc.bg + ';color:' + rc.text + ';border:1px solid ' + rc.border + ';padding:3px 10px;border-radius:20px;white-space:nowrap">Rung ' + rung + ' \u2014 ' + ecpEsc(rungLbl) + '</span></td>' +
+        '<td style="padding:10px 14px;color:#374151;font-size:12px;white-space:nowrap" data-ecp="owner">' + ecpEsc(owner) + '</td>' +
+        '<td style="padding:10px 14px;text-align:center;font-variant-numeric:tabular-nums;color:#374151;white-space:nowrap" data-ecp="elapsed">' + ecpFmtElapsed(elapsed) + '</td>' +
+        '<td style="padding:10px 14px;text-align:center;white-space:nowrap" data-ecp="sla">' + ecpSLAStatus(record) + '</td>' +
+        '<td style="padding:10px 14px;text-align:center;white-space:nowrap">' +
+          '<button id="' + ackId + '" ' + ackDisabled + ' style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;' + ackStyleStr + '">' + ackLabel + '</button>' +
+        '</td>' +
+        '<td style="padding:10px 14px;text-align:center;white-space:nowrap">' +
+          '<button id="' + resId + '" style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;cursor:pointer">Resolve</button>' +
+          '<div id="' + noteId + '" style="display:none;margin-top:6px;white-space:nowrap">' +
+            '<input id="' + inpId + '" type="text" placeholder="Resolution note\u2026" style="font-size:11px;padding:3px 7px;border:1px solid #d1d5db;border-radius:4px;width:130px;outline:none">' +
+            '<button id="' + cfmId + '" style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;background:#bb0000;color:#fff;border:none;cursor:pointer;margin-left:4px">&#10003;</button>' +
+          '</div>' +
+        '</td>';
+
+      tbody.appendChild(tr);
+      _ecpRows[name] = tr;
+
+      // Acknowledge handler
+      (function (rec, btn) {
+        if (!btn || rec.acknowledged) return;
+        btn.addEventListener('click', function () {
+          if (window.OdysseyEscalationEngine) {
+            window.OdysseyEscalationEngine.acknowledge(rec.signalName, 'Control Tower Operator');
+          }
+          btn.innerHTML = '&#10003; Acknowledged';
+          btn.disabled  = true;
+          btn.style.cssText = 'font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;background:#f3f4f6;color:#9ca3af;border:1px solid #e5e7eb;cursor:default';
+        });
+      }(record, document.getElementById(ackId)));
+
+      // Resolve handler
+      (function (rec, btn, noteDiv, inp, cfm, row) {
+        if (!btn) return;
+        btn.addEventListener('click', function () {
+          btn.style.display = 'none';
+          if (noteDiv) noteDiv.style.display = 'block';
+          if (inp) inp.focus();
+        });
+        if (!cfm) return;
+        cfm.addEventListener('click', function () {
+          var note = (inp ? inp.value.trim() : '') || 'Resolved by Control Tower Operator';
+          if (window.OdysseyEscalationEngine) {
+            window.OdysseyEscalationEngine.resolve(rec.signalName, note);
+          }
+          row.style.opacity = '0';
+          setTimeout(function () {
+            if (row.parentNode) row.parentNode.removeChild(row);
+            delete _ecpRows[rec.signalName];
+          }, 500);
+        });
+      }(record,
+        document.getElementById(resId),
+        document.getElementById(noteId),
+        document.getElementById(inpId),
+        document.getElementById(cfmId),
+        tr));
+
+      // Place in correct sort position
+      var allRows = Array.prototype.slice.call(tbody.querySelectorAll('tr[data-ecp-sig]'));
+      if (allRows[idx] && allRows[idx] !== tr) tbody.insertBefore(tr, allRows[idx]);
+    });
+  }
+
+  /* ── Escalation History ──────────────────────────────────── */
+  function ecpRenderHistory() {
+    var log = document.getElementById('ecp-history-log');
+    if (!log) return;
+    var eng = window.OdysseyEscalationEngine;
+    if (!eng) return;
+
+    var entries = [];
+    Object.keys(eng.active).forEach(function (name) {
+      var rec = eng.active[name];
+      rec.history.forEach(function (h) {
+        if (h.event !== 'ESCALATED') return;
+        var m = h.detail.match(/Escalated Rung (\d+) \u2192 Rung (\d+)/);
+        if (!m) return;
+        var prevR = parseInt(m[1]);
+        var newR  = parseInt(m[2]);
+        var t0    = new Date(rec.history[0].timestamp);
+        var th    = new Date(h.timestamp);
+        var newOwn = rec.ownership
+          ? (newR === 1 ? rec.ownership.owner : newR === 2 ? rec.ownership.manager : rec.ownership.leadership)
+          : 'Unknown';
+        entries.push({
+          ts:   h.timestamp,
+          text: '[' + name + '] escalated from Rung ' + prevR + ' \u2192 Rung ' + newR +
+                ' at ' + ecpFmtElapsed(th - t0) + '. Now owned by: ' + newOwn + '.'
+        });
+      });
+    });
+
+    if (entries.length === 0) {
+      log.innerHTML = '<span style="color:#9ca3af;font-style:italic">No escalation transitions yet&hellip;</span>';
+      return;
+    }
+    entries.sort(function (a, b) { return b.ts > a.ts ? 1 : -1; });
+    log.innerHTML = entries.map(function (e) {
+      return '<div style="padding:3px 0;border-bottom:1px solid #e5e7eb;color:#374151">' +
+             '<span style="color:#9ca3af;margin-right:8px">' + new Date(e.ts).toLocaleTimeString() + '</span>' +
+             ecpEsc(e.text) + '</div>';
+    }).join('');
+  }
+
+  /* ── Resolved Log ────────────────────────────────────────── */
+  function ecpRenderResolved() {
+    var eng = window.OdysseyEscalationEngine;
+    if (!eng) return;
+    var resolved = Object.keys(eng.active)
+      .map(function (k) { return eng.active[k]; })
+      .filter(function (r) { return !!r.resolvedAt; });
+    var cnt = document.getElementById('ecp-resolved-count');
+    if (cnt) cnt.textContent = resolved.length;
+    var log = document.getElementById('ecp-resolved-log');
+    if (!log) return;
+    if (resolved.length === 0) {
+      log.innerHTML = '<div style="color:#9ca3af;font-size:13px;padding:12px 0;font-style:italic">No resolved escalations yet.</div>';
+      return;
+    }
+    var html =
+      '<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px">' +
+      '<thead><tr style="background:#f3f4f6">' +
+      '<th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#374151">Signal</th>' +
+      '<th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#374151">Resolved By</th>' +
+      '<th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#374151">Resolution Note</th>' +
+      '<th style="padding:8px 12px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#374151">Time to Resolve</th>' +
+      '<th style="padding:8px 12px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#374151">Final Rung</th>' +
+      '</tr></thead><tbody>';
+    resolved.forEach(function (r) {
+      var rEvt  = r.history.filter(function (h) { return h.event === 'RESOLVED'; }).pop();
+      var note  = rEvt ? rEvt.detail : '\u2014';
+      var by    = r.acknowledgedBy || 'Control Tower Operator';
+      var ttr   = r.resolvedAt ? (new Date(r.resolvedAt) - new Date(r.history[0].timestamp)) : 0;
+      var rc    = ecpRungColors(r.currentRung);
+      html +=
+        '<tr style="border-bottom:1px solid #f1f5f9">' +
+        '<td style="padding:8px 12px;font-weight:600;color:#1d2d3e">' + ecpEsc(r.signalName) + '</td>' +
+        '<td style="padding:8px 12px;color:#374151">' + ecpEsc(by) + '</td>' +
+        '<td style="padding:8px 12px;color:#6b7280;max-width:220px">' + ecpEsc(note) + '</td>' +
+        '<td style="padding:8px 12px;text-align:center;color:#374151;font-variant-numeric:tabular-nums">' + ecpFmtElapsed(ttr) + '</td>' +
+        '<td style="padding:8px 12px;text-align:center"><span style="font-size:11px;font-weight:700;background:' + rc.bg + ';color:' + rc.text + ';border:1px solid ' + rc.border + ';padding:2px 8px;border-radius:12px">Rung ' + r.currentRung + '</span></td>' +
+        '</tr>';
+    });
+    html += '</tbody></table>';
+    log.innerHTML = html;
+  }
+
+  /* ── Main update loop ────────────────────────────────────── */
+  function ecpUpdate() {
+    var eng = window.OdysseyEscalationEngine;
+    if (!eng) return;
+    var stats  = eng.getStats();
+    var active = eng.getActive();
+    ecpRenderStats(stats, active);
+    ecpRenderBoard(active);
+    ecpRenderHistory();
+    ecpRenderResolved();
+  }
+
+  function ecpInit() {
+    ecpUpdate();
+    setInterval(ecpUpdate, 1000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(ecpInit, 300); });
+  } else {
+    setTimeout(ecpInit, 300);
+  }
+
+  console.log('[EscalationControlPanel] Loaded — v1.0.0');
 }());
 </script>
 </body>
