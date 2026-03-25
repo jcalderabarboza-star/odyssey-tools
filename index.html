@@ -1155,6 +1155,93 @@
       0%   { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
+    /* ═══ SCENARIO SIMULATION PANEL ══════════════════════════════════════ */
+    .aria-scenario-panel {
+      background: #111c2b;
+      border: 1px solid rgba(124,58,237,0.25);
+      border-radius: 16px;
+      padding: 20px 24px 24px;
+      margin-bottom: 20px;
+    }
+    .aria-scenario-header { margin-bottom: 16px; }
+    .aria-scenario-title {
+      font-size: 13px; font-weight: 700; color: #e2e8f0;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .aria-scenario-title span { color: #a78bfa; font-size: 15px; }
+    .aria-scenario-subtitle { font-size: 12px; color: #475569; margin-top: 4px; }
+    .aria-scenario-buttons {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 600px) { .aria-scenario-buttons { grid-template-columns: 1fr; } }
+    .aria-scenario-btn {
+      background: rgba(124,58,237,0.12);
+      border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 10px; padding: 10px 14px;
+      color: #c4b5fd; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s; text-align: left;
+      display: flex; align-items: center; gap: 8px; min-height: 44px;
+    }
+    .aria-scenario-btn:hover {
+      background: rgba(124,58,237,0.22); border-color: rgba(124,58,237,0.55);
+      color: #ddd6fe; transform: translateY(-1px);
+    }
+    .aria-scenario-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .aria-scenario-btn-spinner {
+      width: 14px; height: 14px; flex-shrink: 0;
+      border: 2px solid rgba(196,181,253,0.3); border-top-color: #c4b5fd;
+      border-radius: 50%; animation: aria-spin 0.7s linear infinite;
+    }
+    @keyframes aria-spin { to { transform: rotate(360deg); } }
+    .aria-scenario-results { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+    .aria-scenario-result-card {
+      background: #0f1a27;
+      border: 1px solid rgba(124,58,237,0.2);
+      border-left: 4px solid #a78bfa;
+      border-radius: 10px; padding: 14px 16px;
+    }
+    .aria-scenario-result-hdr {
+      display: flex; align-items: center; flex-wrap: wrap;
+      gap: 8px; margin-bottom: 10px;
+    }
+    .aria-scenario-result-title {
+      font-size: 12px; font-weight: 700; color: #c4b5fd;
+      letter-spacing: 0.04em; flex: 1;
+    }
+    .aria-scenario-result-ts { font-size: 11px; color: #475569; white-space: nowrap; }
+    .aria-scenario-result-body { font-size: 13px; color: #e2e8f0; line-height: 1.65; white-space: pre-wrap; }
+    .aria-scenario-followup-btn {
+      margin-top: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; padding: 6px 14px;
+      color: #94a3b8; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .aria-scenario-followup-btn:hover { background: rgba(255,255,255,0.1); color: #e2e8f0; }
+    .aria-scenario-custom { display: flex; gap: 8px; align-items: flex-start; }
+    .aria-scenario-custom-input {
+      flex: 1; background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px; padding: 10px 14px;
+      color: #e2e8f0; font-size: 13px; font-family: inherit;
+      resize: none; min-height: 42px; outline: none;
+      transition: border-color 0.15s;
+    }
+    .aria-scenario-custom-input:focus { border-color: rgba(124,58,237,0.5); }
+    .aria-scenario-custom-input::placeholder { color: #475569; }
+    .aria-scenario-simulate-btn {
+      background: linear-gradient(135deg, #7c3aed, #5b21b6);
+      border: none; border-radius: 10px; padding: 10px 18px;
+      color: #ffffff; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s; white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(124,58,237,0.4); align-self: flex-end;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .aria-scenario-simulate-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(124,58,237,0.6); }
+    .aria-scenario-simulate-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
   </style>
 </head>
 <body>
@@ -8943,6 +9030,31 @@
     <div class="aria-briefing-actions" id="aria-briefing-actions">
       <button class="aria-briefing-action-btn" onclick="ariaCopyBriefing(this)">&#128203; Copy Briefing</button>
       <button class="aria-briefing-action-btn" onclick="ariaSendBriefingToChat()">&#128172; Send to Chat</button>
+    </div>
+  </div>
+
+  <!-- SCENARIO SIMULATION PANEL -->
+  <div class="aria-scenario-panel" id="aria-scenario-panel">
+    <div class="aria-scenario-header">
+      <div class="aria-scenario-title"><span>🧪</span>Scenario Simulation</div>
+      <div class="aria-scenario-subtitle">Ask ARIA to model what-if outcomes</div>
+    </div>
+    <div class="aria-scenario-buttons">
+      <button class="aria-scenario-btn" id="aria-scen-btn-0" onclick="ariaRunScenario(0, this)">🔴 Stock OOS Scenario</button>
+      <button class="aria-scenario-btn" id="aria-scen-btn-1" onclick="ariaRunScenario(1, this)">⚠️ Supplier Delay Scenario</button>
+      <button class="aria-scenario-btn" id="aria-scen-btn-2" onclick="ariaRunScenario(2, this)">📈 Viral Campaign Scenario</button>
+      <button class="aria-scenario-btn" id="aria-scen-btn-3" onclick="ariaRunScenario(3, this)">💰 Cost Optimisation Scenario</button>
+    </div>
+    <div class="aria-scenario-results" id="aria-scenario-results"></div>
+    <div class="aria-scenario-custom">
+      <textarea
+        id="aria-scenario-custom-input"
+        class="aria-scenario-custom-input"
+        rows="2"
+        placeholder="Describe your own scenario..."
+        onkeydown="ariaScenarioCustomKey(event)"
+      ></textarea>
+      <button class="aria-scenario-simulate-btn" id="aria-scenario-custom-btn" onclick="ariaRunCustomScenario()">Simulate</button>
     </div>
   </div>
 
@@ -19885,6 +19997,179 @@ function exportBoardPack() {
 
     var chatCard = document.getElementById('aria-chat-card');
     if (chatCard) chatCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     SCENARIO SIMULATION
+  ══════════════════════════════════════════════════════════════════════════ */
+
+  var ARIA_SCENARIOS = [
+    {
+      title: '🔴 Stock OOS Scenario',
+      prompt: 'Simulate what happens if Wardah Niacinamide Serum goes fully out of stock today. Model: (1) revenue loss per day in IDR at current sales velocity, (2) estimated days until stockout at current depletion rate, (3) customer complaint volume expected, (4) sentiment impact timeline, (5) what actions taken NOW would prevent OOS. Show figures clearly.'
+    },
+    {
+      title: '⚠️ Supplier Delay Scenario',
+      prompt: 'Simulate a 7-day delay from PT Bahan Kimia Utama (our Niacinamide Powder supplier). Model: (1) production lines affected, (2) SKUs at risk of stockout, (3) estimated revenue at risk in IDR, (4) downstream impact on Distribution and Customer Service, (5) recommended mitigation steps in priority order.'
+    },
+    {
+      title: '📈 Viral Campaign Scenario',
+      prompt: 'Simulate launching a major TikTok campaign for Azarine Sunscreen SPF50 tomorrow. Given current stock of 3 days coverage and trend velocity at +89%, model: (1) expected demand spike %, (2) estimated days to OOS if campaign launches now, (3) minimum stock needed before safe launch, (4) recommended campaign delay or stock threshold trigger.'
+    },
+    {
+      title: '💰 Cost Optimisation Scenario',
+      prompt: 'Based on current logistics cost per order of IDR 18,400 and freight invoice discrepancies with JNE and J\u0026T, model: (1) potential monthly savings if freight invoices are validated strictly, (2) cost-to-serve improvement if B2C Marketplace channel grows 10%, (3) top 2 cost reduction recommendations with estimated IDR impact.'
+    }
+  ];
+
+  function ariaScenarioTimestamp() {
+    var d = new Date();
+    var pad = function (n) { return n.toString().padStart(2, '0'); };
+    return pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear() +
+      ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+
+  function ariaRunScenarioCall(title, prompt, onDone) {
+    var systemPrompt = '';
+    try {
+      systemPrompt = window.ARIAContext
+        ? window.ARIAContext.buildSystemPrompt()
+        : 'You are ARIA, an AI assistant for Paragon Corp supply chain operations.';
+    } catch (e) {
+      systemPrompt = 'You are ARIA, an AI assistant for Paragon Corp supply chain operations.';
+    }
+
+    fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1500,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    })
+    .then(function (res) {
+      if (!res.ok) {
+        return res.json().then(function (err) {
+          throw new Error((err && err.error && err.error.message) || 'HTTP ' + res.status);
+        });
+      }
+      return res.json();
+    })
+    .then(function (data) {
+      var text = (data.content && data.content[0] && data.content[0].text)
+        ? data.content[0].text
+        : 'No simulation output received.';
+      ariaRenderScenarioResult(title, text);
+      if (onDone) onDone(null, text);
+    })
+    .catch(function (err) {
+      ariaRenderScenarioResult(title, '\u26a0 Simulation failed: ' + (err.message || 'Unknown error'));
+      if (onDone) onDone(err, null);
+    });
+  }
+
+  function ariaRenderScenarioResult(title, text) {
+    var container = document.getElementById('aria-scenario-results');
+    if (!container) return;
+
+    var card = document.createElement('div');
+    card.className = 'aria-scenario-result-card';
+
+    var hdr = document.createElement('div');
+    hdr.className = 'aria-scenario-result-hdr';
+
+    var titleEl = document.createElement('div');
+    titleEl.className = 'aria-scenario-result-title';
+    titleEl.textContent = title;
+
+    var tsEl = document.createElement('div');
+    tsEl.className = 'aria-scenario-result-ts';
+    tsEl.textContent = ariaScenarioTimestamp();
+
+    hdr.appendChild(titleEl);
+    hdr.appendChild(tsEl);
+
+    var body = document.createElement('div');
+    body.className = 'aria-scenario-result-body';
+    body.textContent = text;
+
+    var followBtn = document.createElement('button');
+    followBtn.className = 'aria-scenario-followup-btn';
+    followBtn.textContent = '\ud83d\udcac Follow up in Chat';
+    (function (t, tx) {
+      followBtn.onclick = function () { ariaScenarioFollowUp(t, tx); };
+    }(title, text));
+
+    card.appendChild(hdr);
+    card.appendChild(body);
+    card.appendChild(followBtn);
+
+    // Newest result at top
+    container.insertBefore(card, container.firstChild);
+  }
+
+  function ariaScenarioFollowUp(title, text) {
+    var msg = '\ud83d\udcca Scenario Result \u2014 ' + title + ':\n\n' + text + '\n\n[Follow-up: please elaborate or answer questions below]';
+    ariaConversation.push({ role: 'user', content: msg });
+    if (ariaConversation.length > ARIA_MAX_HISTORY) {
+      ariaConversation = ariaConversation.slice(ariaConversation.length - ARIA_MAX_HISTORY);
+    }
+    ariaAppendMessage('user', msg);
+    var chatCard = document.getElementById('aria-chat-card');
+    if (chatCard) chatCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  window.ariaRunScenario = function (index, btn) {
+    var scen = ARIA_SCENARIOS[index];
+    if (!scen) return;
+
+    var origHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="aria-scenario-btn-spinner"></span>' + scen.title;
+
+    ariaRunScenarioCall(scen.title, scen.prompt, function () {
+      btn.disabled = false;
+      btn.innerHTML = origHTML;
+    });
+  };
+
+  window.ariaRunCustomScenario = function () {
+    var input = document.getElementById('aria-scenario-custom-input');
+    var btn   = document.getElementById('aria-scenario-custom-btn');
+    if (!input || !btn) return;
+
+    var userText = input.value.trim();
+    if (!userText) return;
+
+    var prompt =
+      'The user describes the following custom scenario for Paragon Corp Supply Chain:\n\n' +
+      userText + '\n\n' +
+      'Model the likely outcomes, financial impact in IDR where applicable, operational risks, and recommended actions. Be specific and structured.';
+
+    input.disabled = true;
+    btn.disabled = true;
+    var origText = btn.textContent;
+    btn.innerHTML = '<span class="aria-scenario-btn-spinner" style="border-color:rgba(255,255,255,0.3);border-top-color:#fff;"></span>';
+
+    ariaRunScenarioCall('\ud83e\uddea Custom: ' + userText.slice(0, 60) + (userText.length > 60 ? '\u2026' : ''), prompt, function () {
+      input.disabled = false;
+      input.value = '';
+      btn.disabled = false;
+      btn.textContent = origText;
+    });
+  };
+
+  window.ariaScenarioCustomKey = function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      ariaRunCustomScenario();
+    }
   };
 
   console.log('[ARIAPanel] Loaded \u2014 v1.0.0');
