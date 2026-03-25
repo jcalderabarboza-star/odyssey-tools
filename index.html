@@ -15827,5 +15827,269 @@ function exportBoardPack() {
 
 })();
 </script>
+
+<!-- ════════════════════════════════════════════════════════════
+     CHAIN 2 SIGNAL WIRING — ADDITIONS
+     Adds: (1) Suppliers Portal origin banner, (2) custom CS alert
+     card for PRODUCTION_DELAY_RISK, (3) chain-aware activity log
+     color coding, (4) Chain 2 labelled group in demo simulator.
+     No existing code modified — additive only.
+════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── A. Suppliers Portal: Signal Origin Banner ─────────────── */
+  /* Injects a compact amber "Origin Signal" banner at the top of
+     the Suppliers Portal panel when SUPPLIER_OTIF_BREACH fires.
+     Styled consistently with .ds-flag cards but labelled
+     "Origin Signal" instead of "Cross-Node Alert".              */
+
+  var spOriginInjected = false;
+
+  function injectSuppliersOriginBanner() {
+    if (spOriginInjected) { return; }
+    spOriginInjected = true;
+
+    var panel = document.getElementById('panel-suppliers');
+    if (!panel) { return; }
+    var bannerId = 'c2-origin-suppliers-banner';
+    if (document.getElementById(bannerId)) { return; }
+
+    var wrap = document.createElement('div');
+    wrap.id = bannerId;
+    wrap.style.cssText = 'margin-bottom:16px';
+
+    var card = document.createElement('div');
+    card.className = 'ds-flag';
+    card.style.cssText =
+      'border-left-color:#d97706;' +
+      'background:#fffbeb;' +
+      'position:relative;' +
+      'flex-direction:column;' +
+      'gap:4px;' +
+      'padding:12px 72px 12px 16px';
+
+    var label = document.createElement('div');
+    label.style.cssText =
+      'display:inline-block;margin-bottom:4px;' +
+      'font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;' +
+      'background:#d97706;color:#fff;border-radius:4px;padding:2px 8px';
+    label.textContent = 'Origin Signal';
+
+    var msg = document.createElement('div');
+    msg.className = 'ds-flag-msg';
+    msg.textContent =
+      'Chain 2 Active \u2014 OTIF breach detected on PT Bahan Kimia Utama \u2192 signal propagating downstream';
+
+    var btn = document.createElement('button');
+    btn.textContent = 'Dismiss';
+    btn.style.cssText =
+      'position:absolute;top:10px;right:10px;' +
+      'font-size:10px;font-weight:600;' +
+      'color:#6b7280;background:#f3f4f6;' +
+      'border:1px solid #e5e7eb;border-radius:4px;' +
+      'padding:2px 8px;cursor:pointer;line-height:1.6';
+    btn.addEventListener('click', function () {
+      if (wrap.parentNode) { wrap.parentNode.removeChild(wrap); }
+    });
+
+    card.appendChild(label);
+    card.appendChild(msg);
+    card.appendChild(btn);
+    wrap.appendChild(card);
+
+    /* Insert after the header block (first .section-block), before Section 1 */
+    var header = panel.querySelector('.section-block');
+    if (header && header.nextSibling) {
+      panel.insertBefore(wrap, header.nextSibling);
+    } else {
+      panel.appendChild(wrap);
+    }
+  }
+
+  OdysseySignalEngine.subscribe('suppliers-portal-origin', function (signal) {
+    if (signal.chain === 2 && signal.name === 'SUPPLIER_OTIF_BREACH') {
+      injectSuppliersOriginBanner();
+    }
+  });
+
+  /* ── B. Customer Service: Custom PRODUCTION_DELAY_RISK card ── */
+  /* Overrides the generic customer-service subscriber
+     (last-write-wins) to inject a bespoke card with custom title,
+     message, action items, and source chain label.               */
+
+  var csCustomInjected = false;
+
+  function injectCSCustomAlert() {
+    if (csCustomInjected) { return; }
+    csCustomInjected = true;
+
+    var container = document.getElementById('panel-customer-service');
+    if (!container) { return; }
+    var cardId = 'sig-c2-cs-production-delay-custom';
+    if (document.getElementById(cardId)) { return; }
+
+    var wrap = document.createElement('div');
+    wrap.id = cardId;
+    wrap.style.cssText = 'margin-bottom:12px';
+
+    var card = document.createElement('div');
+    card.className = 'ds-flag';
+    card.style.cssText =
+      'border-left-color:#d97706;' +
+      'background:#fffbeb;' +
+      'position:relative;' +
+      'flex-direction:column;' +
+      'gap:4px;' +
+      'padding:14px 72px 14px 16px';
+
+    /* Chain 2 badge pill */
+    var chainBadge = document.createElement('span');
+    chainBadge.style.cssText =
+      'display:inline-block;margin-bottom:5px;' +
+      'font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;' +
+      'background:#d97706;color:#fff;border-radius:4px;padding:2px 8px';
+    chainBadge.textContent = 'Chain 2 \u2014 Supply Risk';
+
+    /* Title */
+    var titleEl = document.createElement('div');
+    titleEl.className = 'ds-flag-msg';
+    titleEl.textContent = 'Upstream Supply Risk \u2014 Pre-Warning';
+
+    /* Message */
+    var msgEl = document.createElement('div');
+    msgEl.className = 'ds-flag-msg';
+    msgEl.style.fontWeight = '400';
+    msgEl.textContent =
+      'Production delay detected for Wardah Niacinamide Serum. Expect potential delivery delays ' +
+      'to B2C orders in 3\u20135 days. Prepare customer communication templates.';
+
+    /* Action items */
+    var actionsEl = document.createElement('div');
+    actionsEl.className = 'ds-flag-sub';
+    actionsEl.style.cssText = 'margin-top:5px;color:#374151';
+    actionsEl.innerHTML =
+      '<strong>Action items:</strong> ' +
+      '1. Flag affected orders &nbsp;|&nbsp; ' +
+      '2. Prepare delay notification templates &nbsp;|&nbsp; ' +
+      '3. Brief CS team on expected volume';
+
+    /* Source chain label */
+    var sourceEl = document.createElement('div');
+    sourceEl.className = 'ds-flag-sub';
+    sourceEl.style.cssText = 'color:#d97706;font-weight:600;margin-top:5px';
+    sourceEl.textContent =
+      'Signal origin: Suppliers Portal \u2192 Manufacturing \u2192 Distribution \u2192 CS';
+
+    /* Dismiss button */
+    var btn = document.createElement('button');
+    btn.textContent = 'Dismiss';
+    btn.style.cssText =
+      'position:absolute;top:10px;right:10px;' +
+      'font-size:10px;font-weight:600;' +
+      'color:#6b7280;background:#f3f4f6;' +
+      'border:1px solid #e5e7eb;border-radius:4px;' +
+      'padding:2px 8px;cursor:pointer;line-height:1.6';
+    btn.addEventListener('click', function () {
+      if (wrap.parentNode) { wrap.parentNode.removeChild(wrap); }
+    });
+
+    card.appendChild(chainBadge);
+    card.appendChild(titleEl);
+    card.appendChild(msgEl);
+    card.appendChild(actionsEl);
+    card.appendChild(sourceEl);
+    card.appendChild(btn);
+    wrap.appendChild(card);
+    container.insertBefore(wrap, container.firstChild);
+  }
+
+  /* Override customer-service subscriber (last-write-wins replaces
+     the generic injectChain2Alert subscription from Chain 2 setup) */
+  OdysseySignalEngine.subscribe('customer-service', function (signal) {
+    if (signal.chain === 2 && signal.name === 'PRODUCTION_DELAY_RISK') {
+      injectCSCustomAlert();
+    }
+  });
+
+  /* ── C. Activity Log: Amber indicator for Chain 2 signals ──── */
+  /* Overrides __activity-log__ subscriber (last-write-wins) to
+     render Chain 2 signals with an amber dot + amber severity pill,
+     vs red for Chain 1 CRITICAL signals.                          */
+
+  var logCSSEl = document.createElement('style');
+  logCSSEl.textContent = [
+    '.ose-log-item .ose-log-sev.sev-c2-critical{background:rgba(217,119,6,.25);color:#fde68a}',
+    '.ose-log-item .ose-log-sev.sev-c2-warning{background:rgba(217,119,6,.18);color:#fde68a}',
+    '.ose-log-chain2-dot{display:inline-block;width:6px;height:6px;' +
+      'background:#d97706;border-radius:50%;margin-right:4px;vertical-align:middle}'
+  ].join('');
+  document.head.appendChild(logCSSEl);
+
+  var c2LogEntries = [];
+
+  OdysseySignalEngine.subscribe('__activity-log__', function (signal) {
+    var list = document.getElementById('ose-log-list');
+    if (!list) { return; }
+
+    var d   = new Date(signal.firedAt);
+    var pad = function (n) { return n.toString().padStart(2, '0'); };
+    var hhmm = pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+
+    var subs = Object.keys(OdysseySignalEngine.subscribers).filter(function (id) {
+      return id !== '__activity-log__';
+    });
+
+    c2LogEntries.unshift({
+      time:     hhmm,
+      name:     signal.name,
+      severity: signal.severity || 'INFO',
+      chain:    signal.chain    || 1,
+      modules:  subs
+    });
+    if (c2LogEntries.length > 10) { c2LogEntries.length = 10; }
+
+    /* Re-render the log list */
+    list.innerHTML = '';
+    c2LogEntries.forEach(function (e) {
+      var li = document.createElement('li');
+      li.className = 'ose-log-item';
+
+      var isChain2 = (e.chain === 2);
+      var sevCls;
+      if (isChain2) {
+        sevCls = e.severity === 'CRITICAL' ? 'sev-c2-critical'
+               : e.severity === 'WARNING'  ? 'sev-c2-warning'
+               : 'sev-info';
+      } else {
+        sevCls = e.severity === 'CRITICAL' ? 'sev-critical'
+               : e.severity === 'WARNING'  ? 'sev-warning'
+               : 'sev-info';
+      }
+
+      var chainDot = isChain2
+        ? '<span class="ose-log-chain2-dot" title="Chain 2 \u2014 Supply Risk"></span>'
+        : '';
+
+      li.innerHTML =
+        '<span class="ose-log-time">' + e.time + '</span>' +
+        chainDot +
+        '<span class="ose-log-name">' + e.name + '</span>' +
+        '<span class="ose-log-sev ' + sevCls + '">' + e.severity + '</span>' +
+        '<span class="ose-log-modules">Notified: ' +
+          (e.modules.length ? e.modules.join(', ') : 'none') + '</span>';
+      list.appendChild(li);
+    });
+  });
+
+  /* ── D. Demo Simulator: Chain 2 label confirmed present ──────
+     addChain2SimulatorButtons() in the Chain 2 setup block
+     already injects a "Chain 2 — Supply Risk" section header and
+     the SUPPLIER_OTIF_BREACH + PRODUCTION_DELAY_RISK buttons.
+     No additional DOM work needed here.                         */
+
+})();
+</script>
 </body>
 </html>
