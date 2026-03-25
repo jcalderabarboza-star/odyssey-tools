@@ -667,18 +667,15 @@
     .transport-sub-panel.active { display: block; }
     /* ══ TRANSPORT & 3PL UNIFIED MODULE STYLES ══ */
     .module-tab-nav {
-      display: flex; gap: 4px; margin-bottom: 24px;
-      border-bottom: 2px solid #e5e7eb; padding-bottom: 0;
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
     }
     .module-tab-pill {
-      padding: 10px 24px; border: none; border-radius: 6px 6px 0 0;
-      font-size: 14px; font-weight: 600; cursor: pointer;
+      padding: 8px 20px; border-radius: 20px; border: none; cursor: pointer;
+      font-size: 13px; font-weight: 600; transition: background 0.15s, color 0.15s;
       background: #f3f4f6; color: #6b7280;
-      transition: background 0.15s, color 0.15s;
-      margin-bottom: -2px; border-bottom: 2px solid transparent;
     }
     .module-tab-pill:hover { background: #e5e7eb; color: #374151; }
-    .module-tab-pill.active { background: #fff; color: #1d2d3e; border: 2px solid #e5e7eb; border-bottom-color: #fff; }
+    .module-tab-pill.active { background: #0070f2; color: #ffffff; }
     .transport-3pl-pane { display: none; }
     .transport-3pl-pane.active { display: block; }
     .kpi-sub-panel { display: none; }
