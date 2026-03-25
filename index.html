@@ -18654,5 +18654,322 @@ function exportBoardPack() {
 
 }());
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ARIA CONTEXT — Real-time AI Snapshot Layer
+     Collects platform state for ARIA (Adaptive Real-time Intelligence
+     Agent). No UI rendered. Additive only — no existing code modified.
+     ═══════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  var ARIAContext = {
+
+    /** Most recent collected snapshot */
+    _snapshot: null,
+
+    /**
+     * Collects a real-time snapshot of the full platform state.
+     * @returns {Object} Structured JSON snapshot
+     */
+    collect: function () {
+      var signalEngine     = window.OdysseySignalEngine;
+      var escalationEngine = window.OdysseyEscalationEngine;
+      var scoreEngine      = window.OdysseyScoreEngine;
+
+      /* ── Signals ────────────────────────────────────────────── */
+      var activeSignals = signalEngine ? signalEngine.signals.map(function (s) {
+        return {
+          name:     s.name,
+          severity: s.severity || 'UNKNOWN',
+          chain:    s.chain || 1,
+          sku:      s.sku || s.product || null,
+          trigger:  s.trigger || s.description || null
+        };
+      }) : [];
+
+      var criticalCount = activeSignals.filter(function (s) {
+        return s.severity === 'CRITICAL';
+      }).length;
+
+      var chain1Active = activeSignals.some(function (s) { return (s.chain || 1) === 1; });
+      var chain2Active = activeSignals.some(function (s) { return s.chain === 2; });
+      var chain3Active = activeSignals.some(function (s) { return s.chain === 3; });
+
+      /* ── Escalations ────────────────────────────────────────── */
+      var activeEscalations = [];
+      var escalationStats   = { total: 0, rung1: 0, rung2: 0, rung3: 0, resolved: 0 };
+      var atLeadership      = 0;
+
+      if (escalationEngine) {
+        var rawActive = escalationEngine.getActive();
+        activeEscalations = rawActive.map(function (r) {
+          var elapsedSec = Math.round((Date.now() - r.startTime) / 1000);
+          var owner = r.ownership ? r.ownership.owner : 'Unknown';
+          return {
+            signalName:  r.signalName,
+            currentRung: r.currentRung,
+            owner:       owner,
+            timeElapsed: elapsedSec + 's'
+          };
+        });
+        escalationStats = escalationEngine.getStats();
+        atLeadership    = escalationStats.rung3 || 0;
+      }
+
+      /* ── Scoring ────────────────────────────────────────────── */
+      var actNow           = [];
+      var topOpportunities = [];
+      var topRisks         = [];
+
+      if (scoreEngine) {
+        actNow = scoreEngine.getActNow().map(function (s) {
+          return { name: s.name, opScore: s.opScore, riskScore: s.riskScore, action: s.action };
+        });
+        topOpportunities = scoreEngine.getTopOpportunities(3).map(function (s) {
+          return { name: s.name, opScore: s.opScore, quadrant: s.quadrant };
+        });
+        topRisks = scoreEngine.getTopRisks(3).map(function (s) {
+          return { name: s.name, riskScore: s.riskScore, quadrant: s.quadrant };
+        });
+      }
+
+      /* ── Assemble snapshot ──────────────────────────────────── */
+      var snapshot = {
+        timestamp: new Date().toISOString(),
+        platform:  'Odyssey E2E Supply Chain Control Tower \u2014 Paragon Corp',
+        company:   'Paragon Corp \u2014 Indonesian FMCG cosmetics (Wardah, Emina, Make Over, BLP, Scarlett)',
+        signals: {
+          active:        activeSignals,
+          totalFired:    activeSignals.length,
+          criticalCount: criticalCount,
+          chains: {
+            chain1Active: chain1Active,
+            chain2Active: chain2Active,
+            chain3Active: chain3Active
+          }
+        },
+        escalations: {
+          active:       activeEscalations,
+          stats:        escalationStats,
+          atLeadership: atLeadership
+        },
+        scoring: {
+          actNow:           actNow,
+          topOpportunities: topOpportunities,
+          topRisks:         topRisks,
+          totalSKUs:        10
+        },
+        keyMetrics: {
+          trendVelocityIndex:      '+73%',
+          activeCriticalAlerts:    criticalCount,
+          skusAtSupplyRisk:        actNow.length,
+          trendCoverageGap:        '18%',
+          supplierOTIF:            '94.2%',
+          productionPlanAdherence: '91.8%',
+          orderFulfillmentRate:    '97.3%',
+          costPerOrder:            'IDR 18,400',
+          dso:                     '31 days',
+          returnRate:              '3.2%'
+        }
+      };
+
+      this._snapshot = snapshot;
+      return snapshot;
+    },
+
+    /**
+     * Converts the current snapshot into a rich system prompt string
+     * for the Anthropic API.
+     * @returns {string} System prompt for ARIA
+     */
+    buildSystemPrompt: function () {
+      var snap = this.collect();
+      var lines = [];
+
+      lines.push(
+        'You are ARIA (Adaptive Real-time Intelligence Agent), the AI intelligence layer of the Odyssey ' +
+        'E2E Supply Chain Control Tower for Paragon Corp. You have real-time access to all supply chain ' +
+        'signals, escalation rungs, and SKU-level opportunity and risk scores across the full end-to-end ' +
+        'value chain.'
+      );
+      lines.push('');
+
+      /* ── Company context ───────────────────────────────────── */
+      lines.push('## Company Context');
+      lines.push(
+        "Paragon Corp is Indonesia\u2019s leading FMCG cosmetics conglomerate. Key brands: Wardah (halal " +
+        "skincare & makeup), Emina (Gen-Z skincare), Make Over (professional makeup), BLP Beauty " +
+        "(minimalist makeup), Scarlett (body & skincare). Primary sales channels: TikTok Shop, Shopee, " +
+        "Tokopedia (B2C e-commerce); traditional trade (B2B); and modern retail. All financial figures " +
+        "must be expressed in IDR (Indonesian Rupiah)."
+      );
+      lines.push('');
+
+      /* ── Snapshot timestamp ────────────────────────────────── */
+      lines.push('## Platform Snapshot \u2014 ' + snap.timestamp);
+      lines.push('');
+
+      /* ── Active signals ────────────────────────────────────── */
+      lines.push(
+        '## Active Signals (' + snap.signals.totalFired + ' fired, ' +
+        snap.signals.criticalCount + ' CRITICAL)'
+      );
+      if (snap.signals.active.length === 0) {
+        lines.push('No signals currently active.');
+      } else {
+        snap.signals.active.forEach(function (s) {
+          lines.push(
+            '- [' + s.severity + '] ' + s.name +
+            ' | Chain ' + (s.chain || 1) +
+            (s.sku    ? ' | SKU: '     + s.sku     : '') +
+            (s.trigger ? ' | Trigger: ' + s.trigger : '')
+          );
+        });
+      }
+      lines.push(
+        'Chain coverage: Chain 1 (Demand/Trend) '     + (snap.signals.chains.chain1Active ? 'ACTIVE' : 'clear') +
+        ' | Chain 2 (Supply/Procurement) '             + (snap.signals.chains.chain2Active ? 'ACTIVE' : 'clear') +
+        ' | Chain 3 (Feedback/Quality) '               + (snap.signals.chains.chain3Active ? 'ACTIVE' : 'clear')
+      );
+      lines.push('');
+
+      /* ── Active escalations ────────────────────────────────── */
+      lines.push('## Active Escalations');
+      if (snap.escalations.active.length === 0) {
+        lines.push('No active escalations.');
+      } else {
+        var RUNG_LABELS = ['', 'Owner Response', 'Manager Escalation', 'Leadership Alert'];
+        snap.escalations.active.forEach(function (e) {
+          lines.push(
+            '- ' + e.signalName +
+            ' | Rung ' + e.currentRung + ' (' + (RUNG_LABELS[e.currentRung] || 'Unknown') + ')' +
+            ' | Owner: ' + e.owner +
+            ' | Elapsed: ' + e.timeElapsed
+          );
+        });
+        var st = snap.escalations.stats;
+        lines.push(
+          'Stats: Total ' + st.total +
+          ' | Rung 1: ' + st.rung1 +
+          ' | Rung 2: ' + st.rung2 +
+          ' | Rung 3 (Leadership): ' + st.rung3 +
+          ' | Resolved: ' + st.resolved
+        );
+      }
+      lines.push('');
+
+      /* ── SKU scoring ───────────────────────────────────────── */
+      lines.push('## SKU Scoring (OdysseyScoreEngine)');
+      lines.push('**Act Now SKUs** (high opportunity + high risk \u2014 require immediate action):');
+      if (snap.scoring.actNow.length === 0) {
+        lines.push('None currently in Act Now quadrant.');
+      } else {
+        snap.scoring.actNow.forEach(function (s) {
+          lines.push(
+            '- ' + s.name +
+            ' | OpScore: ' + s.opScore +
+            ' | RiskScore: ' + s.riskScore +
+            ' | Action: ' + s.action
+          );
+        });
+      }
+      lines.push('');
+      lines.push('**Top 3 Opportunities** (by OpScore):');
+      snap.scoring.topOpportunities.forEach(function (s) {
+        lines.push('- ' + s.name + ' | OpScore: ' + s.opScore + ' | Quadrant: ' + s.quadrant);
+      });
+      lines.push('');
+      lines.push('**Top 3 Risks** (by RiskScore):');
+      snap.scoring.topRisks.forEach(function (s) {
+        lines.push('- ' + s.name + ' | RiskScore: ' + s.riskScore + ' | Quadrant: ' + s.quadrant);
+      });
+      lines.push('');
+
+      /* ── Key metrics ───────────────────────────────────────── */
+      lines.push('## Key Platform Metrics');
+      var km = snap.keyMetrics;
+      lines.push('- Trend Velocity Index: '        + km.trendVelocityIndex);
+      lines.push('- Active Critical Alerts: '      + km.activeCriticalAlerts);
+      lines.push('- SKUs at Supply Risk: '         + km.skusAtSupplyRisk);
+      lines.push('- Trend Coverage Gap: '          + km.trendCoverageGap);
+      lines.push('- Supplier OTIF: '               + km.supplierOTIF);
+      lines.push('- Production Plan Adherence: '   + km.productionPlanAdherence);
+      lines.push('- Order Fulfillment Rate: '      + km.orderFulfillmentRate);
+      lines.push('- Cost Per Order: '              + km.costPerOrder);
+      lines.push('- DSO: '                         + km.dso);
+      lines.push('- Return Rate: '                 + km.returnRate);
+      lines.push('');
+
+      /* ── Behavioral instructions ───────────────────────────── */
+      lines.push('## Instructions for ARIA');
+      lines.push(
+        '1. Interpret all data in business terms relevant to Paragon Corp\u2019s cosmetics supply chain ' +
+        '\u2014 never give generic supply chain advice.'
+      );
+      lines.push(
+        '2. For every issue raised, suggest a specific action with a named owner (from the escalation ' +
+        'ownership map) and a concrete SLA.'
+      );
+      lines.push(
+        '3. Predict the financial or operational outcome if no action is taken, expressed in IDR ' +
+        'where applicable.'
+      );
+      lines.push(
+        '4. Answer in concise executive language \u2014 lead with the recommendation, support with data.'
+      );
+      lines.push(
+        '5. Always reference specific SKU names, signal names (e.g. VIRAL_SPIKE, STOCK_RISK, ' +
+        'SUPPLIER_OTIF_BREACH), and module names (OdysseySignalEngine, OdysseyScoreEngine, ' +
+        'OdysseyEscalationEngine) from the platform.'
+      );
+      lines.push('6. Express all financial impact in IDR (Indonesian Rupiah).');
+      lines.push('7. Be direct and specific \u2014 do not pad responses with caveats or disclaimers.');
+
+      return lines.join('\n');
+    },
+
+    /**
+     * Wraps the user\u2019s question with optional module context.
+     * @param {string} userInput  The raw question from the user
+     * @param {string} [moduleId] Optional \u2014 module the user is currently viewing
+     * @returns {string} Augmented user message
+     */
+    buildUserMessage: function (userInput, moduleId) {
+      var context = moduleId
+        ? '[User is currently viewing module: ' + moduleId + ']\n\n'
+        : '';
+      return context + (userInput || '');
+    }
+  };
+
+  /* ── Expose globally ──────────────────────────────────────── */
+  window.ARIAContext = ARIAContext;
+
+  /* ── Initial collect + 30-second refresh ─────────────────── */
+  function runCollect() {
+    try {
+      ARIAContext.collect();
+      console.log('[ARIAContext] Snapshot collected.', ARIAContext._snapshot);
+    } catch (e) {
+      console.error('[ARIAContext] collect() error:', e);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      runCollect();
+      setInterval(runCollect, 30000);
+    });
+  } else {
+    runCollect();
+    setInterval(runCollect, 30000);
+  }
+
+  console.log('[ARIAContext] Loaded \u2014 v1.0.0');
+
+}());
+</script>
 </body>
 </html>
