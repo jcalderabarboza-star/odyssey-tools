@@ -20576,8 +20576,11 @@ function exportBoardPack() {
 <div id="aria-quick-overlay">
   <div id="aria-qo-header">
     <div id="aria-qo-title-text">
-      <div class="aria-qo-dot"></div>
-      ARIA Intelligence
+      <div class="aria-qo-avatar">A</div>
+      <div class="aria-qo-title-group">
+        <div class="aria-qo-title-name">ARIA</div>
+        <div class="aria-qo-title-sub"><span class="aria-qo-live-dot"></span>Odyssey Intelligence · Live</div>
+      </div>
     </div>
     <button id="aria-qo-close-btn" onclick="ariaFabClose()">&#x2715;</button>
   </div>
@@ -21063,6 +21066,332 @@ function exportBoardPack() {
   background: linear-gradient(135deg, #4b5563, #6b7280);
   box-shadow: 0 4px 16px rgba(0,0,0,0.4);
 }
+
+/* ════════════════════════════════════════════════════════════════
+   SAP JOULE-INSPIRED VISUAL STYLING — ARIA TAB
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── 1. JOULE SIGNATURE GRADIENT BAR ─────────────────────────── */
+/* 3px gradient bar at top of ARIA tab content */
+#oi-tc-aria::before {
+  content: '';
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, #7c3aed 0%, #0ea5e9 100%);
+  flex-shrink: 0;
+}
+
+/* ── 2. PANEL HEADER — Joule treatment ───────────────────────── */
+#oi-panel-header {
+  background: #111827;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 12px 16px 10px;
+}
+#oi-panel-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+}
+#oi-panel-subtitle {
+  font-size: 10px;
+  color: #475569;
+  margin-top: 2px;
+  text-transform: none;
+  letter-spacing: 0.03em;
+}
+
+/* ── 3. TAB BAR — Joule treatment ───────────────────────────── */
+#oi-tab-bar {
+  background: rgba(0,0,0,0.25);
+  padding: 6px;
+  border-radius: 24px;
+  margin: 8px;
+  border-bottom: none;
+  gap: 4px;
+}
+.oi-tab-btn {
+  border-radius: 20px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.45);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 5px 8px;
+  transition: all 0.18s;
+}
+.oi-tab-btn:hover {
+  color: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.06);
+}
+.oi-tab-btn.oi-tab-active {
+  background: linear-gradient(135deg, rgba(124,58,237,0.3), rgba(14,165,233,0.3));
+  color: #ffffff;
+  border: none;
+}
+
+/* ── 4. ARIA IDENTITY ROW — header restyle ───────────────────── */
+#aria-qo-header {
+  background: #111827;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  position: relative;
+}
+/* Joule gradient bar as active tab indicator inside header */
+#aria-qo-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, #7c3aed, #0ea5e9);
+  opacity: 0.5;
+}
+#aria-qo-title-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* 32px avatar */
+.aria-qo-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #0ea5e9);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(124,58,237,0.4);
+}
+.aria-qo-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.aria-qo-title-name {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+.aria-qo-title-sub {
+  color: #94a3b8;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  line-height: 1;
+}
+/* Animated green pulse dot next to "Live" */
+.aria-qo-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  flex-shrink: 0;
+  animation: joule-live-pulse 2s ease-in-out infinite;
+}
+@keyframes joule-live-pulse {
+  0%, 100% { box-shadow: 0 0 3px rgba(74,222,128,0.5); opacity: 0.85; }
+  50% { box-shadow: 0 0 8px rgba(74,222,128,0.9); opacity: 1; }
+}
+/* Hide old .aria-qo-dot if still present */
+.aria-qo-dot { display: none; }
+
+/* ── 5. ARIA MESSAGE BUBBLES ─────────────────────────────────── */
+/* 24px ARIA avatar before each assistant bubble */
+.aria-qo-row.assistant {
+  align-items: flex-start;
+}
+.aria-qo-row.assistant::before {
+  content: 'A';
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #0ea5e9);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+/* ARIA response bubble */
+.aria-qo-row.assistant .aria-qo-bubble {
+  background: #1e293b;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: #e2e8f0;
+  position: relative;
+  overflow: hidden;
+}
+/* Gradient left border via pseudo-element */
+.aria-qo-row.assistant .aria-qo-bubble::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, #7c3aed, #0ea5e9);
+  border-radius: 2px 0 0 2px;
+}
+/* User message bubble */
+.aria-qo-row.user .aria-qo-bubble {
+  background: #1a2540;
+  border: none;
+  border-radius: 12px;
+  color: #e2e8f0;
+}
+/* Timestamp */
+.aria-qo-ts {
+  font-size: 10px;
+  color: #475569;
+  display: block;
+  margin-top: 4px;
+}
+
+/* ── 6. SUGGESTED QUESTION CHIPS ────────────────────────────── */
+.aria-chip {
+  border: 1px solid rgba(124,58,237,0.35);
+  background: rgba(124,58,237,0.08);
+  color: #cbd5e1;
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+  text-align: left;
+  line-height: 1.4;
+}
+.aria-chip::before { display: none; }
+.aria-chip:hover {
+  border-color: rgba(124,58,237,0.7);
+  background: rgba(124,58,237,0.15);
+  color: #cbd5e1;
+  box-shadow: none;
+  transform: none;
+}
+.aria-chips-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.aria-chips-grid .aria-chip {
+  flex: 1 1 calc(50% - 4px);
+  min-width: 0;
+}
+
+/* ── 7. INPUT AREA ───────────────────────────────────────────── */
+#aria-qo-input-row {
+  background: #0d1520;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 10px 12px;
+  gap: 8px;
+  align-items: center;
+}
+#aria-qo-input {
+  background: #0f172a;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  padding: 10px 16px;
+  color: #ffffff;
+  font-size: 13px;
+  min-height: unset;
+}
+#aria-qo-input:focus {
+  border-color: rgba(124,58,237,0.6);
+  box-shadow: 0 0 0 2px rgba(124,58,237,0.5);
+}
+#aria-qo-input::placeholder { color: #475569; }
+/* Send button — circular gradient */
+#aria-qo-send-btn {
+  background: linear-gradient(135deg, #7c3aed, #0ea5e9);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  padding: 0;
+  font-size: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(124,58,237,0.4);
+  transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s;
+}
+#aria-qo-send-btn::after {
+  content: '→';
+  font-size: 16px;
+  color: #ffffff;
+  line-height: 1;
+}
+#aria-qo-send-btn:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(124,58,237,0.6);
+}
+#aria-qo-send-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── 8. "ARIA IS THINKING..." SHIMMER ────────────────────────── */
+.aria-qo-thinking {
+  padding: 8px 14px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.aria-qo-thinking.active {
+  display: flex;
+}
+/* Shimmer bar under the dots */
+.aria-qo-thinking::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 3px;
+  border-radius: 4px;
+  background: linear-gradient(90deg,
+    rgba(124,58,237,0.15) 0%,
+    rgba(124,58,237,0.55) 40%,
+    rgba(14,165,233,0.55) 60%,
+    rgba(14,165,233,0.15) 100%
+  );
+  background-size: 200% 100%;
+  animation: joule-shimmer 1.6s ease-in-out infinite;
+}
+@keyframes joule-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Inline ARIA tab panel (full-page) — identity row ────────── */
+#panel-aria-intelligence .aria-header {
+  background: #111827;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-radius: 0;
+  padding: 16px 20px;
+  position: relative;
+}
+#panel-aria-intelligence .aria-header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #7c3aed, #0ea5e9);
+  border-radius: 0;
+}
 </style>
 
 <!-- Unified Odyssey Intelligence side panel -->
@@ -21073,7 +21402,7 @@ function exportBoardPack() {
 
     <div id="oi-panel-header">
       <div id="oi-panel-title">&#10024; Odyssey Intelligence</div>
-      <div id="oi-panel-subtitle">ARIA &middot; Signal Log &middot; Demo</div>
+      <div id="oi-panel-subtitle">Powered by Claude &middot; Anthropic</div>
     </div>
 
     <div id="oi-tab-bar">
