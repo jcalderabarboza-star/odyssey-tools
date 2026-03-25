@@ -21816,5 +21816,349 @@ function exportBoardPack() {
 
 }());
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ODYSSEY STAKEHOLDER ENGINE
+     Manages human-in-the-loop interactions: claiming signals,
+     logging responses, tagging collaborators, and resolving items.
+     No UI rendered. Additive only — no existing code modified.
+     ═══════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'odyssey_stakeholder_interactions';
+
+  var STAKEHOLDERS = [
+    { role: 'VP SCM Digital Transformation', initials: 'JJ', color: '#7c3aed' },
+    { role: 'Supply Chain Planner',           initials: 'SC', color: '#0ea5e9' },
+    { role: 'Demand Planning Lead',           initials: 'DP', color: '#10b981' },
+    { role: 'Marketing Manager',              initials: 'MM', color: '#f59e0b' },
+    { role: 'Procurement Manager',            initials: 'PM', color: '#ef4444' },
+    { role: 'CS Manager',                     initials: 'CS', color: '#8b5cf6' },
+    { role: 'QA Manager',                     initials: 'QA', color: '#06b6d4' },
+    { role: 'Control Tower Operator',         initials: 'CT', color: '#64748b' }
+  ];
+
+  /* ── In-memory record store (keyed by signalName) ─────────── */
+  var _records = {};
+
+  /* ── Persistence helpers ──────────────────────────────────── */
+  function _save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(_records));
+    } catch (e) {
+      console.warn('[StakeholderEngine] localStorage save failed:', e);
+    }
+  }
+
+  function _load() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        _records = JSON.parse(raw);
+      }
+    } catch (e) {
+      console.warn('[StakeholderEngine] localStorage load failed:', e);
+      _records = {};
+    }
+  }
+
+  /* ── Ensure a blank record exists for a signal ────────────── */
+  function _ensureRecord(signalName) {
+    if (!_records[signalName]) {
+      _records[signalName] = {
+        signalName:    signalName,
+        status:        'unclaimed',
+        claimedBy:     null,
+        claimedAt:     null,
+        responses:     [],
+        tags:          [],
+        resolvedBy:    null,
+        resolvedAt:    null,
+        rootCause:     null,
+        actionTaken:   null,
+        timeToResolve: null,
+        createdAt:     Date.now()
+      };
+    }
+    return _records[signalName];
+  }
+
+  /* ── Format seconds as "Xm Ys" ───────────────────────────── */
+  function _formatDuration(totalSeconds) {
+    var s   = Math.round(totalSeconds);
+    var m   = Math.floor(s / 60);
+    var sec = s % 60;
+    return m + 'm ' + sec + 's';
+  }
+
+  /* ── Compute the most-recent activity timestamp for a record ─ */
+  function _lastActivity(rec) {
+    var t = rec.createdAt || 0;
+    if (rec.claimedAt  && rec.claimedAt  > t) t = rec.claimedAt;
+    if (rec.resolvedAt && rec.resolvedAt > t) t = rec.resolvedAt;
+    rec.responses.forEach(function (r) { if (r.timestamp > t) t = r.timestamp; });
+    rec.tags.forEach(function (g)      { if (g.timestamp > t) t = g.timestamp; });
+    return t;
+  }
+
+  /* ── Engine ───────────────────────────────────────────────── */
+  var OdysseyStakeholderEngine = {
+
+    /**
+     * Claim a signal on behalf of a role.
+     * Sets status → 'claimed', records claimedBy and claimedAt.
+     * Calls OdysseyEscalationEngine.acknowledge() if available.
+     */
+    claim: function (signalName, role) {
+      var rec    = _ensureRecord(signalName);
+      rec.status    = 'claimed';
+      rec.claimedBy = role;
+      rec.claimedAt = Date.now();
+
+      if (window.OdysseyEscalationEngine) {
+        try { window.OdysseyEscalationEngine.acknowledge(signalName, role); } catch (e) {}
+      }
+
+      _save();
+      console.log('[StakeholderEngine] Claimed:', signalName, 'by', role);
+    },
+
+    /**
+     * Log a text response from a role.
+     * Appends to responses[]. Advances status to 'in_progress' if 'claimed'.
+     */
+    logResponse: function (signalName, role, responseText) {
+      var rec = _ensureRecord(signalName);
+      rec.responses.push({
+        role:      role,
+        text:      responseText,
+        timestamp: Date.now()
+      });
+      if (rec.status === 'claimed') {
+        rec.status = 'in_progress';
+      }
+
+      _save();
+      console.log('[StakeholderEngine] Response logged:', signalName, 'by', role);
+    },
+
+    /**
+     * Tag a collaborator on a signal.
+     * Appends to tags[] with read: false.
+     */
+    tag: function (signalName, fromRole, toRole, message) {
+      var rec = _ensureRecord(signalName);
+      rec.tags.push({
+        fromRole:  fromRole,
+        toRole:    toRole,
+        message:   message,
+        timestamp: Date.now(),
+        read:      false
+      });
+
+      _save();
+      console.log('[StakeholderEngine] Tagged:', toRole, 'on', signalName, 'from', fromRole);
+    },
+
+    /**
+     * Resolve a signal with root cause and action taken.
+     * Calculates timeToResolve in seconds from createdAt.
+     * Calls OdysseyEscalationEngine.resolve() if available.
+     */
+    resolve: function (signalName, role, rootCause, actionTaken) {
+      var rec = _ensureRecord(signalName);
+      var now = Date.now();
+
+      rec.status        = 'resolved';
+      rec.resolvedBy    = role;
+      rec.resolvedAt    = now;
+      rec.rootCause     = rootCause   || null;
+      rec.actionTaken   = actionTaken || null;
+      rec.timeToResolve = Math.round((now - rec.createdAt) / 1000);
+
+      if (window.OdysseyEscalationEngine) {
+        try { window.OdysseyEscalationEngine.resolve(signalName, actionTaken); } catch (e) {}
+      }
+
+      _save();
+      console.log(
+        '[StakeholderEngine] Resolved:', signalName, 'by', role,
+        '| TTR:', _formatDuration(rec.timeToResolve)
+      );
+    },
+
+    /**
+     * Return a single interaction record or null.
+     */
+    getInteraction: function (signalName) {
+      return _records[signalName] || null;
+    },
+
+    /**
+     * Return all records sorted by most recent activity first.
+     */
+    getAll: function () {
+      return Object.keys(_records).map(function (k) {
+        return _records[k];
+      }).sort(function (a, b) {
+        return _lastActivity(b) - _lastActivity(a);
+      });
+    },
+
+    /**
+     * Return all unread tags where toRole === role.
+     */
+    getNotifications: function (role) {
+      var result = [];
+      Object.keys(_records).forEach(function (k) {
+        _records[k].tags.forEach(function (t) {
+          if (t.toRole === role && !t.read) {
+            result.push({ signalName: k, tag: t });
+          }
+        });
+      });
+      return result;
+    },
+
+    /**
+     * Mark all tags for toRole on the given signal as read: true.
+     */
+    markNotificationRead: function (signalName, toRole) {
+      var rec = _records[signalName];
+      if (!rec) return;
+      rec.tags.forEach(function (t) {
+        if (t.toRole === toRole) t.read = true;
+      });
+      _save();
+    },
+
+    /**
+     * Return aggregate stats across all interactions.
+     * {
+     *   totalOpen, unclaimed, claimed, resolvedToday,
+     *   avgTimeToResolve ('Xm Ys'), overdue
+     * }
+     */
+    getStats: function () {
+      var keys      = Object.keys(_records);
+      var now       = Date.now();
+      var oneDayAgo = now - 86400000;
+
+      var totalOpen     = 0;
+      var unclaimed     = 0;
+      var claimed       = 0;
+      var resolvedToday = 0;
+      var ttrs          = [];
+      var overdue       = 0;
+
+      keys.forEach(function (k) {
+        var rec = _records[k];
+
+        if (rec.status !== 'resolved') {
+          totalOpen++;
+          if (rec.status === 'unclaimed') {
+            unclaimed++;
+          } else {
+            claimed++;   // 'claimed' or 'in_progress'
+          }
+
+          /* overdue: escalation rung >= 2 and not resolved */
+          var ee = window.OdysseyEscalationEngine;
+          if (ee && ee.active && ee.active[k] && !ee.active[k].resolvedAt) {
+            if (ee.active[k].currentRung >= 2) overdue++;
+          }
+        } else {
+          if (rec.resolvedAt && rec.resolvedAt >= oneDayAgo) resolvedToday++;
+          if (typeof rec.timeToResolve === 'number') ttrs.push(rec.timeToResolve);
+        }
+      });
+
+      var avgTimeToResolve = '—';
+      if (ttrs.length > 0) {
+        var sum = ttrs.reduce(function (s, v) { return s + v; }, 0);
+        avgTimeToResolve = _formatDuration(sum / ttrs.length);
+      }
+
+      return {
+        totalOpen:        totalOpen,
+        unclaimed:        unclaimed,
+        claimed:          claimed,
+        resolvedToday:    resolvedToday,
+        avgTimeToResolve: avgTimeToResolve,
+        overdue:          overdue
+      };
+    },
+
+    /**
+     * Return the STAKEHOLDERS roster array (8 entries).
+     */
+    getRoster: function () {
+      return STAKEHOLDERS;
+    },
+
+    /**
+     * Reset all interaction records (in-memory + localStorage).
+     * Wired into the existing "↺ Reset All" demo button.
+     */
+    reset: function () {
+      _records = {};
+      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      console.log('[StakeholderEngine] Reset — all interaction records cleared.');
+    }
+  };
+
+  /* ── Subscribe to OdysseySignalEngine ─────────────────────── */
+  function wireSignalSubscription() {
+    if (!window.OdysseySignalEngine) {
+      setTimeout(wireSignalSubscription, 500);
+      return;
+    }
+    window.OdysseySignalEngine.subscribe('__stakeholder-engine__', function (signal) {
+      if (!signal || signal.name === '__ESCALATION_RUNG_CHANGE__') return;
+      if (!_records[signal.name]) {
+        _ensureRecord(signal.name);
+        _save();
+        console.log('[StakeholderEngine] Auto-registered signal:', signal.name);
+      }
+    });
+    console.log('[StakeholderEngine] Subscribed to OdysseySignalEngine.');
+  }
+
+  /* ── Hook into the existing demo reset button ─────────────── */
+  function wireResetButton() {
+    var btn = document.getElementById('ose-reset-btn');
+    if (!btn) {
+      setTimeout(wireResetButton, 300);
+      return;
+    }
+    btn.addEventListener('click', function () {
+      OdysseyStakeholderEngine.reset();
+    });
+    console.log('[StakeholderEngine] Reset button wired.');
+  }
+
+  /* ── Expose globally ──────────────────────────────────────── */
+  window.OdysseyStakeholderEngine = OdysseyStakeholderEngine;
+
+  /* ── Bootstrap ────────────────────────────────────────────── */
+  function init() {
+    _load();
+    wireSignalSubscription();
+    wireResetButton();
+    console.log('[StakeholderEngine] Loaded — records restored from localStorage.');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  console.log('[StakeholderEngine] OdysseyStakeholderEngine loaded — v1.0.0');
+
+}());
+</script>
 </body>
 </html>
