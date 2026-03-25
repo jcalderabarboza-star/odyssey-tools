@@ -5963,6 +5963,60 @@
 
   </div><!-- end social listening section-block -->
 
+  <!-- ═══════════════════════════════════════════════════════════════
+       COMPOSITE SCORING SECTION — Phase 2 Intelligence
+       Additive only — no existing demand-sensing content modified.
+       ═══════════════════════════════════════════════════════════════ -->
+  <div id="composite-scoring-section" style="margin-top:36px">
+
+    <!-- Section Header -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+      <div style="width:4px;height:32px;background:linear-gradient(180deg,#0070f2,#6366f1);border-radius:2px;flex-shrink:0"></div>
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;color:#6b7280;text-transform:uppercase;margin-bottom:2px">Phase 2 Intelligence</div>
+        <h3 style="font-size:18px;font-weight:700;color:#1d2d3e;margin:0">Composite SKU Scoring</h3>
+      </div>
+    </div>
+
+    <!-- Summary Cards Row -->
+    <div id="csc-summary-cards" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px"></div>
+
+    <!-- Sort Controls Row -->
+    <div id="csc-sort-controls" style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap"></div>
+
+    <!-- SKU Scoring Matrix Table -->
+    <div style="background:#fff;border-radius:8px;border:1px solid #e5e7eb;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.06)">
+      <div style="overflow-x:auto">
+        <table id="csc-sku-table" style="width:100%;border-collapse:collapse;font-size:13px">
+          <thead>
+            <tr style="background:#f3f4f6;border-bottom:2px solid #e5e7eb">
+              <th style="padding:10px 12px;text-align:center;font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap">Rank</th>
+              <th style="padding:10px 12px;text-align:left;font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap">SKU Name</th>
+              <th style="padding:10px 12px;text-align:left;font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap">Category</th>
+              <th style="padding:10px 12px;text-align:center;font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap">Opportunity Score</th>
+              <th style="padding:10px 12px;text-align:center;font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap">Risk Score</th>
+              <th style="padding:10px 12px;text-align:center;font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap">Quadrant</th>
+              <th style="padding:10px 12px;text-align:center;font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap">Stock Coverage</th>
+              <th style="padding:10px 12px;text-align:center;font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap">Return Rate</th>
+              <th style="padding:10px 12px;text-align:left;font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap">Recommended Action</th>
+            </tr>
+          </thead>
+          <tbody id="csc-sku-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Methodology Note -->
+    <div style="margin-top:12px;padding:12px 16px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:6px;font-size:11px;color:#6b7280;line-height:1.8">
+      <span style="font-weight:700;color:#374151">Opportunity Score</span> = Trend Velocity (35%) + Sentiment (25%) + Conversion (25%) + Stock Availability (15%)<br>
+      <span style="font-weight:700;color:#374151">Risk Score</span> = Trend Velocity (30%) + Stock Coverage (35%) + Return Rate (20%) + Lead Time (15%)
+    </div>
+
+  </div>
+  <!-- ═══════════════════════════════════════════════════════════════
+       END COMPOSITE SCORING SECTION
+       ═══════════════════════════════════════════════════════════════ -->
+
 </div><!-- end panel-demand-sensing -->
 
 <!-- === COMMERCIAL MODULE HTML === -->
@@ -16844,6 +16898,134 @@ function exportBoardPack() {
   }
 
   window.OdysseyScoreEngine = OdysseyScoreEngine;
+
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   Composite Scoring Renderer — Phase 2 Intelligence
+   Additive only — no existing code modified.
+   ══════════════════════════════════════════════════════════════ */
+(function () {
+
+  var QUADRANT_STYLES = {
+    'Act Now':    { bg: '#fee2e2', color: '#991b1b', border: '#fca5a5' },
+    'Accelerate': { bg: '#dcfce7', color: '#166534', border: '#86efac' },
+    'Protect':    { bg: '#fef3c7', color: '#92400e', border: '#fcd34d' },
+    'Monitor':    { bg: '#f3f4f6', color: '#374151', border: '#d1d5db' }
+  };
+
+  var CARD_STYLES = {
+    'Act Now':    { bg: '#fff1f2', border: '#bb0000', label: '#bb0000', countColor: '#bb0000' },
+    'Accelerate': { bg: '#f0fdf4', border: '#107e3e', label: '#107e3e', countColor: '#107e3e' },
+    'Protect':    { bg: '#fffbeb', border: '#e76500', label: '#92400e', countColor: '#e76500' },
+    'Monitor':    { bg: '#f9fafb', border: '#6b7280', label: '#374151', countColor: '#6b7280' }
+  };
+
+  function barColor(score, isRisk) {
+    if (isRisk) {
+      return score > 70 ? '#bb0000' : score >= 40 ? '#e76500' : '#107e3e';
+    }
+    return score > 70 ? '#107e3e' : score >= 40 ? '#e76500' : '#bb0000';
+  }
+
+  function renderScoreCell(score, isRisk) {
+    var color = barColor(score, isRisk);
+    var pct = Math.min(100, Math.max(0, score));
+    return '<div style="min-width:80px">'
+      + '<div style="font-weight:700;font-size:13px;color:#1d2d3e;text-align:center">' + score.toFixed(1) + '</div>'
+      + '<div style="margin-top:4px;height:10px;background:#e5e7eb;border-radius:5px;overflow:hidden">'
+      + '<div style="height:10px;width:' + pct + '%;background:' + color + ';border-radius:5px"></div>'
+      + '</div>'
+      + '</div>';
+  }
+
+  function renderQuadrantBadge(quadrant) {
+    var s = QUADRANT_STYLES[quadrant] || QUADRANT_STYLES['Monitor'];
+    return '<span style="display:inline-block;background:' + s.bg + ';color:' + s.color
+      + ';border:1px solid ' + s.border + ';border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap">'
+      + quadrant + '</span>';
+  }
+
+  function renderSummaryCards(skus) {
+    var counts = { 'Act Now': 0, 'Accelerate': 0, 'Protect': 0, 'Monitor': 0 };
+    skus.forEach(function (s) { if (counts[s.quadrant] !== undefined) counts[s.quadrant]++; });
+    var el = document.getElementById('csc-summary-cards');
+    if (!el) return;
+    el.innerHTML = ['Act Now', 'Accelerate', 'Protect', 'Monitor'].map(function (q) {
+      var st = CARD_STYLES[q];
+      var n = counts[q] || 0;
+      return '<div style="background:' + st.bg + ';border:1.5px solid ' + st.border
+        + ';border-radius:8px;padding:16px 20px;display:flex;flex-direction:column;gap:4px">'
+        + '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:' + st.label + '">' + q + '</div>'
+        + '<div style="font-size:30px;font-weight:800;color:' + st.countColor + ';line-height:1">' + n + '</div>'
+        + '<div style="font-size:11px;color:#6b7280">SKU' + (n === 1 ? '' : 's') + '</div>'
+        + '</div>';
+    }).join('');
+  }
+
+  var currentSort = 'opScore';
+
+  function renderSortButtons() {
+    var el = document.getElementById('csc-sort-controls');
+    if (!el) return;
+    var buttons = [
+      { label: 'Sort by Opportunity', field: 'opScore' },
+      { label: 'Sort by Risk',        field: 'riskScore' },
+      { label: 'Act Now First',       field: 'actNow' }
+    ];
+    el.innerHTML = buttons.map(function (b) {
+      var active = currentSort === b.field;
+      return '<button onclick="window._cscSort(\'' + b.field + '\')" style="'
+        + 'padding:7px 16px;font-size:12px;font-weight:600;border-radius:6px;cursor:pointer;'
+        + 'transition:background 0.15s,color 0.15s,border-color 0.15s;outline:none;'
+        + (active
+            ? 'background:#0070f2;color:#fff;border:1.5px solid #0070f2;'
+            : 'background:#fff;color:#374151;border:1.5px solid #d1d5db;')
+        + '">' + b.label + '</button>';
+    }).join('');
+  }
+
+  function renderTable(skus) {
+    var tbody = document.getElementById('csc-sku-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = skus.map(function (sku, i) {
+      var even = i % 2 === 1;
+      return '<tr style="background:' + (even ? '#f9fafb' : '#fff') + ';border-bottom:1px solid #f3f4f6">'
+        + '<td style="padding:10px 12px;text-align:center;font-weight:700;color:#9ca3af;font-size:12px">' + (i + 1) + '</td>'
+        + '<td style="padding:10px 12px;font-weight:600;color:#1d2d3e;white-space:nowrap">' + sku.name + '</td>'
+        + '<td style="padding:10px 12px;color:#6b7280;white-space:nowrap">' + sku.category + '</td>'
+        + '<td style="padding:10px 16px">' + renderScoreCell(sku.opScore, false) + '</td>'
+        + '<td style="padding:10px 16px">' + renderScoreCell(sku.riskScore, true) + '</td>'
+        + '<td style="padding:10px 12px;text-align:center">' + renderQuadrantBadge(sku.quadrant) + '</td>'
+        + '<td style="padding:10px 12px;text-align:center;color:#374151;font-weight:600">' + sku.stockCoverage + 'd</td>'
+        + '<td style="padding:10px 12px;text-align:center;font-weight:600;color:' + (sku.returnRate > 5 ? '#bb0000' : '#374151') + '">' + sku.returnRate.toFixed(1) + '%</td>'
+        + '<td style="padding:10px 12px;color:#374151;font-size:12px;max-width:220px">' + sku.action + '</td>'
+        + '</tr>';
+    }).join('');
+  }
+
+  window._cscSort = function (field) {
+    currentSort = field;
+    var skus = window.OdysseyScoreEngine ? window.OdysseyScoreEngine.sortBy(field) : [];
+    renderSortButtons();
+    renderTable(skus);
+  };
+
+  function init() {
+    if (!window.OdysseyScoreEngine) return;
+    var skus = window.OdysseyScoreEngine.getSKUs();
+    renderSummaryCards(skus);
+    renderSortButtons();
+    renderTable(skus);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 
 })();
 </script>
