@@ -206,6 +206,7 @@
       border: 1px solid #e5e7eb;
       border-left: 4px solid #e5e7eb;
       transition: box-shadow 0.15s, transform 0.15s;
+      position: relative;
     }
     .kpi-card:hover {
       box-shadow: 0 4px 12px rgba(0,0,0,0.12);
@@ -214,6 +215,39 @@
     .kpi-card.green  { border-left-color: #107e3e; }
     .kpi-card.yellow { border-left-color: #e76500; }
     .kpi-card.red    { border-left-color: #bb0000; }
+
+    /* ── KPI Info Button & Tooltip ── */
+    .kpi-info-btn {
+      position: absolute; top: 8px; right: 8px;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: transparent;
+      border: 1px solid rgba(100,116,139,0.3);
+      color: #64748b; font-size: 9px;
+      cursor: help; padding: 0; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.12s, border-color 0.12s, color 0.12s;
+      z-index: 10;
+    }
+    .kpi-info-btn:hover {
+      background: rgba(100,116,139,0.15);
+      border-color: rgba(100,116,139,0.6);
+      color: #fff;
+    }
+    .kpi-tooltip {
+      visibility: hidden; opacity: 0;
+      position: absolute; bottom: calc(100% + 6px); right: 0;
+      background: #1e293b; color: #fff;
+      font-size: 11px; line-height: 1.5; font-weight: 400;
+      max-width: 220px; width: max-content;
+      border-radius: 8px; padding: 8px 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      white-space: normal; text-align: left;
+      pointer-events: none; z-index: 200;
+      transition: opacity 0.15s;
+    }
+    .kpi-info-btn:hover .kpi-tooltip {
+      visibility: visible; opacity: 1;
+    }
 
     .kpi-header {
       display: flex; align-items: flex-start;
@@ -1591,6 +1625,7 @@
 
       <!-- POS Attendance Compliance -->
       <div class="kpi-card green">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Completed Shifts / Scheduled Shifts × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">POS Attendance Compliance</div>
@@ -1615,6 +1650,7 @@
 
       <!-- Consultation-to-Conversion Ratio -->
       <div class="kpi-card yellow">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Sales / Consultations × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Consultation-to-Conversion Ratio</div>
@@ -1639,6 +1675,7 @@
 
       <!-- OOS Reporting Rate -->
       <div class="kpi-card yellow">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">OOS Reports / Total POS Visits × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">OOS Reporting Rate</div>
@@ -1663,6 +1700,7 @@
 
       <!-- CRM Capture Rate -->
       <div class="kpi-card red">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Customers Logged / Customers Consulted × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">CRM Capture Rate</div>
@@ -3367,6 +3405,7 @@
 
       <!-- Card 1: Delivery SLA B2B -->
       <div class="kpi-card green">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">On-Time Deliveries B2B / Total B2B Deliveries × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Delivery SLA B2B</div>
@@ -3391,6 +3430,7 @@
 
       <!-- Card 2: Delivery SLA B2C -->
       <div class="kpi-card yellow">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">On-Time Deliveries B2C / Total B2C Deliveries × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Delivery SLA B2C</div>
@@ -3415,6 +3455,7 @@
 
       <!-- Card 3: First Attempt Success Rate -->
       <div class="kpi-card green">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Orders Delivered on First Attempt / Total Orders × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">First Attempt Success Rate</div>
@@ -3439,6 +3480,7 @@
 
       <!-- Card 4: RTO Rate -->
       <div class="kpi-card yellow">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Return-to-Origin Orders / Total Orders × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">RTO Rate</div>
@@ -4067,6 +4109,7 @@
 
       <!-- Logistics Cost per Order -->
       <div class="kpi-card yellow">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">(Transport + Warehouse + Fulfillment Costs) / Total Orders</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Logistics Cost per Order</div>
@@ -4091,6 +4134,7 @@
 
       <!-- Freight Invoice Accuracy -->
       <div class="kpi-card yellow">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Accepted Charges / Submitted Charges × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Freight Invoice Accuracy</div>
@@ -4115,6 +4159,7 @@
 
       <!-- Warehouse Cost per Unit -->
       <div class="kpi-card green">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Total Warehouse Cost / Total Units Stored</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Warehouse Cost per Unit</div>
@@ -4139,6 +4184,7 @@
 
       <!-- Budget Variance (Logistics) -->
       <div class="kpi-card red">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">(Actual Cost − Budget) / Budget × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Budget Variance (Logistics)</div>
@@ -5159,6 +5205,7 @@
 
       <!-- Card 1: Trend Velocity Index — red (hot) -->
       <div class="kpi-card red">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">(Mentions Current − Mentions Previous) / Mentions Previous × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Trend Velocity Index</div>
@@ -5184,6 +5231,7 @@
 
       <!-- Card 2: Sentiment Score — green -->
       <div class="kpi-card green">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Positive Mentions / Total Mentions × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Sentiment Score</div>
@@ -5208,6 +5256,7 @@
 
       <!-- Card 3: Share of Voice — amber -->
       <div class="kpi-card yellow">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Brand Mentions / Total Market Mentions × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Share of Voice</div>
@@ -5232,6 +5281,7 @@
 
       <!-- Card 4: Top Trending SKU Count — blue -->
       <div class="kpi-card" style="border-left-color:#0070f2">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Count of SKUs with Trend Velocity ≥ threshold in the period</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Top Trending SKUs</div>
@@ -5256,6 +5306,7 @@
 
       <!-- Card 5: Trend-to-Sales Correlation — green -->
       <div class="kpi-card green">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Pearson r between Trend Velocity &amp; Sales Volume (rolling 30d)</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Trend-to-Sales Correlation</div>
@@ -6613,6 +6664,7 @@
 
       <!-- Card 1: Engagement Rate -->
       <div class="kpi-card green">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">(Likes + Comments + Shares) / Total Impressions × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Engagement Rate</div>
@@ -6637,6 +6689,7 @@
 
       <!-- Card 2: Conversion Rate (Social→Sales) -->
       <div class="kpi-card yellow">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Orders from Social / Total Engagements × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Conversion Rate (Social&rarr;Sales)</div>
@@ -6661,6 +6714,7 @@
 
       <!-- Card 3: Influencer Impact Score -->
       <div class="kpi-card green">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Engagement per Influencer / Follower Count × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Influencer Impact Score</div>
@@ -6685,6 +6739,7 @@
 
       <!-- Card 4: Demand Spike Index -->
       <div class="kpi-card red">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">(Current Sales − Avg Sales) / Avg Sales × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Demand Spike Index</div>
@@ -7243,6 +7298,7 @@
 
       <!-- Card 1: System Uptime -->
       <div class="kpi-card green">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">(Total Available Time − Downtime) / Total Available Time × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">System Uptime</div>
@@ -7267,6 +7323,7 @@
 
       <!-- Card 2: Data Latency -->
       <div class="kpi-card yellow">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Avg time (min) between data generation and system availability</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Data Latency</div>
@@ -7291,6 +7348,7 @@
 
       <!-- Card 3: Integration Error Rate -->
       <div class="kpi-card green">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Failed Transactions / Total Transactions × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Integration Error Rate</div>
@@ -7315,6 +7373,7 @@
 
       <!-- Card 4: Open Incidents -->
       <div class="kpi-card yellow">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Count of unresolved system incidents by priority (P1/P2/P3)</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Open Incidents</div>
@@ -7662,6 +7721,7 @@
 
       <!-- Card 1: First Response Time -->
       <div class="kpi-card yellow">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">First Response Timestamp − Ticket Created Timestamp (minutes)</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">First Response Time</div>
@@ -7686,6 +7746,7 @@
 
       <!-- Card 2: Resolution Time (TTR) -->
       <div class="kpi-card green">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Case Close Time − Case Open Time (hours)</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Resolution Time TTR</div>
@@ -7710,6 +7771,7 @@
 
       <!-- Card 3: Customer Complaint Rate -->
       <div class="kpi-card green">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Total Complaints / Total Orders × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Customer Complaint Rate</div>
@@ -7734,6 +7796,7 @@
 
       <!-- Card 4: SLA Breach Rate -->
       <div class="kpi-card red">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">SLA-Breached Cases / Total Cases × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">SLA Breach Rate</div>
@@ -8105,6 +8168,7 @@
 
       <!-- Card 1: Return Rate -->
       <div class="kpi-card green">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Returns / Delivered Orders × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Return Rate</div>
@@ -8129,6 +8193,7 @@
 
       <!-- Card 2: Return Lead Time -->
       <div class="kpi-card green">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Avg days from return request to processing completion</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Return Lead Time</div>
@@ -8153,6 +8218,7 @@
 
       <!-- Card 3: Resale Recovery Rate -->
       <div class="kpi-card yellow">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Resalable Returns / Total Returns × 100</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Resale Recovery Rate</div>
@@ -8177,6 +8243,7 @@
 
       <!-- Card 4: Refund Cycle Time -->
       <div class="kpi-card yellow">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Refund Issue Date − Return Receipt Date (days)</div></button>
         <div class="kpi-header">
           <div>
             <div class="kpi-name">Refund Cycle Time</div>
@@ -8690,7 +8757,8 @@
     </div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
       <!-- Card 1: Trend Velocity Index -->
-      <div style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #bb0000;border-radius:8px;padding:14px 12px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #bb0000;border-radius:8px;padding:14px 12px;position:relative">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">(Current Mentions − Prior Mentions) / Prior Mentions × 100</div></button>
         <div style="font-size:11px;color:#9ca3af;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">Trend Velocity Index</div>
         <div style="font-size:26px;font-weight:700;color:#1d2d3e;margin-bottom:4px;line-height:1">+73%</div>
         <div style="display:flex;align-items:center;justify-content:space-between">
@@ -8699,7 +8767,8 @@
         </div>
       </div>
       <!-- Card 2: Active Critical Alerts -->
-      <div style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #bb0000;border-radius:8px;padding:14px 12px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #bb0000;border-radius:8px;padding:14px 12px;position:relative">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Count of signals with severity = CRITICAL and status = Unresolved</div></button>
         <div style="font-size:11px;color:#9ca3af;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">Active Critical Alerts</div>
         <div style="font-size:26px;font-weight:700;color:#1d2d3e;margin-bottom:4px;line-height:1">3</div>
         <div style="display:flex;align-items:center;justify-content:space-between">
@@ -8708,7 +8777,8 @@
         </div>
       </div>
       <!-- Card 3: SKUs at Supply Risk -->
-      <div style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #bb0000;border-radius:8px;padding:14px 12px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #bb0000;border-radius:8px;padding:14px 12px;position:relative">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">Count of SKUs where Stock Coverage &lt; 7 days AND Trend Velocity &gt; 50%</div></button>
         <div style="font-size:11px;color:#9ca3af;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">SKUs at Supply Risk</div>
         <div style="font-size:26px;font-weight:700;color:#1d2d3e;margin-bottom:4px;line-height:1">4</div>
         <div style="display:flex;align-items:center;justify-content:space-between">
@@ -8717,7 +8787,8 @@
         </div>
       </div>
       <!-- Card 4: Trend Coverage Gap -->
-      <div style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #f59e0b;border-radius:8px;padding:14px 12px">
+      <div style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #f59e0b;border-radius:8px;padding:14px 12px;position:relative">
+        <button class="kpi-info-btn">ℹ<div class="kpi-tooltip">(Demand Signal − Available Stock) / Demand Signal × 100</div></button>
         <div style="font-size:11px;color:#9ca3af;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">Trend Coverage Gap</div>
         <div style="font-size:26px;font-weight:700;color:#1d2d3e;margin-bottom:4px;line-height:1">18%</div>
         <div style="display:flex;align-items:center;justify-content:space-between">
