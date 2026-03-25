@@ -20943,16 +20943,16 @@ function exportBoardPack() {
 /* ── Side panel shell ────────────────────────────────────────── */
 #oi-side-panel {
   position: fixed;
-  left: 0;                   /* anchored to the left edge of the viewport */
+  right: 0;                  /* anchored to the right edge of the viewport */
   top: 60px;                 /* below the 56px top bar + 4px gap */
   height: calc(100vh - 60px);
   width: 360px;
   background: #0f172a;
-  box-shadow: 4px 0 24px rgba(0,0,0,0.4);
+  box-shadow: -4px 0 24px rgba(0,0,0,0.4);
   z-index: 900;
   display: flex;
   flex-direction: column;
-  transform: translateX(-360px);
+  transform: translateX(360px);
   transition: transform 300ms ease, width 300ms ease, background 0.2s ease, box-shadow 0.2s ease;
   overflow: visible;
   font-family: 'Inter', system-ui, sans-serif;
@@ -21040,18 +21040,18 @@ function exportBoardPack() {
   transform: translateY(-1px);
 }
 
-/* ── Minimize toggle tab on right edge of panel ─────────────── */
+/* ── Minimize toggle tab on left edge of panel ──────────────── */
 #oi-minimize-btn {
   position: absolute;
-  right: -28px;
+  left: -28px;
   top: 50%;
   transform: translateY(-50%);
   width: 28px;
   height: 60px;
   background: #0d1520;
   border: 1px solid rgba(255,255,255,0.12);
-  border-left: none;
-  border-radius: 0 8px 8px 0;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
   color: #94a3b8;
   cursor: pointer;
   font-size: 16px;
@@ -21072,12 +21072,12 @@ function exportBoardPack() {
   width: 48px;
   transform: translateX(0);
   background: rgba(15,23,42,0.12);
-  box-shadow: 1px 0 6px rgba(0,0,0,0.1);
+  box-shadow: -1px 0 6px rgba(0,0,0,0.1);
   transition: opacity 0.2s ease, width 0.3s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 #oi-side-panel.oi-minimized:hover {
   background: rgba(15,23,42,0.85);
-  box-shadow: 4px 0 24px rgba(0,0,0,0.4);
+  box-shadow: -4px 0 24px rgba(0,0,0,0.4);
 }
 #oi-side-panel.oi-minimized #oi-panel-title-group { display: none; }
 #oi-side-panel.oi-minimized #oi-tab-bar { display: none; }
@@ -21589,7 +21589,7 @@ function exportBoardPack() {
   </div>
 
   <!-- Minimize toggle tab on right edge -->
-  <button id="oi-minimize-btn" onclick="oiToggleMinimize()" title="Minimize panel">&#8249;</button>
+  <button id="oi-minimize-btn" onclick="oiToggleMinimize()" title="Minimize panel">&#8250;</button>
 
 </div><!-- /oi-side-panel -->
 
@@ -21616,7 +21616,7 @@ function exportBoardPack() {
   function syncMinBtn() {
     var btn = getMinBtn();
     if (!btn) return;
-    btn.innerHTML = _minimized ? '&#8250;' : '&#8249;';
+    btn.innerHTML = _minimized ? '&#8249;' : '&#8250;';
   }
 
   /* ── Sync FAB button label ───────────────────────────────── */
