@@ -20872,18 +20872,18 @@ function exportBoardPack() {
 /* ── Side panel shell ────────────────────────────────────────── */
 #oi-side-panel {
   position: fixed;
-  right: 0;                  /* anchored to the right edge of the viewport */
+  left: 0;                   /* anchored to the left edge of the viewport */
   top: 60px;                 /* below the 56px top bar + 4px gap */
   height: calc(100vh - 60px);
   width: 360px;
   background: #0f172a;
-  box-shadow: -4px 0 24px rgba(0,0,0,0.4);
+  box-shadow: 4px 0 24px rgba(0,0,0,0.4);
   z-index: 900;
   display: flex;
   flex-direction: column;
-  transform: translateX(360px);
-  transition: transform 300ms ease, width 300ms ease;
-  overflow: hidden;
+  transform: translateX(-360px);
+  transition: transform 300ms ease, width 300ms ease, background 0.2s ease, box-shadow 0.2s ease;
+  overflow: visible;
   font-family: 'Inter', system-ui, sans-serif;
 }
 #oi-side-panel.oi-open {
@@ -20945,6 +20945,79 @@ function exportBoardPack() {
   color: #a855f7;
   border-color: rgba(168,85,247,0.3);
 }
+
+/* ── Ask ARIA pill button in panel header ───────────────────── */
+#oi-panel-ask-aria-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: linear-gradient(135deg, #7c3aed, #0ea5e9);
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+  transition: opacity 0.15s, transform 0.1s;
+  flex-shrink: 0;
+}
+#oi-panel-ask-aria-btn:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+/* ── Minimize toggle tab on right edge of panel ─────────────── */
+#oi-minimize-btn {
+  position: absolute;
+  right: -28px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 60px;
+  background: #0d1520;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 902;
+  transition: color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+#oi-minimize-btn:hover {
+  color: #e2e8f0;
+  background: #111827;
+}
+
+/* ── Minimized (ghost strip) state ──────────────────────────── */
+#oi-side-panel.oi-minimized {
+  width: 48px;
+  transform: translateX(0);
+  background: rgba(15,23,42,0.12);
+  box-shadow: 1px 0 6px rgba(0,0,0,0.1);
+  transition: opacity 0.2s ease, width 0.3s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+#oi-side-panel.oi-minimized:hover {
+  background: rgba(15,23,42,0.85);
+  box-shadow: 4px 0 24px rgba(0,0,0,0.4);
+}
+#oi-side-panel.oi-minimized #oi-panel-title-group { display: none; }
+#oi-side-panel.oi-minimized #oi-tab-bar { display: none; }
+#oi-side-panel.oi-minimized .oi-tc,
+#oi-side-panel.oi-minimized .oi-tc.oi-tc-active { display: none !important; }
+#oi-side-panel.oi-minimized #oi-collapsed-strip { display: none; }
+#oi-side-panel.oi-minimized #oi-panel-ask-aria-btn { opacity: 0.8; }
+#oi-side-panel.oi-minimized .oi-ask-aria-text { display: none; }
+
+/* ── Hide old floating FAB (replaced by panel header button) ── */
+#aria-fab { display: none !important; }
 
 /* ── Panel header ────────────────────────────────────────────── */
 #oi-panel-header {
@@ -21084,7 +21157,11 @@ function exportBoardPack() {
 #oi-panel-header {
   background: #111827;
   border-bottom: 1px solid rgba(255,255,255,0.06);
-  padding: 12px 16px 10px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
 }
 #oi-panel-title {
   font-size: 13px;
@@ -21400,8 +21477,11 @@ function exportBoardPack() {
   <div id="oi-panel-inner">
 
     <div id="oi-panel-header">
-      <div id="oi-panel-title">&#10024; Odyssey Intelligence</div>
-      <div id="oi-panel-subtitle">Powered by Claude &middot; Anthropic</div>
+      <button id="oi-panel-ask-aria-btn" onclick="oiAskAriaClick()"><span class="oi-ask-aria-icon">&#10024;</span><span class="oi-ask-aria-text"> Ask ARIA</span></button>
+      <div id="oi-panel-title-group">
+        <div id="oi-panel-title">Odyssey Intelligence</div>
+        <div id="oi-panel-subtitle">Powered by Claude &middot; Anthropic</div>
+      </div>
     </div>
 
     <div id="oi-tab-bar">
@@ -21437,6 +21517,9 @@ function exportBoardPack() {
             onclick="oiExpandToTab('demo')">&#9654;</button>
   </div>
 
+  <!-- Minimize toggle tab on right edge -->
+  <button id="oi-minimize-btn" onclick="oiToggleMinimize()" title="Minimize panel">&#8249;</button>
+
 </div><!-- /oi-side-panel -->
 
 <script>
@@ -21451,10 +21534,19 @@ function exportBoardPack() {
 
   var _open      = false;
   var _collapsed = false;
+  var _minimized = false;
   var _tab       = 'aria';
 
   function getPanel()  { return document.getElementById('oi-side-panel'); }
   function getFabBtn() { return document.getElementById('aria-fab-btn'); }
+  function getMinBtn() { return document.getElementById('oi-minimize-btn'); }
+
+  /* ── Sync minimize button chevron ───────────────────────── */
+  function syncMinBtn() {
+    var btn = getMinBtn();
+    if (!btn) return;
+    btn.innerHTML = _minimized ? '&#8250;' : '&#8249;';
+  }
 
   /* ── Sync FAB button label ───────────────────────────────── */
   function syncFab() {
@@ -21486,32 +21578,74 @@ function exportBoardPack() {
   function openPanel() {
     var p = getPanel();
     if (!p) return;
-    p.classList.remove('oi-collapsed');
+    p.classList.remove('oi-collapsed', 'oi-minimized');
     p.classList.add('oi-open');
     _open      = true;
     _collapsed = false;
+    _minimized = false;
     syncFab();
+    syncMinBtn();
   }
 
   /* ── Close panel ─────────────────────────────────────────── */
   function closePanel() {
     var p = getPanel();
     if (!p) return;
-    p.classList.remove('oi-open', 'oi-collapsed');
+    p.classList.remove('oi-open', 'oi-collapsed', 'oi-minimized');
     _open      = false;
     _collapsed = false;
+    _minimized = false;
     syncFab();
+    syncMinBtn();
   }
 
   /* ── Collapse panel to icon strip ───────────────────────── */
   window.oiCollapsePanel = function () {
     var p = getPanel();
     if (!p) return;
-    p.classList.remove('oi-open');
+    p.classList.remove('oi-open', 'oi-minimized');
     p.classList.add('oi-collapsed');
     _open      = false;
     _collapsed = true;
+    _minimized = false;
     syncFab();
+    syncMinBtn();
+  };
+
+  /* ── Toggle minimized ghost strip ───────────────────────── */
+  window.oiToggleMinimize = function () {
+    var p = getPanel();
+    if (!p) return;
+    if (_minimized) {
+      p.classList.remove('oi-minimized');
+      p.classList.add('oi-open');
+      _minimized = false;
+      _open      = true;
+    } else {
+      p.classList.remove('oi-open', 'oi-collapsed');
+      p.classList.add('oi-minimized');
+      _minimized = true;
+      _open      = false;
+    }
+    syncFab();
+    syncMinBtn();
+  };
+
+  /* ── Ask ARIA button click ───────────────────────────────── */
+  window.oiAskAriaClick = function () {
+    if (_minimized || !_open) {
+      openPanel();
+      window.oiSwitchTab('aria');
+    } else if (_tab === 'aria') {
+      var inp = document.getElementById('aria-qo-input');
+      if (inp) { inp.focus(); return; }
+    } else {
+      window.oiSwitchTab('aria');
+    }
+    setTimeout(function () {
+      var inp = document.getElementById('aria-qo-input');
+      if (inp) inp.focus();
+    }, 50);
   };
 
   /* ── Switch active tab ───────────────────────────────────── */
@@ -21592,6 +21726,7 @@ function exportBoardPack() {
     /* 5. Open panel on ARIA tab by default */
     openPanel();
     window.oiSwitchTab('aria');
+    syncMinBtn();
 
     console.log('[OIPanel] Unified Odyssey Intelligence side panel mounted — v1.0.0');
   }
