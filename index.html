@@ -15495,5 +15495,337 @@ function exportBoardPack() {
 
 })();
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════
+     ODYSSEY SIGNAL ENGINE — CHAIN 2 EXTENSION
+     Extends OdysseySignalEngine with Supply Risk signals.
+     Additive only — no existing Chain 1 code modified.
+════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── 1. Register Chain 2 thresholds ───────────────────────── */
+  OdysseySignalEngine.thresholds.SUPPLIER_OTIF_BREACH = {
+    name:         'Supplier OTIF Breach',
+    trigger:      'Supplier OTIF below 85%',
+    sku:          'Wardah Niacinamide Raw Material (Niacinamide Powder)',
+    supplier:     'PT Bahan Kimia Utama',
+    currentValue: '78% OTIF',
+    threshold:    '<85% OTIF',
+    severity:     'CRITICAL',
+    chain:        2
+  };
+
+  OdysseySignalEngine.thresholds.RM_SHORTAGE_RISK = {
+    name:         'Raw Material Shortage Risk',
+    trigger:      'RM stock coverage < 10 days due to supplier delay',
+    sku:          'Niacinamide Powder \u2014 Wardah Serum line',
+    currentValue: '7 days RM coverage',
+    threshold:    '<10 days',
+    severity:     'CRITICAL',
+    chain:        2
+  };
+
+  OdysseySignalEngine.thresholds.PRODUCTION_DELAY_RISK = {
+    name:         'Production Delay Risk',
+    trigger:      'Manufacturing line at risk due to RM shortage',
+    sku:          'Wardah Niacinamide Serum 10% \u2014 Line 3',
+    currentValue: '2-day delay forecast',
+    threshold:    'Any delay on trending SKU',
+    severity:     'WARNING',
+    chain:        2
+  };
+
+  /* ── Minimal HTML-escape helper ───────────────────────────── */
+  function esc(str) {
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  /* ── 2. Recommended actions per Chain 2 signal ────────────── */
+  var CHAIN2_ACTIONS = {
+    SUPPLIER_OTIF_BREACH:   'Issue supplier escalation notice \u2014 request corrective action plan within 48h',
+    RM_SHORTAGE_RISK:       'Expedite RM procurement \u2014 request emergency delivery from alternate supplier',
+    PRODUCTION_DELAY_RISK:  'Notify sales & distribution of potential 2-day delay \u2014 review fulfillment prioritization'
+  };
+
+  /* ── 3. Dedup registry ────────────────────────────────────── */
+  var c2Injected = {};
+
+  /* ── 4. injectChain2Alert(moduleId, signal) ───────────────── */
+  /* Injects an alert card at the top of the target module section.
+     Amber left border for WARNING, red for CRITICAL.
+     Card shows: Chain 2 badge, signal name, SKU/supplier, trigger,
+     recommended action, and a dismiss button.                   */
+  function injectChain2Alert(moduleId, signal) {
+    var key = moduleId + '::' + (signal.name || '');
+    if (c2Injected[key]) { return; }
+    c2Injected[key] = true;
+
+    var CONTAINERS = {
+      'manufacturing':   'panel-mfg',
+      'dist-warehouse':  'kpi-sub-dw',
+      'customer-service':'panel-customer-service'
+    };
+    var containerId = CONTAINERS[moduleId];
+    if (!containerId) { return; }
+    var container = document.getElementById(containerId);
+    if (!container) { return; }
+
+    var cardId = 'sig-c2-' + moduleId + '-' + (signal.name || 'unknown');
+    if (document.getElementById(cardId)) { return; }
+
+    var isCritical  = signal.severity === 'CRITICAL';
+    var borderColor = isCritical ? '#bb0000' : '#d97706';
+    var bgColor     = isCritical ? '#fff0f0' : '#fffbeb';
+
+    var skuLine = esc(signal.sku || signal.name || '');
+    if (signal.supplier) { skuLine += ' &nbsp;&middot;&nbsp; ' + esc(signal.supplier); }
+
+    var triggerLine = esc(signal.trigger || '');
+    var action      = CHAIN2_ACTIONS[signal.name] || 'Review and take corrective action';
+
+    /* outer wrapper */
+    var wrap = document.createElement('div');
+    wrap.id = cardId;
+    wrap.style.cssText = 'margin-bottom:12px';
+
+    /* card shell — extends .ds-flag pattern */
+    var card = document.createElement('div');
+    card.className = 'ds-flag';
+    card.style.cssText =
+      'border-left-color:' + borderColor + ';' +
+      'background:' + bgColor + ';' +
+      'position:relative;' +
+      'flex-direction:column;' +
+      'gap:4px;' +
+      'padding:14px 56px 14px 16px';
+
+    /* chain badge pill */
+    var chainBadge = document.createElement('span');
+    chainBadge.style.cssText =
+      'display:inline-block;margin-bottom:5px;' +
+      'font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;' +
+      'background:' + borderColor + ';color:#fff;border-radius:4px;padding:2px 8px';
+    chainBadge.textContent = 'Chain 2 \u2014 Supply Risk';
+
+    /* signal name headline */
+    var titleEl = document.createElement('div');
+    titleEl.className = 'ds-flag-msg';
+    titleEl.textContent = signal.name || 'Chain 2 Signal';
+
+    /* SKU / supplier + trigger condition */
+    var bodyEl = document.createElement('div');
+    bodyEl.className = 'ds-flag-msg';
+    bodyEl.style.fontWeight = '400';
+    bodyEl.innerHTML = '<strong>' + skuLine + '</strong>';
+    if (triggerLine) {
+      bodyEl.innerHTML += ' &nbsp;&middot;&nbsp; <em>' + triggerLine + '</em>';
+    }
+
+    /* current value vs threshold */
+    if (signal.currentValue && signal.threshold) {
+      var metricsEl = document.createElement('div');
+      metricsEl.className = 'ds-flag-sub';
+      metricsEl.style.marginTop = '3px';
+      metricsEl.innerHTML =
+        'Current: <strong style="color:' + borderColor + '">' + esc(signal.currentValue) + '</strong>' +
+        ' &nbsp;&middot;&nbsp; Threshold: ' + esc(signal.threshold);
+      card.appendChild(chainBadge);
+      card.appendChild(titleEl);
+      card.appendChild(bodyEl);
+      card.appendChild(metricsEl);
+    } else {
+      card.appendChild(chainBadge);
+      card.appendChild(titleEl);
+      card.appendChild(bodyEl);
+    }
+
+    /* recommended action line */
+    var actionEl = document.createElement('div');
+    actionEl.className = 'ds-flag-sub';
+    actionEl.style.cssText = 'color:' + borderColor + ';font-weight:600;margin-top:5px';
+    actionEl.textContent = '\u2192 ' + action;
+    card.appendChild(actionEl);
+
+    /* dismiss button */
+    var btn = document.createElement('button');
+    btn.textContent = 'Dismiss';
+    btn.style.cssText =
+      'position:absolute;top:10px;right:10px;' +
+      'font-size:10px;font-weight:600;' +
+      'color:#6b7280;background:#f3f4f6;' +
+      'border:1px solid #e5e7eb;border-radius:4px;' +
+      'padding:2px 8px;cursor:pointer;line-height:1.6';
+    btn.addEventListener('click', function () {
+      if (wrap.parentNode) { wrap.parentNode.removeChild(wrap); }
+    });
+    card.appendChild(btn);
+
+    wrap.appendChild(card);
+    container.insertBefore(wrap, container.firstChild);
+  }
+
+  /* Expose for console testing */
+  window.injectChain2Alert = injectChain2Alert;
+
+  /* ── 5. Module subscriptions ──────────────────────────────── */
+  /* NOTE: 'manufacturing' and 'dist-warehouse' IDs are already used
+     by Chain 1 badge subscriptions (subscribe() is last-write-wins).
+     We use unique IDs here so Chain 1 badge behavior is not clobbered. */
+
+  OdysseySignalEngine.subscribe('manufacturing-chain2', function (signal) {
+    if (signal.chain === 2) { injectChain2Alert('manufacturing', signal); }
+  });
+
+  OdysseySignalEngine.subscribe('dist-warehouse-chain2', function (signal) {
+    if (signal.chain === 2) { injectChain2Alert('dist-warehouse', signal); }
+  });
+
+  OdysseySignalEngine.subscribe('customer-service', function (signal) {
+    if (signal.chain === 2) { injectChain2Alert('customer-service', signal); }
+  });
+
+  /* ── 6. Sidebar badge logic for Chain 2 signals ───────────── */
+  /* Shows amber dots on Manufacturing, Distribution & Warehouse,
+     and Customer Service nav buttons when Chain 2 signals fire. */
+
+  var C2_BADGE_MODULES = {
+    'manufacturing':   'nav-mfg',
+    'dist-warehouse':  'nav-kpi',
+    'customer-service':'nav-customer-service'
+  };
+
+  /* Inject badge <span> into customer-service nav (not in Chain 1 badge system) */
+  function ensureC2BadgeElement(navId) {
+    var btn = document.getElementById(navId);
+    if (!btn) { return null; }
+    var badge = btn.querySelector('.nav-signal-badge');
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.className = 'nav-signal-badge';
+      badge.setAttribute('aria-label', 'Unread signal alerts');
+      badge.setAttribute('aria-live', 'polite');
+      btn.appendChild(badge);
+    }
+    return badge;
+  }
+
+  /* Per-module Chain 2 pending counts & highest severity */
+  var c2Counts   = {};
+  var c2Severity = {};
+
+  function showChain2Badge(moduleId) {
+    var navId = C2_BADGE_MODULES[moduleId];
+    if (!navId) { return; }
+    var badge = ensureC2BadgeElement(navId);
+    if (!badge) { return; }
+
+    var count    = c2Counts[moduleId]   || 0;
+    var severity = c2Severity[moduleId] || 'WARNING';
+
+    badge.className  = 'nav-signal-badge';
+    badge.textContent = '';
+    if (count === 0) { return; }
+
+    badge.classList.add('badge-visible');
+    badge.classList.add(severity === 'CRITICAL' ? 'badge-critical' : 'badge-warning');
+    if (count > 1) {
+      badge.classList.add('badge-has-count');
+      badge.textContent = String(count);
+    }
+  }
+
+  OdysseySignalEngine.subscribe('manufacturing-c2-badge', function (signal) {
+    if (signal.chain !== 2) { return; }
+    if (signal.name !== 'SUPPLIER_OTIF_BREACH' && signal.name !== 'RM_SHORTAGE_RISK') { return; }
+    c2Counts['manufacturing']   = (c2Counts['manufacturing']   || 0) + 1;
+    if (!c2Severity['manufacturing'] || signal.severity === 'CRITICAL') {
+      c2Severity['manufacturing'] = signal.severity;
+    }
+    showChain2Badge('manufacturing');
+  });
+
+  OdysseySignalEngine.subscribe('dist-warehouse-c2-badge', function (signal) {
+    if (signal.chain !== 2) { return; }
+    if (signal.name !== 'RM_SHORTAGE_RISK' && signal.name !== 'PRODUCTION_DELAY_RISK') { return; }
+    c2Counts['dist-warehouse']   = (c2Counts['dist-warehouse']   || 0) + 1;
+    if (!c2Severity['dist-warehouse'] || signal.severity === 'CRITICAL') {
+      c2Severity['dist-warehouse'] = signal.severity;
+    }
+    showChain2Badge('dist-warehouse');
+  });
+
+  OdysseySignalEngine.subscribe('customer-service-c2-badge', function (signal) {
+    if (signal.chain !== 2) { return; }
+    if (signal.name !== 'PRODUCTION_DELAY_RISK') { return; }
+    c2Counts['customer-service']   = (c2Counts['customer-service']   || 0) + 1;
+    if (!c2Severity['customer-service'] || signal.severity === 'CRITICAL') {
+      c2Severity['customer-service'] = signal.severity;
+    }
+    showChain2Badge('customer-service');
+  });
+
+  /* ── 7. Auto-fire Chain 2 signals at 3 s after DOMContentLoaded ── */
+  /* Chain 1 auto-fires at 1.5 s — Chain 2 fires at 3 s to avoid overlap */
+  function autofireChain2Signals() {
+    console.log('[SignalEngine] Auto-firing Chain 2 Supply Risk signals');
+    ['SUPPLIER_OTIF_BREACH', 'RM_SHORTAGE_RISK', 'PRODUCTION_DELAY_RISK'].forEach(function (name) {
+      OdysseySignalEngine.fire(name);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(autofireChain2Signals, 3000);
+    });
+  } else {
+    setTimeout(autofireChain2Signals, 3000);
+  }
+
+  /* ── 8. Add Chain 2 buttons to the demo simulator panel ────── */
+  function addChain2SimulatorButtons() {
+    var body = document.getElementById('ose-demo-body');
+    if (!body) { return; }
+
+    /* Divider */
+    var sep = document.createElement('div');
+    sep.style.cssText = 'border-top:1px solid rgba(255,255,255,.15);margin:8px 0 6px';
+    body.appendChild(sep);
+
+    /* Section label */
+    var sectionLabel = document.createElement('div');
+    sectionLabel.className = 'ose-panel-title';
+    sectionLabel.textContent = 'Chain 2 \u2014 Supply Risk';
+    body.appendChild(sectionLabel);
+
+    /* Chain 2 signal buttons */
+    var chain2Signals = [
+      { label: 'Fire: Supplier OTIF Breach', key: 'SUPPLIER_OTIF_BREACH' },
+      { label: 'Fire: Production Delay',     key: 'PRODUCTION_DELAY_RISK' }
+    ];
+
+    chain2Signals.forEach(function (sig) {
+      var btn = document.createElement('button');
+      btn.className = 'ose-sig-btn';
+      btn.textContent = sig.label;
+      btn.style.borderLeftColor = '#d97706';
+      btn.addEventListener('click', function () {
+        OdysseySignalEngine.fire(sig.key);
+      });
+      body.appendChild(btn);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', addChain2SimulatorButtons);
+  } else {
+    addChain2SimulatorButtons();
+  }
+
+})();
+</script>
 </body>
 </html>
