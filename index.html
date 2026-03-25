@@ -18272,5 +18272,387 @@ function exportBoardPack() {
 
 }());
 </script>
+
+<!-- ════════════════════════════════════════════════════════════
+     ESCALATION AWARENESS LAYER  v1.0.0
+     Adds: (1) escalation events in Signal Activity Log,
+           (2) escalation stats in Signal Engine Status Row,
+           (3) ↺ Reset All button in demo panel,
+           (4) ▶ Full Demo Sequence button.
+     Additive only — no existing code modified.
+════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── helpers ─────────────────────────────────────────────── */
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function nowTs() {
+    var d = new Date();
+    return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     1.  ESCALATION-AWARE ACTIVITY LOG
+         Maintains a unified _entries array covering both
+         signal fires and escalation events. Overrides the
+         __activity-log__ subscriber (last-write-wins, same
+         pattern as Chain 2) so escalation rung-change
+         broadcasts are silently skipped, then adds a second
+         subscriber __esc-activity-log__ to catch them.
+  ═══════════════════════════════════════════════════════════ */
+
+  /* CSS for escalation log lines */
+  var _escLogStyle = document.createElement('style');
+  _escLogStyle.textContent =
+    '.ose-log-esc{display:block;font-size:11px;padding:1px 0}' +
+    '.ose-log-esc.rung2{color:#fbbf24}' +
+    '.ose-log-esc.rung3{color:#f87171;font-weight:700}' +
+    '.ose-log-esc.ack{color:#86efac}' +
+    '.ose-log-esc.resolved{color:#6ee7b7}';
+  document.head.appendChild(_escLogStyle);
+
+  /* Unified entries — {html, liClass} */
+  var _entries = [];
+
+  function _renderLog() {
+    var list = document.getElementById('ose-log-list');
+    if (!list) return;
+    list.innerHTML = '';
+    _entries.forEach(function (e) {
+      var li = document.createElement('li');
+      li.className = 'ose-log-item' + (e.liClass ? ' ' + e.liClass : '');
+      li.innerHTML = e.html;
+      list.appendChild(li);
+    });
+  }
+
+  function _pushEntry(html, liClass) {
+    _entries.unshift({ html: html, liClass: liClass || '' });
+    if (_entries.length > 20) _entries.length = 20;
+    _renderLog();
+  }
+
+  /* ── Override __activity-log__ for signal fires ─────────── */
+  function wireSignalLogSub() {
+    if (!window.OdysseySignalEngine) { setTimeout(wireSignalLogSub, 200); return; }
+
+    OdysseySignalEngine.subscribe('__activity-log__', function (signal) {
+      /* Skip escalation rung-change broadcasts */
+      if (signal.name === '__ESCALATION_RUNG_CHANGE__') return;
+
+      var d    = new Date(signal.firedAt);
+      var t    = pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+      var subs = Object.keys(OdysseySignalEngine.subscribers).filter(function (id) {
+        return id !== '__activity-log__';
+      });
+      var chain    = signal.chain    || 1;
+      var severity = signal.severity || 'INFO';
+
+      var sevCls = chain === 3             ? 'sev-chain3'
+                 : chain === 2 && severity === 'CRITICAL' ? 'sev-c2-critical'
+                 : chain === 2             ? 'sev-c2-warning'
+                 : severity === 'CRITICAL' ? 'sev-critical'
+                 : severity === 'WARNING'  ? 'sev-warning'
+                 : 'sev-info';
+
+      var dot = chain === 2
+        ? '<span class="ose-log-chain2-dot" title="Chain 2 \u2014 Supply Risk"></span>'
+        : chain === 3
+        ? '<span style="display:inline-block;width:6px;height:6px;background:#e11d48;' +
+          'border-radius:50%;margin-right:4px;vertical-align:middle" title="Chain 3 \u2014 Feedback Loop"></span>'
+        : '';
+
+      var html =
+        '<span class="ose-log-time">'   + t        + '</span>' +
+        dot +
+        '<span class="ose-log-name">'   + signal.name + '</span>' +
+        '<span class="ose-log-sev '     + sevCls   + '">' + severity + '</span>' +
+        '<span class="ose-log-modules">Notified: ' +
+          (subs.length ? subs.join(', ') : 'none') + '</span>';
+
+      _pushEntry(html, '');
+    });
+  }
+
+  /* ── Escalation rung-change subscriber ───────────────────── */
+  function wireEscalationLogSub() {
+    if (!window.OdysseySignalEngine) { setTimeout(wireEscalationLogSub, 200); return; }
+
+    OdysseySignalEngine.subscribe('__esc-activity-log__', function (signal) {
+      if (signal.name !== '__ESCALATION_RUNG_CHANGE__') return;
+      var t    = nowTs();
+      var name = signal.escalationName;
+      var role = signal.notifyRole || 'Manager';
+      var html;
+
+      if (signal.newRung === 2) {
+        html = '<span class="ose-log-esc rung2">\u2b06 ' + name +
+               ' \u2192 Rung 2 \u00b7 ' + role + ' notified \u00b7 ' + t + '</span>';
+      } else if (signal.newRung === 3) {
+        html = '<span class="ose-log-esc rung3">\ud83d\udd34 ' + name +
+               ' \u2192 LEADERSHIP ALERT \u00b7 ' + t + '</span>';
+      } else {
+        return;
+      }
+      _pushEntry(html, '');
+    });
+  }
+
+  /* ── Wrap acknowledge / resolve to capture log events ──────
+     Additive wrapping — originals still execute unchanged.    */
+  function wireAckResolvePatch() {
+    if (!window.OdysseyEscalationEngine) { setTimeout(wireAckResolvePatch, 300); return; }
+    var eng = window.OdysseyEscalationEngine;
+
+    var _origAck = eng.acknowledge.bind(eng);
+    eng.acknowledge = function (signalName, responderRole) {
+      _origAck(signalName, responderRole);
+      var t    = nowTs();
+      var role = responderRole || 'Unknown';
+      _pushEntry(
+        '<span class="ose-log-esc ack">\u2713 ' + signalName +
+        ' acknowledged by ' + role + ' \u00b7 ' + t + '</span>',
+        ''
+      );
+    };
+
+    var _origResolve = eng.resolve.bind(eng);
+    eng.resolve = function (signalName, resolution) {
+      var record    = eng.active[signalName];
+      var startTime = record ? record.startTime : null;
+      _origResolve(signalName, resolution);
+      var t        = nowTs();
+      var duration = startTime
+        ? Math.round((Date.now() - startTime) / 1000) + 's'
+        : '\u2014';
+      _pushEntry(
+        '<span class="ose-log-esc resolved">\u2705 ' + signalName +
+        ' resolved \u00b7 Time to close: ' + duration + '</span>',
+        ''
+      );
+    };
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     2.  ESCALATION STATS IN SIGNAL ENGINE STATUS ROW
+         Appends three new spans to #signal-engine-status-row
+         and updates them on a 1.5s interval.
+  ═══════════════════════════════════════════════════════════ */
+  function addEscalationStats() {
+    var row = document.getElementById('signal-engine-status-row');
+    if (!row || document.getElementById('se-esc-active')) return;
+
+    function mkSpan(innerId, label) {
+      var s = document.createElement('span');
+      s.style.cssText =
+        'font-size:12px;color:#6b7280;border-left:1px solid #d1dde8;padding-left:14px';
+      s.innerHTML = label + ': <strong id="' + innerId +
+                    '" style="color:#1d2d3e">\u2014</strong>';
+      return s;
+    }
+
+    /* "At Leadership (Rung 3)" needs outer-span ID for red colouring */
+    var rung3Outer = document.createElement('span');
+    rung3Outer.id = 'se-rung3-stat-outer';
+    rung3Outer.style.cssText =
+      'font-size:12px;color:#6b7280;border-left:1px solid #d1dde8;padding-left:14px';
+    rung3Outer.innerHTML =
+      'At Leadership (Rung\u00a03): <strong id="se-esc-rung3" style="color:#1d2d3e">0</strong>';
+
+    row.appendChild(mkSpan('se-esc-active', 'Escalations Active'));
+    row.appendChild(rung3Outer);
+    row.appendChild(mkSpan('se-avg-ack',    'Avg Time to Acknowledge'));
+
+    setInterval(function () {
+      var eng = window.OdysseyEscalationEngine;
+      if (!eng) return;
+
+      var active     = eng.getActive();
+      var rung3Count = active.filter(function (r) { return r.currentRung === 3; }).length;
+
+      var activeEl = document.getElementById('se-esc-active');
+      if (activeEl) activeEl.textContent = active.length;
+
+      var r3El = document.getElementById('se-esc-rung3');
+      if (r3El) {
+        r3El.textContent  = rung3Count;
+        r3El.style.color  = rung3Count > 0 ? '#ef4444' : '#1d2d3e';
+      }
+      if (rung3Outer) {
+        rung3Outer.style.color = rung3Count > 0 ? '#dc2626' : '#6b7280';
+      }
+
+      /* Avg ack time via history entries */
+      var allRecs = Object.keys(eng.active).map(function (k) { return eng.active[k]; });
+      var ackRecs = allRecs.filter(function (r) { return r.acknowledged; });
+      var avgEl   = document.getElementById('se-avg-ack');
+      if (avgEl) {
+        if (ackRecs.length) {
+          var total = ackRecs.reduce(function (sum, r) {
+            var ev = (r.history || []).filter(function (h) {
+              return h.event === 'ACKNOWLEDGED';
+            })[0];
+            if (!ev) return sum;
+            return sum + Math.max(0, Math.round(
+              (new Date(ev.timestamp).getTime() - r.startTime) / 1000
+            ));
+          }, 0);
+          avgEl.textContent = Math.round(total / ackRecs.length) + 's';
+        } else {
+          avgEl.textContent = '\u2014';
+        }
+      }
+    }, 1500);
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     3.  RESET DEMO
+         Clears escalation engine state, injected alert cards,
+         sidebar badges, and the activity log so the full demo
+         can be re-run from scratch.
+  ═══════════════════════════════════════════════════════════ */
+  function performReset() {
+    /* a. Stop escalation engine tick and wipe active records */
+    var eng = window.OdysseyEscalationEngine;
+    if (eng) {
+      if (eng._tickInterval) {
+        clearInterval(eng._tickInterval);
+        eng._tickInterval = null;
+      }
+      eng.active = {};
+    }
+
+    /* b. Clear injected alert cards from DOM */
+    [
+      '[id^="sig-alert-"]',
+      '[id^="sig-c2-"]',
+      '[id^="sig-c3-"]',
+      '#c2-origin-suppliers-banner',
+      '#sig-c3-returns-origin-banner'
+    ].forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (el) {
+        if (el.parentNode) el.parentNode.removeChild(el);
+      });
+    });
+
+    /* c. Clear sidebar badges and rung-3 pulse classes */
+    document.querySelectorAll('.nav-signal-badge').forEach(function (b) {
+      b.classList.remove(
+        'badge-visible', 'badge-has-count',
+        'badge-critical', 'badge-warning', 'ecw-badge-rung3'
+      );
+      b.style.animation = '';
+      b.textContent     = '';
+    });
+
+    /* d. Reset Signal Activity Log */
+    _entries.length = 0;
+    var list = document.getElementById('ose-log-list');
+    if (list) {
+      list.innerHTML =
+        '<li class="ose-log-empty">No signals fired yet.</li>';
+    }
+
+    /* e. Clear OdysseySignalEngine fired signals array */
+    if (window.OdysseySignalEngine) OdysseySignalEngine.signals = [];
+
+    /* f. Escalation stats and ECP board auto-refresh on their own intervals */
+
+    console.log('[OdysseyDemo] Reset complete \u2014 demo ready to run again.');
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     4.  FULL DEMO SEQUENCE
+         Fires every registered signal (800 ms apart), then
+         waits until at least one escalation reaches Rung 2
+         before restoring the button.
+  ═══════════════════════════════════════════════════════════ */
+  function runFullDemo(btn) {
+    btn.disabled    = true;
+    btn.textContent = '\u23f3 Firing\u2026';
+
+    var allSignals = Object.keys(OdysseySignalEngine.thresholds);
+    var idx = 0;
+
+    function fireNext() {
+      if (idx >= allSignals.length) {
+        btn.textContent = '\u23f3 Awaiting Rung 2\u2026';
+        waitForRung2(function () {
+          btn.disabled    = false;
+          btn.textContent = '\u25b6 Full Demo';
+        });
+        return;
+      }
+      OdysseySignalEngine.fire(allSignals[idx++]);
+      setTimeout(fireNext, 800);
+    }
+    fireNext();
+  }
+
+  function waitForRung2(cb) {
+    var ticks = 0;
+    var iv = setInterval(function () {
+      ticks++;
+      var eng  = window.OdysseyEscalationEngine;
+      var done = eng && eng.getActive().some(function (r) { return r.currentRung >= 2; });
+      if (done || ticks > 90) { clearInterval(iv); cb(); }
+    }, 1000);
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     5.  ADD BUTTONS TO DEMO SIMULATOR PANEL (bottom-right)
+  ═══════════════════════════════════════════════════════════ */
+  function addDemoButtons() {
+    var body = document.getElementById('ose-demo-body');
+    if (!body || document.getElementById('ose-reset-btn')) return;
+
+    /* Divider */
+    var sep = document.createElement('div');
+    sep.style.cssText = 'border-top:1px solid rgba(255,255,255,.15);margin:8px 0 6px';
+    body.appendChild(sep);
+
+    /* ▶ Full Demo */
+    var fullBtn = document.createElement('button');
+    fullBtn.id        = 'ose-full-demo-btn';
+    fullBtn.className = 'ose-sig-btn';
+    fullBtn.textContent = '\u25b6 Full Demo';
+    fullBtn.style.cssText =
+      'background:rgba(0,112,242,.18);border-color:rgba(0,112,242,.45);' +
+      'color:#93c5fd;font-weight:700';
+    fullBtn.addEventListener('click', function () { runFullDemo(fullBtn); });
+    body.appendChild(fullBtn);
+
+    /* ↺ Reset All — muted gray so it doesn't distract */
+    var resetBtn = document.createElement('button');
+    resetBtn.id        = 'ose-reset-btn';
+    resetBtn.className = 'ose-sig-btn';
+    resetBtn.textContent = '\u21ba Reset All';
+    resetBtn.style.cssText =
+      'background:rgba(100,116,139,.1);border-color:rgba(100,116,139,.25);' +
+      'color:#64748b';
+    resetBtn.addEventListener('click', performReset);
+    body.appendChild(resetBtn);
+  }
+
+  /* ── Bootstrap ───────────────────────────────────────────── */
+  wireSignalLogSub();
+  wireEscalationLogSub();
+  wireAckResolvePatch();
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      addEscalationStats();
+      addDemoButtons();
+    });
+  } else {
+    addEscalationStats();
+    addDemoButtons();
+  }
+
+  console.log('[EscalationAwarenessLayer] Loaded \u2014 v1.0.0');
+
+}());
+</script>
 </body>
 </html>
