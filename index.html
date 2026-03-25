@@ -16725,5 +16725,127 @@ function exportBoardPack() {
 
 })();
 </script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   OdysseyScoreEngine — SKU Opportunity & Risk Scoring
+   Additive only — no existing code modified.
+   ══════════════════════════════════════════════════════════════ */
+(function () {
+
+  var skuData = [
+    { name: 'Wardah Niacinamide Serum 10%',        category: 'Skincare', trendVelocity: 127, sentiment: 91, conversionRate: 6.2, stockCoverage: 3,  returnRate: 1.2, leadTime: 5 },
+    { name: 'Azarine Hydrasoothe Sunscreen SPF50',  category: 'Suncare', trendVelocity: 89,  sentiment: 88, conversionRate: 7.1, stockCoverage: 3,  returnRate: 0.8, leadTime: 4 },
+    { name: 'Emina Sun Protection SPF50',           category: 'Suncare', trendVelocity: 67,  sentiment: 84, conversionRate: 3.1, stockCoverage: 8,  returnRate: 1.1, leadTime: 6 },
+    { name: 'Scarlett Whitening Body Lotion',       category: 'Bodycare', trendVelocity: 45, sentiment: 76, conversionRate: 5.4, stockCoverage: 12, returnRate: 1.4, leadTime: 7 },
+    { name: 'Make Over Powerstay Foundation',       category: 'Makeup', trendVelocity: -12,  sentiment: 61, conversionRate: 2.8, stockCoverage: 42, returnRate: 11.4, leadTime: 8 },
+    { name: 'Wardah Lightening Series Toner',       category: 'Skincare', trendVelocity: 38, sentiment: 87, conversionRate: 4.9, stockCoverage: 18, returnRate: 0.9, leadTime: 5 },
+    { name: 'BLP Beauty Lip Coat',                  category: 'Makeup', trendVelocity: 22,   sentiment: 84, conversionRate: 3.8, stockCoverage: 22, returnRate: 1.1, leadTime: 6 },
+    { name: 'Implora Glass Skin Essence',           category: 'Skincare', trendVelocity: 31, sentiment: 79, conversionRate: 4.1, stockCoverage: 41, returnRate: 1.6, leadTime: 9 },
+    { name: 'Rollover Reaction Lip Crayon',         category: 'Makeup', trendVelocity: 29,   sentiment: 83, conversionRate: 3.5, stockCoverage: 19, returnRate: 1.0, leadTime: 7 },
+    { name: 'Mineral Botanica Loose Powder',        category: 'Makeup', trendVelocity: 14,   sentiment: 80, conversionRate: 3.2, stockCoverage: 28, returnRate: 1.3, leadTime: 8 }
+  ];
+
+  function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function calcOpScore(sku) {
+    var raw = (sku.trendVelocity * 0.35)
+            + (sku.sentiment * 0.25)
+            + (sku.conversionRate * 10 * 0.25)
+            + ((100 - sku.stockCoverage * 2) * 0.15);
+    return clamp(raw, 0, 100);
+  }
+
+  function calcRiskScore(sku) {
+    var raw = (Math.max(0, sku.trendVelocity) * 0.30)
+            + (Math.max(0, (10 - sku.stockCoverage) * 5) * 0.35)
+            + (sku.returnRate * 5 * 0.20)
+            + (sku.leadTime * 2 * 0.15);
+    return clamp(raw, 0, 100);
+  }
+
+  var QUADRANT_MAP = {
+    'Act Now':    { color: 'red',   action: 'Replenish stock + boost campaign immediately' },
+    'Accelerate': { color: 'green', action: 'Scale marketing spend + maintain stock levels' },
+    'Protect':    { color: 'amber', action: 'Reduce campaign spend + investigate quality/pricing' },
+    'Monitor':    { color: 'gray',  action: 'No immediate action required' }
+  };
+
+  function classifyQuadrant(opScore, riskScore) {
+    if (opScore >= 50 && riskScore >= 50) return 'Act Now';
+    if (opScore >= 50 && riskScore < 50)  return 'Accelerate';
+    if (opScore < 50  && riskScore >= 50) return 'Protect';
+    return 'Monitor';
+  }
+
+  function scoreAll() {
+    return skuData.map(function (sku) {
+      var opScore   = calcOpScore(sku);
+      var riskScore = calcRiskScore(sku);
+      var quadrant  = classifyQuadrant(opScore, riskScore);
+      var meta      = QUADRANT_MAP[quadrant];
+      return Object.assign({}, sku, {
+        opScore:    Math.round(opScore * 100) / 100,
+        riskScore:  Math.round(riskScore * 100) / 100,
+        quadrant:   quadrant,
+        color:      meta.color,
+        action:     meta.action
+      });
+    }).sort(function (a, b) { return b.opScore - a.opScore; });
+  }
+
+  var OdysseyScoreEngine = {
+    results: [],
+
+    getSKUs: function () {
+      return this.results.slice().sort(function (a, b) { return b.opScore - a.opScore; });
+    },
+
+    getTopOpportunities: function (n) {
+      return this.results.slice().sort(function (a, b) { return b.opScore - a.opScore; }).slice(0, n);
+    },
+
+    getTopRisks: function (n) {
+      return this.results.slice().sort(function (a, b) { return b.riskScore - a.riskScore; }).slice(0, n);
+    },
+
+    getActNow: function () {
+      return this.results.filter(function (s) { return s.quadrant === 'Act Now'; });
+    },
+
+    sortBy: function (field) {
+      if (field === 'opScore') {
+        return this.results.slice().sort(function (a, b) { return b.opScore - a.opScore; });
+      }
+      if (field === 'riskScore') {
+        return this.results.slice().sort(function (a, b) { return b.riskScore - a.riskScore; });
+      }
+      if (field === 'actNow') {
+        return this.results.slice().sort(function (a, b) {
+          var aActNow = a.quadrant === 'Act Now' ? 0 : 1;
+          var bActNow = b.quadrant === 'Act Now' ? 0 : 1;
+          return aActNow - bActNow;
+        });
+      }
+      return this.results.slice();
+    }
+  };
+
+  function init() {
+    OdysseyScoreEngine.results = scoreAll();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  window.OdysseyScoreEngine = OdysseyScoreEngine;
+
+})();
+</script>
 </body>
 </html>
