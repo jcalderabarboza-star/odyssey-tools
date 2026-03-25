@@ -840,6 +840,240 @@
       .ct-alert-layout { flex-direction: column; }
       .ct-alert-list { flex: none; width: 100%; }
     }
+
+    /* ══ ARIA INTELLIGENCE PANEL ══ */
+    #panel-aria-intelligence {
+      background: #0f1a27;
+      min-height: 100vh;
+      padding: 28px 28px 48px;
+    }
+    .aria-nav-item {
+      background: linear-gradient(90deg, rgba(124,58,237,0.18) 0%, rgba(124,58,237,0.04) 100%) !important;
+      border-left-color: #7c3aed !important;
+      color: #c4b5fd !important;
+    }
+    .aria-nav-item:hover { color: #ffffff !important; background: linear-gradient(90deg, rgba(124,58,237,0.3) 0%, rgba(124,58,237,0.08) 100%) !important; }
+    .aria-nav-item.active { color: #ffffff !important; border-left-color: #a78bfa !important; }
+    .aria-header {
+      background: linear-gradient(135deg, #1a1040 0%, #0e1f35 50%, #0d1f2d 100%);
+      border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .aria-header::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .aria-title {
+      font-size: 22px; font-weight: 700;
+      color: #ffffff; letter-spacing: 0.02em;
+      margin-bottom: 4px;
+    }
+    .aria-title span { color: #a78bfa; }
+    .aria-subtitle {
+      font-size: 12px; color: #94a3b8;
+      letter-spacing: 0.04em; margin-bottom: 16px;
+    }
+    .aria-header-row {
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+    .aria-status-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px; padding: 5px 12px;
+      font-size: 12px; font-weight: 600; color: #ffffff;
+    }
+    .aria-status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .aria-status-dot.online {
+      background: #4ade80;
+      box-shadow: 0 0 6px rgba(74,222,128,0.8);
+      animation: aria-pulse-green 2s ease-in-out infinite;
+    }
+    .aria-status-dot.offline { background: #f87171; }
+    @keyframes aria-pulse-green {
+      0%, 100% { box-shadow: 0 0 4px rgba(74,222,128,0.6); }
+      50% { box-shadow: 0 0 10px rgba(74,222,128,1); }
+    }
+    .aria-platform-state {
+      display: inline-flex; align-items: center; gap: 0;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px; overflow: hidden;
+      font-size: 12px;
+    }
+    .aria-ps-item {
+      padding: 5px 14px; color: #cbd5e1;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .aria-ps-item:last-child { border-right: none; }
+    .aria-ps-label { color: #64748b; font-size: 11px; }
+    .aria-ps-val { color: #e2e8f0; font-weight: 700; margin-left: 4px; }
+    .aria-ps-val.danger { color: #f87171; }
+    .aria-ps-val.warning { color: #fbbf24; }
+    .aria-clear-btn {
+      margin-left: auto;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px; padding: 5px 12px;
+      color: #94a3b8; font-size: 11px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s; white-space: nowrap;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .aria-clear-btn:hover { background: rgba(255,255,255,0.1); color: #e2e8f0; }
+    .aria-chips-section { margin-bottom: 20px; }
+    .aria-chips-label {
+      font-size: 11px; font-weight: 700; color: #64748b;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+    .aria-chips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 8px;
+    }
+    .aria-chip {
+      background: rgba(124,58,237,0.08);
+      border: 1px solid rgba(124,58,237,0.25);
+      border-radius: 8px;
+      padding: 9px 14px;
+      color: #c4b5fd;
+      font-size: 12px; font-weight: 500;
+      cursor: pointer; text-align: left;
+      transition: all 0.15s; line-height: 1.4;
+    }
+    .aria-chip:hover {
+      background: rgba(124,58,237,0.18);
+      border-color: rgba(124,58,237,0.5);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(124,58,237,0.2);
+    }
+    .aria-chip::before { content: '✦ '; color: #7c3aed; font-size: 10px; }
+    .aria-chat-card {
+      background: #111c2b;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .aria-messages {
+      height: 400px; overflow-y: auto;
+      padding: 20px;
+      display: flex; flex-direction: column; gap: 16px;
+      scroll-behavior: smooth;
+    }
+    .aria-messages::-webkit-scrollbar { width: 4px; }
+    .aria-messages::-webkit-scrollbar-track { background: transparent; }
+    .aria-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+    .aria-msg-row {
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .aria-msg-row.user {
+      flex-direction: row-reverse;
+    }
+    .aria-avatar {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: linear-gradient(135deg, #7c3aed, #5b21b6);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: #ffffff;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(124,58,237,0.4);
+    }
+    .aria-bubble {
+      max-width: 75%; padding: 12px 16px;
+      border-radius: 12px; font-size: 13px; line-height: 1.6;
+    }
+    .aria-bubble.user {
+      background: #1d3a5f;
+      border: 1px solid rgba(0,112,242,0.3);
+      color: #e2e8f0;
+      border-radius: 12px 4px 12px 12px;
+    }
+    .aria-bubble.aria-resp {
+      background: #1a1f2e;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-left: 3px solid #7c3aed;
+      color: #e2e8f0;
+      border-radius: 4px 12px 12px 12px;
+      white-space: pre-wrap;
+    }
+    .aria-thinking-row {
+      display: flex; gap: 10px; align-items: center;
+    }
+    .aria-thinking-text {
+      color: #7c3aed; font-size: 12px; font-style: italic;
+    }
+    .aria-thinking-dots span {
+      display: inline-block; width: 5px; height: 5px;
+      border-radius: 50%; background: #7c3aed;
+      margin: 0 2px;
+      animation: aria-bounce 1.4s ease-in-out infinite;
+    }
+    .aria-thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .aria-thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes aria-bounce {
+      0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+      40% { transform: translateY(-5px); opacity: 1; }
+    }
+    .aria-input-bar {
+      display: flex; gap: 10px; align-items: flex-end;
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      background: #0d1520;
+    }
+    .aria-textarea {
+      flex: 1; background: #1a2535;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: #e2e8f0; font-size: 13px;
+      font-family: inherit; resize: none;
+      min-height: 42px; max-height: 120px;
+      overflow-y: auto; line-height: 1.5;
+      transition: border-color 0.15s;
+    }
+    .aria-textarea:focus {
+      outline: none;
+      border-color: rgba(124,58,237,0.5);
+      box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+    }
+    .aria-textarea::placeholder { color: #475569; }
+    .aria-send-btn {
+      background: linear-gradient(135deg, #7c3aed, #5b21b6);
+      border: none; border-radius: 10px;
+      width: 42px; height: 42px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0;
+      transition: all 0.15s;
+      box-shadow: 0 2px 8px rgba(124,58,237,0.4);
+      font-size: 16px; color: #ffffff;
+    }
+    .aria-send-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(124,58,237,0.6); }
+    .aria-send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .aria-empty-state {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: #334155; text-align: center; gap: 8px;
+      padding: 40px 20px;
+    }
+    .aria-empty-icon { font-size: 40px; opacity: 0.5; }
+    .aria-empty-text { font-size: 13px; color: #475569; }
+    .aria-msg-time {
+      font-size: 10px; color: #475569; margin-top: 4px;
+      text-align: right;
+    }
+    .aria-msg-row.user .aria-msg-time { text-align: right; }
+    .aria-msg-row.aria-resp-row .aria-msg-time { text-align: left; }
   </style>
 </head>
 <body>
@@ -870,6 +1104,10 @@
     <span class="ct-hero-line1">🎛 E2E VIEW</span>
     <span class="ct-hero-line2">Control Tower</span>
     <span class="ct-hero-line3"><span class="ct-hero-green">●</span> 4 healthy &nbsp;<span class="ct-hero-amber">⚠</span> 2 warnings</span>
+  </button>
+  <button class="nav-item aria-nav-item" id="nav-aria-intelligence" onclick="switchTab('aria-intelligence')">
+    <span class="nav-item-icon">🤖</span>
+    <span class="nav-item-label">ARIA Intelligence</span>
   </button>
   <button class="nav-item" id="nav-exec" onclick="switchTab('exec')">
     <span class="nav-item-icon">📋</span>
@@ -8562,6 +8800,75 @@
 </div><!-- end panel-exec -->
 <!-- === END EXECUTIVE SUMMARY MODULE HTML === -->
 
+
+<!-- === ARIA INTELLIGENCE PANEL === -->
+<div class="tab-panel" id="panel-aria-intelligence">
+
+  <!-- ARIA HEADER -->
+  <div class="aria-header">
+    <div class="aria-title">ARIA &mdash; <span>Adaptive Real-time Intelligence Agent</span></div>
+    <div class="aria-subtitle">Powered by Claude &middot; Reading live platform state &middot; Paragon Corp Odyssey Control Tower</div>
+    <div class="aria-header-row">
+      <div class="aria-status-badge" id="aria-status-badge">
+        <div class="aria-status-dot online" id="aria-status-dot"></div>
+        <span id="aria-status-text">ARIA Online</span>
+      </div>
+      <div class="aria-platform-state" id="aria-platform-state">
+        <div class="aria-ps-item">
+          <span class="aria-ps-label">Active Signals:</span>
+          <span class="aria-ps-val" id="aria-ps-signals">—</span>
+        </div>
+        <div class="aria-ps-item">
+          <span class="aria-ps-label">Escalations:</span>
+          <span class="aria-ps-val" id="aria-ps-escalations">—</span>
+        </div>
+        <div class="aria-ps-item">
+          <span class="aria-ps-label">Act Now SKUs:</span>
+          <span class="aria-ps-val" id="aria-ps-actnow">—</span>
+        </div>
+      </div>
+      <button class="aria-clear-btn" onclick="ariaClearConversation()">&#8635; Clear Chat</button>
+    </div>
+  </div>
+
+  <!-- SUGGESTED QUESTIONS -->
+  <div class="aria-chips-section">
+    <div class="aria-chips-label">Suggested Questions</div>
+    <div class="aria-chips-grid">
+      <button class="aria-chip" onclick="ariaAskChip(this)">What is our biggest supply chain risk right now?</button>
+      <button class="aria-chip" onclick="ariaAskChip(this)">Which SKU should I prioritise for immediate action?</button>
+      <button class="aria-chip" onclick="ariaAskChip(this)">What is the financial impact of current stock risks in IDR?</button>
+      <button class="aria-chip" onclick="ariaAskChip(this)">Summarise all active escalations and their owners</button>
+      <button class="aria-chip" onclick="ariaAskChip(this)">What will happen if we don't act on the viral spike alerts?</button>
+      <button class="aria-chip" onclick="ariaAskChip(this)">Give me the morning briefing for today</button>
+    </div>
+  </div>
+
+  <!-- CHAT INTERFACE -->
+  <div class="aria-chat-card" id="aria-chat-card">
+    <div class="aria-messages" id="aria-messages">
+      <div class="aria-empty-state" id="aria-empty-state">
+        <div class="aria-empty-icon">🤖</div>
+        <div class="aria-empty-text">ARIA is ready.<br>Ask a question or pick a prompt above to begin.</div>
+      </div>
+    </div>
+    <div class="aria-input-bar">
+      <textarea
+        id="aria-input"
+        class="aria-textarea"
+        rows="1"
+        placeholder="Ask ARIA anything about the supply chain..."
+        onkeydown="ariaHandleKey(event)"
+        oninput="ariaAutoResize(this)"
+      ></textarea>
+      <button class="aria-send-btn" id="aria-send-btn" onclick="ariaSendMessage()" title="Send (Enter)">&#9658;</button>
+    </div>
+  </div>
+
+</div>
+<!-- === END ARIA INTELLIGENCE PANEL === -->
+
+
   </div><!-- end page-content -->
 
   <footer>
@@ -9161,12 +9468,16 @@ function switchTab(tab) {
   document.getElementById('panel-'+tab).classList.add('active');
   const navEl=document.getElementById('nav-'+tab);
   if(navEl) navEl.classList.add('active');
-  const titles={kpi:'Distribution & Warehouse',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard',exec:'Executive Summary','it-systems':'IT / Systems','transport-3pl':'Transport & 3PL'};
+  const titles={kpi:'Distribution & Warehouse',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard',exec:'Executive Summary','it-systems':'IT / Systems','transport-3pl':'Transport & 3PL','aria-intelligence':'ARIA Intelligence'};
   document.getElementById('top-bar-title').textContent=titles[tab]||tab;
   const bcEl=document.getElementById('top-bar-breadcrumb');
   if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
   const weekWrap=document.getElementById('week-seg-wrap');
   if(weekWrap) weekWrap.style.display=(tab==='kpi'||tab==='proc'||tab==='suppliers'||tab==='rd'||tab==='commercial'||tab==='marketing'||tab==='finance')?'flex':'none';
+  if(tab==='aria-intelligence'){
+    if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  AI Intelligence';
+    ariaInitIfNeeded();
+  }
   if(tab==='mfg'){ mfgInitChartsIfNeeded(); }
   if(tab==='proc'){ procInitChartsIfNeeded(); }
   if(tab==='suppliers'){ spInitChartsIfNeeded(); }
@@ -18968,6 +19279,289 @@ function exportBoardPack() {
   }
 
   console.log('[ARIAContext] Loaded \u2014 v1.0.0');
+
+}());
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ARIA INTELLIGENCE PANEL — Chat UI & API Integration
+     ═══════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── State ─────────────────────────────────────────────────── */
+  var ariaInitialized   = false;
+  var ariaIsThinking    = false;
+  var ariaConversation  = [];   // {role, content} pairs
+  var ariaStateInterval = null;
+  var ARIA_MAX_HISTORY  = 20;   // max messages (10 exchanges)
+
+  /* ── Init (called once when tab first opens) ────────────────── */
+  window.ariaInitIfNeeded = function () {
+    if (ariaInitialized) {
+      ariaRefreshPlatformState();
+      return;
+    }
+    ariaInitialized = true;
+    ariaRefreshPlatformState();
+    if (ariaStateInterval) clearInterval(ariaStateInterval);
+    ariaStateInterval = setInterval(ariaRefreshPlatformState, 30000);
+  };
+
+  /* ── Platform state summary row ─────────────────────────────── */
+  function ariaRefreshPlatformState() {
+    try {
+      var ctx = window.ARIAContext;
+      if (!ctx) return;
+      var snap = ctx.collect();
+
+      var signalsEl = document.getElementById('aria-ps-signals');
+      var escalEl   = document.getElementById('aria-ps-escalations');
+      var actNowEl  = document.getElementById('aria-ps-actnow');
+      if (!signalsEl) return;
+
+      var sigCount = snap.signals.totalFired || 0;
+      var escCount = snap.escalations.active ? snap.escalations.active.length : 0;
+      var actCount = snap.scoring.actNow ? snap.scoring.actNow.length : 0;
+
+      signalsEl.textContent = sigCount;
+      signalsEl.className   = 'aria-ps-val' + (sigCount > 0 ? ' danger' : '');
+
+      escalEl.textContent = escCount;
+      escalEl.className   = 'aria-ps-val' + (escCount > 0 ? ' warning' : '');
+
+      actNowEl.textContent = actCount;
+      actNowEl.className   = 'aria-ps-val' + (actCount > 0 ? ' danger' : '');
+    } catch (e) {
+      console.warn('[ARIA] ariaRefreshPlatformState error:', e);
+    }
+  }
+
+  /* ── Chip click: pre-fill and submit ────────────────────────── */
+  window.ariaAskChip = function (btn) {
+    var text = btn.textContent.replace(/^✦\s*/, '').trim();
+    var inp = document.getElementById('aria-input');
+    if (!inp) return;
+    inp.value = text;
+    ariaAutoResize(inp);
+    ariaSendMessage();
+  };
+
+  /* ── Auto-resize textarea ────────────────────────────────────── */
+  window.ariaAutoResize = function (el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  };
+
+  /* ── Keyboard handler ────────────────────────────────────────── */
+  window.ariaHandleKey = function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      ariaSendMessage();
+    }
+  };
+
+  /* ── Clear conversation ──────────────────────────────────────── */
+  window.ariaClearConversation = function () {
+    ariaConversation = [];
+    var box = document.getElementById('aria-messages');
+    if (!box) return;
+    box.innerHTML = '<div class="aria-empty-state" id="aria-empty-state">' +
+      '<div class="aria-empty-icon">🤖</div>' +
+      '<div class="aria-empty-text">Conversation cleared.<br>Ask ARIA a new question.</div>' +
+      '</div>';
+  };
+
+  /* ── Format timestamp ────────────────────────────────────────── */
+  function ariaTime() {
+    var d = new Date();
+    var h = d.getHours().toString().padStart(2, '0');
+    var m = d.getMinutes().toString().padStart(2, '0');
+    return h + ':' + m;
+  }
+
+  /* ── Render a message bubble ─────────────────────────────────── */
+  function ariaAppendMessage(role, text) {
+    var box = document.getElementById('aria-messages');
+    if (!box) return;
+
+    // Remove empty state if present
+    var empty = document.getElementById('aria-empty-state');
+    if (empty) empty.remove();
+
+    var row = document.createElement('div');
+
+    if (role === 'user') {
+      row.className = 'aria-msg-row user';
+      row.innerHTML =
+        '<div>' +
+          '<div class="aria-bubble user">' + ariaEscape(text) + '</div>' +
+          '<div class="aria-msg-time">' + ariaTime() + '</div>' +
+        '</div>';
+    } else {
+      row.className = 'aria-msg-row aria-resp-row';
+      row.innerHTML =
+        '<div class="aria-avatar">A</div>' +
+        '<div>' +
+          '<div class="aria-bubble aria-resp">' + ariaEscape(text) + '</div>' +
+          '<div class="aria-msg-time">ARIA · ' + ariaTime() + '</div>' +
+        '</div>';
+    }
+
+    box.appendChild(row);
+    box.scrollTop = box.scrollHeight;
+    return row;
+  }
+
+  /* ── Show/hide "ARIA is thinking..." ─────────────────────────── */
+  function ariaShowThinking() {
+    var box = document.getElementById('aria-messages');
+    if (!box) return null;
+
+    var row = document.createElement('div');
+    row.className = 'aria-thinking-row';
+    row.id = 'aria-thinking-indicator';
+    row.innerHTML =
+      '<div class="aria-avatar">A</div>' +
+      '<div>' +
+        '<div class="aria-thinking-text">ARIA is thinking&hellip;</div>' +
+        '<div class="aria-thinking-dots">' +
+          '<span></span><span></span><span></span>' +
+        '</div>' +
+      '</div>';
+    box.appendChild(row);
+    box.scrollTop = box.scrollHeight;
+    return row;
+  }
+
+  function ariaHideThinking() {
+    var el = document.getElementById('aria-thinking-indicator');
+    if (el) el.remove();
+  }
+
+  /* ── HTML escape helper ──────────────────────────────────────── */
+  function ariaEscape(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/\n/g, '<br>');
+  }
+
+  /* ── Set online / offline status ─────────────────────────────── */
+  function ariaSetStatus(online) {
+    var dot  = document.getElementById('aria-status-dot');
+    var text = document.getElementById('aria-status-text');
+    if (!dot || !text) return;
+    if (online) {
+      dot.className  = 'aria-status-dot online';
+      text.textContent = 'ARIA Online';
+    } else {
+      dot.className  = 'aria-status-dot offline';
+      text.textContent = 'ARIA Offline';
+    }
+  }
+
+  /* ── Send a message ──────────────────────────────────────────── */
+  window.ariaSendMessage = function () {
+    if (ariaIsThinking) return;
+
+    var inp = document.getElementById('aria-input');
+    var btn = document.getElementById('aria-send-btn');
+    if (!inp) return;
+
+    var userText = inp.value.trim();
+    if (!userText) return;
+
+    // Clear input
+    inp.value = '';
+    ariaAutoResize(inp);
+
+    // Render user bubble
+    ariaAppendMessage('user', userText);
+
+    // Add to conversation history
+    ariaConversation.push({ role: 'user', content: userText });
+
+    // Trim history to last ARIA_MAX_HISTORY messages
+    if (ariaConversation.length > ARIA_MAX_HISTORY) {
+      ariaConversation = ariaConversation.slice(ariaConversation.length - ARIA_MAX_HISTORY);
+    }
+
+    // Disable input during request
+    ariaIsThinking = true;
+    inp.disabled = true;
+    if (btn) btn.disabled = true;
+    ariaShowThinking();
+
+    // Build system prompt from live state
+    var systemPrompt = '';
+    try {
+      systemPrompt = window.ARIAContext
+        ? window.ARIAContext.buildSystemPrompt()
+        : 'You are ARIA, an AI assistant for Paragon Corp supply chain operations.';
+    } catch (e) {
+      systemPrompt = 'You are ARIA, an AI assistant for Paragon Corp supply chain operations.';
+    }
+
+    // Call Anthropic API
+    fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1024,
+        system: systemPrompt,
+        messages: ariaConversation
+      })
+    })
+    .then(function (res) {
+      if (!res.ok) {
+        return res.json().then(function (err) {
+          throw new Error((err && err.error && err.error.message) || 'HTTP ' + res.status);
+        });
+      }
+      return res.json();
+    })
+    .then(function (data) {
+      ariaHideThinking();
+      var responseText = (data.content && data.content[0] && data.content[0].text)
+        ? data.content[0].text
+        : 'No response received.';
+
+      // Append assistant reply to history
+      ariaConversation.push({ role: 'assistant', content: responseText });
+      if (ariaConversation.length > ARIA_MAX_HISTORY) {
+        ariaConversation = ariaConversation.slice(ariaConversation.length - ARIA_MAX_HISTORY);
+      }
+
+      ariaAppendMessage('assistant', responseText);
+      ariaSetStatus(true);
+    })
+    .catch(function (err) {
+      ariaHideThinking();
+      console.error('[ARIA] API error:', err);
+      ariaAppendMessage('assistant',
+        'ARIA is temporarily unavailable. Platform data is still live.\n\n' +
+        '(Error: ' + (err.message || 'Unknown') + ')'
+      );
+      ariaSetStatus(false);
+    })
+    .finally(function () {
+      ariaIsThinking = false;
+      inp.disabled = false;
+      if (btn) btn.disabled = false;
+      inp.focus();
+    });
+  };
+
+  console.log('[ARIAPanel] Loaded \u2014 v1.0.0');
 
 }());
 </script>
