@@ -20242,8 +20242,7 @@ function exportBoardPack() {
 #aria-fab {
   position: fixed;
   bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 60px;
   z-index: 10000;
 }
 
@@ -20873,16 +20872,16 @@ function exportBoardPack() {
 /* ── Side panel shell ────────────────────────────────────────── */
 #oi-side-panel {
   position: fixed;
-  left: 220px;               /* right of the fixed 220px sidebar */
+  right: 0;                  /* anchored to the right edge of the viewport */
   top: 60px;                 /* below the 56px top bar + 4px gap */
   height: calc(100vh - 60px);
   width: 360px;
   background: #0f172a;
-  box-shadow: 4px 0 28px rgba(0,0,0,0.5), 2px 0 8px rgba(0,0,0,0.3);
+  box-shadow: -4px 0 24px rgba(0,0,0,0.4);
   z-index: 900;
   display: flex;
   flex-direction: column;
-  transform: translateX(-360px);
+  transform: translateX(360px);
   transition: transform 300ms ease, width 300ms ease;
   overflow: hidden;
   font-family: 'Inter', system-ui, sans-serif;
