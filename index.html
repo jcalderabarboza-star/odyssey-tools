@@ -1074,6 +1074,87 @@
     }
     .aria-msg-row.user .aria-msg-time { text-align: right; }
     .aria-msg-row.aria-resp-row .aria-msg-time { text-align: left; }
+
+    /* ══ ARIA DAILY BRIEFING PANEL ══ */
+    .aria-briefing-panel {
+      background: #111c2b;
+      border: 1px solid rgba(124,58,237,0.25);
+      border-radius: 16px;
+      padding: 20px 24px 24px;
+      margin-bottom: 20px;
+    }
+    .aria-briefing-panel-header {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      margin-bottom: 0;
+    }
+    .aria-briefing-title {
+      font-size: 13px; font-weight: 700; color: #e2e8f0;
+      letter-spacing: 0.06em; text-transform: uppercase; flex: 1;
+    }
+    .aria-briefing-title span { color: #a78bfa; font-size: 15px; margin-right: 6px; }
+    .aria-briefing-timestamp {
+      font-size: 11px; color: #475569; white-space: nowrap;
+    }
+    .aria-briefing-gen-btn {
+      background: linear-gradient(135deg, #7c3aed, #5b21b6);
+      border: none; border-radius: 8px; padding: 7px 16px;
+      color: #ffffff; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s; white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(124,58,237,0.4); letter-spacing: 0.02em;
+    }
+    .aria-briefing-gen-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(124,58,237,0.6); }
+    .aria-briefing-gen-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .aria-briefing-action-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; padding: 6px 14px;
+      color: #94a3b8; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s; white-space: nowrap;
+    }
+    .aria-briefing-action-btn:hover { background: rgba(255,255,255,0.1); color: #e2e8f0; }
+    .aria-briefing-cards {
+      display: flex; flex-direction: column; gap: 10px;
+      margin-top: 16px;
+    }
+    .aria-briefing-card {
+      border-radius: 10px; padding: 14px 16px;
+      background: #0f1a27;
+      border: 1px solid rgba(255,255,255,0.07);
+      font-size: 13px; color: #e2e8f0; line-height: 1.6;
+    }
+    .aria-briefing-card.risk   { border-left: 4px solid #f87171; }
+    .aria-briefing-card.opp    { border-left: 4px solid #4ade80; }
+    .aria-briefing-card.escal  { border-left: 4px solid #fbbf24; }
+    .aria-briefing-card.metric { border-left: 4px solid #60a5fa; }
+    .aria-briefing-card.recom  { border-left: 4px solid #c084fc; }
+    .aria-briefing-card-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 6px;
+    }
+    .aria-briefing-card.risk   .aria-briefing-card-label { color: #f87171; }
+    .aria-briefing-card.opp    .aria-briefing-card-label { color: #4ade80; }
+    .aria-briefing-card.escal  .aria-briefing-card-label { color: #fbbf24; }
+    .aria-briefing-card.metric .aria-briefing-card-label { color: #60a5fa; }
+    .aria-briefing-card.recom  .aria-briefing-card-label { color: #c084fc; }
+    .aria-briefing-card-body { white-space: pre-wrap; }
+    .aria-briefing-actions {
+      display: none; gap: 8px; flex-wrap: wrap; align-items: center;
+      margin-top: 14px;
+    }
+    /* Skeleton loading */
+    .aria-briefing-skeleton {
+      display: none; flex-direction: column; gap: 10px; margin-top: 16px;
+    }
+    .aria-briefing-skel-card {
+      border-radius: 10px; height: 80px;
+      background: linear-gradient(90deg, #1a2535 25%, #243040 50%, #1a2535 75%);
+      background-size: 200% 100%;
+      animation: aria-skel-pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes aria-skel-pulse {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
   </style>
 </head>
 <body>
@@ -8841,6 +8922,27 @@
       <button class="aria-chip" onclick="ariaAskChip(this)">Summarise all active escalations and their owners</button>
       <button class="aria-chip" onclick="ariaAskChip(this)">What will happen if we don't act on the viral spike alerts?</button>
       <button class="aria-chip" onclick="ariaAskChip(this)">Give me the morning briefing for today</button>
+    </div>
+  </div>
+
+  <!-- DAILY BRIEFING PANEL -->
+  <div class="aria-briefing-panel" id="aria-briefing-panel">
+    <div class="aria-briefing-panel-header">
+      <div class="aria-briefing-title"><span>📋</span>Daily Briefing</div>
+      <span class="aria-briefing-timestamp" id="aria-briefing-ts">Not yet generated</span>
+      <button class="aria-briefing-gen-btn" id="aria-briefing-gen-btn" onclick="ariaGenerateBriefing()">Generate Briefing</button>
+    </div>
+    <div class="aria-briefing-skeleton" id="aria-briefing-skeleton">
+      <div class="aria-briefing-skel-card" style="border-left:4px solid #f87171;"></div>
+      <div class="aria-briefing-skel-card" style="border-left:4px solid #4ade80;"></div>
+      <div class="aria-briefing-skel-card" style="border-left:4px solid #fbbf24;"></div>
+      <div class="aria-briefing-skel-card" style="border-left:4px solid #60a5fa;"></div>
+      <div class="aria-briefing-skel-card" style="border-left:4px solid #c084fc;"></div>
+    </div>
+    <div class="aria-briefing-cards" id="aria-briefing-cards"></div>
+    <div class="aria-briefing-actions" id="aria-briefing-actions">
+      <button class="aria-briefing-action-btn" onclick="ariaCopyBriefing(this)">&#128203; Copy Briefing</button>
+      <button class="aria-briefing-action-btn" onclick="ariaSendBriefingToChat()">&#128172; Send to Chat</button>
     </div>
   </div>
 
@@ -19559,6 +19661,230 @@ function exportBoardPack() {
       if (btn) btn.disabled = false;
       inp.focus();
     });
+  };
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     DAILY BRIEFING
+  ══════════════════════════════════════════════════════════════════════════ */
+
+  var ariaBriefingText = '';  // plain-text of last briefing (for copy/send)
+
+  /* ── Skeleton show / hide ─────────────────────────────────────────────── */
+  function ariaShowBriefingSkeleton() {
+    var skel    = document.getElementById('aria-briefing-skeleton');
+    var cards   = document.getElementById('aria-briefing-cards');
+    var actions = document.getElementById('aria-briefing-actions');
+    var genBtn  = document.getElementById('aria-briefing-gen-btn');
+    if (skel)    skel.style.display    = 'flex';
+    if (cards)   cards.style.display   = 'none';
+    if (actions) actions.style.display = 'none';
+    if (genBtn)  genBtn.disabled       = true;
+  }
+
+  function ariaHideBriefingSkeleton() {
+    var skel   = document.getElementById('aria-briefing-skeleton');
+    var genBtn = document.getElementById('aria-briefing-gen-btn');
+    if (skel)   skel.style.display = 'none';
+    if (genBtn) genBtn.disabled    = false;
+  }
+
+  /* ── Parse briefing text into typed sections ──────────────────────────── */
+  function ariaParseBriefingSections(text) {
+    var sectionDefs = [
+      { emoji: '\uD83D\uDD34', type: 'risk',   label: '\uD83D\uDD34 Top Risks' },
+      { emoji: '\uD83D\uDFE2', type: 'opp',    label: '\uD83D\uDFE2 Top Opportunities' },
+      { emoji: '\u26A1',       type: 'escal',  label: '\u26A1 Active Escalations' },
+      { emoji: '\uD83D\uDCCA', type: 'metric', label: '\uD83D\uDCCA Key Metric of the Day' },
+      { emoji: '\uD83C\uDFAF', type: 'recom',  label: '\uD83C\uDFAF ARIA Recommendation' },
+    ];
+
+    var sections = [];
+    var lines    = text.split('\n');
+    var current  = null;
+    var buf      = [];
+
+    for (var i = 0; i < lines.length; i++) {
+      var line    = lines[i];
+      var matched = null;
+      for (var j = 0; j < sectionDefs.length; j++) {
+        // Check both the raw emoji and whether the trimmed line starts with it
+        if (line.trim().indexOf(sectionDefs[j].emoji) === 0) {
+          matched = sectionDefs[j];
+          break;
+        }
+      }
+      if (matched) {
+        if (current) {
+          sections.push({ type: current.type, label: current.label, body: buf.join('\n').trim() });
+        }
+        current = matched;
+        buf = [line];
+      } else {
+        if (current) buf.push(line);
+      }
+    }
+    if (current) {
+      sections.push({ type: current.type, label: current.label, body: buf.join('\n').trim() });
+    }
+
+    if (sections.length === 0) {
+      sections.push({ type: 'recom', label: 'Briefing', body: text });
+    }
+    return sections;
+  }
+
+  /* ── Render sections as colour-coded cards ────────────────────────────── */
+  function ariaRenderBriefingCards(text) {
+    var container = document.getElementById('aria-briefing-cards');
+    var actions   = document.getElementById('aria-briefing-actions');
+    if (!container) return;
+
+    var sections = ariaParseBriefingSections(text);
+    container.innerHTML = '';
+
+    for (var i = 0; i < sections.length; i++) {
+      var sec  = sections[i];
+      var card = document.createElement('div');
+      card.className = 'aria-briefing-card ' + sec.type;
+
+      var lbl = document.createElement('div');
+      lbl.className   = 'aria-briefing-card-label';
+      lbl.textContent = sec.label;
+
+      var body = document.createElement('div');
+      body.className   = 'aria-briefing-card-body';
+      body.textContent = sec.body;
+
+      card.appendChild(lbl);
+      card.appendChild(body);
+      container.appendChild(card);
+    }
+
+    container.style.display = 'flex';
+    if (actions) actions.style.display = 'flex';
+  }
+
+  /* ── Timestamp label ──────────────────────────────────────────────────── */
+  function ariaSetBriefingTimestamp() {
+    var tsEl = document.getElementById('aria-briefing-ts');
+    if (!tsEl) return;
+    var d   = new Date();
+    var pad = function (n) { return n.toString().padStart(2, '0'); };
+    tsEl.textContent = 'Last generated: ' +
+      pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear() +
+      ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+
+  /* ── Generate briefing via Anthropic API ──────────────────────────────── */
+  window.ariaGenerateBriefing = function () {
+    ariaShowBriefingSkeleton();
+
+    var systemPrompt = '';
+    try {
+      systemPrompt = window.ARIAContext
+        ? window.ARIAContext.buildSystemPrompt()
+        : 'You are ARIA, an AI assistant for Paragon Corp supply chain operations.';
+    } catch (e) {
+      systemPrompt = 'You are ARIA, an AI assistant for Paragon Corp supply chain operations.';
+    }
+
+    var userMessage =
+      'Generate a concise executive morning briefing for the Paragon Corp Supply Chain Control Tower. ' +
+      'Structure it exactly as:\n' +
+      '\uD83D\uDD34 TOP RISKS (max 3): Each with SKU/issue, impact in IDR, and one recommended action\n' +
+      '\uD83D\uDFE2 TOP OPPORTUNITIES (max 3): Each with SKU, opportunity score, and one recommended action\n' +
+      '\u26A1 ACTIVE ESCALATIONS: Count, highest rung reached, and who needs to act now\n' +
+      '\uD83D\uDCCA KEY METRIC OF THE DAY: One metric that needs leadership attention today and why\n' +
+      '\uD83C\uDFAF ARIA RECOMMENDATION: One single most important action for the next 2 hours\n' +
+      'Be specific, use IDR for financial figures, reference actual SKU names and signal names from the platform.';
+
+    fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1500,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userMessage }]
+      })
+    })
+    .then(function (res) {
+      if (!res.ok) {
+        return res.json().then(function (err) {
+          throw new Error((err && err.error && err.error.message) || 'HTTP ' + res.status);
+        });
+      }
+      return res.json();
+    })
+    .then(function (data) {
+      ariaHideBriefingSkeleton();
+      var text = (data.content && data.content[0] && data.content[0].text)
+        ? data.content[0].text
+        : 'No briefing content received.';
+      ariaBriefingText = text;
+      ariaRenderBriefingCards(text);
+      ariaSetBriefingTimestamp();
+    })
+    .catch(function (err) {
+      ariaHideBriefingSkeleton();
+      console.error('[ARIA Briefing] API error:', err);
+      ariaBriefingText = '';
+      var container = document.getElementById('aria-briefing-cards');
+      if (container) {
+        container.innerHTML =
+          '<div class="aria-briefing-card escal">' +
+            '<div class="aria-briefing-card-label">Error</div>' +
+            '<div class="aria-briefing-card-body">Could not generate briefing. ' +
+            ariaEscape(err.message || 'Unknown error') + '</div>' +
+          '</div>';
+        container.style.display = 'flex';
+      }
+    });
+  };
+
+  /* ── Copy briefing to clipboard ───────────────────────────────────────── */
+  window.ariaCopyBriefing = function (btn) {
+    if (!ariaBriefingText) return;
+    var orig = btn ? btn.textContent : '';
+    navigator.clipboard.writeText(ariaBriefingText).then(function () {
+      if (btn) {
+        btn.textContent = '\u2713 Copied!';
+        setTimeout(function () { btn.textContent = orig; }, 1800);
+      }
+    }).catch(function () {
+      // Fallback for older browsers
+      var ta = document.createElement('textarea');
+      ta.value = ariaBriefingText;
+      ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0;';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      if (btn) {
+        btn.textContent = '\u2713 Copied!';
+        setTimeout(function () { btn.textContent = orig; }, 1800);
+      }
+    });
+  };
+
+  /* ── Send briefing to chat ────────────────────────────────────────────── */
+  window.ariaSendBriefingToChat = function () {
+    if (!ariaBriefingText) return;
+    var chatMsg = '\uD83D\uDCCB Daily Briefing (sent to chat for follow-up questions):\n\n' + ariaBriefingText;
+
+    ariaConversation.push({ role: 'user', content: chatMsg });
+    if (ariaConversation.length > ARIA_MAX_HISTORY) {
+      ariaConversation = ariaConversation.slice(ariaConversation.length - ARIA_MAX_HISTORY);
+    }
+
+    ariaAppendMessage('user', chatMsg);
+
+    var chatCard = document.getElementById('aria-chat-card');
+    if (chatCard) chatCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   console.log('[ARIAPanel] Loaded \u2014 v1.0.0');
