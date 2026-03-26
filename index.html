@@ -5646,8 +5646,284 @@
       </p>
     </div>
 
-    <!-- PM TRANSIT & RISK PLACEHOLDER -->
-    <div style="padding:24px;background:#f3f4f6;border-radius:8px;border:1px dashed #d1d5db;text-align:center;color:#9ca3af;font-size:13px;font-style:italic;margin-bottom:32px">Loading transit and risk view...</div>
+    <!-- ── BLOCK 1: IN-TRANSIT TRACKER ── -->
+    <div id="rmpm-transit-risk" class="section-block" style="margin-bottom:28px">
+      <div class="section-hdr">
+        <p class="section-label" style="font-weight:700;text-transform:uppercase;letter-spacing:0.06em">In-Transit RM &amp; PM — Inbound Visibility</p>
+        <span class="section-sub">Live shipments en route · ETA tracking · Transport mode</span>
+      </div>
+
+      <!-- Legend -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+        <span class="status-badge" style="background:#f0faf4;color:#107e3e;border:1px solid #a3d9b1">● On Schedule</span>
+        <span class="status-badge badge-yellow">● At Risk</span>
+        <span class="status-badge badge-red">● Delayed</span>
+        <span class="status-badge" style="background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db">● Arrived</span>
+      </div>
+
+      <div class="table-scroll">
+        <table class="data-table" style="min-width:1300px">
+          <thead>
+            <tr>
+              <th>PO Number</th>
+              <th>Material</th>
+              <th>Type</th>
+              <th>Supplier</th>
+              <th>Qty</th>
+              <th>Dispatch Date</th>
+              <th>ETA</th>
+              <th>Days to Arrival</th>
+              <th>Transport</th>
+              <th>Status</th>
+              <th>Priority</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <!-- PO-2025-1841 — Vitamin C Ascorbic Acid — At Risk / Critical -->
+            <tr style="background:#fffbeb;box-shadow:inset 4px 0 0 #e76500">
+              <td style="font-weight:600;color:#1d2d3e">PO-2025-1841</td>
+              <td style="font-weight:600;color:#1d2d3e">Vitamin C Ascorbic Acid</td>
+              <td><span class="rmpm-type-badge rmpm-type-active">RM</span></td>
+              <td style="font-size:12px;color:#6b7280">PT Biotech Indonesia</td>
+              <td style="font-weight:600">200 kg</td>
+              <td style="font-size:12px;color:#9ca3af">3 days ago</td>
+              <td style="font-size:12px;color:#1d2d3e;font-weight:600">Tomorrow</td>
+              <td style="font-weight:700;color:#e76500">1 day</td>
+              <td><span class="status-badge" style="background:#eff6ff;color:#0070f2;border:1px solid #bfdbfe">✈ Air</span></td>
+              <td><span class="status-badge badge-yellow">At Risk</span></td>
+              <td><span class="status-badge badge-red">Critical</span></td>
+            </tr>
+
+            <!-- PO-2025-1842 — Foundation Bottle 30ml — On Schedule / Critical -->
+            <tr style="background:#f0faf4">
+              <td style="font-weight:600;color:#1d2d3e">PO-2025-1842</td>
+              <td style="font-weight:600;color:#1d2d3e">Foundation Bottle 30ml</td>
+              <td><span class="rmpm-type-badge" style="background:#f5f3ff;color:#7c3aed;border-color:#ddd6fe">PM</span></td>
+              <td style="font-size:12px;color:#6b7280">PT Gelas Nusantara</td>
+              <td style="font-weight:600">15,000 pcs</td>
+              <td style="font-size:12px;color:#9ca3af">5 days ago</td>
+              <td style="font-size:12px;color:#1d2d3e;font-weight:600">In 2 days</td>
+              <td style="font-weight:700;color:#107e3e">2 days</td>
+              <td><span class="status-badge" style="background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db">🚛 Road</span></td>
+              <td><span class="status-badge badge-green">On Schedule</span></td>
+              <td><span class="status-badge badge-red">Critical</span></td>
+            </tr>
+
+            <!-- PO-2025-1838 — Niacinamide Powder — On Schedule / Normal -->
+            <tr>
+              <td style="font-weight:600;color:#1d2d3e">PO-2025-1838</td>
+              <td style="font-weight:600;color:#1d2d3e">Niacinamide Powder</td>
+              <td><span class="rmpm-type-badge rmpm-type-active">RM</span></td>
+              <td style="font-size:12px;color:#6b7280">PT Bahan Kimia Utama</td>
+              <td style="font-weight:600">500 kg</td>
+              <td style="font-size:12px;color:#9ca3af">2 days ago</td>
+              <td style="font-size:12px;color:#1d2d3e;font-weight:600">In 5 days</td>
+              <td style="font-weight:700;color:#107e3e">5 days</td>
+              <td><span class="status-badge" style="background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db">🚛 Road</span></td>
+              <td><span class="status-badge badge-green">On Schedule</span></td>
+              <td><span class="status-badge" style="background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db">Normal</span></td>
+            </tr>
+
+            <!-- PO-2025-1835 — SPF UV Filter — At Risk / Critical -->
+            <tr style="background:#fffbeb;box-shadow:inset 4px 0 0 #e76500">
+              <td style="font-weight:600;color:#1d2d3e">PO-2025-1835</td>
+              <td style="font-weight:600;color:#1d2d3e">SPF UV Filter</td>
+              <td><span class="rmpm-type-badge rmpm-type-active">RM</span></td>
+              <td style="font-size:12px;color:#6b7280">CV Mineral Prima</td>
+              <td style="font-weight:600">150 kg</td>
+              <td style="font-size:12px;color:#9ca3af">8 days ago</td>
+              <td style="font-size:12px;color:#1d2d3e;font-weight:600">In 2 days</td>
+              <td style="font-weight:700;color:#e76500">2 days</td>
+              <td><span class="status-badge" style="background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db">🚛 Road</span></td>
+              <td><span class="status-badge badge-yellow">At Risk</span></td>
+              <td><span class="status-badge badge-red">Critical</span></td>
+            </tr>
+
+            <!-- PO-2025-1829 — Retinol 0.1% — Delayed / Critical -->
+            <tr style="background:#fff0f0;box-shadow:inset 4px 0 0 #bb0000">
+              <td style="font-weight:600;color:#1d2d3e">PO-2025-1829</td>
+              <td style="font-weight:600;color:#bb0000">Retinol 0.1%</td>
+              <td><span class="rmpm-type-badge rmpm-type-active">RM</span></td>
+              <td style="font-size:12px;color:#6b7280">PT Bahan Kimia Utama</td>
+              <td style="font-weight:600">80 kg</td>
+              <td style="font-size:12px;color:#9ca3af">14 days ago</td>
+              <td style="font-size:12px;color:#bb0000;font-weight:700">Overdue</td>
+              <td style="font-weight:700;color:#bb0000">−2 days</td>
+              <td><span class="status-badge" style="background:#eff6ff;color:#0070f2;border:1px solid #bfdbfe">🚢 Sea</span></td>
+              <td><span class="status-badge badge-red">Delayed</span></td>
+              <td><span class="status-badge badge-red">Critical</span></td>
+            </tr>
+
+            <!-- PO-2025-1844 — Sunscreen Tube 50ml — On Schedule / Critical -->
+            <tr style="background:#f0faf4">
+              <td style="font-weight:600;color:#1d2d3e">PO-2025-1844</td>
+              <td style="font-weight:600;color:#1d2d3e">Sunscreen Tube 50ml</td>
+              <td><span class="rmpm-type-badge" style="background:#f5f3ff;color:#7c3aed;border-color:#ddd6fe">PM</span></td>
+              <td style="font-size:12px;color:#6b7280">PT Plastindo</td>
+              <td style="font-weight:600">20,000 pcs</td>
+              <td style="font-size:12px;color:#9ca3af">4 days ago</td>
+              <td style="font-size:12px;color:#1d2d3e;font-weight:600">In 2 days</td>
+              <td style="font-weight:700;color:#107e3e">2 days</td>
+              <td><span class="status-badge" style="background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db">🚛 Road</span></td>
+              <td><span class="status-badge badge-green">On Schedule</span></td>
+              <td><span class="status-badge badge-red">Critical</span></td>
+            </tr>
+
+            <!-- PO-2025-1831 — Shea Butter — On Schedule / Normal -->
+            <tr>
+              <td style="font-weight:600;color:#1d2d3e">PO-2025-1831</td>
+              <td style="font-weight:600;color:#1d2d3e">Shea Butter</td>
+              <td><span class="rmpm-type-badge rmpm-type-active">RM</span></td>
+              <td style="font-size:12px;color:#6b7280">PT Oleokimia Nusantara</td>
+              <td style="font-weight:600">2,000 kg</td>
+              <td style="font-size:12px;color:#9ca3af">1 day ago</td>
+              <td style="font-size:12px;color:#1d2d3e;font-weight:600">In 12 days</td>
+              <td style="font-weight:700;color:#107e3e">12 days</td>
+              <td><span class="status-badge" style="background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db">🚛 Road</span></td>
+              <td><span class="status-badge badge-green">On Schedule</span></td>
+              <td><span class="status-badge" style="background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db">Normal</span></td>
+            </tr>
+
+            <!-- PO-2025-1836 — SPF Stick Packaging — On Schedule / Critical -->
+            <tr style="background:#f0faf4">
+              <td style="font-weight:600;color:#1d2d3e">PO-2025-1836</td>
+              <td style="font-weight:600;color:#1d2d3e">SPF Stick Packaging</td>
+              <td><span class="rmpm-type-badge" style="background:#f5f3ff;color:#7c3aed;border-color:#ddd6fe">PM</span></td>
+              <td style="font-size:12px;color:#6b7280">PT Plastindo</td>
+              <td style="font-weight:600">12,000 pcs</td>
+              <td style="font-size:12px;color:#9ca3af">9 days ago</td>
+              <td style="font-size:12px;color:#1d2d3e;font-weight:600">In 3 days</td>
+              <td style="font-weight:700;color:#107e3e">3 days</td>
+              <td><span class="status-badge" style="background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db">🚛 Road</span></td>
+              <td><span class="status-badge badge-green">On Schedule</span></td>
+              <td><span class="status-badge badge-red">Critical</span></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div><!-- end block 1 -->
+
+    <!-- ── BLOCK 2: PRODUCTION RISK VIEW ── -->
+    <div class="section-block" style="margin-bottom:32px">
+      <div class="section-hdr">
+        <p class="section-label" style="font-weight:700;text-transform:uppercase;letter-spacing:0.06em">Production Risk — RM/PM Impact on Manufacturing Lines</p>
+        <span class="section-sub">Which lines are at risk based on current stock coverage?</span>
+      </div>
+
+      <!-- Legend -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+        <span class="status-badge badge-red">● High</span>
+        <span class="status-badge badge-yellow">● Medium</span>
+        <span class="status-badge badge-green">● Low</span>
+      </div>
+
+      <div class="table-scroll">
+        <table class="data-table" style="min-width:1300px">
+          <thead>
+            <tr>
+              <th>Production Line</th>
+              <th>Primary SKU</th>
+              <th>Key RM Constraint</th>
+              <th>RM Coverage (days)</th>
+              <th>Key PM Constraint</th>
+              <th>PM Coverage (days)</th>
+              <th>Risk</th>
+              <th>Days Until Impact</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <!-- Skincare Line 1 — High / 0 days -->
+            <tr style="background:#fff0f0;box-shadow:inset 4px 0 0 #bb0000">
+              <td style="font-weight:600;color:#1d2d3e">Skincare Line 1</td>
+              <td style="font-size:12px;color:#374151">Wardah Niacinamide Serum</td>
+              <td style="font-size:12px;color:#bb0000;font-weight:600">Vitamin C (0d)</td>
+              <td style="font-weight:700;color:#bb0000">0d</td>
+              <td style="font-size:12px;color:#6b7280">Serum Bottle (17.5d)</td>
+              <td style="font-weight:600;color:#6b7280">17.5d</td>
+              <td><span class="status-badge badge-red">High</span></td>
+              <td style="font-weight:700;color:#bb0000">0 days</td>
+              <td style="font-size:12px;font-weight:700;color:#bb0000">Emergency RM procurement NOW</td>
+            </tr>
+
+            <!-- Makeup Line 2 — High / 0 days -->
+            <tr style="background:#fff0f0;box-shadow:inset 4px 0 0 #bb0000">
+              <td style="font-weight:600;color:#1d2d3e">Makeup Line 2</td>
+              <td style="font-size:12px;color:#374151">Make Over Foundation</td>
+              <td style="font-size:12px;color:#6b7280">SPF UV Filter (3.1d)</td>
+              <td style="font-weight:600;color:#6b7280">3.1d</td>
+              <td style="font-size:12px;color:#bb0000;font-weight:600">Foundation Bottle (0d)</td>
+              <td style="font-weight:700;color:#bb0000">0d</td>
+              <td><span class="status-badge badge-red">High</span></td>
+              <td style="font-weight:700;color:#bb0000">0 days</td>
+              <td style="font-size:12px;font-weight:700;color:#bb0000">Emergency PM procurement NOW</td>
+            </tr>
+
+            <!-- Suncare Line 3 — High / 3 days -->
+            <tr style="background:#fff0f0;box-shadow:inset 4px 0 0 #bb0000">
+              <td style="font-weight:600;color:#1d2d3e">Suncare Line 3</td>
+              <td style="font-size:12px;color:#374151">Azarine + Emina SPF</td>
+              <td style="font-size:12px;color:#e76500;font-weight:600">SPF UV Filter (3.1d)</td>
+              <td style="font-weight:700;color:#e76500">3.1d</td>
+              <td style="font-size:12px;color:#e76500;font-weight:600">Sunscreen Tube (3.0d)</td>
+              <td style="font-weight:700;color:#e76500">3.0d</td>
+              <td><span class="status-badge badge-red">High</span></td>
+              <td style="font-weight:700;color:#e76500">3 days</td>
+              <td style="font-size:12px;font-weight:600;color:#e76500">Expedite both RM and PM</td>
+            </tr>
+
+            <!-- Skincare Line 2 — Medium / 5 days -->
+            <tr style="background:#fffbeb;box-shadow:inset 4px 0 0 #e76500">
+              <td style="font-weight:600;color:#1d2d3e">Skincare Line 2</td>
+              <td style="font-size:12px;color:#374151">Wardah Retinol Repair</td>
+              <td style="font-size:12px;color:#e76500;font-weight:600">Retinol 0.1% (5.3d)</td>
+              <td style="font-weight:700;color:#e76500">5.3d</td>
+              <td style="font-size:12px;color:#6b7280">Serum Bottle (17.5d)</td>
+              <td style="font-weight:600;color:#6b7280">17.5d</td>
+              <td><span class="status-badge badge-yellow">Medium</span></td>
+              <td style="font-weight:700;color:#e76500">5 days</td>
+              <td style="font-size:12px;font-weight:600;color:#e76500">Resolve retinol delay</td>
+            </tr>
+
+            <!-- Bodycare Line 1 — Low / 18 days -->
+            <tr>
+              <td style="font-weight:600;color:#1d2d3e">Bodycare Line 1</td>
+              <td style="font-size:12px;color:#374151">Scarlett Body Lotion</td>
+              <td style="font-size:12px;color:#6b7280">Glycerin (29.1d)</td>
+              <td style="font-weight:600;color:#107e3e">29.1d</td>
+              <td style="font-size:12px;color:#6b7280">Body Pump 300ml (18.8d)</td>
+              <td style="font-weight:600;color:#107e3e">18.8d</td>
+              <td><span class="status-badge badge-green">Low</span></td>
+              <td style="font-weight:600;color:#107e3e">18 days</td>
+              <td style="font-size:12px;color:#6b7280">Monitor</td>
+            </tr>
+
+            <!-- Makeup Line 1 — Low / 23 days -->
+            <tr>
+              <td style="font-weight:600;color:#1d2d3e">Makeup Line 1</td>
+              <td style="font-size:12px;color:#374151">BLP Gloss Balm</td>
+              <td style="font-size:12px;color:#6b7280">Cetyl Alcohol (24.9d)</td>
+              <td style="font-weight:600;color:#107e3e">24.9d</td>
+              <td style="font-size:12px;color:#6b7280">Lip Wand Tube (23.7d)</td>
+              <td style="font-weight:600;color:#107e3e">23.7d</td>
+              <td><span class="status-badge badge-green">Low</span></td>
+              <td style="font-weight:600;color:#107e3e">23 days</td>
+              <td style="color:#9ca3af;font-size:12px">—</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Footer note -->
+      <p style="margin-top:14px;font-size:11px;color:#6b7280;font-style:italic;line-height:1.6">
+        This view connects to <strong style="color:#374151">Suppliers Portal</strong> and <strong style="color:#374151">Procurement &amp; Purchase</strong>.
+        Critical alerts here require immediate action in Procurement.
+      </p>
+    </div><!-- end block 2 -->
 
   </div><!-- end rmpm-part2 -->
 
