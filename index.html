@@ -26690,6 +26690,8 @@ function exportBoardPack() {
 (function () {
   'use strict';
 
+  console.log('AS2 loaded');
+
   /* ── Scenario definitions ───────────────────────────────────────────────── */
   var SSIM_SCENARIOS = {
     'oos': {
@@ -26716,6 +26718,7 @@ function exportBoardPack() {
 
   /* ── Shared scenario runner ─────────────────────────────────────────────── */
   function runScenario(scenarioId, scenarioTitle, userPrompt, accentColor) {
+    console.log('Button clicked:', scenarioId);
     var allBtns = document.querySelectorAll('.ssim-scenario-card');
     var clickedBtn = document.getElementById('scenario-btn-' + scenarioId);
     var outputArea = document.getElementById('scenario-output-area');
@@ -26730,7 +26733,7 @@ function exportBoardPack() {
     /* 1. Button states */
     allBtns.forEach(function (b) {
       if (b === clickedBtn) {
-        b.classList.add('running');
+        b.classList.add('ssim-running');
       } else {
         b.style.opacity = '0.5';
         b.disabled = true;
@@ -26752,6 +26755,7 @@ function exportBoardPack() {
     } catch (e) {
       systemPrompt = 'You are ARIA, an AI assistant for Paragon Corp supply chain operations.';
     }
+    console.log('[AS2] system prompt length:', systemPrompt.length);
 
     /* 4. Call Anthropic API — fresh call, no conversation history */
     fetch('https://api.anthropic.com/v1/messages', {
@@ -26804,18 +26808,21 @@ function exportBoardPack() {
     .catch(function (err) {
       /* 7. Error state */
       outputArea.classList.remove('ssim-loading');
-      outputArea.textContent = 'ARIA scenario unavailable — try again';
+      outputArea.textContent = 'ARIA scenario error: ' + (err && err.message ? err.message : String(err));
       console.error('[SSIM] Scenario API error:', err);
     })
     .finally(function () {
       /* 6. Restore button states */
       allBtns.forEach(function (b) {
-        b.classList.remove('running');
+        b.classList.remove('ssim-running');
         b.style.opacity = '';
         b.disabled = false;
       });
     });
   }
+
+  /* ── Expose runScenario globally ────────────────────────────────────────── */
+  window.runScenario = runScenario;
 
   /* ── Copy Result button ─────────────────────────────────────────────────── */
   function wireCopyButton() {
