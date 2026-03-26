@@ -21717,6 +21717,200 @@ function exportBoardPack() {
 </script>
 
 <!-- ════════════════════════════════════════════════════════════
+     CHAIN 2 — RM/PM OOS EXTENSION
+     Extends Chain 2 of OdysseySignalEngine with RM/PM OOS origin
+     signals. Additive only — no existing code modified.
+════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── 1. Register RM/PM OOS threshold definitions ──────────── */
+  OdysseySignalEngine.thresholds.RM_OOS_ALERT = {
+    name:         'Raw Material OOS Alert',
+    trigger:      'Critical RM at zero stock \u2014 production halt imminent',
+    sku:          'Vitamin C Ascorbic Acid',
+    supplier:     'PT Biotech Indonesia',
+    currentValue: '0 days coverage',
+    threshold:    '0 days',
+    severity:     'CRITICAL',
+    chain:        2,
+    origin:       'rmpm-inventory'
+  };
+
+  OdysseySignalEngine.thresholds.PM_OOS_ALERT = {
+    name:         'Packaging Material OOS Alert',
+    trigger:      'Critical PM at zero stock \u2014 production halt imminent',
+    sku:          'Foundation Bottle 30ml',
+    supplier:     'PT Gelas Nusantara',
+    currentValue: '0 days coverage',
+    threshold:    '0 days',
+    severity:     'CRITICAL',
+    chain:        2,
+    origin:       'rmpm-inventory'
+  };
+
+  /* ── 2. RM & PM Inventory: Signal Origin Banner ────────────── */
+  /* Injects a red "Chain 2 Origin — RM/PM OOS Detected" banner at
+     the top of the RM & PM Inventory panel when either OOS signal
+     fires. Red left border (CRITICAL), same pattern as Suppliers
+     Portal origin banner for Chain 2.                            */
+
+  var rmpmOriginInjected = false;
+
+  function injectRmpmOriginBanner() {
+    if (rmpmOriginInjected) { return; }
+    rmpmOriginInjected = true;
+
+    var panel = document.getElementById('panel-rmpm-inventory');
+    if (!panel) { return; }
+    var bannerId = 'c2-origin-rmpm-banner';
+    if (document.getElementById(bannerId)) { return; }
+
+    var wrap = document.createElement('div');
+    wrap.id = bannerId;
+    wrap.style.cssText = 'margin-bottom:16px';
+
+    var card = document.createElement('div');
+    card.className = 'ds-flag';
+    card.style.cssText =
+      'border-left-color:#bb0000;' +
+      'background:#fff0f0;' +
+      'position:relative;' +
+      'flex-direction:column;' +
+      'gap:4px;' +
+      'padding:12px 72px 12px 16px';
+
+    var label = document.createElement('div');
+    label.style.cssText =
+      'display:inline-block;margin-bottom:4px;' +
+      'font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;' +
+      'background:#bb0000;color:#fff;border-radius:4px;padding:2px 8px';
+    label.textContent = 'Origin Signal';
+
+    var msg = document.createElement('div');
+    msg.className = 'ds-flag-msg';
+    msg.textContent = 'Chain 2 Origin \u2014 RM/PM OOS Detected';
+
+    var btn = document.createElement('button');
+    btn.textContent = 'Dismiss';
+    btn.style.cssText =
+      'position:absolute;top:10px;right:10px;' +
+      'font-size:10px;font-weight:600;' +
+      'color:#6b7280;background:#f3f4f6;' +
+      'border:1px solid #e5e7eb;border-radius:4px;' +
+      'padding:2px 8px;cursor:pointer;line-height:1.6';
+    btn.addEventListener('click', function () {
+      if (wrap.parentNode) { wrap.parentNode.removeChild(wrap); }
+    });
+
+    card.appendChild(label);
+    card.appendChild(msg);
+    card.appendChild(btn);
+    wrap.appendChild(card);
+
+    /* Insert after the header block (first .section-block), before content */
+    var header = panel.querySelector('.section-block');
+    if (header && header.nextSibling) {
+      panel.insertBefore(wrap, header.nextSibling);
+    } else {
+      panel.appendChild(wrap);
+    }
+  }
+
+  OdysseySignalEngine.subscribe('rmpm-inventory-origin', function (signal) {
+    if (signal.chain === 2 &&
+        (signal.name === 'RM_OOS_ALERT' || signal.name === 'PM_OOS_ALERT')) {
+      injectRmpmOriginBanner();
+    }
+  });
+
+  /* ── 3. Manufacturing: Subscribe to RM/PM OOS alerts ─────── */
+  /* Inject alert cards using the existing injectChain2Alert().
+     Unique subscriber ID keeps existing manufacturing-chain2
+     subscription untouched.                                     */
+  OdysseySignalEngine.subscribe('manufacturing-rmpm-oos', function (signal) {
+    if (signal.chain !== 2) { return; }
+    if (signal.name !== 'RM_OOS_ALERT' && signal.name !== 'PM_OOS_ALERT') { return; }
+    window.injectChain2Alert('manufacturing', signal);
+  });
+
+  /* ── 4. Sidebar badge: Manufacturing red dot for OOS signals ─ */
+  /* Adds a CRITICAL (red) badge to the Manufacturing nav button
+     when RM_OOS_ALERT or PM_OOS_ALERT fires. Operates directly on
+     the DOM badge element so it does not depend on the private
+     c2Counts/c2Severity vars in the Chain 2 setup IIFE.          */
+  OdysseySignalEngine.subscribe('manufacturing-rmpm-badge', function (signal) {
+    if (signal.chain !== 2) { return; }
+    if (signal.name !== 'RM_OOS_ALERT' && signal.name !== 'PM_OOS_ALERT') { return; }
+
+    var navBtn = document.getElementById('nav-mfg');
+    if (!navBtn) { return; }
+    var badge = navBtn.querySelector('.nav-signal-badge');
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.className = 'nav-signal-badge';
+      badge.setAttribute('aria-label', 'Unread signal alerts');
+      badge.setAttribute('aria-live', 'polite');
+      navBtn.appendChild(badge);
+    }
+    badge.classList.remove('badge-warning');
+    badge.classList.add('badge-visible', 'badge-critical');
+  });
+
+  /* ── 5. Auto-fire RM/PM OOS signals at 2 s ───────────────── */
+  /* Chain 1 fires at 1.5 s, Chain 2 fires at 3 s.
+     RM/PM OOS fires at 2 s — more urgent than supplier OTIF,
+     appears before other Chain 2 signals.                       */
+  function autofireRmpmOosSignals() {
+    console.log('[SignalEngine] Auto-firing RM/PM OOS signals (Chain 2 \u2014 Origin)');
+    ['RM_OOS_ALERT', 'PM_OOS_ALERT'].forEach(function (name) {
+      OdysseySignalEngine.fire(name);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(autofireRmpmOosSignals, 2000);
+    });
+  } else {
+    setTimeout(autofireRmpmOosSignals, 2000);
+  }
+
+  /* ── 6. Add RM/PM OOS buttons to the demo simulator panel ─── */
+  /* Appends "Fire: RM OOS" and "Fire: PM OOS" buttons under the
+     existing "Chain 2 — Supply Risk" group in the demo panel.   */
+  function addRmpmOosSimulatorButtons() {
+    var body = document.getElementById('ose-demo-body');
+    if (!body) { return; }
+
+    var oosSignals = [
+      { label: 'Fire: RM OOS', key: 'RM_OOS_ALERT' },
+      { label: 'Fire: PM OOS', key: 'PM_OOS_ALERT' }
+    ];
+
+    oosSignals.forEach(function (sig) {
+      var btn = document.createElement('button');
+      btn.className = 'ose-sig-btn';
+      btn.textContent = sig.label;
+      btn.style.borderLeftColor = '#bb0000';
+      btn.addEventListener('click', function () {
+        OdysseySignalEngine.fire(sig.key);
+      });
+      body.appendChild(btn);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', addRmpmOosSimulatorButtons);
+  } else {
+    addRmpmOosSimulatorButtons();
+  }
+
+})();
+</script>
+
+<!-- ════════════════════════════════════════════════════════════
      ODYSSEY SIGNAL ENGINE — CHAIN 3 EXTENSION
      Extends OdysseySignalEngine with Feedback Loop signals.
      Additive only — no existing Chain 1 or Chain 2 code modified.
