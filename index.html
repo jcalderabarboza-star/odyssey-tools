@@ -9273,6 +9273,498 @@
   }
 }());
 </script>
+<!-- === ACTIVE ALERTS BOARD === -->
+<style>
+  /* ── Active Alerts Board ──────────────────────────────── */
+  @keyframes wr-border-pulse {
+    0%, 100% { border-left-color: #ef4444; }
+    50%       { border-left-color: rgba(239,68,68,0.2); }
+  }
+  @keyframes wr-rung-badge-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.45; }
+  }
+  .wr-ab-card-rung3-pulse {
+    animation: wr-border-pulse 1.5s ease-in-out infinite;
+  }
+  .wr-rung-badge-pulse {
+    animation: wr-rung-badge-pulse 1s ease-in-out infinite;
+  }
+  .wr-ab-btn {
+    padding: 4px 11px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    background: transparent;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+  }
+  .wr-ab-btn:disabled { cursor: default; opacity: 0.8; }
+  .wr-ab-btn-green  { border: 1px solid #10b981; color: #10b981; }
+  .wr-ab-btn-green:not(:disabled):hover  { background: rgba(16,185,129,0.15); }
+  .wr-ab-btn-blue   { border: 1px solid #3b82f6; color: #3b82f6; }
+  .wr-ab-btn-blue:hover   { background: rgba(59,130,246,0.15); }
+  .wr-ab-btn-amber  { border: 1px solid #f59e0b; color: #f59e0b; }
+  .wr-ab-btn-amber:hover  { background: rgba(245,158,11,0.15); }
+  .wr-ab-btn-teal   { border: 1px solid #0d9488; color: #0d9488; }
+  .wr-ab-btn-teal:hover   { background: rgba(13,148,136,0.15); }
+  .wr-ab-timeline-toggle {
+    background: none;
+    border: none;
+    color: #475569;
+    font-size: 11px;
+    cursor: pointer;
+    padding: 2px 0;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .wr-ab-timeline-toggle:hover { color: #94a3b8; }
+  .wr-ab-inline-form { min-height: 0; }
+  .wr-ab-inline-input {
+    background: #0f172a;
+    color: #e2e8f0;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-family: inherit;
+  }
+  .wr-ab-inline-input:focus { outline: none; border-color: #3b82f6; }
+  .wr-ab-inline-select {
+    background: #0f172a;
+    color: #e2e8f0;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-family: inherit;
+  }
+  .wr-ab-inline-select:focus { outline: none; border-color: #3b82f6; }
+</style>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   WAR ROOM — ACTIVE ALERTS BOARD
+   Renders OdysseyEscalationEngine.getActive() + OdysseyStakeholderEngine
+   Additive only — writes only to #war-room-alerts-board.
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+
+  var CHAIN_COLOR = { 1: '#ef4444', 2: '#f59e0b', 3: '#f97316' };
+  var CHAIN_BG    = { 1: 'rgba(239,68,68,0.12)', 2: 'rgba(245,158,11,0.12)', 3: 'rgba(249,115,22,0.12)' };
+  var RUNG_COLOR  = { 1: '#10b981', 2: '#f59e0b', 3: '#ef4444' };
+
+  /* ── helpers ─────────────────────────────────────────────── */
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function fmtElapsed(startMs) {
+    var sec = Math.floor((Date.now() - startMs) / 1000);
+    if (sec < 60) return sec + 's ago';
+    var m = Math.floor(sec / 60), s = sec % 60;
+    if (m < 60) return m + 'm ' + s + 's';
+    var h = Math.floor(m / 60); m = m % 60;
+    return h + 'h ' + m + 'm';
+  }
+
+  function fmtTime(ts) {
+    return new Date(typeof ts === 'number' ? ts : Date.parse(ts))
+      .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  }
+
+  function cardId(signalName) {
+    return 'wr-ab-card-' + signalName.replace(/[^a-zA-Z0-9]/g, '-');
+  }
+
+  function getSH(role) {
+    var se = window.OdysseyStakeholderEngine;
+    var roster = se ? se.getRoster() : [];
+    for (var i = 0; i < roster.length; i++) {
+      if (roster[i].role === role) return roster[i];
+    }
+    return { initials: '??', color: '#6b7280' };
+  }
+
+  /* ── timeline builder ────────────────────────────────────── */
+  function buildTimeline(rec, inter) {
+    var events = [];
+
+    (rec.history || []).forEach(function (h) {
+      var col = h.event === 'RESOLVED' ? '#10b981'
+              : h.event === 'ESCALATED' ? '#ef4444'
+              : h.event === 'ACKNOWLEDGED' ? '#10b981'
+              : '#0ea5e9';
+      events.push({ text: h.detail, ts: new Date(h.timestamp).getTime(), color: col });
+    });
+
+    if (inter) {
+      if (inter.claimedBy && inter.claimedAt) {
+        events.push({ text: 'Claimed by ' + inter.claimedBy, ts: inter.claimedAt, color: '#10b981' });
+      }
+      (inter.responses || []).forEach(function (r) {
+        events.push({ text: 'Response: \u201c' + r.text + '\u201d by ' + r.role, ts: r.timestamp, color: '#0ea5e9' });
+      });
+      (inter.tags || []).forEach(function (t) {
+        events.push({
+          text: 'Tagged ' + t.toRole + ' by ' + t.fromRole + (t.message ? ': \u201c' + t.message + '\u201d' : ''),
+          ts: t.timestamp, color: '#f59e0b'
+        });
+      });
+      if (inter.resolvedAt) {
+        var rts = typeof inter.resolvedAt === 'number' ? inter.resolvedAt : Date.parse(inter.resolvedAt);
+        events.push({
+          text: 'Resolved by ' + (inter.resolvedBy || '?') + (inter.rootCause ? ' \u2014 ' + inter.rootCause : ''),
+          ts: rts, color: '#10b981'
+        });
+      }
+    }
+
+    events.sort(function (a, b) { return a.ts - b.ts; });
+
+    if (events.length === 0) {
+      return '<p style="color:#475569;font-size:11px;font-style:italic;margin:0">No timeline events yet</p>';
+    }
+
+    var h = '<ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px">';
+    events.forEach(function (e) {
+      h += '<li style="display:flex;align-items:flex-start;gap:8px">'
+        + '<span style="width:8px;height:8px;border-radius:50%;background:' + e.color + ';margin-top:3px;flex-shrink:0;display:inline-block"></span>'
+        + '<span style="color:#94a3b8;font-size:11px;flex:1">' + esc(e.text) + '</span>'
+        + '<span style="color:#475569;font-size:10px;white-space:nowrap;flex-shrink:0">' + fmtTime(e.ts) + '</span>'
+        + '</li>';
+    });
+    h += '</ol>';
+    return h;
+  }
+
+  /* ── render a single card ────────────────────────────────── */
+  function renderCard(rec, inter) {
+    var sig    = rec.signal || {};
+    var chain  = sig.chain || 1;
+    var rung   = rec.currentRung;
+    var cid    = cardId(rec.signalName);
+    var cc     = CHAIN_COLOR[chain] || CHAIN_COLOR[1];
+    var rc     = RUNG_COLOR[rung]   || RUNG_COLOR[1];
+    var isClaimed = inter && inter.status !== 'unclaimed';
+    var claimedBy = inter ? inter.claimedBy : null;
+    var claimedSH = claimedBy ? getSH(claimedBy) : null;
+    var responses = inter ? (inter.responses || []) : [];
+    var lastResp  = responses.length ? responses[responses.length - 1] : null;
+    var skuText   = sig.sku || sig.product || sig.trigger || sig.description || '\u2014';
+    var sigLabel  = sig.name || rec.signalName;
+
+    var pulse3Card  = rung === 3 ? ' wr-ab-card-rung3-pulse' : '';
+    var pulse3Badge = rung === 3 ? ' wr-rung-badge-pulse'    : '';
+
+    var h = '';
+
+    /* card wrapper */
+    h += '<div id="' + cid + '" class="' + pulse3Card + '" style="'
+       + 'background:#1e293b;border-radius:12px;padding:14px 16px;margin-bottom:12px;'
+       + 'border-left:3px solid ' + cc + ';transition:opacity 0.5s ease">';
+
+    /* TOP ROW */
+    h += '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px">';
+    h += '<span style="color:#f1f5f9;font-weight:600;font-size:13px;flex:1;min-width:80px">' + esc(sigLabel) + '</span>';
+    /* chain badge */
+    h += '<span style="background:' + CHAIN_BG[chain] + ';color:' + cc + ';font-size:10px;font-weight:700;'
+       + 'padding:2px 8px;border-radius:20px;border:1px solid ' + cc + ';white-space:nowrap">Chain ' + chain + '</span>';
+    /* rung badge */
+    h += '<span class="' + pulse3Badge + '" style="background:' + rc + ';color:#fff;font-size:10px;font-weight:700;'
+       + 'padding:2px 8px;border-radius:20px;white-space:nowrap">Rung ' + rung + '</span>';
+    /* elapsed */
+    h += '<span class="wr-elapsed" data-start="' + rec.startTime + '" '
+       + 'style="color:#64748b;font-size:11px;white-space:nowrap">' + fmtElapsed(rec.startTime) + '</span>';
+    h += '</div>';
+
+    /* SECOND ROW */
+    h += '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px">';
+    h += '<span style="color:#94a3b8;font-size:12px;flex:1">' + esc(skuText) + '</span>';
+    if (!isClaimed || !claimedBy) {
+      h += '<span style="background:rgba(239,68,68,0.12);color:#f87171;font-size:11px;font-weight:700;'
+         + 'padding:2px 8px;border-radius:20px;border:1px solid rgba(239,68,68,0.3);white-space:nowrap">'
+         + '&#9888; Unclaimed</span>';
+    } else {
+      h += '<span style="display:inline-flex;align-items:center;gap:5px">'
+         + '<span style="width:22px;height:22px;border-radius:50%;background:' + claimedSH.color
+         + ';display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff">'
+         + esc(claimedSH.initials) + '</span>'
+         + '<span style="color:#64748b;font-size:11px">Claimed by <span style="color:#94a3b8">'
+         + esc(claimedBy) + '</span></span>'
+         + '</span>';
+    }
+    h += '</div>';
+
+    /* RESPONSE AREA */
+    h += '<div style="margin-bottom:10px;padding:8px 10px;background:rgba(0,0,0,0.2);border-radius:6px">';
+    if (lastResp) {
+      h += '<span style="color:#64748b;font-size:11px;font-style:italic">'
+         + esc(lastResp.role) + ' &middot; ' + fmtTime(lastResp.timestamp) + ' &middot; ' + esc(lastResp.text)
+         + '</span>';
+    } else {
+      h += '<span style="color:#475569;font-size:11px">No response logged yet</span>';
+    }
+    h += '</div>';
+
+    /* ACTION BUTTONS */
+    h += '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">';
+
+    /* CLAIM */
+    if (!isClaimed || !claimedBy) {
+      h += '<button class="wr-ab-btn wr-ab-btn-green" '
+         + 'onclick="wrAbClaim(\'' + esc(rec.signalName) + '\',this)">Claim</button>';
+    } else {
+      var cColor = claimedSH ? claimedSH.color : '#10b981';
+      h += '<button class="wr-ab-btn" disabled '
+         + 'style="background:' + cColor + ';color:#fff;border-color:' + cColor + '">'
+         + esc(claimedSH ? claimedSH.initials : '?') + ' Claimed</button>';
+    }
+
+    /* LOG RESPONSE */
+    h += '<button class="wr-ab-btn wr-ab-btn-blue" '
+       + 'onclick="wrAbLogResp(\'' + esc(rec.signalName) + '\',this)">Log Response</button>';
+
+    /* TAG */
+    h += '<button class="wr-ab-btn wr-ab-btn-amber" '
+       + 'onclick="wrAbTag(\'' + esc(rec.signalName) + '\',this)">Tag</button>';
+
+    /* RESOLVE */
+    h += '<button class="wr-ab-btn wr-ab-btn-teal" '
+       + 'onclick="wrAbResolve(\'' + esc(rec.signalName) + '\',this)">Resolve</button>';
+
+    h += '</div>';
+
+    /* INLINE FORM SLOT */
+    h += '<div id="' + cid + '-form" class="wr-ab-inline-form"></div>';
+
+    /* TIMELINE */
+    var tlId  = cid + '-tl';
+    var tlBtn = cid + '-tlbtn';
+    h += '<div style="margin-top:4px">';
+    h += '<button id="' + tlBtn + '" class="wr-ab-timeline-toggle" '
+       + 'onclick="wrAbToggleTl(\'' + tlId + '\',\'' + tlBtn + '\')">&#9660; Show Timeline</button>';
+    h += '<div id="' + tlId + '" style="display:none;margin-top:8px;background:rgba(0,0,0,0.2);border-radius:8px;padding:10px 12px">';
+    h += buildTimeline(rec, inter);
+    h += '</div>';
+    h += '</div>';
+
+    h += '</div>'; /* end card */
+    return h;
+  }
+
+  /* ── main render ──────────────────────────────────────────── */
+  function renderBoard() {
+    var board = document.getElementById('war-room-alerts-board');
+    if (!board) return;
+
+    var ee = window.OdysseyEscalationEngine;
+    var se = window.OdysseyStakeholderEngine;
+    if (!ee || !se) {
+      board.innerHTML = '<p style="color:#475569;font-size:13px;text-align:center;padding:24px 20px">'
+        + 'Engines initialising\u2026</p>';
+      return;
+    }
+
+    /* Don't wipe open inline forms */
+    if (board.querySelector('.wr-ab-inline-form:not(:empty)')) {
+      updateElapsed();
+      return;
+    }
+
+    board.className = '';
+    board.removeAttribute('style');
+
+    var active = ee.getActive();
+
+    if (!active.length) {
+      board.innerHTML = '<div style="text-align:center;padding:36px 20px;color:#10b981;font-size:14px;font-weight:600">'
+        + '&#9989; No active alerts \u2014 all clear.</div>';
+      return;
+    }
+
+    var h = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">'
+          + '<span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;color:#475569">Active Alerts</span>'
+          + '<span style="font-size:11px;color:#64748b;background:#1e293b;border:1px solid #2d3f50;padding:3px 10px;border-radius:20px">'
+          + active.length + ' alert' + (active.length !== 1 ? 's' : '') + '</span>'
+          + '</div>';
+
+    active.forEach(function (rec) {
+      h += renderCard(rec, se.getInteraction(rec.signalName));
+    });
+
+    board.innerHTML = h;
+  }
+
+  /* ── update elapsed time counters ───────────────────────── */
+  function updateElapsed() {
+    document.querySelectorAll('.wr-elapsed[data-start]').forEach(function (el) {
+      var s = parseInt(el.getAttribute('data-start'), 10);
+      if (s) el.textContent = fmtElapsed(s);
+    });
+  }
+
+  /* ── helper: get form slot ───────────────────────────────── */
+  function formSlot(signalName) {
+    return document.getElementById(cardId(signalName) + '-form');
+  }
+
+  /* ── close inline form ───────────────────────────────────── */
+  window.wrAbClose = function (signalName) {
+    var el = formSlot(signalName);
+    if (el) el.innerHTML = '';
+  };
+
+  /* ── CLAIM ───────────────────────────────────────────────── */
+  window.wrAbClaim = function (signalName) {
+    var el = formSlot(signalName);
+    if (!el) return;
+    var roster = window.OdysseyStakeholderEngine.getRoster();
+    var opts = roster.map(function (s) {
+      return '<option value="' + esc(s.role) + '">' + esc(s.role) + '</option>';
+    }).join('');
+    el.innerHTML = '<div style="margin-top:8px;background:rgba(0,0,0,0.2);border-radius:8px;padding:10px">'
+      + '<select id="wr-claim-sel-' + esc(signalName) + '" class="wr-ab-inline-select" style="width:100%;margin-bottom:8px">'
+      + '<option value="">-- Select Role --</option>' + opts + '</select>'
+      + '<div style="display:flex;gap:6px">'
+      + '<button class="wr-ab-btn wr-ab-btn-green" onclick="wrAbClaimSubmit(\'' + esc(signalName) + '\')">Confirm Claim</button>'
+      + '<button class="wr-ab-btn" style="border:1px solid #475569;color:#94a3b8" onclick="wrAbClose(\'' + esc(signalName) + '\')">Cancel</button>'
+      + '</div></div>';
+  };
+
+  window.wrAbClaimSubmit = function (signalName) {
+    var sel = document.getElementById('wr-claim-sel-' + signalName);
+    if (!sel || !sel.value) return;
+    window.OdysseyStakeholderEngine.claim(signalName, sel.value);
+    wrAbClose(signalName);
+    renderBoard();
+  };
+
+  /* ── LOG RESPONSE ────────────────────────────────────────── */
+  window.wrAbLogResp = function (signalName) {
+    var el = formSlot(signalName);
+    if (!el) return;
+    el.innerHTML = '<div style="margin-top:8px;background:rgba(0,0,0,0.2);border-radius:8px;padding:10px">'
+      + '<textarea id="wr-resp-ta-' + esc(signalName) + '" rows="2" placeholder="Enter response\u2026" '
+      + 'class="wr-ab-inline-input" style="width:100%;box-sizing:border-box;resize:vertical;margin-bottom:8px"></textarea>'
+      + '<div style="display:flex;gap:6px">'
+      + '<button class="wr-ab-btn wr-ab-btn-blue" onclick="wrAbLogRespSubmit(\'' + esc(signalName) + '\')">Submit</button>'
+      + '<button class="wr-ab-btn" style="border:1px solid #475569;color:#94a3b8" onclick="wrAbClose(\'' + esc(signalName) + '\')">Cancel</button>'
+      + '</div></div>';
+  };
+
+  window.wrAbLogRespSubmit = function (signalName) {
+    var ta = document.getElementById('wr-resp-ta-' + signalName);
+    if (!ta || !ta.value.trim()) return;
+    window.OdysseyStakeholderEngine.logResponse(signalName, 'Control Tower Operator', ta.value.trim());
+    wrAbClose(signalName);
+    renderBoard();
+  };
+
+  /* ── TAG ─────────────────────────────────────────────────── */
+  window.wrAbTag = function (signalName) {
+    var el = formSlot(signalName);
+    if (!el) return;
+    var roster = window.OdysseyStakeholderEngine.getRoster();
+    var opts = roster.map(function (s) {
+      return '<option value="' + esc(s.role) + '">' + esc(s.role) + '</option>';
+    }).join('');
+    el.innerHTML = '<div style="margin-top:8px;background:rgba(0,0,0,0.2);border-radius:8px;padding:10px">'
+      + '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">'
+      + '<select id="wr-tag-sel-' + esc(signalName) + '" class="wr-ab-inline-select" style="flex:1;min-width:140px">'
+      + '<option value="">-- Colleague --</option>' + opts + '</select>'
+      + '<input id="wr-tag-msg-' + esc(signalName) + '" type="text" placeholder="Short message\u2026" '
+      + 'class="wr-ab-inline-input" style="flex:1.5;min-width:150px">'
+      + '<button class="wr-ab-btn wr-ab-btn-amber" onclick="wrAbTagSubmit(\'' + esc(signalName) + '\',this)">Send</button>'
+      + '<button class="wr-ab-btn" style="border:1px solid #475569;color:#94a3b8" onclick="wrAbClose(\'' + esc(signalName) + '\')">Cancel</button>'
+      + '</div></div>';
+  };
+
+  window.wrAbTagSubmit = function (signalName) {
+    var sel = document.getElementById('wr-tag-sel-' + signalName);
+    var msg = document.getElementById('wr-tag-msg-' + signalName);
+    if (!sel || !sel.value) return;
+    window.OdysseyStakeholderEngine.tag(signalName, 'Control Tower Operator', sel.value, msg ? msg.value.trim() : '');
+    var el = formSlot(signalName);
+    if (el) {
+      el.innerHTML = '<div style="padding:6px 10px;margin-top:8px;font-size:12px;color:#10b981;'
+        + 'background:rgba(16,185,129,0.1);border-radius:6px">&#10003; Tagged ' + esc(sel.value) + '</div>';
+      setTimeout(function () { if (el) el.innerHTML = ''; }, 2000);
+    }
+  };
+
+  /* ── RESOLVE ─────────────────────────────────────────────── */
+  window.wrAbResolve = function (signalName) {
+    var el = formSlot(signalName);
+    if (!el) return;
+    var causes = ['FC Error','Carrier Delay','Supplier Issue','Product Quality','Demand Spike','System Error','Other'];
+    var opts = causes.map(function (c) {
+      return '<option value="' + esc(c) + '">' + esc(c) + '</option>';
+    }).join('');
+    el.innerHTML = '<div style="margin-top:8px;background:rgba(0,0,0,0.2);border-radius:8px;padding:10px">'
+      + '<div style="display:flex;flex-direction:column;gap:8px">'
+      + '<select id="wr-res-cause-' + esc(signalName) + '" class="wr-ab-inline-select">'
+      + '<option value="">-- Root Cause --</option>' + opts + '</select>'
+      + '<input id="wr-res-action-' + esc(signalName) + '" type="text" placeholder="Describe action taken\u2026" '
+      + 'class="wr-ab-inline-input">'
+      + '<div style="display:flex;gap:6px">'
+      + '<button class="wr-ab-btn" style="background:#0d9488;color:#fff;border:1px solid #0d9488" '
+      + 'onclick="wrAbResolveSubmit(\'' + esc(signalName) + '\')">Mark Resolved</button>'
+      + '<button class="wr-ab-btn" style="border:1px solid #475569;color:#94a3b8" onclick="wrAbClose(\'' + esc(signalName) + '\')">Cancel</button>'
+      + '</div></div></div>';
+  };
+
+  window.wrAbResolveSubmit = function (signalName) {
+    var sel = document.getElementById('wr-res-cause-' + signalName);
+    var inp = document.getElementById('wr-res-action-' + signalName);
+    window.OdysseyStakeholderEngine.resolve(
+      signalName, 'Control Tower Operator',
+      sel ? sel.value : '', inp ? inp.value.trim() : ''
+    );
+    var card = document.getElementById(cardId(signalName));
+    if (card) {
+      card.style.opacity = '0';
+      setTimeout(renderBoard, 500);
+    } else {
+      renderBoard();
+    }
+  };
+
+  /* ── TIMELINE toggle ─────────────────────────────────────── */
+  window.wrAbToggleTl = function (tlId, btnId) {
+    var tl  = document.getElementById(tlId);
+    var btn = document.getElementById(btnId);
+    if (!tl || !btn) return;
+    var open = tl.style.display !== 'none';
+    tl.style.display  = open ? 'none' : 'block';
+    btn.textContent   = open ? '\u25bc Show Timeline' : '\u25b2 Hide Timeline';
+  };
+
+  /* ── bootstrap ───────────────────────────────────────────── */
+  function init() {
+    if (!window.OdysseyEscalationEngine || !window.OdysseyStakeholderEngine) {
+      setTimeout(init, 350);
+      return;
+    }
+    renderBoard();
+    setInterval(renderBoard,   3000);
+    setInterval(updateElapsed, 1000);
+    console.log('[AlertsBoard] Active Alerts Board mounted \u2014 v1.0.0');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+}());
+</script>
+<!-- === END ACTIVE ALERTS BOARD === -->
+
 <!-- === END WAR ROOM PANEL === -->
 
 
