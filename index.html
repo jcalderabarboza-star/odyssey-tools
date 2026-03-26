@@ -2889,11 +2889,572 @@
     </div>
   </div>
 
-  <!-- ── RD2 PLACEHOLDER ── -->
+  <!-- ══════════════════════════════════════════
+       RD PART 2 — Portfolio Health, Alerts, Post-Launch, Exit Watchlist
+  ══════════════════════════════════════════ -->
+  <style>
+    .rd2-stage-cards { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
+    .rd2-stage-card  { flex:1; min-width:130px; background:#fff; border-radius:10px;
+                       box-shadow:0 1px 6px rgba(0,0,0,0.08); padding:14px 16px;
+                       border-top:4px solid transparent; }
+    .rd2-stage-card.sc-green  { border-top-color:#107e3e; }
+    .rd2-stage-card.sc-blue   { border-top-color:#0070f2; }
+    .rd2-stage-card.sc-amber  { border-top-color:#e76500; }
+    .rd2-stage-card.sc-red    { border-top-color:#bb0000; }
+    .rd2-sc-num  { font-size:26px; font-weight:700; color:#1d2d3e; line-height:1; }
+    .rd2-sc-lbl  { font-size:11px; font-weight:600; color:#6b7280; margin-top:4px; text-transform:uppercase; letter-spacing:0.04em; }
+    .rd2-sc-sub  { font-size:11px; color:#9ca3af; margin-top:2px; }
+    /* badge-blue / badge-amber for rd2 (safe re-declare) */
+    .badge-blue   { background:#eff6ff; color:#0070f2; border-color:#bfdbfe; }
+    .badge-amber  { background:#fff8f0; color:#e76500; border-color:#f6b26b; }
+    .rd2-note { font-size:12px; color:#6b7280; background:#f9fafb; border:1px solid #e5e7eb;
+                border-radius:8px; padding:10px 14px; margin-top:12px; }
+  </style>
+
+  <!-- ── BLOCK 1: PORTFOLIO HEALTH DASHBOARD ── -->
   <div class="section-block">
-    <div style="background:#f9fafb;border:2px dashed #d1d5db;border-radius:10px;padding:24px;text-align:center;color:#9ca3af;font-size:13px">
-      <div style="font-size:14px;font-weight:600;color:#6b7280;margin-bottom:4px">Loading…</div>
-      <div>RD2 will fill this placeholder.</div>
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">Portfolio Health — SKU Lifecycle Distribution</span></p>
+      <span class="section-sub">35 active SKUs across all lifecycle stages — Paragon Corp brand portfolio</span>
+    </div>
+
+    <!-- Stage-count cards -->
+    <div class="rd2-stage-cards">
+      <div class="rd2-stage-card sc-green">
+        <div class="rd2-sc-num">3</div>
+        <div class="rd2-sc-lbl">Launch Phase</div>
+        <div class="rd2-sc-sub">SKUs</div>
+      </div>
+      <div class="rd2-stage-card sc-green">
+        <div class="rd2-sc-num">8</div>
+        <div class="rd2-sc-lbl">Growth Phase</div>
+        <div class="rd2-sc-sub">SKUs</div>
+      </div>
+      <div class="rd2-stage-card sc-blue">
+        <div class="rd2-sc-num">14</div>
+        <div class="rd2-sc-lbl">Maturity Phase</div>
+        <div class="rd2-sc-sub">SKUs</div>
+      </div>
+      <div class="rd2-stage-card sc-amber">
+        <div class="rd2-sc-num">6</div>
+        <div class="rd2-sc-lbl">Decline Phase</div>
+        <div class="rd2-sc-sub">SKUs</div>
+      </div>
+      <div class="rd2-stage-card sc-red">
+        <div class="rd2-sc-num">4</div>
+        <div class="rd2-sc-lbl">End-of-Life / Exit</div>
+        <div class="rd2-sc-sub">SKUs</div>
+      </div>
+    </div>
+
+    <!-- Portfolio Health Table -->
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>SKU Name</th>
+              <th>Brand</th>
+              <th>Category</th>
+              <th>Lifecycle Stage</th>
+              <th>Sales Velocity (units/day)</th>
+              <th>Revenue Contribution (%)</th>
+              <th>Margin (%)</th>
+              <th>Trend</th>
+              <th>Action Flag</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Hero SKUs (3) — Growth/Launch, high velocity, green -->
+            <tr>
+              <td style="font-weight:600">Wardah Niacinamide Serum</td>
+              <td>Wardah</td>
+              <td>Skincare</td>
+              <td><span class="status-badge badge-green">Growth</span></td>
+              <td style="text-align:right;font-weight:600;color:#107e3e">145</td>
+              <td style="text-align:right">8.2%</td>
+              <td style="text-align:right">52%</td>
+              <td style="text-align:center;font-size:16px;color:#107e3e">↑</td>
+              <td><span class="status-badge badge-green">Hero</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Azarine Sunscreen SPF50+</td>
+              <td>Azarine</td>
+              <td>Suncare</td>
+              <td><span class="status-badge badge-green">Launch</span></td>
+              <td style="text-align:right;font-weight:600;color:#107e3e">98</td>
+              <td style="text-align:right">5.4%</td>
+              <td style="text-align:right">48%</td>
+              <td style="text-align:center;font-size:16px;color:#107e3e">↑</td>
+              <td><span class="status-badge badge-green">Hero</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Scarlett Brightening Body Lotion</td>
+              <td>Scarlett</td>
+              <td>Bodycare</td>
+              <td><span class="status-badge badge-green">Growth</span></td>
+              <td style="text-align:right;font-weight:600;color:#107e3e">112</td>
+              <td style="text-align:right">6.8%</td>
+              <td style="text-align:right">45%</td>
+              <td style="text-align:center;font-size:16px;color:#107e3e">↑</td>
+              <td><span class="status-badge badge-green">Hero</span></td>
+            </tr>
+            <!-- Sustain SKUs (5) — Maturity, stable -->
+            <tr>
+              <td style="font-weight:600">Emina BB Cream</td>
+              <td>Emina</td>
+              <td>Makeup</td>
+              <td><span class="status-badge badge-blue">Maturity</span></td>
+              <td style="text-align:right">52</td>
+              <td style="text-align:right">3.1%</td>
+              <td style="text-align:right">38%</td>
+              <td style="text-align:center;font-size:16px;color:#6b7280">→</td>
+              <td><span class="status-badge badge-blue">Sustain</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Emina Sun Protection SPF30</td>
+              <td>Emina</td>
+              <td>Suncare</td>
+              <td><span class="status-badge badge-blue">Maturity</span></td>
+              <td style="text-align:right">44</td>
+              <td style="text-align:right">2.8%</td>
+              <td style="text-align:right">35%</td>
+              <td style="text-align:center;font-size:16px;color:#6b7280">→</td>
+              <td><span class="status-badge badge-blue">Sustain</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">BLP Lip Coat</td>
+              <td>BLP</td>
+              <td>Makeup</td>
+              <td><span class="status-badge badge-blue">Maturity</span></td>
+              <td style="text-align:right">38</td>
+              <td style="text-align:right">2.2%</td>
+              <td style="text-align:right">41%</td>
+              <td style="text-align:center;font-size:16px;color:#6b7280">→</td>
+              <td><span class="status-badge badge-blue">Sustain</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Wardah Micellar Water</td>
+              <td>Wardah</td>
+              <td>Skincare</td>
+              <td><span class="status-badge badge-blue">Maturity</span></td>
+              <td style="text-align:right">65</td>
+              <td style="text-align:right">3.9%</td>
+              <td style="text-align:right">36%</td>
+              <td style="text-align:center;font-size:16px;color:#6b7280">→</td>
+              <td><span class="status-badge badge-blue">Sustain</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Wardah Hydrating Toner</td>
+              <td>Wardah</td>
+              <td>Skincare</td>
+              <td><span class="status-badge badge-blue">Maturity</span></td>
+              <td style="text-align:right">48</td>
+              <td style="text-align:right">2.9%</td>
+              <td style="text-align:right">34%</td>
+              <td style="text-align:center;font-size:16px;color:#6b7280">→</td>
+              <td><span class="status-badge badge-blue">Sustain</span></td>
+            </tr>
+            <!-- Rationalize SKUs (3) — Decline, low velocity, amber -->
+            <tr>
+              <td style="font-weight:600">Make Over Eyeshadow Palette #3</td>
+              <td>Make Over</td>
+              <td>Makeup</td>
+              <td><span class="status-badge badge-amber">Decline</span></td>
+              <td style="text-align:right;color:#e76500">12</td>
+              <td style="text-align:right">0.8%</td>
+              <td style="text-align:right">22%</td>
+              <td style="text-align:center;font-size:16px;color:#e76500">↓</td>
+              <td><span class="status-badge badge-amber">Rationalize</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Make Over Matte Lip Color #12</td>
+              <td>Make Over</td>
+              <td>Makeup</td>
+              <td><span class="status-badge badge-amber">Decline</span></td>
+              <td style="text-align:right;color:#e76500">8</td>
+              <td style="text-align:right">0.5%</td>
+              <td style="text-align:right">18%</td>
+              <td style="text-align:center;font-size:16px;color:#e76500">↓</td>
+              <td><span class="status-badge badge-amber">Rationalize</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Emina Cheek Lit Blush (Disc.)</td>
+              <td>Emina</td>
+              <td>Makeup</td>
+              <td><span class="status-badge badge-amber">Decline</span></td>
+              <td style="text-align:right;color:#e76500">5</td>
+              <td style="text-align:right">0.3%</td>
+              <td style="text-align:right">15%</td>
+              <td style="text-align:center;font-size:16px;color:#e76500">↓</td>
+              <td><span class="status-badge badge-amber">Rationalize</span></td>
+            </tr>
+            <!-- Exit SKU (1) — End-of-Life, red -->
+            <tr style="border-left:4px solid #bb0000">
+              <td style="font-weight:600">Wardah Perfect Cover Foundation 24C</td>
+              <td>Wardah</td>
+              <td>Makeup</td>
+              <td><span class="status-badge badge-red">End-of-Life</span></td>
+              <td style="text-align:right;color:#bb0000;font-weight:700">2</td>
+              <td style="text-align:right">0.1%</td>
+              <td style="text-align:right">8%</td>
+              <td style="text-align:center;font-size:16px;color:#bb0000">↓</td>
+              <td><span class="status-badge badge-red">Exit</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BLOCK 2: HIGH COMPLEXITY / LOW RETURN SKU ALERT ── -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">High Complexity / Low Return SKU Alert</span></p>
+      <span class="section-sub">SKUs with high operational cost but low ROI — candidates for rationalization</span>
+    </div>
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>SKU Name</th>
+              <th>Brand</th>
+              <th>Category</th>
+              <th>Annual Revenue (IDR)</th>
+              <th>Operational Cost (IDR)</th>
+              <th>Contribution Margin (%)</th>
+              <th>Complexity Score (/10)</th>
+              <th>Return Rate (%)</th>
+              <th>Recommendation</th>
+              <th>Action Owner</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Exit (2) — red -->
+            <tr style="border-left:4px solid #bb0000">
+              <td style="font-weight:600">Make Over Glitter Eyeshadow Palette</td>
+              <td>Make Over</td>
+              <td>Makeup</td>
+              <td style="text-align:right">IDR 285M</td>
+              <td style="text-align:right;color:#bb0000;font-weight:600">IDR 312M</td>
+              <td style="text-align:right;color:#bb0000;font-weight:700">−9.5%</td>
+              <td style="text-align:center">8.2</td>
+              <td style="text-align:center;color:#bb0000">18%</td>
+              <td><span class="status-badge badge-red">Exit</span></td>
+              <td>Brand Manager</td>
+            </tr>
+            <tr style="border-left:4px solid #bb0000">
+              <td style="font-weight:600">Emina My Precious Oil Cleanser</td>
+              <td>Emina</td>
+              <td>Skincare</td>
+              <td style="text-align:right">IDR 198M</td>
+              <td style="text-align:right;color:#bb0000;font-weight:600">IDR 245M</td>
+              <td style="text-align:right;color:#bb0000;font-weight:700">−23.7%</td>
+              <td style="text-align:center">7.8</td>
+              <td style="text-align:center;color:#bb0000">22%</td>
+              <td><span class="status-badge badge-red">Exit</span></td>
+              <td>Product Dev</td>
+            </tr>
+            <!-- Rationalize (2) — amber -->
+            <tr style="border-left:4px solid #e76500">
+              <td style="font-weight:600">BLP Brow Styler Gel</td>
+              <td>BLP</td>
+              <td>Makeup</td>
+              <td style="text-align:right">IDR 420M</td>
+              <td style="text-align:right">IDR 385M</td>
+              <td style="text-align:right;color:#e76500">8.3%</td>
+              <td style="text-align:center">8.5</td>
+              <td style="text-align:center;color:#e76500">12%</td>
+              <td><span class="status-badge badge-amber">Rationalize</span></td>
+              <td>Commercial</td>
+            </tr>
+            <tr style="border-left:4px solid #e76500">
+              <td style="font-weight:600">Make Over Ultra Hi-Matte Lip Color #18</td>
+              <td>Make Over</td>
+              <td>Makeup</td>
+              <td style="text-align:right">IDR 310M</td>
+              <td style="text-align:right">IDR 268M</td>
+              <td style="text-align:right;color:#e76500">13.5%</td>
+              <td style="text-align:center">7.1</td>
+              <td style="text-align:center;color:#e76500">9%</td>
+              <td><span class="status-badge badge-amber">Rationalize</span></td>
+              <td>Brand Manager</td>
+            </tr>
+            <!-- Reformulate (2) — blue -->
+            <tr style="border-left:4px solid #0070f2">
+              <td style="font-weight:600">Wardah Perfect Bright Concealer</td>
+              <td>Wardah</td>
+              <td>Skincare</td>
+              <td style="text-align:right">IDR 540M</td>
+              <td style="text-align:right">IDR 420M</td>
+              <td style="text-align:right;color:#0070f2">22.2%</td>
+              <td style="text-align:center">6.8</td>
+              <td style="text-align:center;color:#e76500">14%</td>
+              <td><span class="status-badge badge-blue">Reformulate</span></td>
+              <td>R&amp;D Lab</td>
+            </tr>
+            <tr style="border-left:4px solid #0070f2">
+              <td style="font-weight:600">Emina Bright Stuff Moisturizer Gel</td>
+              <td>Emina</td>
+              <td>Skincare</td>
+              <td style="text-align:right">IDR 680M</td>
+              <td style="text-align:right">IDR 510M</td>
+              <td style="text-align:right;color:#0070f2">25.0%</td>
+              <td style="text-align:center">6.2</td>
+              <td style="text-align:center;color:#e76500">11%</td>
+              <td><span class="status-badge badge-blue">Reformulate</span></td>
+              <td>R&amp;D Lab</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BLOCK 3: POST-LAUNCH PERFORMANCE DASHBOARD ── -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">Post-Launch Performance — Velocity vs Forecast</span></p>
+      <span class="section-sub">Recently launched SKUs — monthly sell-through vs launch target</span>
+    </div>
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Brand</th>
+              <th>Launch Date</th>
+              <th>Launch Target (units/mo)</th>
+              <th>Actual Month 1</th>
+              <th>Actual Month 2</th>
+              <th>Actual Month 3</th>
+              <th>vs Forecast (%)</th>
+              <th>Top Channel</th>
+              <th>Top Region</th>
+              <th>Performance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Exceeding (3) — green -->
+            <tr>
+              <td style="font-weight:600">Wardah Ceramide Repair Serum</td>
+              <td>Wardah</td>
+              <td>Mar 2025</td>
+              <td style="text-align:right">15,000</td>
+              <td style="text-align:right">18,200</td>
+              <td style="text-align:right">19,800</td>
+              <td style="text-align:right">21,400</td>
+              <td style="text-align:right;color:#107e3e;font-weight:700">+43%</td>
+              <td>Tokopedia</td>
+              <td>Jawa</td>
+              <td><span class="status-badge badge-green">Exceeding</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Emina Niacinamide Moisturizer</td>
+              <td>Emina</td>
+              <td>Oct 2024</td>
+              <td style="text-align:right">12,000</td>
+              <td style="text-align:right">14,500</td>
+              <td style="text-align:right">15,800</td>
+              <td style="text-align:right">16,200</td>
+              <td style="text-align:right;color:#107e3e;font-weight:700">+35%</td>
+              <td>TikTok Shop</td>
+              <td>Jawa</td>
+              <td><span class="status-badge badge-green">Exceeding</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Azarine Hydrashield Mist SPF45</td>
+              <td>Azarine</td>
+              <td>Jan 2025</td>
+              <td style="text-align:right">8,000</td>
+              <td style="text-align:right">9,200</td>
+              <td style="text-align:right">10,100</td>
+              <td style="text-align:right">11,500</td>
+              <td style="text-align:right;color:#107e3e;font-weight:700">+44%</td>
+              <td>Shopee</td>
+              <td>Sulawesi</td>
+              <td><span class="status-badge badge-green">Exceeding</span></td>
+            </tr>
+            <!-- On Track (3) — amber -->
+            <tr>
+              <td style="font-weight:600">Scarlett Brillo Body Scrub</td>
+              <td>Scarlett</td>
+              <td>Feb 2025</td>
+              <td style="text-align:right">20,000</td>
+              <td style="text-align:right">19,500</td>
+              <td style="text-align:right">20,200</td>
+              <td style="text-align:right">21,000</td>
+              <td style="text-align:right;color:#e76500;font-weight:700">+2%</td>
+              <td>Shopee</td>
+              <td>Jawa</td>
+              <td><span class="status-badge badge-yellow">On Track</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">BLP Gloss Balm SPF20</td>
+              <td>BLP</td>
+              <td>Nov 2024</td>
+              <td style="text-align:right">10,000</td>
+              <td style="text-align:right">9,800</td>
+              <td style="text-align:right">10,300</td>
+              <td style="text-align:right">10,150</td>
+              <td style="text-align:right;color:#e76500;font-weight:700">+2%</td>
+              <td>Offline</td>
+              <td>Jakarta</td>
+              <td><span class="status-badge badge-yellow">On Track</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Wardah Sun Fluid SPF50+</td>
+              <td>Wardah</td>
+              <td>Dec 2024</td>
+              <td style="text-align:right">18,000</td>
+              <td style="text-align:right">16,800</td>
+              <td style="text-align:right">17,600</td>
+              <td style="text-align:right">18,200</td>
+              <td style="text-align:right;color:#e76500;font-weight:700">+1%</td>
+              <td>Indomaret</td>
+              <td>Jawa</td>
+              <td><span class="status-badge badge-yellow">On Track</span></td>
+            </tr>
+            <!-- Underperforming (2) — red, flagged for exit watchlist -->
+            <tr style="border-left:4px solid #bb0000">
+              <td style="font-weight:600">Make Over HD Setting Powder</td>
+              <td>Make Over</td>
+              <td>Jan 2025</td>
+              <td style="text-align:right">6,000</td>
+              <td style="text-align:right;color:#bb0000">3,200</td>
+              <td style="text-align:right;color:#bb0000">2,800</td>
+              <td style="text-align:right;color:#bb0000">2,500</td>
+              <td style="text-align:right;color:#bb0000;font-weight:700">−58%</td>
+              <td>Offline</td>
+              <td>Jakarta</td>
+              <td><span class="status-badge badge-red">Underperforming</span></td>
+            </tr>
+            <tr style="border-left:4px solid #bb0000">
+              <td style="font-weight:600">Emina Waterproof Lip Tint</td>
+              <td>Emina</td>
+              <td>Feb 2025</td>
+              <td style="text-align:right">14,000</td>
+              <td style="text-align:right;color:#bb0000">7,200</td>
+              <td style="text-align:right;color:#bb0000">6,500</td>
+              <td style="text-align:right;color:#bb0000">5,800</td>
+              <td style="text-align:right;color:#bb0000;font-weight:700">−59%</td>
+              <td>Tokopedia</td>
+              <td>Jawa</td>
+              <td><span class="status-badge badge-red">Underperforming</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BLOCK 4: EARLY EXIT WATCHLIST ── -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">Early Exit Watchlist</span></p>
+      <span class="section-sub">SKUs with poor sell-through, repeated complaints, or declining velocity — flagged for review</span>
+    </div>
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Brand</th>
+              <th>Category</th>
+              <th>Issue Type</th>
+              <th>Weeks on Watchlist</th>
+              <th>Current Monthly Sales (IDR)</th>
+              <th>Decline Rate (%/month)</th>
+              <th>Customer Complaints</th>
+              <th>Recommended Decision</th>
+              <th>Review Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Discontinue (2) — red -->
+            <tr style="border-left:4px solid #bb0000">
+              <td style="font-weight:600">Make Over HD Setting Powder</td>
+              <td>Make Over</td>
+              <td>Makeup</td>
+              <td><span class="status-badge badge-red">Low Velocity</span></td>
+              <td style="text-align:center;font-weight:600;color:#bb0000">8</td>
+              <td style="text-align:right">IDR 175M</td>
+              <td style="text-align:right;color:#bb0000;font-weight:700">−42%</td>
+              <td style="text-align:center;color:#bb0000;font-weight:600">186</td>
+              <td><span class="status-badge badge-red">Discontinue</span></td>
+              <td style="white-space:nowrap">15 Apr 2025</td>
+            </tr>
+            <tr style="border-left:4px solid #bb0000">
+              <td style="font-weight:600">Emina Waterproof Lip Tint</td>
+              <td>Emina</td>
+              <td>Makeup</td>
+              <td><span class="status-badge badge-red">Complaint Spike</span></td>
+              <td style="text-align:center;font-weight:600;color:#bb0000">10</td>
+              <td style="text-align:right">IDR 210M</td>
+              <td style="text-align:right;color:#bb0000;font-weight:700">−38%</td>
+              <td style="text-align:center;color:#bb0000;font-weight:600">312</td>
+              <td><span class="status-badge badge-red">Discontinue</span></td>
+              <td style="white-space:nowrap">15 Apr 2025</td>
+            </tr>
+            <!-- Reformulate (2) — blue -->
+            <tr style="border-left:4px solid #0070f2">
+              <td style="font-weight:600">Wardah Perfect Bright Concealer</td>
+              <td>Wardah</td>
+              <td>Skincare</td>
+              <td><span class="status-badge badge-blue">High Returns</span></td>
+              <td style="text-align:center">14</td>
+              <td style="text-align:right">IDR 285M</td>
+              <td style="text-align:right;color:#e76500;font-weight:600">−24%</td>
+              <td style="text-align:center;color:#e76500">142</td>
+              <td><span class="status-badge badge-blue">Reformulate</span></td>
+              <td style="white-space:nowrap">30 Apr 2025</td>
+            </tr>
+            <tr style="border-left:4px solid #0070f2">
+              <td style="font-weight:600">Emina Bright Stuff Moisturizer Gel</td>
+              <td>Emina</td>
+              <td>Skincare</td>
+              <td><span class="status-badge badge-blue">Market Rejection</span></td>
+              <td style="text-align:center">12</td>
+              <td style="text-align:right">IDR 320M</td>
+              <td style="text-align:right;color:#e76500;font-weight:600">−19%</td>
+              <td style="text-align:center;color:#e76500">98</td>
+              <td><span class="status-badge badge-blue">Reformulate</span></td>
+              <td style="white-space:nowrap">30 Apr 2025</td>
+            </tr>
+            <!-- Reposition (2) — amber -->
+            <tr style="border-left:4px solid #e76500">
+              <td style="font-weight:600">BLP Brow Styler Gel</td>
+              <td>BLP</td>
+              <td>Makeup</td>
+              <td><span class="status-badge badge-amber">Cannibalization</span></td>
+              <td style="text-align:center">6</td>
+              <td style="text-align:right">IDR 210M</td>
+              <td style="text-align:right;color:#e76500;font-weight:600">−15%</td>
+              <td style="text-align:center">54</td>
+              <td><span class="status-badge badge-amber">Reposition</span></td>
+              <td style="white-space:nowrap">15 May 2025</td>
+            </tr>
+            <tr style="border-left:4px solid #e76500">
+              <td style="font-weight:600">Make Over Matte Lip Color #18</td>
+              <td>Make Over</td>
+              <td>Makeup</td>
+              <td><span class="status-badge badge-amber">Low Velocity</span></td>
+              <td style="text-align:center">7</td>
+              <td style="text-align:right">IDR 185M</td>
+              <td style="text-align:right;color:#e76500;font-weight:600">−22%</td>
+              <td style="text-align:center">78</td>
+              <td><span class="status-badge badge-amber">Reposition</span></td>
+              <td style="white-space:nowrap">15 May 2025</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="rd2-note">
+        ⚠️ Watchlist reviewed monthly by R&amp;D, Commercial, and Demand Planning. Discontinuation decisions require S&amp;OP Committee approval.
+      </div>
     </div>
   </div>
 
