@@ -7485,6 +7485,305 @@
     </div>
   </div>
 
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- SALESFORCE TEAM (SFM) — FIELD EXECUTION DASHBOARD                  -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+  <div style="margin:36px 0 24px;border-top:2px solid #e5e7eb;padding-top:28px">
+    <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:6px">
+      <div style="background:#1d2d3e;color:#fff;font-size:11px;font-weight:700;letter-spacing:0.06em;padding:4px 10px;border-radius:4px;white-space:nowrap;margin-top:2px">SFM</div>
+      <div>
+        <div style="font-size:16px;font-weight:700;color:#1d2d3e;line-height:1.3">Salesforce Team (SFM) — Field Execution Dashboard</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:3px">On-ground commercial interface &middot; First alert system for demand-supply mismatch</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SFM BLOCK 1 — KPI SUMMARY CARDS -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">SFM — Field KPI Summary</span></p>
+      <span class="section-sub">Current week snapshot — salesforce field execution indicators</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+
+      <div class="ops-tile yellow">
+        <div class="ops-tile-name">Visit Compliance Rate</div>
+        <div class="ops-tile-val" style="color:#e76500">87.4<span style="font-size:16px;font-weight:600">%</span></div>
+        <div class="ops-tile-target">Target ≥ 90%</div>
+        <span class="ops-tile-status yellow">⚠ Below Target</span>
+      </div>
+
+      <div class="ops-tile green">
+        <div class="ops-tile-name">Sell-in Target Achievement</div>
+        <div class="ops-tile-val" style="color:#107e3e">91.2<span style="font-size:16px;font-weight:600">%</span></div>
+        <div class="ops-tile-target">Target ≥ 90%</div>
+        <span class="ops-tile-status green">● On Track</span>
+      </div>
+
+      <div class="ops-tile yellow">
+        <div class="ops-tile-name">OOS Report Rate</div>
+        <div class="ops-tile-val" style="color:#e76500">4.8<span style="font-size:16px;font-weight:600">%</span></div>
+        <div class="ops-tile-target">Target ≤ 3%</div>
+        <span class="ops-tile-status yellow">⚠ Monitor</span>
+      </div>
+
+      <div class="ops-tile green">
+        <div class="ops-tile-name">Order Submission Rate</div>
+        <div class="ops-tile-val" style="color:#107e3e">94.6<span style="font-size:16px;font-weight:600">%</span></div>
+        <div class="ops-tile-target">Target ≥ 92%</div>
+        <span class="ops-tile-status green">● On Track</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SFM BLOCK 2 — FIELD VISIT COMPLIANCE TRACKER -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">Field Visit Compliance Tracker</span></p>
+      <span class="section-sub">Sales rep daily visit execution — current week</span>
+    </div>
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Sales Rep</th>
+              <th>Territory / Region</th>
+              <th style="text-align:right">Planned Visits</th>
+              <th style="text-align:right">Completed</th>
+              <th style="text-align:right">Compliance (%)</th>
+              <th style="text-align:center">Status</th>
+              <th style="text-align:center">Last Check-in</th>
+              <th>Flag</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-name">Budi Santoso</td>
+              <td style="font-size:12px;color:#6b7280">DKI Jakarta Utara</td>
+              <td style="text-align:right;font-weight:600">8</td>
+              <td style="text-align:right;font-weight:600">7</td>
+              <td style="text-align:right;font-weight:600;color:#107e3e">87.5%</td>
+              <td style="text-align:center"><span class="status-badge badge-green">Completed</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">2h ago</td>
+              <td style="font-size:12px;color:#6b7280">—</td>
+            </tr>
+            <tr>
+              <td class="td-name">Dewi Rahayu</td>
+              <td style="font-size:12px;color:#6b7280">DKI Jakarta Selatan</td>
+              <td style="text-align:right;font-weight:600">6</td>
+              <td style="text-align:right;font-weight:600">6</td>
+              <td style="text-align:right;font-weight:600;color:#107e3e">100%</td>
+              <td style="text-align:center"><span class="status-badge badge-green">Completed</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">1h ago</td>
+              <td style="font-size:12px;color:#6b7280">—</td>
+            </tr>
+            <tr>
+              <td class="td-name">Ahmad Fauzi</td>
+              <td style="font-size:12px;color:#6b7280">Jawa Barat Timur</td>
+              <td style="text-align:right;font-weight:600">9</td>
+              <td style="text-align:right;font-weight:600">7</td>
+              <td style="text-align:right;font-weight:600;color:#e76500">77.8%</td>
+              <td style="text-align:center"><span class="status-badge badge-blue">On Route</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">30m ago</td>
+              <td style="font-size:12px;color:#e76500">⚠ Below target</td>
+            </tr>
+            <tr style="border-left:3px solid #e76500">
+              <td class="td-name">Siti Nurhaliza</td>
+              <td style="font-size:12px;color:#6b7280">Jawa Barat Barat</td>
+              <td style="text-align:right;font-weight:600">7</td>
+              <td style="text-align:right;font-weight:600">4</td>
+              <td style="text-align:right;font-weight:600;color:#bb0000">57.1%</td>
+              <td style="text-align:center"><span class="status-badge badge-yellow">Late</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">4h ago</td>
+              <td style="font-size:12px;color:#bb0000">🔴 Alert</td>
+            </tr>
+            <tr>
+              <td class="td-name">Rendi Kusuma</td>
+              <td style="font-size:12px;color:#6b7280">Jawa Tengah</td>
+              <td style="text-align:right;font-weight:600">8</td>
+              <td style="text-align:right;font-weight:600">8</td>
+              <td style="text-align:right;font-weight:600;color:#107e3e">100%</td>
+              <td style="text-align:center"><span class="status-badge badge-green">Completed</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">3h ago</td>
+              <td style="font-size:12px;color:#6b7280">—</td>
+            </tr>
+            <tr>
+              <td class="td-name">Fitri Handayani</td>
+              <td style="font-size:12px;color:#6b7280">Jawa Timur Surabaya</td>
+              <td style="text-align:right;font-weight:600">10</td>
+              <td style="text-align:right;font-weight:600">9</td>
+              <td style="text-align:right;font-weight:600;color:#107e3e">90%</td>
+              <td style="text-align:center"><span class="status-badge badge-blue">On Route</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">45m ago</td>
+              <td style="font-size:12px;color:#6b7280">—</td>
+            </tr>
+            <tr style="border-left:3px solid #e76500">
+              <td class="td-name">Hendra Wijaya</td>
+              <td style="font-size:12px;color:#6b7280">Sumatera Utara Medan</td>
+              <td style="text-align:right;font-weight:600">7</td>
+              <td style="text-align:right;font-weight:600">5</td>
+              <td style="text-align:right;font-weight:600;color:#bb0000">71.4%</td>
+              <td style="text-align:center"><span class="status-badge badge-yellow">Late</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">5h ago</td>
+              <td style="font-size:12px;color:#bb0000">🔴 Alert</td>
+            </tr>
+            <tr>
+              <td class="td-name">Maya Putri</td>
+              <td style="font-size:12px;color:#6b7280">Bali</td>
+              <td style="text-align:right;font-weight:600">6</td>
+              <td style="text-align:right;font-weight:600">6</td>
+              <td style="text-align:right;font-weight:600;color:#107e3e">100%</td>
+              <td style="text-align:center"><span class="status-badge badge-green">Completed</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">2h ago</td>
+              <td style="font-size:12px;color:#6b7280">—</td>
+            </tr>
+            <tr>
+              <td class="td-name">Rizki Pratama</td>
+              <td style="font-size:12px;color:#6b7280">Sulawesi Selatan</td>
+              <td style="text-align:right;font-weight:600">8</td>
+              <td style="text-align:right;font-weight:600">6</td>
+              <td style="text-align:right;font-weight:600;color:#e76500">75%</td>
+              <td style="text-align:center"><span class="status-badge badge-blue">On Route</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">1h ago</td>
+              <td style="font-size:12px;color:#e76500">⚠ Below target</td>
+            </tr>
+            <tr style="border-left:3px solid #bb0000">
+              <td class="td-name">Andi Saputra</td>
+              <td style="font-size:12px;color:#6b7280">Kalimantan Selatan</td>
+              <td style="text-align:right;font-weight:600">5</td>
+              <td style="text-align:right;font-weight:600">3</td>
+              <td style="text-align:right;font-weight:600;color:#bb0000">60%</td>
+              <td style="text-align:center"><span class="status-badge badge-red">Missed</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">8h ago</td>
+              <td style="font-size:12px;color:#bb0000">🔴 Alert</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:20px;font-size:11px;color:#6b7280">
+        <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:12px;height:12px;border-left:3px solid #e76500;border-radius:1px"></span>Amber border = Late</span>
+        <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:12px;height:12px;border-left:3px solid #bb0000;border-radius:1px"></span>Red border = Missed</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SFM BLOCK 3 — OOS & URGENT STOCK REQUEST HEATMAP -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-red">OOS &amp; Urgent Requests — Field Reports</span></p>
+      <span class="section-sub">Out-of-stock reports submitted by SFM reps — live feed</span>
+    </div>
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Reported By</th>
+              <th>Store / Outlet</th>
+              <th>Region</th>
+              <th>SKU Reported OOS</th>
+              <th style="text-align:center">Urgency</th>
+              <th style="text-align:center">Time Reported</th>
+              <th style="text-align:center">Status</th>
+              <th>Action Taken</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#fff5f5">
+              <td class="td-name">Siti Nurhaliza</td>
+              <td style="font-size:12px;color:#6b7280">Indomaret Bandung Utara</td>
+              <td style="font-size:12px;color:#6b7280">Jawa Barat</td>
+              <td style="font-size:12px;font-weight:600;color:#1d2d3e">Wardah Niacinamide Serum</td>
+              <td style="text-align:center"><span class="status-badge badge-red">Critical</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">2h ago</td>
+              <td style="text-align:center"><span class="status-badge badge-red">Escalated</span></td>
+              <td style="font-size:12px;color:#107e3e">Replenishment triggered</td>
+            </tr>
+            <tr style="background:#fff5f5">
+              <td class="td-name">Ahmad Fauzi</td>
+              <td style="font-size:12px;color:#6b7280">Alfamart Bekasi</td>
+              <td style="font-size:12px;color:#6b7280">Jawa Barat</td>
+              <td style="font-size:12px;font-weight:600;color:#1d2d3e">Azarine Sunscreen SPF50</td>
+              <td style="text-align:center"><span class="status-badge badge-red">Critical</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">3h ago</td>
+              <td style="text-align:center"><span class="status-badge badge-red">Escalated</span></td>
+              <td style="font-size:12px;color:#107e3e">DC transfer initiated</td>
+            </tr>
+            <tr style="background:#fffbf0">
+              <td class="td-name">Hendra Wijaya</td>
+              <td style="font-size:12px;color:#6b7280">Toko Kosmetik Medan</td>
+              <td style="font-size:12px;color:#6b7280">Sumatera Utara</td>
+              <td style="font-size:12px;font-weight:600;color:#1d2d3e">Emina Sunscreen</td>
+              <td style="text-align:center"><span class="status-badge badge-yellow">High</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">4h ago</td>
+              <td style="text-align:center"><span class="status-badge badge-yellow">Pending</span></td>
+              <td style="font-size:12px;color:#e76500">Awaiting stock check</td>
+            </tr>
+            <tr style="background:#fffbf0">
+              <td class="td-name">Andi Saputra</td>
+              <td style="font-size:12px;color:#6b7280">Guardian Banjarmasin</td>
+              <td style="font-size:12px;color:#6b7280">Kalimantan</td>
+              <td style="font-size:12px;font-weight:600;color:#1d2d3e">Scarlett Body Lotion</td>
+              <td style="text-align:center"><span class="status-badge badge-yellow">High</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">6h ago</td>
+              <td style="text-align:center"><span class="status-badge badge-yellow">Pending</span></td>
+              <td style="font-size:12px;color:#bb0000">No action yet</td>
+            </tr>
+            <tr>
+              <td class="td-name">Rizki Pratama</td>
+              <td style="font-size:12px;color:#6b7280">Indomaret Makassar</td>
+              <td style="font-size:12px;color:#6b7280">Sulawesi</td>
+              <td style="font-size:12px;font-weight:600;color:#1d2d3e">BLP Lip Coat</td>
+              <td style="text-align:center"><span class="status-badge badge-blue">Medium</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">1h ago</td>
+              <td style="text-align:center"><span class="status-badge badge-yellow">Pending</span></td>
+              <td style="font-size:12px;color:#6b7280">Under review</td>
+            </tr>
+            <tr>
+              <td class="td-name">Budi Santoso</td>
+              <td style="font-size:12px;color:#6b7280">Alfamart Kelapa Gading</td>
+              <td style="font-size:12px;color:#6b7280">Jakarta</td>
+              <td style="font-size:12px;font-weight:600;color:#1d2d3e">Wardah Toner</td>
+              <td style="text-align:center"><span class="status-badge badge-blue">Medium</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">5h ago</td>
+              <td style="text-align:center"><span class="status-badge badge-green">Resolved</span></td>
+              <td style="font-size:12px;color:#107e3e">Replenished yesterday</td>
+            </tr>
+            <tr>
+              <td class="td-name">Maya Putri</td>
+              <td style="font-size:12px;color:#6b7280">Minimarket Denpasar</td>
+              <td style="font-size:12px;color:#6b7280">Bali</td>
+              <td style="font-size:12px;font-weight:600;color:#1d2d3e">Make Over Foundation</td>
+              <td style="text-align:center"><span class="status-badge badge-blue">Medium</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">3h ago</td>
+              <td style="text-align:center"><span class="status-badge badge-green">Resolved</span></td>
+              <td style="font-size:12px;color:#107e3e">Stock transferred</td>
+            </tr>
+            <tr>
+              <td class="td-name">Dewi Rahayu</td>
+              <td style="font-size:12px;color:#6b7280">Guardian Kemang</td>
+              <td style="font-size:12px;color:#6b7280">Jakarta</td>
+              <td style="font-size:12px;font-weight:600;color:#1d2d3e">Implora Essence</td>
+              <td style="text-align:center"><span class="status-badge badge-blue">Medium</span></td>
+              <td style="text-align:center;font-size:12px;color:#6b7280">2h ago</td>
+              <td style="text-align:center"><span class="status-badge badge-green">Resolved</span></td>
+              <td style="font-size:12px;color:#107e3e">Replenished</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SFM PART 2 PLACEHOLDER — C3b will fill this -->
+  <div id="sfm-part2" style="margin-top:16px;padding:16px;background:#f9fafb;border:1px dashed #d1d5db;border-radius:8px;text-align:center;font-size:13px;color:#9ca3af">
+    Loading...
+  </div>
+
 </div><!-- end panel-commercial -->
 <!-- === END COMMERCIAL MODULE HTML === -->
 
