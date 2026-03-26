@@ -7060,6 +7060,431 @@
     </div>
   </div>
 
+
+  <!-- ══════════════════════════════════════════════════════════════════
+       B2B CONSIGNMENT MANAGEMENT SECTION
+       ══════════════════════════════════════════════════════════════════ -->
+  <div style="border-top:2px solid #e5e7eb;margin:36px 0 28px;padding-top:28px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+      <span style="display:inline-block;width:4px;height:32px;background:#0070f2;border-radius:2px;flex-shrink:0"></span>
+      <div>
+        <h3 style="font-size:18px;font-weight:700;color:#1d2d3e;margin:0 0 3px">B2B Consignment Management</h3>
+        <div style="font-size:13px;color:#6b7280">Inventory owned by Paragon Corp — billing triggered on consumption, not shipment</div>
+      </div>
+      <span style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:20px;padding:5px 14px;font-size:12px;color:#0070f2;font-weight:600;white-space:nowrap">📦 Consignment Model · Mar 2026</span>
+    </div>
+  </div>
+
+  <!-- B2B CONSIGNMENT KPI CARDS -->
+  <div class="section-block">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+
+      <div class="ops-tile green">
+        <div class="ops-tile-name">Stock Cover at Customer Sites</div>
+        <div class="ops-tile-val" style="color:#107e3e">18<span style="font-size:16px;font-weight:600"> days</span></div>
+        <div class="ops-tile-target">Avg across all consignment accounts</div>
+        <span class="ops-tile-status green">● On Track</span>
+      </div>
+
+      <div class="ops-tile green">
+        <div class="ops-tile-name">Consumption Accuracy</div>
+        <div class="ops-tile-val" style="color:#107e3e">94.1<span style="font-size:16px;font-weight:600">%</span></div>
+        <div class="ops-tile-target">Target ≥ 93%</div>
+        <span class="ops-tile-status green">● On Track</span>
+      </div>
+
+      <div class="ops-tile yellow">
+        <div class="ops-tile-name">Replenishment OTIF (Consignment)</div>
+        <div class="ops-tile-val" style="color:#e76500">91.8<span style="font-size:16px;font-weight:600">%</span></div>
+        <div class="ops-tile-target">Target ≥ 95%</div>
+        <span class="ops-tile-status yellow">⚠ Below Target</span>
+      </div>
+
+      <div class="ops-tile yellow">
+        <div class="ops-tile-name">Stockout Events This Week</div>
+        <div class="ops-tile-val" style="color:#e76500">3</div>
+        <div class="ops-tile-target">Target = 0</div>
+        <span class="ops-tile-status yellow">⚠ Monitor</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CUSTOMER STOCK SNAPSHOT -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">Customer Stock Snapshot</span></p>
+      <span class="section-sub">Real-time consignment inventory at customer sites · Mar 2026</span>
+    </div>
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Customer Account</th>
+              <th>Location</th>
+              <th>SKU</th>
+              <th style="text-align:right">On-Hand Units</th>
+              <th style="text-align:right">Daily Avg Usage</th>
+              <th style="text-align:right">Stock Cover (days)</th>
+              <th style="text-align:right">Reorder Point (days)</th>
+              <th style="text-align:center">Status</th>
+              <th>Last Replenishment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-name">Indomaret HQ</td>
+              <td style="font-size:12px;color:#6b7280">Jakarta</td>
+              <td style="font-size:12px">Wardah Niacinamide Serum</td>
+              <td style="text-align:right;font-weight:600">2,840</td>
+              <td style="text-align:right;color:#6b7280">180 / day</td>
+              <td style="text-align:right;font-weight:600;color:#107e3e">15.8</td>
+              <td style="text-align:right;color:#9ca3af">14</td>
+              <td style="text-align:center"><span class="status-badge badge-green">Healthy</span></td>
+              <td style="font-size:12px;color:#6b7280">3 days ago</td>
+            </tr>
+            <tr style="border-left:4px solid #e76500">
+              <td class="td-name">Alfamart DC</td>
+              <td style="font-size:12px;color:#6b7280">Surabaya</td>
+              <td style="font-size:12px">Emina Sunscreen SPF50</td>
+              <td style="text-align:right;font-weight:600">420</td>
+              <td style="text-align:right;color:#6b7280">95 / day</td>
+              <td style="text-align:right;font-weight:600;color:#e76500">4.4</td>
+              <td style="text-align:right;color:#9ca3af">10</td>
+              <td style="text-align:center"><span class="status-badge badge-yellow">Reorder Now</span></td>
+              <td style="font-size:12px;color:#e76500;font-weight:600">8 days ago</td>
+            </tr>
+            <tr>
+              <td class="td-name">Hero Supermarket</td>
+              <td style="font-size:12px;color:#6b7280">Jakarta</td>
+              <td style="font-size:12px">Make Over Foundation</td>
+              <td style="text-align:right;font-weight:600">680</td>
+              <td style="text-align:right;color:#6b7280">42 / day</td>
+              <td style="text-align:right;font-weight:600;color:#107e3e">16.2</td>
+              <td style="text-align:right;color:#9ca3af">12</td>
+              <td style="text-align:center"><span class="status-badge badge-green">Healthy</span></td>
+              <td style="font-size:12px;color:#6b7280">5 days ago</td>
+            </tr>
+            <tr style="border-left:4px solid #e76500">
+              <td class="td-name">Transmart</td>
+              <td style="font-size:12px;color:#6b7280">Bandung</td>
+              <td style="font-size:12px">Scarlett Body Lotion</td>
+              <td style="text-align:right;font-weight:600">180</td>
+              <td style="text-align:right;color:#6b7280">74 / day</td>
+              <td style="text-align:right;font-weight:600;color:#bb0000">2.4</td>
+              <td style="text-align:right;color:#9ca3af">10</td>
+              <td style="text-align:center"><span class="status-badge badge-red">Critical</span></td>
+              <td style="font-size:12px;color:#bb0000;font-weight:600">11 days ago</td>
+            </tr>
+            <tr>
+              <td class="td-name">Hypermart</td>
+              <td style="font-size:12px;color:#6b7280">Surabaya</td>
+              <td style="font-size:12px">BLP Lip Coat</td>
+              <td style="text-align:right;font-weight:600">1,240</td>
+              <td style="text-align:right;color:#6b7280">58 / day</td>
+              <td style="text-align:right;font-weight:600;color:#107e3e">21.4</td>
+              <td style="text-align:right;color:#9ca3af">14</td>
+              <td style="text-align:center"><span class="status-badge badge-green">Healthy</span></td>
+              <td style="font-size:12px;color:#6b7280">2 days ago</td>
+            </tr>
+            <tr style="border-left:4px solid #bb0000;animation:pulse-red-light 1.8s infinite">
+              <td class="td-name">Guardian</td>
+              <td style="font-size:12px;color:#6b7280">Jakarta</td>
+              <td style="font-size:12px">Wardah Lightening Toner</td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">0</td>
+              <td style="text-align:right;color:#6b7280">61 / day</td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">0</td>
+              <td style="text-align:right;color:#9ca3af">10</td>
+              <td style="text-align:center"><span class="status-badge badge-red" style="animation:pulse-red-light 1.8s infinite">OOS</span></td>
+              <td style="font-size:12px;color:#bb0000;font-weight:600">14 days ago</td>
+            </tr>
+            <tr style="border-left:4px solid #e76500">
+              <td class="td-name">Lottemart</td>
+              <td style="font-size:12px;color:#6b7280">Medan</td>
+              <td style="font-size:12px">Azarine Sunscreen</td>
+              <td style="text-align:right;font-weight:600">310</td>
+              <td style="text-align:right;color:#6b7280">88 / day</td>
+              <td style="text-align:right;font-weight:600;color:#e76500">3.5</td>
+              <td style="text-align:right;color:#9ca3af">10</td>
+              <td style="text-align:center"><span class="status-badge badge-yellow">Reorder Now</span></td>
+              <td style="font-size:12px;color:#e76500;font-weight:600">9 days ago</td>
+            </tr>
+            <tr>
+              <td class="td-name">Ramayana</td>
+              <td style="font-size:12px;color:#6b7280">Makassar</td>
+              <td style="font-size:12px">Implora Essence</td>
+              <td style="text-align:right;font-weight:600">890</td>
+              <td style="text-align:right;color:#6b7280">34 / day</td>
+              <td style="text-align:right;font-weight:600;color:#107e3e">26.2</td>
+              <td style="text-align:right;color:#9ca3af">14</td>
+              <td style="text-align:center"><span class="status-badge badge-green">Healthy</span></td>
+              <td style="font-size:12px;color:#6b7280">6 days ago</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:#9ca3af;display:flex;gap:16px;flex-wrap:wrap">
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:12px;height:12px;background:#f0faf4;border:1px solid #a3d9b1;border-radius:3px"></span>Healthy — above reorder point</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:12px;height:12px;background:#fff8f0;border:1px solid #f6b26b;border-radius:3px"></span>Reorder Now — at or below reorder point</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:12px;height:12px;background:#fff0f0;border:1px solid #f4a0a0;border-radius:3px"></span>Critical — &lt;3 days cover</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:12px;height:12px;background:#fff0f0;border:2px solid #bb0000;border-radius:3px"></span>OOS — zero stock, pulsing alert</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SELL-THROUGH TRACKER -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-amber">Sell-Through Tracker (Consignment)</span></p>
+      <span class="section-sub">Monthly consumption performance vs target · Mar 2026</span>
+    </div>
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Account</th>
+              <th>SKU</th>
+              <th style="text-align:right">Opening Stock</th>
+              <th style="text-align:right">Consumed This Month</th>
+              <th style="text-align:right">Remaining</th>
+              <th style="text-align:right">Sell-Through Rate (%)</th>
+              <th style="text-align:right">vs Target Rate (%)</th>
+              <th style="text-align:right">Variance</th>
+              <th style="text-align:center">Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-name">Indomaret HQ</td>
+              <td style="font-size:12px;color:#6b7280">Wardah Niacinamide Serum</td>
+              <td style="text-align:right;font-weight:600">6,200</td>
+              <td style="text-align:right;font-weight:600">5,400</td>
+              <td style="text-align:right">800</td>
+              <td style="text-align:right;font-weight:700;color:#107e3e">87.1%</td>
+              <td style="text-align:right;color:#9ca3af">80.0%</td>
+              <td style="text-align:right;font-weight:600;color:#107e3e">+7.1%</td>
+              <td style="text-align:center;font-size:16px;color:#107e3e;font-weight:700">↑</td>
+            </tr>
+            <tr>
+              <td class="td-name">Hypermart</td>
+              <td style="font-size:12px;color:#6b7280">BLP Lip Coat</td>
+              <td style="text-align:right;font-weight:600">3,100</td>
+              <td style="text-align:right;font-weight:600">2,720</td>
+              <td style="text-align:right">380</td>
+              <td style="text-align:right;font-weight:700;color:#107e3e">87.7%</td>
+              <td style="text-align:right;color:#9ca3af">82.0%</td>
+              <td style="text-align:right;font-weight:600;color:#107e3e">+5.7%</td>
+              <td style="text-align:center;font-size:16px;color:#107e3e;font-weight:700">↑</td>
+            </tr>
+            <tr>
+              <td class="td-name">Hero Supermarket</td>
+              <td style="font-size:12px;color:#6b7280">Make Over Foundation</td>
+              <td style="text-align:right;font-weight:600">1,240</td>
+              <td style="text-align:right;font-weight:600">1,004</td>
+              <td style="text-align:right">236</td>
+              <td style="text-align:right;font-weight:700;color:#6b7280">81.0%</td>
+              <td style="text-align:right;color:#9ca3af">80.0%</td>
+              <td style="text-align:right;font-weight:600;color:#6b7280">+1.0%</td>
+              <td style="text-align:center;font-size:16px;color:#6b7280;font-weight:700">→</td>
+            </tr>
+            <tr>
+              <td class="td-name">Guardian</td>
+              <td style="font-size:12px;color:#6b7280">Wardah Lightening Toner</td>
+              <td style="text-align:right;font-weight:600">1,800</td>
+              <td style="text-align:right;font-weight:600">1,468</td>
+              <td style="text-align:right">332</td>
+              <td style="text-align:right;font-weight:700;color:#6b7280">81.6%</td>
+              <td style="text-align:right;color:#9ca3af">80.0%</td>
+              <td style="text-align:right;font-weight:600;color:#6b7280">+1.6%</td>
+              <td style="text-align:center;font-size:16px;color:#6b7280;font-weight:700">→</td>
+            </tr>
+            <tr>
+              <td class="td-name">Alfamart DC</td>
+              <td style="font-size:12px;color:#6b7280">Emina Sunscreen SPF50</td>
+              <td style="text-align:right;font-weight:600">2,200</td>
+              <td style="text-align:right;font-weight:600">1,386</td>
+              <td style="text-align:right">814</td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">63.0%</td>
+              <td style="text-align:right;color:#9ca3af">75.0%</td>
+              <td style="text-align:right;font-weight:600;color:#bb0000">−12.0%</td>
+              <td style="text-align:center;font-size:16px;color:#bb0000;font-weight:700">↓</td>
+            </tr>
+            <tr>
+              <td class="td-name">Transmart</td>
+              <td style="font-size:12px;color:#6b7280">Scarlett Body Lotion</td>
+              <td style="text-align:right;font-weight:600">1,500</td>
+              <td style="text-align:right;font-weight:600">843</td>
+              <td style="text-align:right">657</td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">56.2%</td>
+              <td style="text-align:right;color:#9ca3af">72.0%</td>
+              <td style="text-align:right;font-weight:600;color:#bb0000">−15.8%</td>
+              <td style="text-align:center;font-size:16px;color:#bb0000;font-weight:700">↓</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- INVOICING CONTROL -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-purple">Invoicing Control — Billing on Consumption</span></p>
+      <span class="section-sub">Invoice status per account · billing triggered on validated consumption report</span>
+    </div>
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Account</th>
+              <th>Billing Period</th>
+              <th style="text-align:right">Units Consumed</th>
+              <th style="text-align:right">Invoice Amount (IDR)</th>
+              <th style="text-align:center">Invoice Status</th>
+              <th style="text-align:right">Days Since Consumption Report</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-name">Indomaret HQ</td>
+              <td style="font-size:12px;color:#6b7280">Mar 1–15, 2026</td>
+              <td style="text-align:right;font-weight:600">5,400</td>
+              <td style="text-align:right;font-weight:600">324,000,000</td>
+              <td style="text-align:center"><span class="status-badge badge-green">Issued</span></td>
+              <td style="text-align:right;color:#6b7280">11</td>
+              <td style="font-size:12px;color:#0070f2;cursor:pointer">View Invoice</td>
+            </tr>
+            <tr>
+              <td class="td-name">Hypermart</td>
+              <td style="font-size:12px;color:#6b7280">Mar 1–15, 2026</td>
+              <td style="text-align:right;font-weight:600">2,720</td>
+              <td style="text-align:right;font-weight:600">108,800,000</td>
+              <td style="text-align:center"><span class="status-badge badge-green">Issued</span></td>
+              <td style="text-align:right;color:#6b7280">9</td>
+              <td style="font-size:12px;color:#0070f2;cursor:pointer">View Invoice</td>
+            </tr>
+            <tr>
+              <td class="td-name">Hero Supermarket</td>
+              <td style="font-size:12px;color:#6b7280">Feb 16–28, 2026</td>
+              <td style="text-align:right;font-weight:600">1,004</td>
+              <td style="text-align:right;font-weight:600">50,200,000</td>
+              <td style="text-align:center"><span class="status-badge badge-green">Issued</span></td>
+              <td style="text-align:right;color:#6b7280">24</td>
+              <td style="font-size:12px;color:#0070f2;cursor:pointer">View Invoice</td>
+            </tr>
+            <tr style="background:#fff8f8">
+              <td class="td-name">Guardian</td>
+              <td style="font-size:12px;color:#6b7280">Feb 16–28, 2026</td>
+              <td style="text-align:right;font-weight:600">1,468</td>
+              <td style="text-align:right;font-weight:600;color:#bb0000">88,080,000</td>
+              <td style="text-align:center"><span class="status-badge badge-red">Overdue</span></td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">31</td>
+              <td style="font-size:12px;color:#bb0000;font-weight:600;cursor:pointer">Escalate to Finance</td>
+            </tr>
+            <tr>
+              <td class="td-name">Alfamart DC</td>
+              <td style="font-size:12px;color:#6b7280">Mar 1–15, 2026</td>
+              <td style="text-align:right;font-weight:600">1,386</td>
+              <td style="text-align:right;font-weight:600">55,440,000</td>
+              <td style="text-align:center"><span class="status-badge badge-yellow">Pending</span></td>
+              <td style="text-align:right;color:#e76500">5</td>
+              <td style="font-size:12px;color:#e76500;cursor:pointer">Generate Invoice</td>
+            </tr>
+            <tr>
+              <td class="td-name">Transmart</td>
+              <td style="font-size:12px;color:#6b7280">Feb 16–28, 2026</td>
+              <td style="text-align:right;font-weight:600">843</td>
+              <td style="text-align:right;font-weight:600">37,935,000</td>
+              <td style="text-align:center"><span class="status-badge badge-yellow">Pending</span></td>
+              <td style="text-align:right;color:#e76500">18</td>
+              <td style="font-size:12px;color:#e76500;cursor:pointer">Send Reminder</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:12px;background:#fffbf0;border:1px solid #f6b26b;border-radius:6px;padding:8px 14px;font-size:12px;color:#7a4500;display:flex;align-items:flex-start;gap:8px">
+        <span style="font-size:14px;flex-shrink:0">📋</span>
+        <span>Billing triggered automatically when consumption report is received and validated. Overdue invoices escalate to Finance after 7 days.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AGING STOCK ALERT -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-red">Customer Aging Stock Alert</span></p>
+      <span class="section-sub">Consignment stock at risk of expiry · action required</span>
+    </div>
+    <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Account</th>
+              <th>SKU</th>
+              <th>Batch</th>
+              <th style="text-align:right">Stock Age (days)</th>
+              <th style="text-align:right">Shelf Life Remaining (days)</th>
+              <th style="text-align:center">Risk</th>
+              <th>Recommended Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#fff5f5">
+              <td class="td-name">Guardian</td>
+              <td style="font-size:12px;color:#6b7280">Wardah Lightening Toner</td>
+              <td style="font-size:12px;font-family:monospace;color:#6b7280">WLT2411</td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">142</td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">8</td>
+              <td style="text-align:center"><span class="status-badge badge-red">Expired</span></td>
+              <td style="font-size:12px;color:#bb0000;font-weight:600">Quarantine &amp; dispose immediately</td>
+            </tr>
+            <tr style="background:#fff8f5">
+              <td class="td-name">Transmart</td>
+              <td style="font-size:12px;color:#6b7280">Scarlett Body Lotion</td>
+              <td style="font-size:12px;font-family:monospace;color:#6b7280">SBL2501</td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">98</td>
+              <td style="text-align:right;font-weight:700;color:#bb0000">32</td>
+              <td style="text-align:center"><span class="status-badge badge-red">Urgent</span></td>
+              <td style="font-size:12px;color:#bb0000;font-weight:600">Immediate return to Paragon</td>
+            </tr>
+            <tr>
+              <td class="td-name">Alfamart DC</td>
+              <td style="font-size:12px;color:#6b7280">Emina Sunscreen SPF50</td>
+              <td style="font-size:12px;font-family:monospace;color:#6b7280">ESS2503</td>
+              <td style="text-align:right;font-weight:600;color:#e76500">78</td>
+              <td style="text-align:right;font-weight:600;color:#e76500">62</td>
+              <td style="text-align:center"><span class="status-badge badge-yellow">Watch</span></td>
+              <td style="font-size:12px;color:#e76500">Accelerate consumption or return</td>
+            </tr>
+            <tr>
+              <td class="td-name">Lottemart</td>
+              <td style="font-size:12px;color:#6b7280">Azarine Sunscreen</td>
+              <td style="font-size:12px;font-family:monospace;color:#6b7280">AZS2504</td>
+              <td style="text-align:right;font-weight:600;color:#e76500">65</td>
+              <td style="text-align:right;font-weight:600;color:#e76500">85</td>
+              <td style="text-align:center"><span class="status-badge badge-yellow">Watch</span></td>
+              <td style="font-size:12px;color:#e76500">Monitor weekly</td>
+            </tr>
+            <tr>
+              <td class="td-name">Hypermart</td>
+              <td style="font-size:12px;color:#6b7280">BLP Lip Coat</td>
+              <td style="font-size:12px;font-family:monospace;color:#6b7280">BLC2506</td>
+              <td style="text-align:right;font-weight:600;color:#107e3e">30</td>
+              <td style="text-align:right;font-weight:600;color:#107e3e">150</td>
+              <td style="text-align:center"><span class="status-badge badge-green">Safe</span></td>
+              <td style="font-size:12px;color:#6b7280">No action required</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </div><!-- end panel-commercial -->
 <!-- === END COMMERCIAL MODULE HTML === -->
 
