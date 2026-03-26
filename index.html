@@ -9152,8 +9152,20 @@
 
 <div class="tab-panel" id="panel-war-room">
   <section id="war-room">
-    <h2 class="wr-heading">🎯 War Room — Active Response Center</h2>
-    <p class="wr-subtitle">Claim alerts &middot; Log responses &middot; Tag colleagues &middot; Close the loop</p>
+    <div class="wr-top-row">
+      <div>
+        <h2 class="wr-heading">🎯 War Room — Active Response Center</h2>
+        <p class="wr-subtitle">Claim alerts &middot; Log responses &middot; Tag colleagues &middot; Close the loop</p>
+      </div>
+      <div class="wr-notif-wrap" id="wr-notif-wrap">
+        <button class="wr-notif-btn" id="wr-notif-btn" onclick="wrToggleNotifDropdown()" aria-label="Notifications">
+          🔔<span class="wr-notif-badge" id="wr-notif-badge"></span>
+        </button>
+        <div class="wr-notif-dropdown" id="wr-notif-dropdown">
+          <div id="wr-notif-list"></div>
+        </div>
+      </div>
+    </div>
 
     <!-- Stats row placeholder -->
     <div id="war-room-stats"></div>
@@ -9166,6 +9178,9 @@
 
     <!-- Alert board placeholder -->
     <div id="war-room-alerts-board" class="wr-alerts-placeholder">Alert board loading...</div>
+
+    <!-- Divider between alerts board and resolved section -->
+    <div class="wr-resolved-divider"></div>
 
     <!-- Resolved section placeholder -->
     <div id="war-room-resolved"></div>
@@ -9764,6 +9779,361 @@
 }());
 </script>
 <!-- === END ACTIVE ALERTS BOARD === -->
+
+<!-- === WAR ROOM NOTIFICATIONS + RESOLVED TODAY === -->
+<style>
+  /* ── War Room top row (header + bell) ────────────────── */
+  .wr-top-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  /* ── Notification bell ───────────────────────────────── */
+  .wr-notif-wrap {
+    position: relative;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  .wr-notif-btn {
+    background: none;
+    border: 1px solid #2d3f50;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 18px;
+    cursor: pointer;
+    position: relative;
+    line-height: 1;
+    color: #e2e8f0;
+    transition: background 0.15s;
+  }
+  .wr-notif-btn:hover { background: rgba(255,255,255,0.05); }
+  .wr-notif-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #ef4444;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 50%;
+    min-width: 18px;
+    height: 18px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    line-height: 1;
+  }
+  .wr-notif-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 300px;
+    max-height: 280px;
+    overflow-y: auto;
+    background: #1e293b;
+    border: 1px solid #2d3f50;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+    z-index: 500;
+  }
+  .wr-notif-dropdown.open { display: block; }
+  .wr-notif-empty {
+    padding: 20px 16px;
+    color: #64748b;
+    font-size: 13px;
+    text-align: center;
+  }
+  .wr-notif-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: opacity 0.4s;
+  }
+  .wr-notif-row:last-child { border-bottom: none; }
+  .wr-notif-text {
+    flex: 1;
+    font-size: 12px;
+    color: #cbd5e1;
+    line-height: 1.45;
+  }
+  .wr-notif-check {
+    background: none;
+    border: 1px solid #475569;
+    border-radius: 4px;
+    color: #94a3b8;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 2px 6px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .wr-notif-check:hover { border-color: #10b981; color: #10b981; }
+  /* ── Resolved Today ──────────────────────────────────── */
+  .wr-resolved-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+    margin: 28px 0 0;
+  }
+  .wr-resolved-section { margin-top: 0; }
+  .wr-resolved-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 0 0;
+  }
+  .wr-resolved-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    flex: 1;
+  }
+  .wr-resolved-chevron {
+    background: none;
+    border: none;
+    color: #475569;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 2px 6px;
+    transition: color 0.15s;
+  }
+  .wr-resolved-chevron:hover { color: #94a3b8; }
+  .wr-resolved-body { display: none; margin-top: 12px; }
+  .wr-resolved-body.open { display: block; }
+  .wr-resolved-empty {
+    font-size: 12px;
+    color: #64748b;
+    font-style: italic;
+    padding: 10px 0 18px;
+  }
+  .wr-resolved-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin-bottom: 20px;
+  }
+  .wr-resolved-table th {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #475569;
+    padding: 6px 10px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    white-space: nowrap;
+  }
+  .wr-resolved-table td {
+    padding: 8px 10px;
+    color: #94a3b8;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  .wr-resolved-table tr:last-child td { border-bottom: none; }
+  .wr-resolved-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .wr-resolved-signal-name { color: #e2e8f0; font-weight: 600; max-width: 160px; word-break: break-word; }
+</style>
+<script>
+(function () {
+  'use strict';
+
+  /* ── HTML escape helper ─────────────────────────────────────── */
+  function escHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  /* ── Format seconds as human-readable duration ──────────────── */
+  function fmtDuration(secs) {
+    if (!secs || secs < 0) return '—';
+    if (secs < 60)   return secs + 's';
+    if (secs < 3600) return Math.round(secs / 60) + 'm';
+    return (Math.round(secs / 360) / 10) + 'h';
+  }
+
+  /* ── Notification Bell ──────────────────────────────────────── */
+  function updateNotifBadge() {
+    if (typeof window.OdysseyStakeholderEngine === 'undefined') return;
+    var badge = document.getElementById('wr-notif-badge');
+    if (!badge) return;
+    var count = window.OdysseyStakeholderEngine.getNotifications('Control Tower Operator').length;
+    if (count > 0) {
+      badge.textContent = count;
+      badge.style.display = 'flex';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+
+  function renderNotifList() {
+    var listEl = document.getElementById('wr-notif-list');
+    if (!listEl) return;
+    if (typeof window.OdysseyStakeholderEngine === 'undefined') {
+      listEl.innerHTML = '<div class="wr-notif-empty">🔔 No new notifications</div>';
+      return;
+    }
+    var notifs = window.OdysseyStakeholderEngine.getNotifications('Control Tower Operator');
+    if (notifs.length === 0) {
+      listEl.innerHTML = '<div class="wr-notif-empty">🔔 No new notifications</div>';
+      return;
+    }
+    var html = '';
+    notifs.forEach(function (n) {
+      var rowId = 'wr-nr-' + encodeURIComponent(n.signalName);
+      html +=
+        '<div class="wr-notif-row" id="' + rowId + '">' +
+          '<div class="wr-notif-text">' +
+            '<strong>' + escHtml(n.tag.fromRole) + '</strong> tagged you on ' +
+            '<em>' + escHtml(n.signalName) + '</em>: ' +
+            escHtml(n.tag.message) +
+          '</div>' +
+          '<button class="wr-notif-check" ' +
+            'onclick="wrMarkNotifRead(' + JSON.stringify(n.signalName) + ')" ' +
+            'title="Mark read">&#10003;</button>' +
+        '</div>';
+    });
+    listEl.innerHTML = html;
+  }
+
+  window.wrToggleNotifDropdown = function () {
+    var dropdown = document.getElementById('wr-notif-dropdown');
+    if (!dropdown) return;
+    if (dropdown.classList.contains('open')) {
+      dropdown.classList.remove('open');
+    } else {
+      renderNotifList();
+      dropdown.classList.add('open');
+    }
+  };
+
+  window.wrMarkNotifRead = function (signalName) {
+    if (typeof window.OdysseyStakeholderEngine === 'undefined') return;
+    window.OdysseyStakeholderEngine.markNotificationRead(signalName, 'Control Tower Operator');
+    var rowId = 'wr-nr-' + encodeURIComponent(signalName);
+    var row = document.getElementById(rowId);
+    if (row) {
+      row.style.opacity = '0';
+      setTimeout(function () {
+        renderNotifList();
+        updateNotifBadge();
+      }, 400);
+    } else {
+      renderNotifList();
+      updateNotifBadge();
+    }
+    updateNotifBadge();
+  };
+
+  /* Close dropdown on outside click */
+  document.addEventListener('click', function (e) {
+    var btn      = document.getElementById('wr-notif-btn');
+    var dropdown = document.getElementById('wr-notif-dropdown');
+    if (!dropdown || !dropdown.classList.contains('open')) return;
+    if (btn && btn.contains(e.target)) return;
+    if (dropdown.contains(e.target)) return;
+    dropdown.classList.remove('open');
+  });
+
+  /* ── Resolved Today ─────────────────────────────────────────── */
+  var _resolvedOpen = false;
+
+  window.wrToggleResolved = function () {
+    _resolvedOpen = !_resolvedOpen;
+    renderResolvedToday();
+  };
+
+  function renderResolvedToday() {
+    var el = document.getElementById('war-room-resolved');
+    if (!el) return;
+    if (typeof window.OdysseyStakeholderEngine === 'undefined') {
+      el.innerHTML = '';
+      return;
+    }
+
+    var now   = Date.now();
+    var dayMs = 24 * 60 * 60 * 1000;
+    var resolved = window.OdysseyStakeholderEngine.getAll().filter(function (item) {
+      if (item.status !== 'resolved') return false;
+      if (!item.resolvedAt) return false;
+      return (now - item.resolvedAt) <= dayMs;
+    });
+
+    var count    = resolved.length;
+    var bodyOpen = _resolvedOpen ? ' open' : '';
+    var chevron  = _resolvedOpen ? '&#9650;' : '&#9660;';
+
+    var html =
+      '<div class="wr-resolved-section">' +
+        '<div class="wr-resolved-header">' +
+          '<div class="wr-resolved-title">&#10003;&#65039; Resolved Today (' + count + ')</div>' +
+          '<button class="wr-resolved-chevron" onclick="wrToggleResolved()" aria-label="Toggle resolved">' + chevron + '</button>' +
+        '</div>' +
+        '<div class="wr-resolved-body' + bodyOpen + '" id="wr-resolved-body">';
+
+    if (count === 0) {
+      html += '<div class="wr-resolved-empty">No resolutions logged today yet.</div>';
+    } else {
+      html +=
+        '<table class="wr-resolved-table">' +
+          '<thead><tr>' +
+            '<th>Signal</th>' +
+            '<th>Resolved By</th>' +
+            '<th>Root Cause</th>' +
+            '<th>Action Taken</th>' +
+            '<th>Time to Resolve</th>' +
+          '</tr></thead>' +
+          '<tbody>';
+      resolved.forEach(function (item) {
+        html +=
+          '<tr>' +
+            '<td class="wr-resolved-signal-name">' + escHtml(item.signalName) + '</td>' +
+            '<td>' + escHtml(item.resolvedBy || '—') + '</td>' +
+            '<td>' + escHtml(item.rootCause  || '—') + '</td>' +
+            '<td>' + escHtml(item.actionTaken || '—') + '</td>' +
+            '<td>' + escHtml(fmtDuration(item.timeToResolve)) + '</td>' +
+          '</tr>';
+      });
+      html += '</tbody></table>';
+    }
+
+    html += '</div></div>';
+    el.innerHTML = html;
+  }
+
+  /* ── Bootstrap ──────────────────────────────────────────────── */
+  function initWarRoomNotifications() {
+    updateNotifBadge();
+    renderResolvedToday();
+    setInterval(function () {
+      updateNotifBadge();
+      var dropdown = document.getElementById('wr-notif-dropdown');
+      if (dropdown && dropdown.classList.contains('open')) {
+        renderNotifList();
+      }
+    }, 5000);
+    setInterval(renderResolvedToday, 10000);
+    console.log('[WarRoom] Notifications + Resolved Today mounted');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWarRoomNotifications);
+  } else {
+    initWarRoomNotifications();
+  }
+}());
+</script>
+<!-- === END WAR ROOM NOTIFICATIONS + RESOLVED TODAY === -->
 
 <!-- === END WAR ROOM PANEL === -->
 
