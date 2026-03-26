@@ -26680,5 +26680,218 @@ function exportBoardPack() {
 
 }());
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     AS2 — Scenario Simulation Panel: API wiring
+     Wires the 4 ssim-scenario-card buttons to the Anthropic API using the
+     same fetch pattern as ARIA chat. No HTML/CSS changes.
+════════════════════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Scenario definitions ───────────────────────────────────────────────── */
+  var SSIM_SCENARIOS = {
+    'oos': {
+      title: '🔴 Stock OOS Simulation',
+      accentColor: '#ef4444',
+      prompt: 'Simulate what happens if Wardah Niacinamide Serum goes fully out of stock today. Using the current platform data, model: (1) estimated revenue loss per day in IDR based on current sales velocity, (2) days until full OOS at current depletion rate, (3) expected customer complaint volume increase, (4) sentiment impact timeline on social channels, (5) which specific actions taken NOW would prevent OOS and their lead times. Be specific with IDR figures and timelines.'
+    },
+    'supplier': {
+      title: '⚠️ Supplier Delay Simulation',
+      accentColor: '#f59e0b',
+      prompt: 'Simulate a 7-day delivery delay from PT Bahan Kimia Utama (Niacinamide Powder supplier). Using current platform data, model: (1) which production lines and SKUs are affected, (2) estimated revenue at risk in IDR, (3) days until manufacturing impact is felt, (4) downstream impact on Distribution, Customer Service SLA, and B2B consignment customers, (5) top 3 mitigation actions in priority order with estimated cost to implement.'
+    },
+    'campaign': {
+      title: '📈 Viral Campaign Launch',
+      accentColor: '#3b82f6',
+      prompt: 'Simulate launching a major TikTok campaign for Azarine Hydrasoothe Sunscreen SPF50 tomorrow. Given current stock coverage of 3 days and trend velocity at +89%, model: (1) expected demand spike percentage based on similar past campaigns, (2) estimated days to OOS if campaign launches now vs if delayed 14 days, (3) minimum stock threshold needed for a safe campaign launch, (4) financial opportunity in IDR if launched at right stock level vs financial risk if launched now, (5) recommended launch decision with clear rationale.'
+    },
+    'cost': {
+      title: '💰 Cost Optimisation',
+      accentColor: '#10b981',
+      prompt: 'Based on current platform data — logistics cost per order IDR 18,400, freight invoice discrepancies with JNE and J&T, and channel cost-to-serve data — model: (1) estimated monthly savings in IDR if freight invoices are validated strictly against rate cards, (2) cost-to-serve improvement if Social Commerce (TikTok Shop) channel grows 20% vs B2C E-commerce, (3) top 3 cost reduction initiatives ranked by IDR impact and implementation difficulty, (4) projected annual logistics cost saving if all 3 initiatives are implemented.'
+    }
+  };
+
+  /* ── Shared scenario runner ─────────────────────────────────────────────── */
+  function runScenario(scenarioId, scenarioTitle, userPrompt, accentColor) {
+    var allBtns = document.querySelectorAll('.ssim-scenario-card');
+    var clickedBtn = document.getElementById('scenario-btn-' + scenarioId);
+    var outputArea = document.getElementById('scenario-output-area');
+    var outputCard = document.getElementById('scenario-output-card');
+    var ocTitle    = document.getElementById('scenario-oc-title');
+    var ocTs       = document.getElementById('scenario-oc-ts');
+    var ocBody     = document.getElementById('scenario-oc-body');
+    var copyBtn    = document.getElementById('scenario-oc-copy-btn');
+
+    if (!clickedBtn || !outputArea) return;
+
+    /* 1. Button states */
+    allBtns.forEach(function (b) {
+      if (b === clickedBtn) {
+        b.classList.add('running');
+      } else {
+        b.style.opacity = '0.5';
+        b.disabled = true;
+      }
+    });
+    if (clickedBtn) clickedBtn.disabled = true;
+
+    /* 2. Shimmer loading in output area */
+    outputArea.classList.add('ssim-loading');
+    outputArea.textContent = 'Running scenario simulation…';
+    if (outputCard) outputCard.style.display = 'none';
+
+    /* 3. Build system prompt */
+    var systemPrompt = '';
+    try {
+      systemPrompt = window.ARIAContext
+        ? window.ARIAContext.buildSystemPrompt()
+        : 'You are ARIA, an AI assistant for Paragon Corp supply chain operations.';
+    } catch (e) {
+      systemPrompt = 'You are ARIA, an AI assistant for Paragon Corp supply chain operations.';
+    }
+
+    /* 4. Call Anthropic API — fresh call, no conversation history */
+    fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1024,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    })
+    .then(function (res) {
+      if (!res.ok) {
+        return res.json().then(function (err) {
+          throw new Error((err && err.error && err.error.message) || 'HTTP ' + res.status);
+        });
+      }
+      return res.json();
+    })
+    .then(function (data) {
+      /* 4. Parse response */
+      var responseText = (data.content && data.content[0] && data.content[0].text)
+        ? data.content[0].text
+        : 'No response received.';
+
+      /* 5. Render result card */
+      outputArea.classList.remove('ssim-loading');
+      outputArea.textContent = '';
+
+      if (outputCard) {
+        outputCard.style.borderLeftColor = accentColor;
+        if (ocTitle) ocTitle.textContent = scenarioTitle;
+        if (ocTs)    ocTs.textContent    = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        if (ocBody)  ocBody.textContent  = responseText;
+        outputCard.style.display = '';
+        outputCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      /* Enable copy button and wire it */
+      if (copyBtn) {
+        copyBtn.disabled = false;
+        copyBtn._ssimText = responseText;
+      }
+    })
+    .catch(function (err) {
+      /* 7. Error state */
+      outputArea.classList.remove('ssim-loading');
+      outputArea.textContent = 'ARIA scenario unavailable — try again';
+      console.error('[SSIM] Scenario API error:', err);
+    })
+    .finally(function () {
+      /* 6. Restore button states */
+      allBtns.forEach(function (b) {
+        b.classList.remove('running');
+        b.style.opacity = '';
+        b.disabled = false;
+      });
+    });
+  }
+
+  /* ── Copy Result button ─────────────────────────────────────────────────── */
+  function wireCopyButton() {
+    var copyBtn = document.getElementById('scenario-oc-copy-btn');
+    if (!copyBtn) {
+      setTimeout(wireCopyButton, 300);
+      return;
+    }
+    copyBtn.addEventListener('click', function () {
+      var text = copyBtn._ssimText || '';
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(function () {
+        var orig = copyBtn.textContent;
+        copyBtn.textContent = '✓ Copied';
+        setTimeout(function () { copyBtn.textContent = orig; }, 2000);
+      }).catch(function () {
+        /* fallback for browsers without clipboard API */
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        var orig = copyBtn.textContent;
+        copyBtn.textContent = '✓ Copied';
+        setTimeout(function () { copyBtn.textContent = orig; }, 2000);
+      });
+    });
+  }
+
+  /* ── Attach button event listeners ─────────────────────────────────────── */
+  function wireScenarioButtons() {
+    var btnOos      = document.getElementById('scenario-btn-oos');
+    var btnSupplier = document.getElementById('scenario-btn-supplier');
+    var btnCampaign = document.getElementById('scenario-btn-campaign');
+    var btnCost     = document.getElementById('scenario-btn-cost');
+
+    if (!btnOos || !btnSupplier || !btnCampaign || !btnCost) {
+      setTimeout(wireScenarioButtons, 300);
+      return;
+    }
+
+    var s = SSIM_SCENARIOS;
+
+    btnOos.addEventListener('click', function () {
+      runScenario('oos', s['oos'].title, s['oos'].prompt, s['oos'].accentColor);
+    });
+    btnSupplier.addEventListener('click', function () {
+      runScenario('supplier', s['supplier'].title, s['supplier'].prompt, s['supplier'].accentColor);
+    });
+    btnCampaign.addEventListener('click', function () {
+      runScenario('campaign', s['campaign'].title, s['campaign'].prompt, s['campaign'].accentColor);
+    });
+    btnCost.addEventListener('click', function () {
+      runScenario('cost', s['cost'].title, s['cost'].prompt, s['cost'].accentColor);
+    });
+
+    console.log('[SSIM-AS2] Scenario buttons wired — 4 handlers attached.');
+  }
+
+  /* ── Bootstrap ──────────────────────────────────────────────────────────── */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      wireScenarioButtons();
+      wireCopyButton();
+    });
+  } else {
+    wireScenarioButtons();
+    wireCopyButton();
+  }
+
+  console.log('[SSIM-AS2] Loaded — scenario API wiring v1.0.0');
+
+}());
+</script>
 </body>
 </html>
