@@ -24693,9 +24693,13 @@ function exportBoardPack() {
     })
     .then(function (data) {
       ariaHideBriefingSkeleton();
-      var text = (data.content && data.content[0] && data.content[0].text)
-        ? data.content[0].text
-        : 'No briefing content received.';
+      var responseText = data.content
+        ? data.content
+            .filter(function (item) { return item.type === "text"; })
+            .map(function (item) { return item.text; })
+            .join("\n")
+        : "";
+      var text = responseText || 'ARIA returned an empty response — please try again.';
       ariaBriefingText = text;
       ariaRenderBriefingCards(text);
       ariaSetBriefingTimestamp();
@@ -24972,8 +24976,18 @@ function exportBoardPack() {
     })
     .then(function (res) { return res.json(); })
     .then(function (data) {
-      var text = (data.content && data.content[0] && data.content[0].text)
-        ? data.content[0].text : 'No response received.';
+      console.log("Scenario raw response:", JSON.stringify(data));
+      console.log("Scenario content array:", data.content);
+      console.log("Scenario first content item:", data.content ? data.content[0] : "no content");
+      var responseText = data.content
+        ? data.content
+            .filter(function (item) { return item.type === "text"; })
+            .map(function (item) { return item.text; })
+            .join("\n")
+        : "";
+      console.log("Extracted text length:", responseText ? responseText.length : 0);
+      console.log("Extracted text preview:", responseText ? responseText.substring(0, 100) : "empty");
+      var text = responseText || 'ARIA returned an empty response — please try again.';
       ariaConversation.push({ role: 'assistant', content: text });
       if (ariaConversation.length > ARIA_MAX_HISTORY) {
         ariaConversation = ariaConversation.slice(ariaConversation.length - ARIA_MAX_HISTORY);
