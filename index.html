@@ -24181,6 +24181,27 @@ function exportBoardPack() {
           costPerOrder:            'IDR 18,400',
           dso:                     '31 days',
           returnRate:              '3.2%'
+        },
+        rmpm: {
+          summary: {
+            rmCoverageDays:               18.4,
+            pmCoverageDays:               22.1,
+            criticalMaterialsCount:       4,
+            oosMaterialsCount:            2,
+            productionLinesAtStopRisk:    3,
+            inTransitCriticalShipments:   6
+          },
+          stopRiskMaterials: [
+            { name: 'Vitamin C Ascorbic Acid',  type: 'RM', coverageDays: 0,   linkedSKU: 'Emina Brightening Range',     impact: 'Stop Risk', action: 'Emergency PO required NOW' },
+            { name: 'Foundation Bottle 30ml',   type: 'PM', coverageDays: 0,   linkedSKU: 'Make Over Foundation',        impact: 'Stop Risk', action: 'Emergency PO + air freight NOW' },
+            { name: 'SPF UV Filter Octinoxate', type: 'RM', coverageDays: 3.1, linkedSKU: 'Azarine + Emina SPF lines',   impact: 'Stop Risk', action: 'Expedite existing PO' },
+            { name: 'Sunscreen Tube 50ml',      type: 'PM', coverageDays: 3.0, linkedSKU: 'Emina Sun Protection',        impact: 'Stop Risk', action: 'Expedite existing PO' }
+          ],
+          delayRiskMaterials: [
+            { name: 'Titanium Dioxide',    type: 'RM', coverageDays: 4.3, linkedSKU: 'Multiple SPF SKUs',           impact: 'Delay Risk' },
+            { name: 'Retinol 0.1%',        type: 'RM', coverageDays: 5.3, linkedSKU: 'Wardah Retinol Night Repair', impact: 'Delay Risk' },
+            { name: 'SPF Stick Packaging', type: 'PM', coverageDays: 4.7, linkedSKU: 'Azarine SPF Stick',           impact: 'Delay Risk' }
+          ]
         }
       };
 
@@ -24267,6 +24288,28 @@ function exportBoardPack() {
           ' | Resolved: ' + st.resolved
         );
       }
+      lines.push('');
+
+      /* ── RM/PM inventory ───────────────────────────────────── */
+      lines.push('## RM & PM INVENTORY STATUS');
+      lines.push(
+        '- RM Average Coverage: ' + snap.rmpm.summary.rmCoverageDays + ' days' +
+        ' | PM Average Coverage: ' + snap.rmpm.summary.pmCoverageDays + ' days'
+      );
+      lines.push(
+        '- CRITICAL \u2014 Materials at Stop Risk (production halt imminent): ' +
+        JSON.stringify(snap.rmpm.stopRiskMaterials)
+      );
+      lines.push(
+        '- WARNING \u2014 Materials at Delay Risk: ' +
+        JSON.stringify(snap.rmpm.delayRiskMaterials)
+      );
+      lines.push('- Production lines at stop risk: ' + snap.rmpm.summary.productionLinesAtStopRisk);
+      lines.push('- OOS materials: ' + snap.rmpm.summary.oosMaterialsCount);
+      lines.push(
+        'When asked about supply risks, material availability, or production continuity \u2014 ' +
+        'always reference this RM/PM data first.'
+      );
       lines.push('');
 
       /* ── SKU scoring ───────────────────────────────────────── */
