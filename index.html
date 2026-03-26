@@ -1277,6 +1277,149 @@
     .aria-scenario-simulate-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(124,58,237,0.6); }
     .aria-scenario-simulate-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
+    /* ══ SCENARIO SIMULATION PANEL (AS2) ══════════════════════════════════ */
+    #scenario-simulation-panel {
+      background: #111c2b;
+      border: 1px solid rgba(124,58,237,0.25);
+      border-radius: 14px;
+      padding: 20px 22px;
+      margin-bottom: 20px;
+    }
+    #scenario-simulation-panel .ssim-panel-header { margin-bottom: 4px; }
+    #scenario-simulation-panel .ssim-panel-title {
+      font-size: 14px; font-weight: 700; color: #e2e8f0;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 8px;
+    }
+    #scenario-simulation-panel .ssim-panel-subtitle {
+      font-size: 12px; color: #64748b; margin-top: 5px; margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    /* 2×2 grid of scenario cards */
+    .ssim-btn-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 600px) { .ssim-btn-grid { grid-template-columns: 1fr; } }
+
+    .ssim-scenario-card {
+      background: #1e293b;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 14px;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.18s, box-shadow 0.18s, opacity 0.18s;
+      position: relative;
+    }
+    .ssim-scenario-card:hover { box-shadow: 0 0 0 1px var(--ssim-accent, #7c3aed); border-color: var(--ssim-accent, #7c3aed); }
+    .ssim-scenario-card.ssim-running { border-color: var(--ssim-accent, #7c3aed); box-shadow: 0 0 10px rgba(124,58,237,0.25); }
+    .ssim-scenario-card.ssim-dimmed { opacity: 0.45; pointer-events: none; }
+
+    .ssim-card-icon { font-size: 22px; margin-bottom: 8px; display: block; line-height: 1; }
+    .ssim-card-title {
+      font-size: 12px; font-weight: 700; color: #e2e8f0;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      margin-bottom: 5px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .ssim-card-desc { font-size: 12px; color: #64748b; line-height: 1.5; }
+    .ssim-card-spinner {
+      display: none;
+      width: 13px; height: 13px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: ssim-spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+    .ssim-scenario-card.ssim-running .ssim-card-spinner { display: inline-block; }
+    @keyframes ssim-spin { to { transform: rotate(360deg); } }
+
+    /* Output area */
+    #scenario-output-area {
+      min-height: 56px;
+      background: #0f1a27;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 13px;
+      color: #475569;
+      margin-bottom: 12px;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    #scenario-output-area.ssim-loading { color: transparent; }
+
+    /* Shimmer animation when loading */
+    #scenario-output-area.ssim-loading::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg,
+        #1a2535 0%, #1a2535 25%,
+        #243040 50%,
+        #1a2535 75%, #1a2535 100%);
+      background-size: 200% 100%;
+      animation: ssim-shimmer 1.4s ease-in-out infinite;
+      border-radius: 10px;
+    }
+    @keyframes ssim-shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Free-text placeholder area */
+    #scenario-freetext-area {
+      background: rgba(255,255,255,0.02);
+      border: 1px dashed rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 12px;
+      color: #334155;
+      font-style: italic;
+      margin-bottom: 0;
+    }
+
+    /* Output card (hidden by default, shown when scenario runs) */
+    #scenario-output-card {
+      display: none;
+      background: #0f1a27;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-left: 4px solid #7c3aed;
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 14px;
+    }
+    #scenario-output-card .ssim-oc-header {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;
+    }
+    #scenario-output-card .ssim-oc-title {
+      font-size: 12px; font-weight: 700; color: #c4b5fd;
+      letter-spacing: 0.04em; text-transform: uppercase; flex: 1;
+    }
+    #scenario-output-card .ssim-oc-ts { font-size: 11px; color: #475569; white-space: nowrap; }
+    #scenario-output-card .ssim-oc-body {
+      max-height: 260px; overflow-y: auto;
+      font-size: 13px; color: #e2e8f0; line-height: 1.65;
+      white-space: pre-wrap;
+      margin-bottom: 14px;
+    }
+    #scenario-output-card .ssim-oc-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    #scenario-output-card .ssim-oc-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; padding: 6px 14px;
+      color: #94a3b8; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s;
+    }
+    #scenario-output-card .ssim-oc-btn:hover { background: rgba(255,255,255,0.1); color: #e2e8f0; }
+    #scenario-output-card .ssim-oc-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
     /* ── RM & PM Inventory Module ─────────────────────────────── */
     .rmpm-type-badge {
       display: inline-flex; align-items: center;
@@ -13572,6 +13715,82 @@
       <button class="aria-briefing-action-btn" onclick="ariaSendBriefingToChat()">&#128172; Send to Chat</button>
     </div>
   </div>
+
+  <!-- SCENARIO SIMULATION PANEL (AS2) -->
+  <div id="scenario-simulation-panel">
+
+    <div class="ssim-panel-header">
+      <div class="ssim-panel-title">🔮 Scenario Simulation</div>
+      <div class="ssim-panel-subtitle">Model what-if outcomes using live platform data — powered by ARIA</div>
+    </div>
+
+    <!-- 2×2 scenario button grid -->
+    <div class="ssim-btn-grid">
+
+      <!-- Button 1: Stock OOS -->
+      <button class="ssim-scenario-card" id="scenario-btn-oos" style="--ssim-accent:#ef4444;">
+        <span class="ssim-card-icon">🔴</span>
+        <div class="ssim-card-title">
+          <span class="ssim-card-spinner"></span>
+          Stock OOS Simulation
+        </div>
+        <div class="ssim-card-desc">What happens if Wardah Niacinamide Serum goes OOS today?</div>
+      </button>
+
+      <!-- Button 2: Supplier Delay -->
+      <button class="ssim-scenario-card" id="scenario-btn-supplier" style="--ssim-accent:#f59e0b;">
+        <span class="ssim-card-icon">⚠️</span>
+        <div class="ssim-card-title">
+          <span class="ssim-card-spinner"></span>
+          Supplier Delay Simulation
+        </div>
+        <div class="ssim-card-desc">7-day delay from PT Bahan Kimia Utama — downstream impact?</div>
+      </button>
+
+      <!-- Button 3: Viral Campaign -->
+      <button class="ssim-scenario-card" id="scenario-btn-campaign" style="--ssim-accent:#3b82f6;">
+        <span class="ssim-card-icon">📈</span>
+        <div class="ssim-card-title">
+          <span class="ssim-card-spinner"></span>
+          Viral Campaign Launch
+        </div>
+        <div class="ssim-card-desc">Launch TikTok campaign for Azarine Sunscreen — safe to proceed?</div>
+      </button>
+
+      <!-- Button 4: Cost Optimisation -->
+      <button class="ssim-scenario-card" id="scenario-btn-cost" style="--ssim-accent:#10b981;">
+        <span class="ssim-card-icon">💰</span>
+        <div class="ssim-card-title">
+          <span class="ssim-card-spinner"></span>
+          Cost Optimisation
+        </div>
+        <div class="ssim-card-desc">Freight invoice + channel mix — savings potential in IDR?</div>
+      </button>
+
+    </div>
+    <!-- end ssim-btn-grid -->
+
+    <!-- Output area -->
+    <div id="scenario-output-area">Select a scenario to begin</div>
+
+    <!-- Output card (hidden; shown by AS2 when scenario runs) -->
+    <div id="scenario-output-card">
+      <div class="ssim-oc-header">
+        <span class="ssim-oc-title" id="scenario-oc-title">Scenario Result</span>
+        <span class="ssim-oc-ts" id="scenario-oc-ts"></span>
+      </div>
+      <div class="ssim-oc-body" id="scenario-oc-body"></div>
+      <div class="ssim-oc-actions">
+        <button class="ssim-oc-btn" id="scenario-oc-copy-btn" disabled>Copy Result</button>
+        <button class="ssim-oc-btn" id="scenario-oc-chat-btn" disabled>Send to Chat</button>
+      </div>
+    </div>
+
+    <!-- Free-text placeholder (AS3 will fill) -->
+    <div id="scenario-freetext-area">Free-text mode loading...</div>
+
+  </div>
+  <!-- end #scenario-simulation-panel -->
 
   <!-- SCENARIO SIMULATION PANEL -->
   <div class="aria-scenario-panel" id="aria-scenario-panel">
