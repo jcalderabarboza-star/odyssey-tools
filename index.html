@@ -26746,78 +26746,67 @@ function exportBoardPack() {
     outputArea.textContent = 'Running scenario simulation…';
     if (outputCard) outputCard.style.display = 'none';
 
-    /* 3. Build system prompt */
-    var systemPrompt = '';
-    try {
-      systemPrompt = window.ARIAContext
-        ? window.ARIAContext.buildSystemPrompt()
-        : 'You are ARIA, an AI assistant for Paragon Corp supply chain operations.';
-    } catch (e) {
-      systemPrompt = 'You are ARIA, an AI assistant for Paragon Corp supply chain operations.';
-    }
-    console.log('[AS2] system prompt length:', systemPrompt.length);
-
-    /* 4. Call Anthropic API — fresh call, no conversation history */
-    fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1024,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: userPrompt }]
-      })
-    })
-    .then(function (res) {
-      if (!res.ok) {
-        return res.json().then(function (err) {
-          throw new Error((err && err.error && err.error.message) || 'HTTP ' + res.status);
-        });
-      }
-      return res.json();
-    })
-    .then(function (data) {
-      /* 4. Parse response */
-      var responseText = (data.content && data.content[0] && data.content[0].text)
-        ? data.content[0].text
-        : 'No response received.';
-
-      /* 5. Render result card */
+    /* 3. Delegate to ARIA chat's API wrapper — same code path as ariaSendMessage */
+    if (!window._ariaQuickSend) {
       outputArea.classList.remove('ssim-loading');
-      outputArea.textContent = '';
-
-      if (outputCard) {
-        outputCard.style.borderLeftColor = accentColor;
-        if (ocTitle) ocTitle.textContent = scenarioTitle;
-        if (ocTs)    ocTs.textContent    = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        if (ocBody)  ocBody.textContent  = responseText;
-        outputCard.style.display = '';
-        outputCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
-
-      /* Enable copy button and wire it */
-      if (copyBtn) {
-        copyBtn.disabled = false;
-        copyBtn._ssimText = responseText;
-      }
-    })
-    .catch(function (err) {
-      /* 7. Error state */
-      outputArea.classList.remove('ssim-loading');
-      outputArea.textContent = 'ARIA scenario error: ' + (err && err.message ? err.message : String(err));
-      console.error('[SSIM] Scenario API error:', err);
-    })
-    .finally(function () {
-      /* 6. Restore button states */
+      outputArea.textContent = 'ARIA module not yet initialised. Open the ARIA Intelligence tab first.';
       allBtns.forEach(function (b) {
         b.classList.remove('ssim-running');
         b.style.opacity = '';
         b.disabled = false;
       });
+      return;
+    }
+
+    window._ariaQuickSend(userPrompt, {
+      onResponse: function (responseText) {
+        /* Render result card */
+        outputArea.classList.remove('ssim-loading');
+        outputArea.textContent = '';
+
+        if (outputCard) {
+          outputCard.style.borderLeftColor = accentColor;
+          if (ocTitle) ocTitle.textContent = scenarioTitle;
+          if (ocTs)    ocTs.textContent    = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          if (ocBody)  ocBody.textContent  = responseText;
+          outputCard.style.display = '';
+          outputCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        /* Enable copy button */
+        if (copyBtn) {
+          copyBtn.disabled = false;
+          copyBtn._ssimText = responseText;
+        }
+
+        /* Restore button states */
+        allBtns.forEach(function (b) {
+          b.classList.remove('ssim-running');
+          b.style.opacity = '';
+          b.disabled = false;
+        });
+      },
+      onError: function (errMsg) {
+        outputArea.classList.remove('ssim-loading');
+        outputArea.textContent = 'ARIA scenario error: ' + errMsg;
+        console.error('[SSIM] Scenario API error:', errMsg);
+
+        allBtns.forEach(function (b) {
+          b.classList.remove('ssim-running');
+          b.style.opacity = '';
+          b.disabled = false;
+        });
+      },
+      onBusy: function () {
+        outputArea.classList.remove('ssim-loading');
+        outputArea.textContent = 'ARIA is currently processing another request. Please wait and try again.';
+
+        allBtns.forEach(function (b) {
+          b.classList.remove('ssim-running');
+          b.style.opacity = '';
+          b.disabled = false;
+        });
+      }
     });
   }
 
