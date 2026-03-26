@@ -7779,10 +7779,398 @@
     </div>
   </div>
 
-  <!-- SFM PART 2 PLACEHOLDER — C3b will fill this -->
-  <div id="sfm-part2" style="margin-top:16px;padding:16px;background:#f9fafb;border:1px dashed #d1d5db;border-radius:8px;text-align:center;font-size:13px;color:#9ca3af">
-    Loading...
-  </div>
+  <!-- SFM PART 2 — C3b: Sell-in Performance Board + Store Execution Scorecard + Field Intelligence -->
+  <div id="sfm-part2">
+    <style>
+      .badge-blue   { background:#eff6ff; color:#0070f2; border-color:#bfdbfe; }
+      .badge-purple { background:#f5f3ff; color:#7c3aed; border-color:#ddd6fe; }
+      .badge-teal   { background:#f0fdfa; color:#0f828f; border-color:#a7f3d0; }
+      .badge-orange { background:#fff7ed; color:#c2410c; border-color:#fed7aa; }
+      .sfm2-ach-green  { color:#107e3e; font-weight:700; }
+      .sfm2-ach-amber  { color:#e76500; font-weight:700; }
+      .sfm2-ach-red    { color:#bb0000; font-weight:700; }
+      .sfm2-score-green { color:#107e3e; font-weight:700; }
+      .sfm2-score-amber { color:#e76500; font-weight:700; }
+      .sfm2-score-red   { color:#bb0000; font-weight:700; }
+    </style>
+
+    <!-- BLOCK 1 — SELL-IN PERFORMANCE BOARD -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label"><span class="section-tag tag-blue">Sell-in Performance Board</span></p>
+        <span class="section-sub">Sales rep achievement vs target — current period</span>
+      </div>
+      <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Sales Rep</th>
+                <th>Region</th>
+                <th style="text-align:right">Target (IDR)</th>
+                <th style="text-align:right">Actual (IDR)</th>
+                <th style="text-align:center">Achievement (%)</th>
+                <th style="text-align:center">vs Last Week</th>
+                <th>Top SKU Sold</th>
+                <th style="text-align:right">Orders Placed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Above 100% — green -->
+              <tr style="border-left:3px solid #107e3e">
+                <td class="td-name">Dewi Rahayu</td>
+                <td style="font-size:12px;color:#6b7280">DKI Jakarta</td>
+                <td style="text-align:right;font-size:12px">IDR 4.2B</td>
+                <td style="text-align:right;font-size:12px;font-weight:600">IDR 4.5B</td>
+                <td style="text-align:center"><span class="sfm2-ach-green">107%</span></td>
+                <td style="text-align:center;font-size:15px;color:#107e3e">↑</td>
+                <td style="font-size:12px;color:#1d2d3e">Wardah Niacinamide Serum</td>
+                <td style="text-align:right;font-weight:600">42</td>
+              </tr>
+              <tr style="border-left:3px solid #107e3e">
+                <td class="td-name">Rendi Kusuma</td>
+                <td style="font-size:12px;color:#6b7280">Jawa Tengah</td>
+                <td style="text-align:right;font-size:12px">IDR 3.8B</td>
+                <td style="text-align:right;font-size:12px;font-weight:600">IDR 4.1B</td>
+                <td style="text-align:center"><span class="sfm2-ach-green">108%</span></td>
+                <td style="text-align:center;font-size:15px;color:#107e3e">↑</td>
+                <td style="font-size:12px;color:#1d2d3e">Emina Sun Battle SPF50</td>
+                <td style="text-align:right;font-weight:600">38</td>
+              </tr>
+              <tr style="border-left:3px solid #107e3e">
+                <td class="td-name">Fitri Handayani</td>
+                <td style="font-size:12px;color:#6b7280">Jawa Timur</td>
+                <td style="text-align:right;font-size:12px">IDR 4.5B</td>
+                <td style="text-align:right;font-size:12px;font-weight:600">IDR 4.7B</td>
+                <td style="text-align:center"><span class="sfm2-ach-green">104%</span></td>
+                <td style="text-align:center;font-size:15px;color:#107e3e">↑</td>
+                <td style="font-size:12px;color:#1d2d3e">Scarlett Brightening Body Lotion</td>
+                <td style="text-align:right;font-weight:600">45</td>
+              </tr>
+              <!-- 80–99% — amber -->
+              <tr>
+                <td class="td-name">Budi Santoso</td>
+                <td style="font-size:12px;color:#6b7280">DKI Jakarta</td>
+                <td style="text-align:right;font-size:12px">IDR 5.0B</td>
+                <td style="text-align:right;font-size:12px;font-weight:600">IDR 4.6B</td>
+                <td style="text-align:center"><span class="sfm2-ach-amber">92%</span></td>
+                <td style="text-align:center;font-size:15px;color:#6b7280">→</td>
+                <td style="font-size:12px;color:#1d2d3e">BLP Lip Coat</td>
+                <td style="text-align:right;font-weight:600">36</td>
+              </tr>
+              <tr>
+                <td class="td-name">Maya Putri</td>
+                <td style="font-size:12px;color:#6b7280">Bali</td>
+                <td style="text-align:right;font-size:12px">IDR 3.2B</td>
+                <td style="text-align:right;font-size:12px;font-weight:600">IDR 2.9B</td>
+                <td style="text-align:center"><span class="sfm2-ach-amber">91%</span></td>
+                <td style="text-align:center;font-size:15px;color:#107e3e">↑</td>
+                <td style="font-size:12px;color:#1d2d3e">Make Over Powerstay Foundation</td>
+                <td style="text-align:right;font-weight:600">29</td>
+              </tr>
+              <tr>
+                <td class="td-name">Rizki Pratama</td>
+                <td style="font-size:12px;color:#6b7280">Sulawesi Selatan</td>
+                <td style="text-align:right;font-size:12px">IDR 3.6B</td>
+                <td style="text-align:right;font-size:12px;font-weight:600">IDR 3.1B</td>
+                <td style="text-align:center"><span class="sfm2-ach-amber">86%</span></td>
+                <td style="text-align:center;font-size:15px;color:#6b7280">→</td>
+                <td style="font-size:12px;color:#1d2d3e">Wardah Lightening Toner</td>
+                <td style="text-align:right;font-weight:600">27</td>
+              </tr>
+              <tr>
+                <td class="td-name">Ahmad Fauzi</td>
+                <td style="font-size:12px;color:#6b7280">Jawa Barat</td>
+                <td style="text-align:right;font-size:12px">IDR 4.0B</td>
+                <td style="text-align:right;font-size:12px;font-weight:600">IDR 3.4B</td>
+                <td style="text-align:center"><span class="sfm2-ach-amber">85%</span></td>
+                <td style="text-align:center;font-size:15px;color:#6b7280">→</td>
+                <td style="font-size:12px;color:#1d2d3e">Azarine Sunscreen SPF50</td>
+                <td style="text-align:right;font-weight:600">31</td>
+              </tr>
+              <!-- Below 80% — red -->
+              <tr style="border-left:3px solid #bb0000">
+                <td class="td-name">Siti Nurhaliza</td>
+                <td style="font-size:12px;color:#6b7280">Jawa Barat</td>
+                <td style="text-align:right;font-size:12px">IDR 3.5B</td>
+                <td style="text-align:right;font-size:12px;font-weight:600">IDR 2.5B</td>
+                <td style="text-align:center"><span class="sfm2-ach-red">71%</span></td>
+                <td style="text-align:center;font-size:15px;color:#bb0000">↓</td>
+                <td style="font-size:12px;color:#1d2d3e">Implora Matte Lip Cream</td>
+                <td style="text-align:right;font-weight:600">18</td>
+              </tr>
+              <tr style="border-left:3px solid #bb0000">
+                <td class="td-name">Hendra Wijaya</td>
+                <td style="font-size:12px;color:#6b7280">Sumatera Utara</td>
+                <td style="text-align:right;font-size:12px">IDR 2.8B</td>
+                <td style="text-align:right;font-size:12px;font-weight:600">IDR 2.0B</td>
+                <td style="text-align:center"><span class="sfm2-ach-red">71%</span></td>
+                <td style="text-align:center;font-size:15px;color:#bb0000">↓</td>
+                <td style="font-size:12px;color:#1d2d3e">Emina Bright Stuff Moisturizer</td>
+                <td style="text-align:right;font-weight:600">14</td>
+              </tr>
+              <tr style="border-left:3px solid #bb0000">
+                <td class="td-name">Andi Saputra</td>
+                <td style="font-size:12px;color:#6b7280">Kalimantan</td>
+                <td style="text-align:right;font-size:12px">IDR 2.5B</td>
+                <td style="text-align:right;font-size:12px;font-weight:600">IDR 1.6B</td>
+                <td style="text-align:center"><span class="sfm2-ach-red">64%</span></td>
+                <td style="text-align:center;font-size:15px;color:#bb0000">↓</td>
+                <td style="font-size:12px;color:#1d2d3e">Wardah Exclusive Matte Lip Cream</td>
+                <td style="text-align:right;font-weight:600">11</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:20px;font-size:11px;color:#6b7280">
+          <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:12px;height:12px;border-left:3px solid #107e3e;border-radius:1px"></span>Green border = Above 100%</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:12px;height:12px;border-left:3px solid #bb0000;border-radius:1px"></span>Red border = Below 80%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOCK 2 — STORE-LEVEL EXECUTION SCORECARD -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label"><span class="section-tag tag-teal">Promo Execution &amp; Store Compliance</span></p>
+        <span class="section-sub">Field audit results across retail partner stores</span>
+      </div>
+      <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Store Name</th>
+                <th>Type</th>
+                <th>City</th>
+                <th>Rep Assigned</th>
+                <th style="text-align:center">Promo Active</th>
+                <th style="text-align:right">Shelf Compliance</th>
+                <th style="text-align:center">Tester Available</th>
+                <th style="text-align:center">Planogram Correct</th>
+                <th style="text-align:center">Last Audit</th>
+                <th style="text-align:center">Overall Score (/100)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-name">Indomaret Sunter</td>
+                <td style="font-size:12px;color:#6b7280">Minimarket</td>
+                <td style="font-size:12px;color:#6b7280">Jakarta</td>
+                <td style="font-size:12px;color:#1d2d3e">Budi Santoso</td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:right;font-weight:600;color:#107e3e">94%</td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:center;font-size:12px;color:#6b7280">Today</td>
+                <td style="text-align:center"><span class="sfm2-score-green">96</span></td>
+              </tr>
+              <tr>
+                <td class="td-name">Alfamart Cibubur</td>
+                <td style="font-size:12px;color:#6b7280">Minimarket</td>
+                <td style="font-size:12px;color:#6b7280">Jakarta</td>
+                <td style="font-size:12px;color:#1d2d3e">Dewi Rahayu</td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:right;font-weight:600;color:#107e3e">91%</td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:center;font-size:12px;color:#6b7280">Yesterday</td>
+                <td style="text-align:center"><span class="sfm2-score-green">92</span></td>
+              </tr>
+              <tr>
+                <td class="td-name">Guardian Grand Indonesia</td>
+                <td style="font-size:12px;color:#6b7280">Health &amp; Beauty</td>
+                <td style="font-size:12px;color:#6b7280">Jakarta</td>
+                <td style="font-size:12px;color:#1d2d3e">Dewi Rahayu</td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:right;font-weight:600;color:#e76500">88%</td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:center"><span class="status-badge badge-red">No</span></td>
+                <td style="text-align:center;font-size:12px;color:#6b7280">2d ago</td>
+                <td style="text-align:center"><span class="sfm2-score-amber">84</span></td>
+              </tr>
+              <tr style="background:#fff5f5">
+                <td class="td-name">Hypermart Bandung</td>
+                <td style="font-size:12px;color:#6b7280">Hypermarket</td>
+                <td style="font-size:12px;color:#6b7280">Bandung</td>
+                <td style="font-size:12px;color:#1d2d3e">Ahmad Fauzi</td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:right;font-weight:600;color:#bb0000">72%</td>
+                <td style="text-align:center"><span class="status-badge badge-red">No</span></td>
+                <td style="text-align:center"><span class="status-badge badge-red">No</span></td>
+                <td style="text-align:center;font-size:12px;color:#6b7280">3d ago</td>
+                <td style="text-align:center"><span class="sfm2-score-red">68</span></td>
+              </tr>
+              <tr>
+                <td class="td-name">Transmart Surabaya</td>
+                <td style="font-size:12px;color:#6b7280">Hypermarket</td>
+                <td style="font-size:12px;color:#6b7280">Surabaya</td>
+                <td style="font-size:12px;color:#1d2d3e">Fitri Handayani</td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:right;font-weight:600;color:#107e3e">85%</td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:center;font-size:12px;color:#6b7280">Today</td>
+                <td style="text-align:center"><span class="sfm2-score-green">88</span></td>
+              </tr>
+              <tr style="background:#fff5f5">
+                <td class="td-name">Lottemart Medan</td>
+                <td style="font-size:12px;color:#6b7280">Hypermarket</td>
+                <td style="font-size:12px;color:#6b7280">Medan</td>
+                <td style="font-size:12px;color:#1d2d3e">Hendra Wijaya</td>
+                <td style="text-align:center"><span class="status-badge badge-red">No</span></td>
+                <td style="text-align:right;font-weight:600;color:#bb0000">61%</td>
+                <td style="text-align:center"><span class="status-badge badge-red">No</span></td>
+                <td style="text-align:center"><span class="status-badge badge-red">No</span></td>
+                <td style="text-align:center;font-size:12px;color:#6b7280">5d ago</td>
+                <td style="text-align:center"><span class="sfm2-score-red">54</span></td>
+              </tr>
+              <tr>
+                <td class="td-name">Ramayana Makassar</td>
+                <td style="font-size:12px;color:#6b7280">Department Store</td>
+                <td style="font-size:12px;color:#6b7280">Makassar</td>
+                <td style="font-size:12px;color:#1d2d3e">Rizki Pratama</td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:right;font-weight:600;color:#e76500">78%</td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:center"><span class="status-badge badge-red">No</span></td>
+                <td style="text-align:center;font-size:12px;color:#6b7280">2d ago</td>
+                <td style="text-align:center"><span class="sfm2-score-amber">76</span></td>
+              </tr>
+              <tr>
+                <td class="td-name">Matahari Denpasar</td>
+                <td style="font-size:12px;color:#6b7280">Department Store</td>
+                <td style="font-size:12px;color:#6b7280">Bali</td>
+                <td style="font-size:12px;color:#1d2d3e">Maya Putri</td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:right;font-weight:600;color:#107e3e">90%</td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:center"><span class="status-badge badge-green">Yes</span></td>
+                <td style="text-align:center;font-size:12px;color:#6b7280">Yesterday</td>
+                <td style="text-align:center"><span class="sfm2-score-green">91</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:20px;font-size:11px;color:#6b7280">
+          <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#107e3e"></span>Score 85+ = Green</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#e76500"></span>Score 70–84 = Amber</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#bb0000"></span>Score &lt;70 = Red</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOCK 3 — FIELD INTELLIGENCE FEEDBACK LOOP -->
+    <div class="section-block">
+      <div class="section-hdr">
+        <div>
+          <p class="section-label"><span class="section-tag tag-purple">Field Intelligence — Feedback to Planning</span></p>
+          <span class="section-sub">Signals from field reps feeding back into supply chain and demand planning</span>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.08);padding:16px">
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Rep</th>
+                <th>Region</th>
+                <th style="text-align:center">Signal Type</th>
+                <th>SKU / Topic</th>
+                <th>Description</th>
+                <th style="text-align:center">Submitted</th>
+                <th style="text-align:center">Routed To</th>
+                <th style="text-align:center">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-name">Ahmad Fauzi</td>
+                <td style="font-size:12px;color:#6b7280">Jawa Barat</td>
+                <td style="text-align:center"><span class="status-badge badge-orange">Demand Spike</span></td>
+                <td style="font-size:12px;font-weight:600;color:#1d2d3e">Wardah Niacinamide Serum</td>
+                <td style="font-size:12px;color:#6b7280;max-width:240px">Unexpected surge at Bekasi outlets — 3× normal offtake</td>
+                <td style="text-align:center;font-size:12px;color:#6b7280">1h ago</td>
+                <td style="text-align:center"><span class="status-badge badge-blue">Demand Planning</span></td>
+                <td style="text-align:center"><span class="status-badge badge-blue">Sent</span></td>
+              </tr>
+              <tr>
+                <td class="td-name">Hendra Wijaya</td>
+                <td style="font-size:12px;color:#6b7280">Sumatera Utara</td>
+                <td style="text-align:center"><span class="status-badge badge-purple">Competitor Activity</span></td>
+                <td style="font-size:12px;font-weight:600;color:#1d2d3e">Emina vs Pond's SPF</td>
+                <td style="font-size:12px;color:#6b7280;max-width:240px">Pond's running buy-1-get-1 promo at all Indomaret Medan</td>
+                <td style="text-align:center;font-size:12px;color:#6b7280">2h ago</td>
+                <td style="text-align:center"><span class="status-badge badge-green">Marketing</span></td>
+                <td style="text-align:center"><span class="status-badge badge-blue">Sent</span></td>
+              </tr>
+              <tr>
+                <td class="td-name">Siti Nurhaliza</td>
+                <td style="font-size:12px;color:#6b7280">Jawa Barat</td>
+                <td style="text-align:center"><span class="status-badge badge-red">OOS Report</span></td>
+                <td style="font-size:12px;font-weight:600;color:#1d2d3e">Azarine Sunscreen</td>
+                <td style="font-size:12px;color:#6b7280;max-width:240px">Stockout confirmed at 4 Guardian outlets Bandung</td>
+                <td style="text-align:center;font-size:12px;color:#6b7280">3h ago</td>
+                <td style="text-align:center"><span class="status-badge badge-yellow">Supply Chain</span></td>
+                <td style="text-align:center"><span class="status-badge badge-green">Actioned</span></td>
+              </tr>
+              <tr>
+                <td class="td-name">Andi Saputra</td>
+                <td style="font-size:12px;color:#6b7280">Kalimantan</td>
+                <td style="text-align:center"><span class="status-badge badge-yellow">Promo Gap</span></td>
+                <td style="font-size:12px;font-weight:600;color:#1d2d3e">Wardah Lightening Toner</td>
+                <td style="font-size:12px;color:#6b7280;max-width:240px">Campaign materials not delivered — promo not activated</td>
+                <td style="text-align:center;font-size:12px;color:#6b7280">5h ago</td>
+                <td style="text-align:center"><span class="status-badge badge-purple">Commercial</span></td>
+                <td style="text-align:center"><span class="status-badge badge-yellow">Pending</span></td>
+              </tr>
+              <tr>
+                <td class="td-name">Rizki Pratama</td>
+                <td style="font-size:12px;color:#6b7280">Sulawesi Selatan</td>
+                <td style="text-align:center"><span class="status-badge badge-teal">Customer Feedback</span></td>
+                <td style="font-size:12px;font-weight:600;color:#1d2d3e">Make Over Foundation</td>
+                <td style="font-size:12px;color:#6b7280;max-width:240px">Multiple customers requesting shade 04N — not in current range</td>
+                <td style="text-align:center;font-size:12px;color:#6b7280">4h ago</td>
+                <td style="text-align:center"><span class="status-badge badge-blue">Demand Planning</span></td>
+                <td style="text-align:center"><span class="status-badge badge-blue">Sent</span></td>
+              </tr>
+              <tr>
+                <td class="td-name">Budi Santoso</td>
+                <td style="font-size:12px;color:#6b7280">DKI Jakarta</td>
+                <td style="text-align:center"><span class="status-badge badge-orange">Demand Spike</span></td>
+                <td style="font-size:12px;font-weight:600;color:#1d2d3e">BLP Lip Coat</td>
+                <td style="font-size:12px;color:#6b7280;max-width:240px">New TikTok trend driving walk-in demand at Matahari Jakarta</td>
+                <td style="text-align:center;font-size:12px;color:#6b7280">1h ago</td>
+                <td style="text-align:center"><span class="status-badge badge-green">Marketing</span></td>
+                <td style="text-align:center"><span class="status-badge badge-green">Actioned</span></td>
+              </tr>
+              <tr>
+                <td class="td-name">Fitri Handayani</td>
+                <td style="font-size:12px;color:#6b7280">Jawa Timur</td>
+                <td style="text-align:center"><span class="status-badge badge-red">OOS Report</span></td>
+                <td style="font-size:12px;font-weight:600;color:#1d2d3e">Scarlett Body Lotion</td>
+                <td style="font-size:12px;color:#6b7280;max-width:240px">Low stock warning at 2 Hypermart Surabaya</td>
+                <td style="text-align:center;font-size:12px;color:#6b7280">2h ago</td>
+                <td style="text-align:center"><span class="status-badge badge-yellow">Supply Chain</span></td>
+                <td style="text-align:center"><span class="status-badge badge-blue">Sent</span></td>
+              </tr>
+              <tr>
+                <td class="td-name">Maya Putri</td>
+                <td style="font-size:12px;color:#6b7280">Bali</td>
+                <td style="text-align:center"><span class="status-badge badge-purple">Competitor Activity</span></td>
+                <td style="font-size:12px;font-weight:600;color:#1d2d3e">Skincare category</td>
+                <td style="font-size:12px;color:#6b7280;max-width:240px">New local brand aggressive pricing at Guardian Bali — affecting Wardah sell-through</td>
+                <td style="text-align:center;font-size:12px;color:#6b7280">6h ago</td>
+                <td style="text-align:center"><span class="status-badge badge-purple">Commercial</span></td>
+                <td style="text-align:center"><span class="status-badge badge-yellow">Pending</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end #sfm-part2 -->
 
 </div><!-- end panel-commercial -->
 <!-- === END COMMERCIAL MODULE HTML === -->
