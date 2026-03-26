@@ -1315,6 +1315,10 @@
     <span class="nav-item-icon">📋</span>
     <span class="nav-item-label">Executive Summary</span>
   </button>
+  <button class="nav-item" id="nav-war-room" onclick="switchTab('war-room')">
+    <span class="nav-item-icon">🎯</span>
+    <span class="nav-item-label">War Room</span>
+  </button>
   <div class="sidebar-section-label">Upstream — Supply Side</div>
   <button class="nav-item" id="nav-suppliers" onclick="switchTab('suppliers')">
     <span class="nav-item-icon">🤝</span>
@@ -9040,6 +9044,238 @@
 <!-- === END EXECUTIVE SUMMARY MODULE HTML === -->
 
 
+<!-- === WAR ROOM PANEL === -->
+<style>
+  /* ── War Room ─────────────────────────────────────────────── */
+  #panel-war-room {
+    background: #111827;
+    min-height: 100vh;
+    padding: 32px 32px 48px;
+    color: #e2e8f0;
+  }
+  .wr-heading {
+    font-size: 22px;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  .wr-subtitle {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0 0 24px;
+  }
+  /* Stats row */
+  .wr-stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .wr-stat-card {
+    flex: 1 1 120px;
+    background: #1e293b;
+    border: 1px solid #2d3f50;
+    border-radius: 10px;
+    padding: 14px 16px;
+    min-width: 110px;
+  }
+  .wr-stat-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    margin-bottom: 6px;
+  }
+  .wr-stat-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: #f1f5f9;
+    line-height: 1;
+  }
+  .wr-stat-card.wr-red   { border-color: #ef4444; background: #2a1215; }
+  .wr-stat-card.wr-red   .wr-stat-value { color: #f87171; }
+  .wr-stat-card.wr-green { border-color: #10b981; background: #0a1f17; }
+  .wr-stat-card.wr-green .wr-stat-value { color: #34d399; }
+  /* Roster */
+  .wr-roster-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #475569;
+    margin-bottom: 12px;
+  }
+  .wr-roster-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .wr-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: default;
+    flex-shrink: 0;
+  }
+  .wr-roster-sep {
+    height: 1px;
+    background: rgba(255,255,255,0.07);
+    margin-bottom: 24px;
+  }
+  /* Alert board placeholder */
+  .wr-alerts-placeholder {
+    background: #1e293b;
+    border: 1px dashed #2d3f50;
+    border-radius: 10px;
+    padding: 24px 20px;
+    color: #475569;
+    font-size: 13px;
+    text-align: center;
+  }
+  /* Engine-not-loaded notice */
+  .wr-engine-notice {
+    font-size: 12px;
+    color: #64748b;
+    font-style: italic;
+    padding: 8px 0;
+  }
+</style>
+
+<div class="tab-panel" id="panel-war-room">
+  <section id="war-room">
+    <h2 class="wr-heading">🎯 War Room — Active Response Center</h2>
+    <p class="wr-subtitle">Claim alerts &middot; Log responses &middot; Tag colleagues &middot; Close the loop</p>
+
+    <!-- Stats row placeholder -->
+    <div id="war-room-stats"></div>
+
+    <!-- Roster placeholder -->
+    <div id="war-room-roster"></div>
+
+    <!-- Separator between roster and alert board -->
+    <div class="wr-roster-sep"></div>
+
+    <!-- Alert board placeholder -->
+    <div id="war-room-alerts-board" class="wr-alerts-placeholder">Alert board loading...</div>
+
+    <!-- Resolved section placeholder -->
+    <div id="war-room-resolved"></div>
+  </section>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Render stats row ──────────────────────────────────────── */
+  function renderWarRoomStats() {
+    var el = document.getElementById('war-room-stats');
+    if (!el) return;
+
+    if (typeof window.OdysseyStakeholderEngine === 'undefined') {
+      el.innerHTML = '<p class="wr-engine-notice">Engine not loaded</p>';
+      return;
+    }
+
+    var s = window.OdysseyStakeholderEngine.getStats();
+
+    var cards = [
+      {
+        label: 'Total Open',
+        value: s.totalOpen,
+        cls: ''
+      },
+      {
+        label: 'Unclaimed',
+        value: s.unclaimed,
+        cls: s.unclaimed > 0 ? 'wr-red' : 'wr-green'
+      },
+      {
+        label: 'Claimed',
+        value: s.claimed,
+        cls: ''
+      },
+      {
+        label: 'Resolved Today',
+        value: s.resolvedToday,
+        cls: 'wr-green'
+      },
+      {
+        label: 'Avg Response Time',
+        value: s.avgTimeToResolve,
+        cls: ''
+      },
+      {
+        label: 'Overdue',
+        value: s.overdue,
+        cls: s.overdue > 0 ? 'wr-red' : ''
+      }
+    ];
+
+    var html = '<div class="wr-stats-row">';
+    cards.forEach(function (c) {
+      html +=
+        '<div class="wr-stat-card' + (c.cls ? ' ' + c.cls : '') + '">' +
+          '<div class="wr-stat-label">' + c.label + '</div>' +
+          '<div class="wr-stat-value">' + c.value + '</div>' +
+        '</div>';
+    });
+    html += '</div>';
+    el.innerHTML = html;
+  }
+
+  /* ── Render roster ─────────────────────────────────────────── */
+  function renderWarRoomRoster() {
+    var el = document.getElementById('war-room-roster');
+    if (!el) return;
+
+    if (typeof window.OdysseyStakeholderEngine === 'undefined') {
+      el.innerHTML = '';
+      return;
+    }
+
+    var roster = window.OdysseyStakeholderEngine.getRoster();
+    var html =
+      '<div class="wr-roster-label">Who\'s On Shift</div>' +
+      '<div class="wr-roster-chips">';
+
+    roster.forEach(function (s) {
+      html +=
+        '<div class="wr-avatar" style="background:' + s.color + ';" title="' + s.role + '">' +
+          s.initials +
+        '</div>';
+    });
+
+    html += '</div>';
+    el.innerHTML = html;
+  }
+
+  /* ── Bootstrap: wait for DOM, then render and set interval ─── */
+  function initWarRoom() {
+    renderWarRoomStats();
+    renderWarRoomRoster();
+    setInterval(renderWarRoomStats, 5000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWarRoom);
+  } else {
+    initWarRoom();
+  }
+}());
+</script>
+<!-- === END WAR ROOM PANEL === -->
+
+
 <!-- === ARIA INTELLIGENCE PANEL === -->
 <div class="tab-panel" id="panel-aria-intelligence">
 
@@ -9753,7 +9989,7 @@ function switchTab(tab) {
   document.getElementById('panel-'+tab).classList.add('active');
   const navEl=document.getElementById('nav-'+tab);
   if(navEl) navEl.classList.add('active');
-  const titles={kpi:'Distribution & Warehouse',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard',exec:'Executive Summary','it-systems':'IT / Systems','transport-3pl':'Transport & 3PL','aria-intelligence':'ARIA Intelligence'};
+  const titles={kpi:'Distribution & Warehouse',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard',exec:'Executive Summary','it-systems':'IT / Systems','transport-3pl':'Transport & 3PL','aria-intelligence':'ARIA Intelligence','war-room':'War Room'};
   document.getElementById('top-bar-title').textContent=titles[tab]||tab;
   const bcEl=document.getElementById('top-bar-breadcrumb');
   if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
