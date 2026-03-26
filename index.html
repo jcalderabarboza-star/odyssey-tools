@@ -1276,6 +1276,28 @@
     }
     .aria-scenario-simulate-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(124,58,237,0.6); }
     .aria-scenario-simulate-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    /* ── RM & PM Inventory Module ─────────────────────────────── */
+    .rmpm-type-badge {
+      display: inline-flex; align-items: center;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+      text-transform: uppercase; padding: 2px 8px;
+      border-radius: 10px; border: 1px solid; white-space: nowrap;
+    }
+    .rmpm-type-active       { background: #eff6ff; color: #0070f2; border-color: #bfdbfe; }
+    .rmpm-type-base         { background: #f0faf4; color: #107e3e; border-color: #a3d9b1; }
+    .rmpm-type-preservative { background: #f5f3ff; color: #7c3aed; border-color: #ddd6fe; }
+    .rmpm-type-fragrance    { background: #fff8f0; color: #e76500; border-color: #f6b26b; }
+    .rmpm-type-other        { background: #f3f4f6; color: #6b7280; border-color: #d1d5db; }
+    .rmpm-row-oos {
+      background-color: #fff0f0;
+      box-shadow: inset 4px 0 0 #bb0000;
+      animation: rmpm-oos-pulse 1.8s infinite;
+    }
+    @keyframes rmpm-oos-pulse {
+      0%,100% { box-shadow: inset 4px 0 0 #bb0000; background-color: #fff0f0; }
+      50%      { box-shadow: inset 4px 0 0 rgba(187,0,0,0.45); background-color: #ffe8e8; }
+    }
   </style>
 </head>
 <body>
@@ -1323,6 +1345,10 @@
   <button class="nav-item" id="nav-suppliers" onclick="switchTab('suppliers')">
     <span class="nav-item-icon">🤝</span>
     <span class="nav-item-label">Suppliers Portal</span>
+  </button>
+  <button class="nav-item" id="nav-rmpm-inventory" onclick="switchTab('rmpm-inventory')">
+    <span class="nav-item-icon">🧪</span>
+    <span class="nav-item-label">RM &amp; PM Inventory</span>
   </button>
   <button class="nav-item" id="nav-proc" onclick="switchTab('proc')">
     <span class="nav-item-icon">🛒</span>
@@ -4981,6 +5007,324 @@
   </div>
 
 </div><!-- end panel-suppliers -->
+
+<!-- ══════════════════════════════════════════
+     RM & PM INVENTORY MODULE
+══════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-rmpm-inventory">
+
+  <!-- HEADER -->
+  <div class="section-block" style="margin-bottom:20px">
+    <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin-bottom:4px">🧪 RM &amp; PM Inventory</h2>
+    <p style="font-size:11px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">E2E Control Tower › Supply Chain</p>
+    <p style="font-size:14px;color:#6b7280;font-weight:500">Raw Material &amp; Packaging Material stock control — ensuring Manufacturing never stops</p>
+  </div>
+
+  <!-- KPI SUMMARY CARDS -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label"><span class="section-tag tag-blue">Inventory KPI Summary</span></p>
+      <span class="section-sub">Live stock position · Updated daily</span>
+    </div>
+    <div class="kpi-grid">
+
+      <!-- RM Coverage — amber -->
+      <div class="kpi-card yellow">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">RM Coverage (avg days)</div>
+            <div class="kpi-category">Raw Material Safety Position</div>
+          </div>
+          <span class="status-badge badge-yellow">Watch</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current">18.4</span>
+            <span class="kpi-unit">days</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>≥ 21 days</strong></div>
+      </div>
+
+      <!-- PM Coverage — green -->
+      <div class="kpi-card green">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">PM Coverage (avg days)</div>
+            <div class="kpi-category">Packaging Material Safety Position</div>
+          </div>
+          <span class="status-badge badge-green">Healthy</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current">22.1</span>
+            <span class="kpi-unit">days</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>≥ 21 days</strong></div>
+      </div>
+
+      <!-- Critical Materials Below Safety Stock — red -->
+      <div class="kpi-card red">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">Critical Materials Below Safety Stock</div>
+            <div class="kpi-category">Urgency Alerts</div>
+          </div>
+          <span class="status-badge badge-red">Critical</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current" style="color:#bb0000">4</span>
+            <span class="kpi-unit">materials</span>
+          </div>
+        </div>
+        <div class="kpi-target">Target: <strong>0 materials at risk</strong></div>
+      </div>
+
+      <!-- In-Transit RM/PM — blue -->
+      <div class="kpi-card" style="border-left-color:#0070f2">
+        <div class="kpi-header">
+          <div>
+            <div class="kpi-name">In-Transit RM/PM (IDR value)</div>
+            <div class="kpi-category">Pipeline Stock</div>
+          </div>
+          <span class="status-badge" style="background:#eff6ff;color:#0070f2;border:1px solid #bfdbfe">In Transit</span>
+        </div>
+        <div class="kpi-values">
+          <div class="kpi-value-group">
+            <span class="kpi-current" style="color:#0070f2;font-size:22px">IDR 8.2B</span>
+          </div>
+        </div>
+        <div class="kpi-target">Pipeline replenishment stock en route</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RAW MATERIAL STOCK COVERAGE TABLE -->
+  <div class="section-block">
+    <div class="section-hdr">
+      <p class="section-label" style="font-weight:700;text-transform:uppercase;letter-spacing:0.06em">Raw Material — Stock Coverage by Material</p>
+      <span class="section-sub">Coverage days = On-Hand Stock ÷ Daily Consumption Rate</span>
+    </div>
+
+    <!-- Status legend -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+      <span class="status-badge badge-green">● Healthy</span>
+      <span class="status-badge badge-yellow">● Watch</span>
+      <span class="status-badge badge-red">● Critical</span>
+      <span class="status-badge badge-red" style="animation:pulse-red-light 1.8s infinite">⚡ OOS</span>
+    </div>
+
+    <div class="table-scroll">
+      <table class="data-table" style="min-width:1200px">
+        <thead>
+          <tr>
+            <th>Material Name</th>
+            <th>Material Type</th>
+            <th>Supplier</th>
+            <th>On-Hand (kg)</th>
+            <th>Daily Consumption (kg/day)</th>
+            <th>Coverage (days)</th>
+            <th>Safety Stock (days)</th>
+            <th>Status</th>
+            <th>Last GRN</th>
+            <th>Next Delivery ETA</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- 1. Niacinamide Powder — Watch -->
+          <tr style="box-shadow:inset 4px 0 0 #e76500;background:#fff8f0">
+            <td style="font-weight:600;color:#1d2d3e">Niacinamide Powder</td>
+            <td><span class="rmpm-type-badge rmpm-type-active">Active Ingredient</span></td>
+            <td style="color:#6b7280;font-size:12px">PT Bahan Kimia Utama</td>
+            <td style="font-weight:600">840 kg</td>
+            <td style="color:#6b7280">48 kg/day</td>
+            <td style="font-weight:700;color:#e76500">17.5d</td>
+            <td style="color:#6b7280">14d</td>
+            <td><span class="status-badge badge-yellow">Watch</span></td>
+            <td style="color:#9ca3af;font-size:12px">3d ago</td>
+            <td style="color:#6b7280;font-size:12px">In 5 days</td>
+            <td style="font-size:12px;color:#e76500;font-weight:600">Monitor</td>
+          </tr>
+
+          <!-- 2. Shea Butter — Healthy -->
+          <tr>
+            <td style="font-weight:600;color:#1d2d3e">Shea Butter</td>
+            <td><span class="rmpm-type-badge rmpm-type-base">Base</span></td>
+            <td style="color:#6b7280;font-size:12px">PT Oleokimia Nusantara</td>
+            <td style="font-weight:600">2,400 kg</td>
+            <td style="color:#6b7280">95 kg/day</td>
+            <td style="font-weight:700;color:#107e3e">25.3d</td>
+            <td style="color:#6b7280">14d</td>
+            <td><span class="status-badge badge-green">Healthy</span></td>
+            <td style="color:#9ca3af;font-size:12px">1d ago</td>
+            <td style="color:#6b7280;font-size:12px">In 12 days</td>
+            <td style="color:#9ca3af;font-size:12px">—</td>
+          </tr>
+
+          <!-- 3. Titanium Dioxide — Critical -->
+          <tr style="box-shadow:inset 4px 0 0 #bb0000;background:#fff0f0">
+            <td style="font-weight:600;color:#1d2d3e">Titanium Dioxide</td>
+            <td><span class="rmpm-type-badge rmpm-type-active">Active Ingredient</span></td>
+            <td style="color:#6b7280;font-size:12px">CV Mineral Prima</td>
+            <td style="font-weight:600">180 kg</td>
+            <td style="color:#6b7280">42 kg/day</td>
+            <td style="font-weight:700;color:#bb0000">4.3d</td>
+            <td style="color:#6b7280">10d</td>
+            <td><span class="status-badge badge-red">Critical</span></td>
+            <td style="color:#9ca3af;font-size:12px">8d ago</td>
+            <td style="color:#6b7280;font-size:12px">In 3 days</td>
+            <td style="font-size:12px;color:#bb0000;font-weight:700">Expedite delivery</td>
+          </tr>
+
+          <!-- 4. Hyaluronic Acid — Watch -->
+          <tr style="box-shadow:inset 4px 0 0 #e76500;background:#fff8f0">
+            <td style="font-weight:600;color:#1d2d3e">Hyaluronic Acid</td>
+            <td><span class="rmpm-type-badge rmpm-type-active">Active Ingredient</span></td>
+            <td style="color:#6b7280;font-size:12px">PT Biotech Indonesia</td>
+            <td style="font-weight:600">320 kg</td>
+            <td style="color:#6b7280">28 kg/day</td>
+            <td style="font-weight:700;color:#e76500">11.4d</td>
+            <td style="color:#6b7280">14d</td>
+            <td><span class="status-badge badge-yellow">Watch</span></td>
+            <td style="color:#9ca3af;font-size:12px">5d ago</td>
+            <td style="color:#6b7280;font-size:12px">In 7 days</td>
+            <td style="font-size:12px;color:#e76500;font-weight:600">Monitor</td>
+          </tr>
+
+          <!-- 5. Cetyl Alcohol — Healthy -->
+          <tr>
+            <td style="font-weight:600;color:#1d2d3e">Cetyl Alcohol</td>
+            <td><span class="rmpm-type-badge rmpm-type-base">Base</span></td>
+            <td style="color:#6b7280;font-size:12px">PT Kimia Farma</td>
+            <td style="font-weight:600">1,840 kg</td>
+            <td style="color:#6b7280">74 kg/day</td>
+            <td style="font-weight:700;color:#107e3e">24.9d</td>
+            <td style="color:#6b7280">10d</td>
+            <td><span class="status-badge badge-green">Healthy</span></td>
+            <td style="color:#9ca3af;font-size:12px">2d ago</td>
+            <td style="color:#6b7280;font-size:12px">In 10 days</td>
+            <td style="color:#9ca3af;font-size:12px">—</td>
+          </tr>
+
+          <!-- 6. Retinol (0.1%) — Critical -->
+          <tr style="box-shadow:inset 4px 0 0 #bb0000;background:#fff0f0">
+            <td style="font-weight:600;color:#1d2d3e">Retinol (0.1%)</td>
+            <td><span class="rmpm-type-badge rmpm-type-active">Active Ingredient</span></td>
+            <td style="color:#6b7280;font-size:12px">PT Bahan Kimia Utama</td>
+            <td style="font-weight:600">42 kg</td>
+            <td style="color:#6b7280">8 kg/day</td>
+            <td style="font-weight:700;color:#bb0000">5.3d</td>
+            <td style="color:#6b7280">14d</td>
+            <td><span class="status-badge badge-red">Critical</span></td>
+            <td style="color:#9ca3af;font-size:12px">12d ago</td>
+            <td style="color:#e76500;font-size:12px;font-weight:600">Delayed</td>
+            <td style="font-size:12px;color:#bb0000;font-weight:700">Emergency PO raised</td>
+          </tr>
+
+          <!-- 7. Glycerin — Healthy -->
+          <tr>
+            <td style="font-weight:600;color:#1d2d3e">Glycerin</td>
+            <td><span class="rmpm-type-badge rmpm-type-base">Base</span></td>
+            <td style="color:#6b7280;font-size:12px">PT Oleokimia Nusantara</td>
+            <td style="font-weight:600">3,200 kg</td>
+            <td style="color:#6b7280">110 kg/day</td>
+            <td style="font-weight:700;color:#107e3e">29.1d</td>
+            <td style="color:#6b7280">10d</td>
+            <td><span class="status-badge badge-green">Healthy</span></td>
+            <td style="color:#9ca3af;font-size:12px">1d ago</td>
+            <td style="color:#6b7280;font-size:12px">In 14 days</td>
+            <td style="color:#9ca3af;font-size:12px">—</td>
+          </tr>
+
+          <!-- 8. SPF UV Filter (Octinoxate) — Critical -->
+          <tr style="box-shadow:inset 4px 0 0 #bb0000;background:#fff0f0">
+            <td style="font-weight:600;color:#1d2d3e">SPF UV Filter (Octinoxate)</td>
+            <td><span class="rmpm-type-badge rmpm-type-active">Active Ingredient</span></td>
+            <td style="color:#6b7280;font-size:12px">CV Mineral Prima</td>
+            <td style="font-weight:600">95 kg</td>
+            <td style="color:#6b7280">31 kg/day</td>
+            <td style="font-weight:700;color:#bb0000">3.1d</td>
+            <td style="color:#6b7280">10d</td>
+            <td><span class="status-badge badge-red">Critical</span></td>
+            <td style="color:#9ca3af;font-size:12px">9d ago</td>
+            <td style="color:#6b7280;font-size:12px">In 2 days</td>
+            <td style="font-size:12px;color:#bb0000;font-weight:700">Expedite</td>
+          </tr>
+
+          <!-- 9. Preservative (Phenoxyethanol) — Healthy -->
+          <tr>
+            <td style="font-weight:600;color:#1d2d3e">Preservative (Phenoxyethanol)</td>
+            <td><span class="rmpm-type-badge rmpm-type-preservative">Preservative</span></td>
+            <td style="color:#6b7280;font-size:12px">PT Kimia Farma</td>
+            <td style="font-weight:600">420 kg</td>
+            <td style="color:#6b7280">18 kg/day</td>
+            <td style="font-weight:700;color:#107e3e">23.3d</td>
+            <td style="color:#6b7280">14d</td>
+            <td><span class="status-badge badge-green">Healthy</span></td>
+            <td style="color:#9ca3af;font-size:12px">4d ago</td>
+            <td style="color:#6b7280;font-size:12px">In 11 days</td>
+            <td style="color:#9ca3af;font-size:12px">—</td>
+          </tr>
+
+          <!-- 10. Fragrance Oil - Floral — Watch -->
+          <tr style="box-shadow:inset 4px 0 0 #e76500;background:#fff8f0">
+            <td style="font-weight:600;color:#1d2d3e">Fragrance Oil - Floral</td>
+            <td><span class="rmpm-type-badge rmpm-type-fragrance">Fragrance</span></td>
+            <td style="color:#6b7280;font-size:12px">PT Aroma Indonesia</td>
+            <td style="font-weight:600">280 kg</td>
+            <td style="color:#6b7280">22 kg/day</td>
+            <td style="font-weight:700;color:#e76500">12.7d</td>
+            <td style="color:#6b7280">10d</td>
+            <td><span class="status-badge badge-yellow">Watch</span></td>
+            <td style="color:#9ca3af;font-size:12px">6d ago</td>
+            <td style="color:#6b7280;font-size:12px">In 6 days</td>
+            <td style="font-size:12px;color:#e76500;font-weight:600">Monitor</td>
+          </tr>
+
+          <!-- 11. Vitamin C (Ascorbic Acid) — OOS (pulsing red) -->
+          <tr class="rmpm-row-oos">
+            <td style="font-weight:700;color:#bb0000">Vitamin C (Ascorbic Acid)</td>
+            <td><span class="rmpm-type-badge rmpm-type-active">Active Ingredient</span></td>
+            <td style="color:#6b7280;font-size:12px">PT Biotech Indonesia</td>
+            <td style="font-weight:700;color:#bb0000">0 kg</td>
+            <td style="color:#6b7280">15 kg/day</td>
+            <td style="font-weight:700;color:#bb0000">0d</td>
+            <td style="color:#6b7280">10d</td>
+            <td><span class="status-badge badge-red" style="animation:pulse-red-light 1.8s infinite">⚡ OOS</span></td>
+            <td style="color:#9ca3af;font-size:12px">15d ago</td>
+            <td style="color:#107e3e;font-size:12px;font-weight:600">In 1 day</td>
+            <td style="font-size:12px;color:#bb0000;font-weight:700">URGENT — production at risk</td>
+          </tr>
+
+          <!-- 12. Zinc Oxide — Healthy -->
+          <tr>
+            <td style="font-weight:600;color:#1d2d3e">Zinc Oxide</td>
+            <td><span class="rmpm-type-badge rmpm-type-active">Active Ingredient</span></td>
+            <td style="color:#6b7280;font-size:12px">CV Mineral Prima</td>
+            <td style="font-weight:600">640 kg</td>
+            <td style="color:#6b7280">29 kg/day</td>
+            <td style="font-weight:700;color:#107e3e">22.1d</td>
+            <td style="color:#6b7280">10d</td>
+            <td><span class="status-badge badge-green">Healthy</span></td>
+            <td style="color:#9ca3af;font-size:12px">2d ago</td>
+            <td style="color:#6b7280;font-size:12px">In 9 days</td>
+            <td style="color:#9ca3af;font-size:12px">—</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- RM2 PLACEHOLDER -->
+  <div id="rmpm-part2" style="padding:24px;background:#f3f4f6;border-radius:8px;border:1px dashed #d1d5db;text-align:center;color:#9ca3af;font-size:13px;font-style:italic;margin-bottom:32px">Loading...</div>
+
+</div><!-- end panel-rmpm-inventory -->
 
 <!-- === FINANCE MODULE === -->
 <div class="tab-panel" id="panel-finance">
@@ -13275,7 +13619,7 @@ function switchTab(tab) {
   document.getElementById('panel-'+tab).classList.add('active');
   const navEl=document.getElementById('nav-'+tab);
   if(navEl) navEl.classList.add('active');
-  const titles={kpi:'Distribution & Warehouse',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard',exec:'Executive Summary','it-systems':'IT / Systems','transport-3pl':'Transport & 3PL','aria-intelligence':'ARIA Intelligence','war-room':'War Room'};
+  const titles={kpi:'Distribution & Warehouse',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal','rmpm-inventory':'RM & PM Inventory',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard',exec:'Executive Summary','it-systems':'IT / Systems','transport-3pl':'Transport & 3PL','aria-intelligence':'ARIA Intelligence','war-room':'War Room'};
   document.getElementById('top-bar-title').textContent=titles[tab]||tab;
   const bcEl=document.getElementById('top-bar-breadcrumb');
   if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
