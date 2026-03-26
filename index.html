@@ -1298,6 +1298,15 @@
       0%,100% { box-shadow: inset 4px 0 0 #bb0000; background-color: #fff0f0; }
       50%      { box-shadow: inset 4px 0 0 rgba(187,0,0,0.45); background-color: #ffe8e8; }
     }
+    .pm-type-badge {
+      display: inline-flex; align-items: center;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+      text-transform: uppercase; padding: 2px 8px;
+      border-radius: 10px; border: 1px solid; white-space: nowrap;
+    }
+    .pm-type-primary   { background: #eff6ff; color: #0070f2; border-color: #bfdbfe; }
+    .pm-type-secondary { background: #f0faf4; color: #107e3e; border-color: #a3d9b1; }
+    .pm-type-tertiary  { background: #f3f4f6; color: #6b7280; border-color: #d1d5db; }
   </style>
 </head>
 <body>
@@ -5321,8 +5330,204 @@
     </div>
   </div>
 
-  <!-- RM2 PLACEHOLDER -->
-  <div id="rmpm-part2" style="padding:24px;background:#f3f4f6;border-radius:8px;border:1px dashed #d1d5db;text-align:center;color:#9ca3af;font-size:13px;font-style:italic;margin-bottom:32px">Loading...</div>
+  <!-- PM STOCK COVERAGE TABLE -->
+  <div id="rmpm-part2">
+
+    <div class="section-block">
+      <div class="section-hdr">
+        <p class="section-label" style="font-weight:700;text-transform:uppercase;letter-spacing:0.06em">Packaging Material — Stock Coverage by Material</p>
+        <span class="section-sub">Coverage days = On-Hand Stock ÷ Daily Usage Rate</span>
+      </div>
+
+      <!-- Status legend -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+        <span class="status-badge badge-green">● Healthy</span>
+        <span class="status-badge badge-yellow">● Watch</span>
+        <span class="status-badge badge-red">● Critical</span>
+        <span class="status-badge badge-red" style="animation:pulse-red-light 1.8s infinite">⚡ OOS</span>
+      </div>
+
+      <div class="table-scroll">
+        <table class="data-table" style="min-width:1400px">
+          <thead>
+            <tr>
+              <th>Material Name</th>
+              <th>PM Type</th>
+              <th>Supplier</th>
+              <th>On-Hand (units)</th>
+              <th>Daily Usage (units/day)</th>
+              <th>Coverage (days)</th>
+              <th>Safety Stock (days)</th>
+              <th>Status</th>
+              <th>Last GRN</th>
+              <th>Next ETA</th>
+              <th>Linked FG SKU</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <!-- 1. 30ml Serum Bottle — Watch -->
+            <tr style="box-shadow:inset 4px 0 0 #e76500;background:#fff8f0">
+              <td style="font-weight:600;color:#1d2d3e">30ml Serum Bottle (Amber Glass)</td>
+              <td><span class="pm-type-badge pm-type-primary">Primary</span></td>
+              <td style="color:#6b7280;font-size:12px">PT Gelas Nusantara</td>
+              <td style="font-weight:600">42,000</td>
+              <td style="color:#6b7280">2,400/day</td>
+              <td style="font-weight:700;color:#e76500">17.5d</td>
+              <td style="color:#6b7280">14d</td>
+              <td><span class="status-badge badge-yellow">Watch</span></td>
+              <td style="color:#9ca3af;font-size:12px">4d ago</td>
+              <td style="color:#6b7280;font-size:12px">In 6 days</td>
+              <td style="color:#6b7280;font-size:12px">Wardah Niacinamide Serum</td>
+            </tr>
+
+            <!-- 2. Flip-Top Tube 150ml — Healthy -->
+            <tr>
+              <td style="font-weight:600;color:#1d2d3e">Flip-Top Tube 150ml</td>
+              <td><span class="pm-type-badge pm-type-primary">Primary</span></td>
+              <td style="color:#6b7280;font-size:12px">PT Plastindo</td>
+              <td style="font-weight:600">88,000</td>
+              <td style="color:#6b7280">3,100/day</td>
+              <td style="font-weight:700;color:#107e3e">28.4d</td>
+              <td style="color:#6b7280">14d</td>
+              <td><span class="status-badge badge-green">Healthy</span></td>
+              <td style="color:#9ca3af;font-size:12px">2d ago</td>
+              <td style="color:#6b7280;font-size:12px">In 10 days</td>
+              <td style="color:#6b7280;font-size:12px">Wardah Lightening Series</td>
+            </tr>
+
+            <!-- 3. SPF Stick Packaging — Critical -->
+            <tr style="box-shadow:inset 4px 0 0 #bb0000;background:#fff0f0">
+              <td style="font-weight:600;color:#1d2d3e">SPF Stick Packaging</td>
+              <td><span class="pm-type-badge pm-type-primary">Primary</span></td>
+              <td style="color:#6b7280;font-size:12px">PT Plastindo</td>
+              <td style="font-weight:600">8,400</td>
+              <td style="color:#6b7280">1,800/day</td>
+              <td style="font-weight:700;color:#bb0000">4.7d</td>
+              <td style="color:#6b7280">10d</td>
+              <td><span class="status-badge badge-red">Critical</span></td>
+              <td style="color:#9ca3af;font-size:12px">10d ago</td>
+              <td style="color:#6b7280;font-size:12px">In 3 days</td>
+              <td style="color:#6b7280;font-size:12px">Azarine SPF Stick</td>
+            </tr>
+
+            <!-- 4. Foundation Bottle 30ml — OOS -->
+            <tr class="rmpm-row-oos">
+              <td style="font-weight:700;color:#bb0000">Foundation Bottle 30ml</td>
+              <td><span class="pm-type-badge pm-type-primary">Primary</span></td>
+              <td style="color:#6b7280;font-size:12px">PT Gelas Nusantara</td>
+              <td style="font-weight:700;color:#bb0000">0</td>
+              <td style="color:#6b7280">980/day</td>
+              <td style="font-weight:700;color:#bb0000">0d</td>
+              <td style="color:#6b7280">10d</td>
+              <td><span class="status-badge badge-red" style="animation:pulse-red-light 1.8s infinite">⚡ OOS</span></td>
+              <td style="color:#9ca3af;font-size:12px">18d ago</td>
+              <td style="color:#107e3e;font-size:12px;font-weight:600">In 2 days</td>
+              <td style="color:#6b7280;font-size:12px">Make Over Foundation</td>
+            </tr>
+
+            <!-- 5. Carton Box Serum — Healthy -->
+            <tr>
+              <td style="font-weight:600;color:#1d2d3e">Carton Box Serum</td>
+              <td><span class="pm-type-badge pm-type-secondary">Secondary</span></td>
+              <td style="color:#6b7280;font-size:12px">CV Karton Jaya</td>
+              <td style="font-weight:600">124,000</td>
+              <td style="color:#6b7280">2,400/day</td>
+              <td style="font-weight:700;color:#107e3e">51.7d</td>
+              <td style="color:#6b7280">14d</td>
+              <td><span class="status-badge badge-green">Healthy</span></td>
+              <td style="color:#9ca3af;font-size:12px">1d ago</td>
+              <td style="color:#6b7280;font-size:12px">In 14 days</td>
+              <td style="color:#6b7280;font-size:12px">Multiple SKUs</td>
+            </tr>
+
+            <!-- 6. Body Lotion Pump 300ml — Watch -->
+            <tr style="box-shadow:inset 4px 0 0 #e76500;background:#fff8f0">
+              <td style="font-weight:600;color:#1d2d3e">Body Lotion Pump 300ml</td>
+              <td><span class="pm-type-badge pm-type-primary">Primary</span></td>
+              <td style="color:#6b7280;font-size:12px">PT Plastindo</td>
+              <td style="font-weight:600">31,000</td>
+              <td style="color:#6b7280">1,650/day</td>
+              <td style="font-weight:700;color:#e76500">18.8d</td>
+              <td style="color:#6b7280">14d</td>
+              <td><span class="status-badge badge-yellow">Watch</span></td>
+              <td style="color:#9ca3af;font-size:12px">5d ago</td>
+              <td style="color:#6b7280;font-size:12px">In 8 days</td>
+              <td style="color:#6b7280;font-size:12px">Scarlett Body Lotion</td>
+            </tr>
+
+            <!-- 7. Lip Gloss Wand Tube — Healthy -->
+            <tr>
+              <td style="font-weight:600;color:#1d2d3e">Lip Gloss Wand Tube</td>
+              <td><span class="pm-type-badge pm-type-primary">Primary</span></td>
+              <td style="color:#6b7280;font-size:12px">PT Kosmetik Pack</td>
+              <td style="font-weight:600">19,400</td>
+              <td style="color:#6b7280">820/day</td>
+              <td style="font-weight:700;color:#107e3e">23.7d</td>
+              <td style="color:#6b7280">10d</td>
+              <td><span class="status-badge badge-green">Healthy</span></td>
+              <td style="color:#9ca3af;font-size:12px">3d ago</td>
+              <td style="color:#6b7280;font-size:12px">In 12 days</td>
+              <td style="color:#6b7280;font-size:12px">BLP Gloss Balm</td>
+            </tr>
+
+            <!-- 8. Shrink Wrap Film — Healthy -->
+            <tr>
+              <td style="font-weight:600;color:#1d2d3e">Shrink Wrap Film</td>
+              <td><span class="pm-type-badge pm-type-tertiary">Tertiary</span></td>
+              <td style="color:#6b7280;font-size:12px">CV Karton Jaya</td>
+              <td style="font-weight:600">2,800 rolls</td>
+              <td style="color:#6b7280">48/day</td>
+              <td style="font-weight:700;color:#107e3e">58.3d</td>
+              <td style="color:#6b7280">10d</td>
+              <td><span class="status-badge badge-green">Healthy</span></td>
+              <td style="color:#9ca3af;font-size:12px">6d ago</td>
+              <td style="color:#6b7280;font-size:12px">In 20 days</td>
+              <td style="color:#6b7280;font-size:12px">All SKUs</td>
+            </tr>
+
+            <!-- 9. Sunscreen Tube 50ml — Critical -->
+            <tr style="box-shadow:inset 4px 0 0 #bb0000;background:#fff0f0">
+              <td style="font-weight:600;color:#1d2d3e">Sunscreen Tube 50ml</td>
+              <td><span class="pm-type-badge pm-type-primary">Primary</span></td>
+              <td style="color:#6b7280;font-size:12px">PT Plastindo</td>
+              <td style="font-weight:600">6,200</td>
+              <td style="color:#6b7280">2,100/day</td>
+              <td style="font-weight:700;color:#bb0000">3.0d</td>
+              <td style="color:#6b7280">10d</td>
+              <td><span class="status-badge badge-red">Critical</span></td>
+              <td style="color:#9ca3af;font-size:12px">11d ago</td>
+              <td style="color:#6b7280;font-size:12px">In 2 days</td>
+              <td style="color:#6b7280;font-size:12px">Emina Sun Protection</td>
+            </tr>
+
+            <!-- 10. Powder Compact Case — Healthy -->
+            <tr>
+              <td style="font-weight:600;color:#1d2d3e">Powder Compact Case</td>
+              <td><span class="pm-type-badge pm-type-primary">Primary</span></td>
+              <td style="color:#6b7280;font-size:12px">PT Kosmetik Pack</td>
+              <td style="font-weight:600">14,800</td>
+              <td style="color:#6b7280">560/day</td>
+              <td style="font-weight:700;color:#107e3e">26.4d</td>
+              <td style="color:#6b7280">10d</td>
+              <td><span class="status-badge badge-green">Healthy</span></td>
+              <td style="color:#9ca3af;font-size:12px">4d ago</td>
+              <td style="color:#6b7280;font-size:12px">In 9 days</td>
+              <td style="color:#6b7280;font-size:12px">Mineral Botanica Powder</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PM ALERTS PLACEHOLDER -->
+    <div style="padding:24px;background:#f3f4f6;border-radius:8px;border:1px dashed #d1d5db;text-align:center;color:#9ca3af;font-size:13px;font-style:italic;margin-bottom:20px">Loading alerts...</div>
+
+    <!-- PM TRANSIT & RISK PLACEHOLDER -->
+    <div style="padding:24px;background:#f3f4f6;border-radius:8px;border:1px dashed #d1d5db;text-align:center;color:#9ca3af;font-size:13px;font-style:italic;margin-bottom:32px">Loading transit and risk view...</div>
+
+  </div><!-- end rmpm-part2 -->
 
 </div><!-- end panel-rmpm-inventory -->
 
