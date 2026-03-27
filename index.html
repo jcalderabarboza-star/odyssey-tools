@@ -17306,6 +17306,9 @@ function renderCTFlowDiagram() {
   const fg      = document.getElementById('ct-flow-finance');
   if (!svgEl||!gNodes||!gArrows) return;
 
+  svgEl.setAttribute('height',  '560');
+  svgEl.setAttribute('viewBox', '0 0 1200 560');
+
   gNodes.innerHTML=''; gArrows.innerHTML='';
   if (gDots) gDots.innerHTML='';
   if (fg)    fg.innerHTML='';
@@ -17318,11 +17321,11 @@ function renderCTFlowDiagram() {
 
   // ── LAYOUT ──
   const nW=120, nH=100, badgeH=16;
-  const demandX=30,  demandStartY=30,  demandGapY=108;
-  const sourceX=260, sourceStartY=30,  sourceGapY=108;
-  const makeX=490,   makeY=30;
-  const deliverX=620,deliverStartY=30, deliverGapY=108;
-  const enableY=360;
+  const demandX=20,  demandStartY=30,  demandGapY=108;
+  const sourceX=250, sourceStartY=30,  sourceGapY=108;
+  const makeX=490,   makeY=138;
+  const deliverX=630,deliverStartY=30, deliverGapY=108;
+  const enableY=460;
 
   // ── NODE DATA ──
   const DEMAND = [
@@ -17336,12 +17339,12 @@ function renderCTFlowDiagram() {
       kpi1:'Avail 87%',    kpi2:'OOS 6 SKU' },
   ];
   const SOURCE = [
-    { label:'Suppliers',     icon:'🏭', health:84, status:'warning',
+    { label:'Procurement',  icon:'🛒', health:91, status:'ontarget',
+      kpi1:'Late POs 3',   kpi2:'Confirm 94%' },
+    { label:'Suppliers',    icon:'🏭', health:84, status:'warning',
       kpi1:'OTIF 84%',     kpi2:'LT Dev +2d' },
     { label:'RM & PM Inv.', icon:'🧪', health:79, status:'warning',
       kpi1:'Cover 18d',    kpi2:'Stockout 2' },
-    { label:'Procurement',  icon:'🛒', health:91, status:'ontarget',
-      kpi1:'Late POs 3',   kpi2:'Confirm 94%' },
   ];
   const MAKE = [
     { label:'Manufacturing', icon:'⚙️', health:88, status:'warning',
@@ -17424,16 +17427,15 @@ function renderCTFlowDiagram() {
   // ── DRAW DELIVER COLUMN ──
   DELIVER.forEach((n,i) => drawNode(deliverX, deliverStartY+i*deliverGapY, n));
 
-  // ── DASHED SIGNAL ARROWS: Demand → Source ──
-  // Each Demand node signals to Suppliers (first Source node)
-  DEMAND.forEach((n,i) => {
-    const y1 = demandStartY + i*demandGapY + nH/2;
+  // ── DASHED SIGNAL ARROWS: All Demand nodes → Procurement (top of Source) ──
+  const procTopY = sourceStartY + nH / 2;
+  const procLX   = sourceX;
+  DEMAND.forEach((n, i) => {
+    const y1 = demandStartY + i * demandGapY + nH / 2;
     const x1 = demandX + nW;
-    const x2 = sourceX;
-    const y2 = sourceStartY + nH/2; // all point to Suppliers
-    const pathD = `M ${x1},${y1} L ${x2},${y2}`;
-    drawArrow(x1,y1,x2,y2,'#0891b2',true,'url(#ct-arrow-teal)');
-    addDot(pathD,'#0891b2','2.5s');
+    const pathD = `M ${x1},${y1} L ${procLX},${procTopY}`;
+    drawArrow(x1, y1, procLX, procTopY, '#0891b2', true, 'url(#ct-arrow-teal)');
+    addDot(pathD, '#0891b2', '2.5s');
   });
 
   // ── SOLID ARROWS: Source internal ──
@@ -17447,16 +17449,16 @@ function renderCTFlowDiagram() {
     }
   });
 
-  // ── SOLID ARROW: Procurement → Make ──
-  const procY  = sourceStartY+2*sourceGapY+nH/2;
-  const procRX = sourceX+nW;
+  // ── SOLID ARROW: RM & PM Inv. (bottom of Source) → Make ──
+  const rmY    = sourceStartY + 2 * sourceGapY + nH / 2;
+  const rmRX   = sourceX + nW;
   const makeLX = makeX;
-  drawArrow(procRX,procY,makeLX,makeY+nH/2,'#107e3e',false);
-  addDot(`M ${procRX},${procY} L ${makeLX},${makeY+nH/2}`,'#107e3e','2s');
+  const makeCY = makeY + nH / 2;
+  drawArrow(rmRX, rmY, makeLX, makeCY, '#e76500', false);
+  addDot(`M ${rmRX},${rmY} L ${makeLX},${makeCY}`, '#e76500', '2s');
 
   // ── SOLID ARROW: Make → Distribution ──
   const makeRX  = makeX+nW;
-  const makeCY  = makeY+nH/2;
   const distLX  = deliverX;
   const distCY  = deliverStartY+nH/2;
   drawArrow(makeRX,makeCY,distLX,distCY,'#7c3aed',false);
@@ -17471,7 +17473,7 @@ function renderCTFlowDiagram() {
 
   // ── ENABLE LANE: Finance bar ──
   if (fg) {
-    const barX=30, barW=1140, barH=44;
+    const barX=30, barW=1160, barH=44;
     // Background bar
     fg.appendChild(mkEl('rect',{x:barX,y:enableY,width:barW,height:barH,rx:'6',
       fill:'#fff7ed',stroke:'#e76500','stroke-width':'1.5',
