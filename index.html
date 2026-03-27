@@ -17166,14 +17166,29 @@ let ctChartsBuilt = false;
 
 /* ── CT MODULE CARDS DATA ── */
 const CT_MODULES = [
-  { name: 'Suppliers Portal',        icon: '🏭', health: 84, status: 'warning',  border: '#e76500', alerts: 2, alertDesc: 'contract expiry + QC hold',                    trend: '▲ +2%', trendDir: 'up',   tab: 'suppliers' },
-  { name: 'Procurement & Purchase',  icon: '🛒', health: 91, status: 'ontarget', border: '#107e3e', alerts: 1, alertDesc: 'RM/PM W3 coverage low',                         trend: '▲ +3%', trendDir: 'up',   tab: 'proc'      },
-  { name: 'Manufacturing',           icon: '⚙️', health: 88, status: 'warning',  border: '#e76500', alerts: 2, alertDesc: 'OEE below target + changeover time',            trend: '→ flat', trendDir: 'flat', tab: 'mfg'       },
-  { name: 'Distribution & Warehouse',icon: '📦', health: 87, status: 'warning',  border: '#e76500', alerts: 3, alertDesc: 'Perfect Order Rate + Network Service Level',    trend: '▲ +1%', trendDir: 'up',   tab: 'kpi'       },
-  { name: 'Transport & 3PL',          icon: '🚛', health: 92, status: 'ontarget', border: '#107e3e', alerts: 1, alertDesc: 'Middle Mile outer islands delay',               trend: '▲ +2%', trendDir: 'up',   tab: 'transport-3pl' },
-  { name: 'Customer Service',        icon: '👤', health: 95, status: 'ontarget', border: '#107e3e', alerts: 0, alertDesc: '',                                              trend: '▲ +1%', trendDir: 'up',   tab: 'customer-service' },
-  // === CONTROL TOWER FINANCE INTEGRATION ===
-  { name: 'Finance',                 icon: '💰', health: 86, status: 'warning',  border: '#e76500', alerts: 2, alertDesc: 'RM inflation risk + FX volatility',                trend: '▲ +2%', trendDir: 'up',   tab: 'finance'   }
+
+  // === SUPPLY SIDE ===
+  { name: 'Suppliers Portal',        icon: '🏭', health: 84, status: 'warning',  border: '#e76500', alerts: 2, alertDesc: 'contract expiry + QC hold',                 trend: '▲ +2%', trendDir: 'up',   tab: 'suppliers',          category: 'supply'    },
+  { name: 'RM & PM Inventory',       icon: '🧪', health: 79, status: 'warning',  border: '#e76500', alerts: 3, alertDesc: 'W3 coverage below 21-day optimal',          trend: '▼ -1%', trendDir: 'down', tab: 'rm-pm-inventory',    category: 'supply'    },
+  { name: 'Procurement & Purchase',  icon: '🛒', health: 91, status: 'ontarget', border: '#107e3e', alerts: 1, alertDesc: 'RM/PM W3 coverage low',                      trend: '▲ +3%', trendDir: 'up',   tab: 'proc',               category: 'supply'    },
+  { name: 'Manufacturing',           icon: '⚙️', health: 88, status: 'warning',  border: '#e76500', alerts: 2, alertDesc: 'OEE below target + changeover time',         trend: '→ flat', trendDir: 'flat', tab: 'mfg',               category: 'supply'    },
+
+  // === OPERATIONS ===
+  { name: 'Distribution & Warehouse',icon: '📦', health: 87, status: 'warning',  border: '#e76500', alerts: 3, alertDesc: 'Perfect Order Rate + Network Service Level', trend: '▲ +1%', trendDir: 'up',   tab: 'kpi',                category: 'operations'},
+  { name: 'Transport & 3PL',         icon: '🚛', health: 92, status: 'ontarget', border: '#107e3e', alerts: 1, alertDesc: 'Middle Mile outer islands delay',            trend: '▲ +2%', trendDir: 'up',   tab: 'transport-3pl',      category: 'operations'},
+
+  // === FINANCE ===
+  { name: 'Finance',                 icon: '💰', health: 86, status: 'warning',  border: '#e76500', alerts: 2, alertDesc: 'RM inflation risk + FX volatility',          trend: '▲ +2%', trendDir: 'up',   tab: 'finance',            category: 'finance'   },
+
+  // === DEMAND SIDE ===
+  { name: 'Demand Sensing',          icon: '📡', health: 83, status: 'warning',  border: '#e76500', alerts: 2, alertDesc: 'forecast accuracy below 85% threshold',      trend: '▼ -2%', trendDir: 'down', tab: 'demand-sensing',     category: 'demand'    },
+  { name: 'Commercial',              icon: '📊', health: 89, status: 'ontarget', border: '#107e3e', alerts: 1, alertDesc: 'distributor OTD below SLA in 2 regions',     trend: '▲ +1%', trendDir: 'up',   tab: 'commercial',         category: 'demand'    },
+  { name: 'Marketing',               icon: '📣', health: 91, status: 'ontarget', border: '#107e3e', alerts: 1, alertDesc: 'campaign stock alignment gap',               trend: '▲ +2%', trendDir: 'up',   tab: 'marketing',          category: 'demand'    },
+  { name: 'Beauty Advisors',         icon: '💄', health: 87, status: 'warning',  border: '#e76500', alerts: 2, alertDesc: 'BA stock availability below 90% in 3 zones', trend: '→ flat', trendDir: 'flat', tab: 'beauty-advisors',   category: 'demand'    },
+
+  // === POST-DELIVERY ===
+  { name: 'Customer Service',        icon: '👤', health: 95, status: 'ontarget', border: '#107e3e', alerts: 0, alertDesc: '',                                           trend: '▲ +1%', trendDir: 'up',   tab: 'customer-service',   category: 'post'      },
+  { name: 'Returns & Reverse Logistics', icon: '🔄', health: 81, status: 'warning', border: '#e76500', alerts: 2, alertDesc: 'return rate above 3% threshold in e-comm', trend: '▼ -1%', trendDir: 'down', tab: 'returns',          category: 'post'      }
 ];
 
 function renderCTModuleCards() {
