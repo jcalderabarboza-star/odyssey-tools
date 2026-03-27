@@ -17291,74 +17291,133 @@ function buildCTAlertChart() {
 
 /* ── CT FLOW DIAGRAM ── */
 function renderCTFlowDiagram() {
-  const CT_NODES = [
-    { cx: 80,  label: 'Suppliers',    sub: '10 active',    health: 84, status: 'warning',  icon: '🏭' },
-    { cx: 220, label: 'Procurement',  sub: '47 open POs',  health: 91, status: 'ontarget', icon: '🛒' },
-    { cx: 360, label: 'Manufacturing',sub: '4 lines',      health: 88, status: 'warning',  icon: '⚙️' },
-    { cx: 500, label: 'NDC Jakarta',  sub: '847 orders',   health: 87, status: 'warning',  icon: '📦' },
-    { cx: 640, label: 'Distribution', sub: '44 nodes',     health: 87, status: 'warning',  icon: '🔄' },
-    { cx: 780, label: 'Transport',    sub: '336 active',   health: 92, status: 'ontarget', icon: '🚛' },
-    { cx: 920, label: 'Customer',     sub: '1,284 orders', health: 95, status: 'ontarget', icon: '👤' }
+  const statusColor = s => s==='ontarget'?'#107e3e':s==='warning'?'#e76500':'#bb0000';
+  const ns = 'http://www.w3.org/2000/svg';
+
+  // ── ROW DEFINITIONS ──
+  const ROWS = [
+    { id: 'supply',     label: 'SUPPLY SIDE',    y: 60,  color: '#e76500',
+      nodes: [
+        { label:'Suppliers',    sub:'10 active',    health:84, status:'warning',  icon:'🏭', tab:'suppliers'       },
+        { label:'RM & PM Inv.', sub:'W3 coverage',  health:79, status:'warning',  icon:'🧪', tab:'rm-pm-inventory' },
+        { label:'Procurement',  sub:'47 open POs',  health:91, status:'ontarget', icon:'🛒', tab:'proc'            },
+        { label:'Manufacturing',sub:'4 lines',      health:88, status:'warning',  icon:'⚙️', tab:'mfg'             }
+      ]
+    },
+    { id: 'operations', label: 'OPERATIONS',      y: 200, color: '#107e3e',
+      nodes: [
+        { label:'Distribution', sub:'847 orders',   health:87, status:'warning',  icon:'📦', tab:'kpi'             },
+        { label:'Transport',    sub:'336 active',   health:92, status:'ontarget', icon:'🚛', tab:'transport-3pl'   }
+      ]
+    },
+    { id: 'demand',     label: 'DEMAND SIDE',     y: 340, color: '#0070f2',
+      nodes: [
+        { label:'Demand Sensing',sub:'forecast',    health:83, status:'warning',  icon:'📡', tab:'demand-sensing'  },
+        { label:'Commercial',   sub:'B2B/B2C',      health:89, status:'ontarget', icon:'📊', tab:'commercial'      },
+        { label:'Marketing',    sub:'campaigns',    health:91, status:'ontarget', icon:'📣', tab:'marketing'       },
+        { label:'Beauty Adv.',  sub:'BA network',   health:87, status:'warning',  icon:'💄', tab:'beauty-advisors' }
+      ]
+    },
+    { id: 'post',       label: 'POST-DELIVERY',   y: 460, color: '#8764b8',
+      nodes: [
+        { label:'Customer Svc', sub:'1,284 orders', health:95, status:'ontarget', icon:'👤', tab:'customer-service'},
+        { label:'Returns',      sub:'reverse flow', health:81, status:'warning',  icon:'🔄', tab:'returns'         }
+      ]
+    }
   ];
-  const statusColor = function(s) { return s === 'ontarget' ? '#107e3e' : s === 'warning' ? '#e76500' : '#bb0000'; };
-  const nW = 100, nH = 80, cy = 100;
 
-  const arrowsG = document.getElementById('ct-flow-arrows');
-  const nodesG  = document.getElementById('ct-flow-nodes');
-  const dotsG   = document.getElementById('ct-flow-dots');
-  if (!arrowsG || !nodesG || !dotsG) return;
+  const nW=110, nH=80;
+  const svgEl  = document.getElementById('ct-flow-svg');
+  const gNodes = document.getElementById('ct-flow-nodes');
+  const gArrows= document.getElementById('ct-flow-arrows');
 
-  var arrowsHTML = '', dotsHTML = '', nodesHTML = '';
+  if(!svgEl||!gNodes||!gArrows) return;
+  gNodes.innerHTML=''; gArrows.innerHTML='';
 
-  for (var i = 0; i < CT_NODES.length - 1; i++) {
-    var from = CT_NODES[i], to = CT_NODES[i + 1];
-    var x1 = from.cx + nW / 2, x2 = to.cx - nW / 2;
-    var col = statusColor(from.status);
-    var dx = x2 - x1 - 10;
-    arrowsHTML += '<line x1="' + x1 + '" y1="' + cy + '" x2="' + (x2 - 10) + '" y2="' + cy + '" stroke="' + col + '" stroke-width="3" marker-end="url(#ct-arrowhead)"/>';
-    var delay = (i * 0.5).toFixed(1);
-    dotsHTML += '<g transform="translate(' + x1 + ',' + cy + ')">' +
-      '<circle r="5" fill="#0070f2" opacity="0.85">' +
-        '<animateMotion dur="3s" begin="' + delay + 's" repeatCount="indefinite" calcMode="linear" path="M0,0 L' + dx + ',0"/>' +
-      '</circle>' +
-    '</g>';
-  }
+  const mkEl = (tag,attrs) => {
+    const el = document.createElementNS(ns, tag);
+    Object.entries(attrs).forEach(([k,v]) => el.setAttribute(k,v));
+    return el;
+  };
 
-  CT_NODES.forEach(function(n) {
-    var x = n.cx - nW / 2, y = cy - nH / 2;
-    var col = statusColor(n.status);
-    nodesHTML += '<g>' +
-      '<rect x="' + x + '" y="' + y + '" width="' + nW + '" height="' + nH + '" rx="8" ry="8" fill="#fff" stroke="' + col + '" stroke-width="2.5"/>' +
-      '<text x="' + n.cx + '" y="' + (y + 21) + '" text-anchor="middle" font-size="18">' + n.icon + '</text>' +
-      '<text x="' + n.cx + '" y="' + (y + 40) + '" text-anchor="middle" font-size="10" font-weight="700" fill="#374151">' + n.label + '</text>' +
-      '<text x="' + n.cx + '" y="' + (y + 54) + '" text-anchor="middle" font-size="12" font-weight="700" fill="' + col + '">' + n.health + '%</text>' +
-      '<text x="' + n.cx + '" y="' + (y + 68) + '" text-anchor="middle" font-size="9" fill="#9ca3af">' + n.sub + '</text>' +
-    '</g>';
+  ROWS.forEach(row => {
+    const count = row.nodes.length;
+    const totalW = count * nW + (count-1) * 40;
+    const startX = (1000 - totalW) / 2;
+
+    // Row label
+    const lbl = mkEl('text',{ x: startX, y: row.y - 18, fill: row.color,
+      'font-size':'11', 'font-weight':'700', 'letter-spacing':'1',
+      'font-family':'sans-serif' });
+    lbl.textContent = row.label;
+    gNodes.appendChild(lbl);
+
+    row.nodes.forEach((node, i) => {
+      const x = startX + i * (nW + 40);
+      const cy = row.y;
+      const col = statusColor(node.status);
+
+      // Arrow to next node in same row
+      if(i < count - 1) {
+        const arr = mkEl('line',{
+          x1: x+nW, y1: cy+nH/2,
+          x2: x+nW+40, y2: cy+nH/2,
+          stroke:'#9ca3af', 'stroke-width':'1.5',
+          'marker-end':'url(#ct-arrowhead)'
+        });
+        gArrows.appendChild(arr);
+      }
+
+      // Node box
+      const rect = mkEl('rect',{ x, y:cy, width:nW, height:nH, rx:'8',
+        fill:'#1a2332', stroke: col, 'stroke-width':'2' });
+      gNodes.appendChild(rect);
+
+      // Icon
+      const ico = mkEl('text',{ x:x+nW/2, y:cy+22, 'text-anchor':'middle',
+        'font-size':'16' });
+      ico.textContent = node.icon;
+      gNodes.appendChild(ico);
+
+      // Label
+      const lbText = mkEl('text',{ x:x+nW/2, y:cy+40, 'text-anchor':'middle',
+        fill:'#e2e8f0', 'font-size':'10', 'font-weight':'600',
+        'font-family':'sans-serif' });
+      lbText.textContent = node.label;
+      gNodes.appendChild(lbText);
+
+      // Health %
+      const pct = mkEl('text',{ x:x+nW/2, y:cy+55, 'text-anchor':'middle',
+        fill: col, 'font-size':'13', 'font-weight':'700',
+        'font-family':'sans-serif' });
+      pct.textContent = node.health+'%';
+      gNodes.appendChild(pct);
+
+      // Sub
+      const sub = mkEl('text',{ x:x+nW/2, y:cy+69, 'text-anchor':'middle',
+        fill:'#94a3b8', 'font-size':'9', 'font-family':'sans-serif' });
+      sub.textContent = node.sub;
+      gNodes.appendChild(sub);
+    });
   });
 
-  arrowsG.innerHTML = arrowsHTML;
-  dotsG.innerHTML   = dotsHTML;
-  nodesG.innerHTML  = nodesHTML;
-
-  // === CONTROL TOWER FINANCE INTEGRATION ===
-  // Finance overlay node: positioned below main flow, monitoring all nodes
-  var financeG = document.getElementById('ct-flow-finance');
-  if (financeG) {
-    var fCx = 500, fCy = 230, fW = 130, fH = 60;
-    var finHTML = '';
-    // Dashed monitoring lines from Finance node to each main flow node
-    CT_NODES.forEach(function(n) {
-      finHTML += '<line x1="' + fCx + '" y1="' + (fCy - fH / 2) + '" x2="' + n.cx + '" y2="' + (cy + nH / 2) + '" stroke="#e76500" stroke-dasharray="3,3" stroke-width="1" opacity="0.3"/>';
-    });
-    // Finance node: rounded rect with dashed border
-    finHTML += '<rect x="' + (fCx - fW / 2) + '" y="' + (fCy - fH / 2) + '" width="' + fW + '" height="' + fH + '" rx="8" ry="8" fill="#fff" stroke="#e76500" stroke-width="2" stroke-dasharray="5,3"/>';
-    finHTML += '<text x="' + fCx + '" y="' + (fCy - fH / 2 + 18) + '" text-anchor="middle" font-size="16">💰</text>';
-    finHTML += '<text x="' + fCx + '" y="' + (fCy - fH / 2 + 33) + '" text-anchor="middle" font-size="10" font-weight="700" fill="#374151">Finance</text>';
-    finHTML += '<text x="' + fCx + '" y="' + (fCy - fH / 2 + 45) + '" text-anchor="middle" font-size="9" fill="#e76500" font-weight="700">86% — WARNING</text>';
-    finHTML += '<text x="' + fCx + '" y="' + (fCy - fH / 2 + 57) + '" text-anchor="middle" font-size="8" fill="#9ca3af">Monitoring all nodes</text>';
-    // Label near Finance node
-    finHTML += '<text x="' + fCx + '" y="' + (fCy + fH / 2 + 16) + '" text-anchor="middle" font-size="10" fill="#6b7280" font-style="italic">💰 Finance monitors all SC nodes</text>';
-    financeG.innerHTML = finHTML;
+  // ── FINANCE OVERLAY ──
+  const fg = document.getElementById('ct-flow-finance');
+  if(fg) {
+    fg.innerHTML='';
+    const fx=430, fy=510, fw=140, fh=40;
+    const fb = mkEl('rect',{ x:fx, y:fy, width:fw, height:fh, rx:'8',
+      fill:'#1a2332', stroke:'#e76500', 'stroke-width':'1.5',
+      'stroke-dasharray':'5,3' });
+    fg.appendChild(fb);
+    const fi = mkEl('text',{ x:fx+fw/2, y:fy+15, 'text-anchor':'middle',
+      'font-size':'13' });
+    fi.textContent='💰 Finance';
+    fg.appendChild(fi);
+    const fs = mkEl('text',{ x:fx+fw/2, y:fy+30, 'text-anchor':'middle',
+      fill:'#e76500', 'font-size':'9', 'font-family':'sans-serif' });
+    fs.textContent='Monitors all SC nodes';
+    fg.appendChild(fs);
   }
 }
 
