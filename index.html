@@ -3694,7 +3694,7 @@
       </table>
       <div style="margin-top:10px; padding-top:8px; border-top:1px solid #e5e7eb;">
         <span style="color:#9ca3af; font-size:11px;">Source: RM &amp; PM Inventory module — updated daily &nbsp;·&nbsp; </span>
-        <a href="#panel-rmpm-inventory" style="color:#6b7280; font-size:11px; text-decoration:none; font-weight:500;" onclick="document.querySelector('[data-tab=rmpm-inventory]')&&document.querySelector('[data-tab=rmpm-inventory]').click()">→ View full RM &amp; PM Inventory</a>
+        <a href="#" style="color:#6b7280; font-size:11px; text-decoration:none; font-weight:500;" onclick="switchTab('rmpm-inventory'); return false;">→ View full RM &amp; PM Inventory</a>
       </div>
     </div>
   </div>
@@ -3851,7 +3851,7 @@
         </tbody>
       </table>
       <div style="margin-top:10px; padding-top:8px; border-top:1px solid #e5e7eb;">
-        <a href="#panel-rmpm-inventory" style="color:#6b7280; font-size:11px; text-decoration:none; font-weight:500;" onclick="document.querySelector('[data-tab=rmpm-inventory]')&&document.querySelector('[data-tab=rmpm-inventory]').click()">→ View full RM &amp; PM Inventory</a>
+        <a href="#" style="color:#6b7280; font-size:11px; text-decoration:none; font-weight:500;" onclick="switchTab('rmpm-inventory'); return false;">→ View full RM &amp; PM Inventory</a>
       </div>
     </div>
   </div>
@@ -13022,7 +13022,7 @@
   function initWarRoom() {
     renderWarRoomStats();
     renderWarRoomRoster();
-    setInterval(renderWarRoomStats, 5000);
+    window._wrStatsInterval = setInterval(renderWarRoomStats, 5000);
   }
 
   if (document.readyState === 'loading') {
@@ -13510,8 +13510,8 @@
       return;
     }
     renderBoard();
-    setInterval(renderBoard,   3000);
-    setInterval(updateElapsed, 1000);
+    window._alertBoardInterval = setInterval(renderBoard,   3000);
+    window._elapsedInterval    = setInterval(updateElapsed, 1000);
     console.log('[AlertsBoard] Active Alerts Board mounted \u2014 v1.0.0');
   }
 
@@ -13859,14 +13859,14 @@
   function initWarRoomNotifications() {
     updateNotifBadge();
     renderResolvedToday();
-    setInterval(function () {
+    window._notifBadgeInterval = setInterval(function () {
       updateNotifBadge();
       var dropdown = document.getElementById('wr-notif-dropdown');
       if (dropdown && dropdown.classList.contains('open')) {
         renderNotifList();
       }
     }, 5000);
-    setInterval(renderResolvedToday, 10000);
+    window._resolvedTodayInterval = setInterval(renderResolvedToday, 10000);
     console.log('[WarRoom] Notifications + Resolved Today mounted');
   }
 
@@ -14017,7 +14017,7 @@
     </div>
 
     <!-- Free-text placeholder (AS3 will fill) -->
-    <div id="scenario-freetext-area">Free-text mode loading...</div>
+    <div id="scenario-freetext-area" style="display:none;"></div>
 
   </div>
   <!-- end #scenario-simulation-panel -->
@@ -14050,7 +14050,7 @@
   <!-- CHAT INTERFACE -->
   <div class="aria-chat-card" id="aria-chat-card">
     <div class="aria-messages" id="aria-messages">
-      <div class="aria-empty-state" id="aria-empty-state">
+      <div class="aria-empty-state">
         <div class="aria-empty-icon">🤖</div>
         <div class="aria-empty-text">ARIA is ready.<br>Ask a question or pick a prompt above to begin.</div>
       </div>
@@ -14244,7 +14244,7 @@ function selectMonth(idx) {
   renderProcStrategic();
   renderProcTactical();
   renderProcNodeConnection();
-  if (document.getElementById('panel-transport') && document.getElementById('panel-transport').classList.contains('active')) {
+  if (document.getElementById('panel-transport-3pl') && document.getElementById('panel-transport-3pl').classList.contains('active')) {
     renderTransportStrategic();
     renderTransportNodeConnection();
   }
@@ -14283,7 +14283,7 @@ function selectWeek(idx) {
   renderDWTactical();
   buildDWGauges();
   renderProcTactical();
-  if (document.getElementById('panel-transport') && document.getElementById('panel-transport').classList.contains('active')) {
+  if (document.getElementById('panel-transport-3pl') && document.getElementById('panel-transport-3pl').classList.contains('active')) {
     renderTransportFMTactical();
     renderTransportNodeConnection();
   }
@@ -14668,10 +14668,11 @@ function switchKpiSubTab(subTab) {
 function switchTab(tab) {
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
-  document.getElementById('panel-'+tab).classList.add('active');
+  var _panel=document.getElementById('panel-'+tab);
+  if(_panel) _panel.classList.add('active');
   const navEl=document.getElementById('nav-'+tab);
   if(navEl) navEl.classList.add('active');
-  const titles={kpi:'Distribution & Warehouse',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal','rmpm-inventory':'RM & PM Inventory',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard',exec:'Executive Summary','it-systems':'IT / Systems','transport-3pl':'Transport & 3PL','aria-intelligence':'ARIA Intelligence','war-room':'War Room'};
+  const titles={kpi:'Distribution & Warehouse',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal','rmpm-inventory':'RM & PM Inventory',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard',exec:'Executive Summary','it-systems':'IT / Systems','transport-3pl':'Transport & 3PL','aria-intelligence':'ARIA Intelligence','war-room':'War Room','beauty-advisors':'Beauty Advisors','demand-sensing':'Demand Sensing','customer-service':'Customer Service','returns-logistics':'Returns & Reverse Logistics'};
   document.getElementById('top-bar-title').textContent=titles[tab]||tab;
   const bcEl=document.getElementById('top-bar-breadcrumb');
   if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
@@ -14679,7 +14680,7 @@ function switchTab(tab) {
   if(weekWrap) weekWrap.style.display=(tab==='kpi'||tab==='proc'||tab==='suppliers'||tab==='rd'||tab==='commercial'||tab==='marketing'||tab==='finance')?'flex':'none';
   if(tab==='aria-intelligence'){
     if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  AI Intelligence';
-    ariaInitIfNeeded();
+    if(typeof ariaInitIfNeeded==='function') ariaInitIfNeeded();
   }
   if(tab==='mfg'){ mfgInitChartsIfNeeded(); }
   if(tab==='proc'){ procInitChartsIfNeeded(); }
@@ -16802,7 +16803,7 @@ const CT_MODULES = [
   { name: 'Manufacturing',           icon: '⚙️', health: 88, status: 'warning',  border: '#e76500', alerts: 2, alertDesc: 'OEE below target + changeover time',            trend: '→ flat', trendDir: 'flat', tab: 'mfg'       },
   { name: 'Distribution & Warehouse',icon: '📦', health: 87, status: 'warning',  border: '#e76500', alerts: 3, alertDesc: 'Perfect Order Rate + Network Service Level',    trend: '▲ +1%', trendDir: 'up',   tab: 'kpi'       },
   { name: 'Transport & 3PL',          icon: '🚛', health: 92, status: 'ontarget', border: '#107e3e', alerts: 1, alertDesc: 'Middle Mile outer islands delay',               trend: '▲ +2%', trendDir: 'up',   tab: 'transport-3pl' },
-  { name: 'Customer Service',        icon: '👤', health: 95, status: 'ontarget', border: '#107e3e', alerts: 0, alertDesc: '',                                              trend: '▲ +1%', trendDir: 'up',   tab: null        },
+  { name: 'Customer Service',        icon: '👤', health: 95, status: 'ontarget', border: '#107e3e', alerts: 0, alertDesc: '',                                              trend: '▲ +1%', trendDir: 'up',   tab: 'customer-service' },
   // === CONTROL TOWER FINANCE INTEGRATION ===
   { name: 'Finance',                 icon: '💰', health: 86, status: 'warning',  border: '#e76500', alerts: 2, alertDesc: 'RM inflation risk + FX volatility',                trend: '▲ +2%', trendDir: 'up',   tab: 'finance'   }
 ];
@@ -20987,7 +20988,7 @@ function exportBoardPack() {
   }
 
   /* ── Auto-update all timestamp spans every 60 s ─────────── */
-  setInterval(function () {
+  window._execTimestampInterval = setInterval(function () {
     var feed = document.getElementById('exec-live-alerts');
     if (!feed) return;
     var spans = feed.querySelectorAll('[data-fired-at]');
@@ -23067,7 +23068,7 @@ function exportBoardPack() {
         try {
           subs[moduleId](escalationSignal);
         } catch (e) {
-          /* Subscribers may not handle escalation signals — silently ignore */
+          console.warn('[EscalationEngine] Subscriber error in module "' + moduleId + '":', e);
         }
       });
     }
@@ -23453,7 +23454,7 @@ function exportBoardPack() {
 
   function ecpInit() {
     ecpUpdate();
-    setInterval(ecpUpdate, 1000);
+    window._ecpUpdateInterval = setInterval(ecpUpdate, 1000);
   }
 
   if (document.readyState === 'loading') {
@@ -23893,7 +23894,7 @@ function exportBoardPack() {
   }
 
   /* ── Per-second countdown tick ───────────────────────────── */
-  setInterval(function () {
+  window._ecwCountdownInterval = setInterval(function () {
     var cdEls = document.querySelectorAll('[data-ecw-role="countdown"]');
     for (var i = 0; i < cdEls.length; i++) {
       var cdEl = cdEls[i];
@@ -24172,7 +24173,7 @@ function exportBoardPack() {
     row.appendChild(rung3Outer);
     row.appendChild(mkSpan('se-avg-ack',    'Avg Time to Acknowledge'));
 
-    setInterval(function () {
+    window._escStatsInterval = setInterval(function () {
       var eng = window.OdysseyEscalationEngine;
       if (!eng) return;
 
@@ -24711,11 +24712,11 @@ function exportBoardPack() {
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
       runCollect();
-      setInterval(runCollect, 30000);
+      window._ariaContextInterval = setInterval(runCollect, 30000);
     });
   } else {
     runCollect();
-    setInterval(runCollect, 30000);
+    window._ariaContextInterval = setInterval(runCollect, 30000);
   }
 
   console.log('[ARIAContext] Loaded \u2014 v1.0.0');
@@ -24807,7 +24808,7 @@ function exportBoardPack() {
     ariaConversation = [];
     var box = document.getElementById('aria-messages');
     if (!box) return;
-    box.innerHTML = '<div class="aria-empty-state" id="aria-empty-state">' +
+    box.innerHTML = '<div class="aria-empty-state">' +
       '<div class="aria-empty-icon">🤖</div>' +
       '<div class="aria-empty-text">Conversation cleared.<br>Ask ARIA a new question.</div>' +
       '</div>';
@@ -24827,7 +24828,7 @@ function exportBoardPack() {
     if (!box) return;
 
     // Remove empty state if present
-    var empty = document.getElementById('aria-empty-state');
+    var empty = box.querySelector('.aria-empty-state');
     if (empty) empty.remove();
 
     var row = document.createElement('div');
@@ -26088,7 +26089,7 @@ function exportBoardPack() {
   /* ── Boot ───────────────────────────────────────────────────── */
   function boot() {
     watchEscalations();
-    setInterval(pollEscalationEngine, 5000);
+    window._ariaFabPollInterval = setInterval(pollEscalationEngine, 5000);
     console.log('[ARIAFab] Floating ARIA button loaded \u2014 v1.0.0');
   }
 
@@ -26919,7 +26920,7 @@ function exportBoardPack() {
       rec.claimedAt = Date.now();
 
       if (window.OdysseyEscalationEngine) {
-        try { window.OdysseyEscalationEngine.acknowledge(signalName, role); } catch (e) {}
+        try { window.OdysseyEscalationEngine.acknowledge(signalName, role); } catch (e) { console.warn('[StakeholderEngine] acknowledge() failed for', signalName, ':', e); }
       }
 
       _save();
@@ -26980,7 +26981,7 @@ function exportBoardPack() {
       rec.timeToResolve = Math.round((now - rec.createdAt) / 1000);
 
       if (window.OdysseyEscalationEngine) {
-        try { window.OdysseyEscalationEngine.resolve(signalName, actionTaken); } catch (e) {}
+        try { window.OdysseyEscalationEngine.resolve(signalName, actionTaken); } catch (e) { console.warn('[StakeholderEngine] resolve() failed for', signalName, ':', e); }
       }
 
       _save();
