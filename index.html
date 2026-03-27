@@ -27739,5 +27739,294 @@ function exportBoardPack() {
 
 }());
 </script>
+
+<!-- ============================================================
+     EXECUTIVE VIEW — LIVE DATA WIRING (MEV1)
+     Connects KPI cards, alerts strip, act-now SKUs, war room
+     counts, and ARIA briefing button to live JS engines.
+     JavaScript only — no HTML or CSS modified.
+     ============================================================ -->
+<script>
+(function () {
+  'use strict';
+
+  var _execRefreshInterval = null;
+  var _alertsInterval      = null;
+
+  /* ──────────────────────────────────────────────────────────
+     HELPER — update only the text node of .ev-kpi-val,
+     preserving the existing .ev-trend span inside it.
+  ────────────────────────────────────────────────────────── */
+  function setKpiValue(cardId, value) {
+    try {
+      var card = document.getElementById(cardId);
+      if (!card) return;
+      var valEl = card.querySelector('.ev-kpi-val');
+      if (!valEl) return;
+      var trendSpan = valEl.querySelector('.ev-trend');
+      var firstNode = valEl.firstChild;
+      if (firstNode && firstNode.nodeType === 3) {
+        firstNode.nodeValue = value;
+      } else if (trendSpan) {
+        valEl.insertBefore(document.createTextNode(value), trendSpan);
+      } else {
+        valEl.textContent = value;
+      }
+    } catch (e) { /* silent fallback */ }
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     HELPER — format ms-since-epoch into human elapsed string
+  ────────────────────────────────────────────────────────── */
+  function formatElapsed(startTime) {
+    try {
+      var secs = Math.floor((Date.now() - startTime) / 1000);
+      if (secs < 60)  return secs + 's ago';
+      var mins = Math.floor(secs / 60);
+      if (mins < 60)  return mins + 'm ago';
+      return Math.floor(mins / 60) + 'h ago';
+    } catch (e) { return ''; }
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     1. KPI CARDS — read from ARIAContext.collect().keyMetrics
+  ══════════════════════════════════════════════════════════ */
+  function updateKPIs() {
+    try {
+      if (typeof window.ARIAContext === 'undefined') return;
+      var snap = window.ARIAContext.collect();
+      if (!snap) return;
+
+      var km = snap.keyMetrics;
+      if (km) {
+        if (km.trendVelocityIndex      != null) setKpiValue('exec-kpi-5', km.trendVelocityIndex);
+        if (km.supplierOTIF            != null) setKpiValue('exec-kpi-1', km.supplierOTIF);
+        if (km.productionPlanAdherence != null) setKpiValue('exec-kpi-2', km.productionPlanAdherence);
+        if (km.orderFulfillmentRate    != null) setKpiValue('exec-kpi-3', km.orderFulfillmentRate);
+        if (km.costPerOrder            != null) setKpiValue('exec-kpi-7', km.costPerOrder);
+      }
+
+      if (snap.rmpm && snap.rmpm.summary && snap.rmpm.summary.rmCoverageDays != null) {
+        setKpiValue('exec-kpi-9', snap.rmpm.summary.rmCoverageDays + ' days');
+      }
+    } catch (e) { /* silent fallback */ }
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     2. CRITICAL ALERTS STRIP — top 3 from EscalationEngine
+        (sorted by rung desc, already returned that way)
+  ══════════════════════════════════════════════════════════ */
+  function updateAlertsStrip() {
+    try {
+      var strip = document.getElementById('exec-alerts-strip');
+      if (!strip) return;
+      if (typeof window.OdysseyEscalationEngine === 'undefined') return;
+
+      var active = window.OdysseyEscalationEngine.getActive();
+      if (!active || active.length === 0) return;
+
+      var top3 = active.slice(0, 3);
+      var html = '';
+
+      top3.forEach(function (rec) {
+        var rung       = rec.currentRung || 1;
+        var icon       = rung >= 3 ? '🔴' : rung === 2 ? '🟡' : '🔵';
+        var colorClass = rung >= 3 ? 'ev-red' : rung === 2 ? 'ev-amber' : '';
+        var name       = rec.signalName || '';
+        var trigger    = (rec.signal && (rec.signal.description || rec.signal.product)) || name;
+        var elapsed    = rec.startTime ? formatElapsed(rec.startTime) : '';
+
+        html +=
+          '<div class="ev-alert-item ' + colorClass + '">' +
+            '<span class="ev-alert-icon">'  + icon    + '</span>' +
+            '<span class="ev-alert-desc">'  + name + ' — ' + trigger + '</span>' +
+            '<span class="ev-alert-time">'  + elapsed + '</span>' +
+          '</div>';
+      });
+
+      strip.innerHTML = html;
+    } catch (e) { /* silent fallback */ }
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     3. ACT NOW SKU STRIP — from OdysseyScoreEngine.getActNow()
+  ══════════════════════════════════════════════════════════ */
+  function updateActNow() {
+    try {
+      var container = document.getElementById('exec-act-now');
+      if (!container) return;
+      if (typeof window.OdysseyScoreEngine === 'undefined') return;
+
+      var actNow = window.OdysseyScoreEngine.getActNow();
+      if (!actNow) return;
+
+      if (actNow.length === 0) {
+        container.innerHTML =
+          '<div style="color:#4caf50;padding:8px 12px;font-weight:600">✅ No critical SKUs</div>';
+        return;
+      }
+
+      var html = '';
+      actNow.forEach(function (sku) {
+        html +=
+          '<div class="ev-sku-pill">' +
+            '<div class="ev-sku-name">' + (sku.name || '') + '</div>' +
+            '<div class="ev-sku-scores">' +
+              '<span class="ev-sku-score">Opp: '  + (sku.opScore   != null ? sku.opScore   : '—') + '</span>' +
+              '<span class="ev-sku-score">Risk: ' + (sku.riskScore != null ? sku.riskScore : '—') + '</span>' +
+            '</div>' +
+            '<span class="ev-sku-badge">Act Now</span>' +
+          '</div>';
+      });
+
+      container.innerHTML = html;
+    } catch (e) { /* silent fallback */ }
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     4. WAR ROOM STATUS ROW — from OdysseyStakeholderEngine
+  ══════════════════════════════════════════════════════════ */
+  function updateWarRoom() {
+    try {
+      if (typeof window.OdysseyStakeholderEngine === 'undefined') return;
+      var stats = window.OdysseyStakeholderEngine.getStats();
+      if (!stats) return;
+
+      var row = document.getElementById('exec-warroom-row');
+      if (!row) return;
+      var valEls = row.querySelectorAll('.ev-wr-val');
+      if (valEls.length < 3) return;
+
+      /* Open Alerts — always red */
+      if (stats.totalOpen != null) {
+        valEls[0].textContent = stats.totalOpen;
+        valEls[0].className  = 'ev-wr-val ev-red';
+      }
+
+      /* Unclaimed — red when > 0, neutral otherwise */
+      if (stats.unclaimed != null) {
+        valEls[1].textContent = stats.unclaimed;
+        valEls[1].className  = 'ev-wr-val' + (stats.unclaimed > 0 ? ' ev-red' : '');
+      }
+
+      /* Resolved Today — always green */
+      if (stats.resolvedToday != null) {
+        valEls[2].textContent = stats.resolvedToday;
+        valEls[2].className  = 'ev-wr-val ev-green';
+      }
+    } catch (e) { /* silent fallback */ }
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     5. ARIA BRIEFING BUTTON
+        → navigate to aria-intelligence → click Generate Briefing
+  ══════════════════════════════════════════════════════════ */
+  function wireAriaBriefingBtn() {
+    var btn = document.getElementById('exec-aria-btn');
+    if (!btn) return;
+
+    btn.removeAttribute('onclick');
+
+    btn.addEventListener('click', function () {
+      try {
+        /* Navigate to ARIA Intelligence section */
+        if (typeof switchTab === 'function') {
+          switchTab('aria-intelligence');
+        }
+
+        /* Click the Generate Briefing button (slight delay for panel init) */
+        setTimeout(function () {
+          try {
+            var briefingBtn = document.getElementById('aria-briefing-gen-btn');
+            if (briefingBtn) {
+              briefingBtn.click();
+            } else if (typeof window.ariaGenerateBriefing === 'function') {
+              window.ariaGenerateBriefing();
+            } else {
+              /* Fallback: scroll panel into view and inform via console */
+              var panel = document.getElementById('panel-aria-intelligence');
+              if (panel) panel.scrollIntoView({ behavior: 'smooth' });
+              console.info('[ExecView] Open ARIA to generate your briefing');
+            }
+          } catch (e2) { /* silent */ }
+        }, 250);
+      } catch (e) {
+        try { if (typeof switchTab === 'function') switchTab('aria-intelligence'); } catch (e2) { /* silent */ }
+      }
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     MASTER UPDATE FUNCTION (called every 30s)
+  ══════════════════════════════════════════════════════════ */
+  function updateExecView() {
+    updateKPIs();
+    updateActNow();
+    updateWarRoom();
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     6. AUTO-REFRESH — start / stop tied to panel visibility
+  ══════════════════════════════════════════════════════════ */
+  function startRefresh() {
+    if (!_execRefreshInterval) {
+      _execRefreshInterval = setInterval(updateExecView, 30000);
+    }
+    if (!_alertsInterval) {
+      updateAlertsStrip();
+      _alertsInterval = setInterval(updateAlertsStrip, 10000);
+    }
+  }
+
+  function stopRefresh() {
+    if (_execRefreshInterval) { clearInterval(_execRefreshInterval); _execRefreshInterval = null; }
+    if (_alertsInterval)      { clearInterval(_alertsInterval);      _alertsInterval      = null; }
+  }
+
+  /* MutationObserver: clear intervals when panel loses .active class */
+  function watchPanelVisibility() {
+    var panel = document.getElementById('panel-executive-view');
+    if (!panel) return;
+
+    var observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        if (m.attributeName === 'class') {
+          if (panel.classList.contains('active')) {
+            startRefresh();
+          } else {
+            stopRefresh();
+          }
+        }
+      });
+    });
+    observer.observe(panel, { attributes: true });
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     BOOTSTRAP
+  ══════════════════════════════════════════════════════════ */
+  function init() {
+    wireAriaBriefingBtn();
+    watchPanelVisibility();
+
+    /* Always run once on load to populate data immediately */
+    updateExecView();
+    updateAlertsStrip();
+
+    /* Start 30s interval (persists until panel hidden) */
+    startRefresh();
+
+    console.log('[ExecView] Live data wiring active — v1.0');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+}());
+</script>
+
 </body>
 </html>
