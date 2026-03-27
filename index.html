@@ -17321,10 +17321,10 @@ function renderCTFlowDiagram() {
 
   // ── LAYOUT ──
   const nW=120, nH=100, badgeH=16;
-  const demandX=20,  demandStartY=30,  demandGapY=108;
-  const sourceX=250, sourceStartY=30,  sourceGapY=108;
-  const makeX=490,   makeY=138;
-  const deliverX=630,deliverStartY=138, deliverGapY=108;
+  const demandX=60,  demandStartY=30,  demandGapY=108;
+  const sourceX=290, sourceStartY=30,  sourceGapY=108;
+  const makeX=530,   makeY=138;
+  const deliverX=680,deliverStartY=138, deliverGapY=108;
   const enableY=460;
 
   // ── NODE DATA ──
@@ -17435,7 +17435,7 @@ function renderCTFlowDiagram() {
     const x1 = demandX + nW;
     const pathD = `M ${x1},${y1} L ${procLX},${procTopY}`;
     drawArrow(x1, y1, procLX, procTopY, '#0891b2', true, 'url(#ct-arrow-teal)');
-    addDot(pathD, '#0891b2', '2.5s');
+    addDot(pathD, '#0891b2', '2s');
   });
 
   // ── SOLID ARROWS: Source internal ──
