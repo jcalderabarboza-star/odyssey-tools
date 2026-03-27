@@ -17297,183 +17297,197 @@ function buildCTAlertChart() {
 /* ── CT FLOW DIAGRAM ── */
 function renderCTFlowDiagram() {
   const ns = 'http://www.w3.org/2000/svg';
-  const statusColor = s => s === 'ontarget' ? '#107e3e' : s === 'warning' ? '#e76500' : '#bb0000';
+  const statusColor = s => s==='ontarget'?'#107e3e':s==='warning'?'#e76500':'#bb0000';
 
   const svgEl   = document.getElementById('ct-flow-svg');
   const gNodes  = document.getElementById('ct-flow-nodes');
   const gArrows = document.getElementById('ct-flow-arrows');
   const gDots   = document.getElementById('ct-flow-dots');
   const fg      = document.getElementById('ct-flow-finance');
+  if (!svgEl||!gNodes||!gArrows) return;
 
-  if (!svgEl || !gNodes || !gArrows) return;
-  gNodes.innerHTML  = '';
-  gArrows.innerHTML = '';
-  if (gDots) gDots.innerHTML = '';
-  if (fg)    fg.innerHTML    = '';
-
-  // Update SVG to fit 6-row left column + Finance node below
-  svgEl.setAttribute('height',  '820');
-  svgEl.setAttribute('viewBox', '0 0 1000 820');
+  gNodes.innerHTML=''; gArrows.innerHTML='';
+  if (gDots) gDots.innerHTML='';
+  if (fg)    fg.innerHTML='';
 
   const mkEl = (tag, attrs) => {
     const el = document.createElementNS(ns, tag);
-    Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+    Object.entries(attrs).forEach(([k,v]) => el.setAttribute(k,v));
     return el;
   };
 
-  // Add teal arrowhead marker for demand signal (idempotent)
-  const defs = svgEl.querySelector('defs');
-  if (defs) {
-    const old = svgEl.querySelector('#ct-arrow-teal');
-    if (old) old.remove();
-    const m = mkEl('marker', { id: 'ct-arrow-teal', markerWidth: '8', markerHeight: '8',
-      refX: '7', refY: '3', orient: 'auto' });
-    m.appendChild(mkEl('path', { d: 'M0,0 L0,6 L8,3 z', fill: '#0891b2' }));
-    defs.appendChild(m);
-  }
-
-  // ── LAYOUT CONSTANTS ──
-  const nW = 110, nH = 80;
-  const leftX = 200, rightX = 680;
-  const startY = 80, vGap = 110;
+  // ── LAYOUT ──
+  const nW=120, nH=100, badgeH=16;
+  const demandX=30,  demandStartY=30,  demandGapY=108;
+  const sourceX=260, sourceStartY=30,  sourceGapY=108;
+  const makeX=490,   makeY=30;
+  const deliverX=620,deliverStartY=30, deliverGapY=108;
+  const enableY=360;
 
   // ── NODE DATA ──
-  const leftNodes = [
-    { label: 'Suppliers',      sub: '10 active',   health: 84, status: 'warning',  icon: '🏭' },
-    { label: 'RM & PM Inv.',   sub: 'W3 coverage', health: 79, status: 'warning',  icon: '🧪' },
-    { label: 'Procurement',    sub: '47 open POs', health: 91, status: 'ontarget', icon: '🛒' },
-    { label: 'Manufacturing',  sub: '4 lines',     health: 88, status: 'warning',  icon: '⚙️' },
-    { label: 'Distribution',   sub: '847 orders',  health: 87, status: 'warning',  icon: '📦' },
-    { label: 'Transport',      sub: '336 active',  health: 92, status: 'ontarget', icon: '🚛' },
+  const DEMAND = [
+    { label:'Demand Sensing', icon:'📡', health:83, status:'warning',
+      kpi1:'Fcst Acc 82%', kpi2:'Signal 12m' },
+    { label:'Commercial',     icon:'📊', health:89, status:'ontarget',
+      kpi1:'Fill 89%',     kpi2:'Backorder 3%' },
+    { label:'Marketing',      icon:'📣', health:91, status:'ontarget',
+      kpi1:'ROI 91%',      kpi2:'OOS 4%' },
+    { label:'Beauty Adv.',    icon:'💄', health:87, status:'warning',
+      kpi1:'Avail 87%',    kpi2:'OOS 6 SKU' },
   ];
-  const rightNodes = [
-    { label: 'Demand Sensing', sub: 'forecast',    health: 83, status: 'warning',  icon: '📡' },
-    { label: 'Commercial',     sub: 'B2B/B2C',     health: 89, status: 'ontarget', icon: '📊' },
-    { label: 'Marketing',      sub: 'campaigns',   health: 91, status: 'ontarget', icon: '📣' },
-    { label: 'Beauty Advisors',sub: 'BA network',  health: 87, status: 'warning',  icon: '💄' },
+  const SOURCE = [
+    { label:'Suppliers',     icon:'🏭', health:84, status:'warning',
+      kpi1:'OTIF 84%',     kpi2:'LT Dev +2d' },
+    { label:'RM & PM Inv.', icon:'🧪', health:79, status:'warning',
+      kpi1:'Cover 18d',    kpi2:'Stockout 2' },
+    { label:'Procurement',  icon:'🛒', health:91, status:'ontarget',
+      kpi1:'Late POs 3',   kpi2:'Confirm 94%' },
   ];
-
-  // ── HELPERS ──
-  const drawNode = (x, y, node) => {
-    const col = statusColor(node.status);
-    gNodes.appendChild(mkEl('rect', { x, y, width: nW, height: nH, rx: '8',
-      fill: '#ffffff', stroke: col, 'stroke-width': '2' }));
-    const ico = mkEl('text', { x: x + nW/2, y: y + 22, 'text-anchor': 'middle', 'font-size': '16' });
-    ico.textContent = node.icon;
-    gNodes.appendChild(ico);
-    const lbl = mkEl('text', { x: x + nW/2, y: y + 40, 'text-anchor': 'middle',
-      fill: '#1e293b', 'font-size': '10', 'font-weight': '600', 'font-family': 'sans-serif' });
-    lbl.textContent = node.label;
-    gNodes.appendChild(lbl);
-    const pct = mkEl('text', { x: x + nW/2, y: y + 55, 'text-anchor': 'middle',
-      fill: col, 'font-size': '13', 'font-weight': '700', 'font-family': 'sans-serif' });
-    pct.textContent = node.health + '%';
-    gNodes.appendChild(pct);
-    const sub = mkEl('text', { x: x + nW/2, y: y + 69, 'text-anchor': 'middle',
-      fill: '#64748b', 'font-size': '9', 'font-family': 'sans-serif' });
-    sub.textContent = node.sub;
-    gNodes.appendChild(sub);
-  };
+  const MAKE = [
+    { label:'Manufacturing', icon:'⚙️', health:88, status:'warning',
+      kpi1:'OEE 82%',      kpi2:'Adher 88%' },
+  ];
+  const DELIVER = [
+    { label:'Distribution', icon:'📦', health:87, status:'warning',
+      kpi1:'PO Rate 90%',  kpi2:'Backlog 847' },
+    { label:'Transport',    icon:'🚛', health:92, status:'ontarget',
+      kpi1:'OTD 92%',      kpi2:'ETA Acc 89%' },
+  ];
 
   const addDot = (pathD, color, dur) => {
     if (!gDots) return;
-    const circle = mkEl('circle', { r: '4', fill: color });
-    const anim = mkEl('animateMotion', { dur: dur || '2s', repeatCount: 'indefinite', path: pathD });
-    circle.appendChild(anim);
-    gDots.appendChild(circle);
+    const c = mkEl('circle', {r:'4', fill:color, opacity:'0.85'});
+    const a = mkEl('animateMotion', {dur:dur||'2s',
+      repeatCount:'indefinite', path:pathD});
+    c.appendChild(a);
+    gDots.appendChild(c);
   };
 
-  // ── LEFT COLUMN (Supply/Operations chain) ──
-  leftNodes.forEach((node, i) => drawNode(leftX, startY + i * vGap, node));
-  for (let i = 0; i < leftNodes.length - 1; i++) {
-    const cx = leftX + nW / 2;
-    const y1 = startY + i * vGap + nH;
-    const y2 = startY + (i + 1) * vGap;
-    gArrows.appendChild(mkEl('line', {
-      x1: cx, y1, x2: cx, y2: y2 + 3,
-      stroke: '#9ca3af', 'stroke-width': '1.5', 'marker-end': 'url(#ct-arrowhead)'
-    }));
-    addDot(`M ${cx},${y1} L ${cx},${y2}`, statusColor(leftNodes[i].status), '2s');
-  }
+  const drawNode = (x, y, node) => {
+    const col = statusColor(node.status);
+    // Box
+    gNodes.appendChild(mkEl('rect',{x,y,width:nW,height:nH,rx:'8',
+      fill:'#ffffff',stroke:col,'stroke-width':'2'}));
+    // Icon
+    const ico = mkEl('text',{x:x+nW/2,y:y+20,'text-anchor':'middle','font-size':'15'});
+    ico.textContent=node.icon; gNodes.appendChild(ico);
+    // Label
+    const lbl=mkEl('text',{x:x+nW/2,y:y+36,'text-anchor':'middle',
+      fill:'#1e293b','font-size':'9','font-weight':'700','font-family':'sans-serif'});
+    lbl.textContent=node.label; gNodes.appendChild(lbl);
+    // Health %
+    const pct=mkEl('text',{x:x+nW/2,y:y+52,'text-anchor':'middle',
+      fill:col,'font-size':'14','font-weight':'800','font-family':'sans-serif'});
+    pct.textContent=node.health+'%'; gNodes.appendChild(pct);
+    // KPI Badge 1
+    gNodes.appendChild(mkEl('rect',{x:x+4,y:y+58,width:nW-8,height:badgeH,rx:'3',
+      fill:col,opacity:'0.12'}));
+    const k1=mkEl('text',{x:x+nW/2,y:y+69,'text-anchor':'middle',
+      fill:col,'font-size':'8','font-weight':'600','font-family':'sans-serif'});
+    k1.textContent=node.kpi1; gNodes.appendChild(k1);
+    // KPI Badge 2
+    gNodes.appendChild(mkEl('rect',{x:x+4,y:y+76,width:nW-8,height:badgeH,rx:'3',
+      fill:col,opacity:'0.08'}));
+    const k2=mkEl('text',{x:x+nW/2,y:y+87,'text-anchor':'middle',
+      fill:'#64748b','font-size':'8','font-family':'sans-serif'});
+    k2.textContent=node.kpi2; gNodes.appendChild(k2);
+  };
 
-  // ── RIGHT COLUMN (Demand chain) ──
-  rightNodes.forEach((node, i) => drawNode(rightX, startY + i * vGap, node));
-  for (let i = 0; i < rightNodes.length - 1; i++) {
-    const cx = rightX + nW / 2;
-    const y1 = startY + i * vGap + nH;
-    const y2 = startY + (i + 1) * vGap;
-    gArrows.appendChild(mkEl('line', {
-      x1: cx, y1, x2: cx, y2: y2 + 3,
-      stroke: '#9ca3af', 'stroke-width': '1.5', 'marker-end': 'url(#ct-arrowhead)'
-    }));
-    addDot(`M ${cx},${y1} L ${cx},${y2}`, statusColor(rightNodes[i].status), '2s');
-  }
+  const drawArrow = (x1,y1,x2,y2,color,dashed,marker) => {
+    const attrs = {x1,y1,x2,y2,stroke:color||'#9ca3af',
+      'stroke-width':'1.5','marker-end':marker||'url(#ct-arrowhead)'};
+    if(dashed) attrs['stroke-dasharray']='6,3';
+    gArrows.appendChild(mkEl('line',attrs));
+  };
 
-  // ── DEMAND SIGNAL ARROW (L-shaped dashed, DS left edge → Procurement right edge) ──
-  // Demand Sensing: x=680, center y = startY + nH/2 = 120
-  // Procurement:   right edge x=310, center y = startY + 2*vGap + nH/2 = 340
-  // Route: (680,120) → (495,120) horizontal → (495,340) vertical → (313,340) into Procurement
-  const dsCenterY   = startY + nH / 2;              // 120
-  const procCenterY = startY + 2 * vGap + nH / 2;  // 340
-  const procRightX  = leftX + nW;                   // 310
-  const midX        = (procRightX + rightX) / 2;    // 495
+  // ── LANE LABELS ──
+  const laneLabel = (x, text, color) => {
+    const lb=mkEl('text',{x:x+nW/2,y:18,'text-anchor':'middle',
+      fill:color||'#64748b','font-size':'9','font-weight':'700',
+      'letter-spacing':'1.5','font-family':'sans-serif'});
+    lb.textContent=text; gNodes.appendChild(lb);
+  };
+  laneLabel(demandX,  'DEMAND SIGNALS', '#0891b2');
+  laneLabel(sourceX,  'SOURCE',         '#e76500');
+  laneLabel(makeX,    'MAKE',           '#7c3aed');
+  laneLabel(deliverX, 'DELIVER',        '#107e3e');
 
-  const demandPath = `M ${rightX},${dsCenterY} L ${midX},${dsCenterY} L ${midX},${procCenterY} L ${procRightX + 3},${procCenterY}`;
-  gArrows.appendChild(mkEl('path', {
-    d: demandPath, stroke: '#0891b2', 'stroke-width': '1.5',
-    'stroke-dasharray': '6,3', fill: 'none', 'marker-end': 'url(#ct-arrow-teal)'
-  }));
-  const dsLbl = mkEl('text', {
-    x: (rightX + midX) / 2, y: dsCenterY - 6,
-    'text-anchor': 'middle', fill: '#0891b2',
-    'font-size': '10', 'font-weight': '600', 'font-family': 'sans-serif'
+  // ── DRAW DEMAND COLUMN ──
+  DEMAND.forEach((n,i) => drawNode(demandX, demandStartY+i*demandGapY, n));
+
+  // ── DRAW SOURCE COLUMN ──
+  SOURCE.forEach((n,i) => drawNode(sourceX, sourceStartY+i*sourceGapY, n));
+
+  // ── DRAW MAKE ──
+  MAKE.forEach((n,i) => drawNode(makeX, makeY+i*108, n));
+
+  // ── DRAW DELIVER COLUMN ──
+  DELIVER.forEach((n,i) => drawNode(deliverX, deliverStartY+i*deliverGapY, n));
+
+  // ── DASHED SIGNAL ARROWS: Demand → Source ──
+  // Each Demand node signals to Suppliers (first Source node)
+  DEMAND.forEach((n,i) => {
+    const y1 = demandStartY + i*demandGapY + nH/2;
+    const x1 = demandX + nW;
+    const x2 = sourceX;
+    const y2 = sourceStartY + nH/2; // all point to Suppliers
+    const pathD = `M ${x1},${y1} L ${x2},${y2}`;
+    drawArrow(x1,y1,x2,y2,'#0891b2',true,'url(#ct-arrow-teal)');
+    addDot(pathD,'#0891b2','2.5s');
   });
-  dsLbl.textContent = 'Demand Signal';
-  gArrows.appendChild(dsLbl);
-  addDot(demandPath, '#0891b2', '3s');
 
-  // ── FINANCE NODE (centered bottom, below both columns) ──
-  // Transport bottom: startY + 5*vGap + nH = 710  →  Finance starts at 730
-  const finW = 140, finH = 70;
-  const finX = (1000 - finW) / 2;               // 430
-  const finY = 730;
+  // ── SOLID ARROWS: Source internal ──
+  SOURCE.forEach((n,i) => {
+    if(i<SOURCE.length-1){
+      const cx=sourceX+nW/2;
+      const y1=sourceStartY+i*sourceGapY+nH;
+      const y2=sourceStartY+(i+1)*sourceGapY;
+      drawArrow(cx,y1,cx,y2,statusColor(n.status),false);
+      addDot(`M ${cx},${y1} L ${cx},${y2}`,statusColor(n.status),'2s');
+    }
+  });
 
-  const transportCX = leftX + nW / 2;               // 255
-  const transportBY = startY + 5 * vGap + nH;       // 710
-  const baCX        = rightX + nW / 2;              // 735
-  const baBY        = startY + 3 * vGap + nH;       // 490
+  // ── SOLID ARROW: Procurement → Make ──
+  const procY  = sourceStartY+2*sourceGapY+nH/2;
+  const procRX = sourceX+nW;
+  const makeLX = makeX;
+  drawArrow(procRX,procY,makeLX,makeY+nH/2,'#107e3e',false);
+  addDot(`M ${procRX},${procY} L ${makeLX},${makeY+nH/2}`,'#107e3e','2s');
 
+  // ── SOLID ARROW: Make → Distribution ──
+  const makeRX  = makeX+nW;
+  const makeCY  = makeY+nH/2;
+  const distLX  = deliverX;
+  const distCY  = deliverStartY+nH/2;
+  drawArrow(makeRX,makeCY,distLX,distCY,'#7c3aed',false);
+  addDot(`M ${makeRX},${makeCY} L ${distLX},${distCY}`,'#7c3aed','2s');
+
+  // ── SOLID ARROW: Distribution → Transport ──
+  const distCX  = deliverX+nW/2;
+  const distBY  = deliverStartY+nH;
+  const transTY = deliverStartY+deliverGapY;
+  drawArrow(distCX,distBY,distCX,transTY,'#107e3e',false);
+  addDot(`M ${distCX},${distBY} L ${distCX},${transTY}`,'#107e3e','2s');
+
+  // ── ENABLE LANE: Finance bar ──
   if (fg) {
-    const dashAttrs = { stroke: '#e76500', 'stroke-width': '1.5', 'stroke-dasharray': '5,3' };
-    // Dashed connector lines drawn first (behind Finance box)
-    fg.appendChild(mkEl('line', { x1: transportCX, y1: transportBY,
-      x2: finX + finW * 0.27, y2: finY, ...dashAttrs }));
-    fg.appendChild(mkEl('line', { x1: baCX, y1: baBY,
-      x2: finX + finW * 0.73, y2: finY, ...dashAttrs }));
-
-    // Finance box
-    fg.appendChild(mkEl('rect', { x: finX, y: finY, width: finW, height: finH, rx: '8',
-      fill: '#ffffff', stroke: '#e76500', 'stroke-width': '1.5', 'stroke-dasharray': '5,3' }));
-
-    const fiName = mkEl('text', { x: finX + finW/2, y: finY + 20,
-      'text-anchor': 'middle', fill: '#1e293b', 'font-size': '13', 'font-family': 'sans-serif' });
-    fiName.textContent = '💰 Finance';
-    fg.appendChild(fiName);
-
-    const fiHealth = mkEl('text', { x: finX + finW/2, y: finY + 38,
-      'text-anchor': 'middle', fill: '#e76500', 'font-size': '11',
-      'font-weight': '700', 'font-family': 'sans-serif' });
-    fiHealth.textContent = '86% WARNING';
-    fg.appendChild(fiHealth);
-
-    const fiSub = mkEl('text', { x: finX + finW/2, y: finY + 55,
-      'text-anchor': 'middle', fill: '#64748b', 'font-size': '9', 'font-family': 'sans-serif' });
-    fiSub.textContent = 'Monitors all SC nodes';
-    fg.appendChild(fiSub);
-
-    // Animated dots on Finance dashed lines
-    addDot(`M ${transportCX},${transportBY} L ${finX + finW * 0.27},${finY}`, '#e76500', '2.5s');
-    addDot(`M ${baCX},${baBY} L ${finX + finW * 0.73},${finY}`, '#e76500', '2.5s');
+    const barX=30, barW=1140, barH=44;
+    // Background bar
+    fg.appendChild(mkEl('rect',{x:barX,y:enableY,width:barW,height:barH,rx:'6',
+      fill:'#fff7ed',stroke:'#e76500','stroke-width':'1.5',
+      'stroke-dasharray':'6,3'}));
+    // Label
+    const fl=mkEl('text',{x:barX+16,y:enableY+17,'text-anchor':'start',
+      fill:'#e76500','font-size':'10','font-weight':'700','font-family':'sans-serif'});
+    fl.textContent='ENABLE'; fg.appendChild(fl);
+    // Finance content
+    const fc=mkEl('text',{x:barX+80,y:enableY+17,'text-anchor':'start',
+      fill:'#1e293b','font-size':'11','font-weight':'700','font-family':'sans-serif'});
+    fc.textContent='💰 Finance — 86% ⚠ WARNING'; fg.appendChild(fc);
+    const fs=mkEl('text',{x:barX+80,y:enableY+33,'text-anchor':'start',
+      fill:'#64748b','font-size':'9','font-family':'sans-serif'});
+    fs.textContent='C2C Cycle | Cost-to-Serve | Freight Variance | Working Capital — monitors cost flows across all nodes';
+    fg.appendChild(fs);
   }
 }
 
