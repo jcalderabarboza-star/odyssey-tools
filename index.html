@@ -13160,15 +13160,15 @@
 <style>
   /* ── War Room ─────────────────────────────────────────────── */
   #panel-war-room {
-    background: #111827;
+    background: #f8fafc;
     min-height: 100vh;
     padding: 32px 32px 48px;
-    color: #e2e8f0;
+    color: #1e293b;
   }
   .wr-heading {
     font-size: 22px;
     font-weight: 700;
-    color: #f1f5f9;
+    color: #1e293b;
     margin: 0 0 6px;
     letter-spacing: -0.01em;
   }
@@ -13186,8 +13186,8 @@
   }
   .wr-stat-card {
     flex: 1 1 120px;
-    background: #1e293b;
-    border: 1px solid #2d3f50;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
     border-radius: 10px;
     padding: 14px 16px;
     min-width: 110px;
@@ -13203,13 +13203,13 @@
   .wr-stat-value {
     font-size: 26px;
     font-weight: 700;
-    color: #f1f5f9;
+    color: #1e293b;
     line-height: 1;
   }
-  .wr-stat-card.wr-red   { border-color: #ef4444; background: #2a1215; }
+  .wr-stat-card.wr-red   { border-color: #ef4444; background: #fef2f2; }
   .wr-stat-card.wr-red   .wr-stat-value { color: #f87171; }
-  .wr-stat-card.wr-green { border-color: #10b981; background: #0a1f17; }
-  .wr-stat-card.wr-green .wr-stat-value { color: #34d399; }
+  .wr-stat-card.wr-green { border-color: #10b981; background: #f0fdf4; }
+  .wr-stat-card.wr-green .wr-stat-value { color: #10b981; }
   /* Roster */
   .wr-roster-label {
     font-size: 11px;
@@ -13240,13 +13240,13 @@
   }
   .wr-roster-sep {
     height: 1px;
-    background: rgba(255,255,255,0.07);
+    background: #e2e8f0;
     margin-bottom: 24px;
   }
   /* Alert board placeholder */
   .wr-alerts-placeholder {
-    background: #1e293b;
-    border: 1px dashed #2d3f50;
+    background: #f1f5f9;
+    border: 1px dashed #cbd5e1;
     border-radius: 10px;
     padding: 24px 20px;
     color: #475569;
@@ -13439,19 +13439,19 @@
   .wr-ab-timeline-toggle {
     background: none;
     border: none;
-    color: #475569;
+    color: #64748b;
     font-size: 11px;
     cursor: pointer;
     padding: 2px 0;
     text-decoration: underline;
     text-underline-offset: 2px;
   }
-  .wr-ab-timeline-toggle:hover { color: #94a3b8; }
+  .wr-ab-timeline-toggle:hover { color: #1e293b; }
   .wr-ab-inline-form { min-height: 0; }
   .wr-ab-inline-input {
-    background: #0f172a;
-    color: #e2e8f0;
-    border: 1px solid #334155;
+    background: #ffffff;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
     border-radius: 6px;
     padding: 6px 10px;
     font-size: 12px;
@@ -13459,9 +13459,9 @@
   }
   .wr-ab-inline-input:focus { outline: none; border-color: #3b82f6; }
   .wr-ab-inline-select {
-    background: #0f172a;
-    color: #e2e8f0;
-    border: 1px solid #334155;
+    background: #ffffff;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
     border-radius: 6px;
     padding: 6px 10px;
     font-size: 12px;
@@ -13561,7 +13561,7 @@
     events.forEach(function (e) {
       h += '<li style="display:flex;align-items:flex-start;gap:8px">'
         + '<span style="width:8px;height:8px;border-radius:50%;background:' + e.color + ';margin-top:3px;flex-shrink:0;display:inline-block"></span>'
-        + '<span style="color:#94a3b8;font-size:11px;flex:1">' + esc(e.text) + '</span>'
+        + '<span style="color:#64748b;font-size:11px;flex:1">' + esc(e.text) + '</span>'
         + '<span style="color:#475569;font-size:10px;white-space:nowrap;flex-shrink:0">' + fmtTime(e.ts) + '</span>'
         + '</li>';
     });
@@ -13592,12 +13592,12 @@
 
     /* card wrapper */
     h += '<div id="' + cid + '" class="' + pulse3Card + '" style="'
-       + 'background:#1e293b;border-radius:12px;padding:14px 16px;margin-bottom:12px;'
+       + 'background:#f1f5f9;border-radius:12px;padding:14px 16px;margin-bottom:12px;'
        + 'border-left:3px solid ' + cc + ';transition:opacity 0.5s ease">';
 
     /* TOP ROW */
     h += '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px">';
-    h += '<span style="color:#f1f5f9;font-weight:600;font-size:13px;flex:1;min-width:80px">' + esc(sigLabel) + '</span>';
+    h += '<span style="color:#1e293b;font-weight:600;font-size:13px;flex:1;min-width:80px">' + esc(sigLabel) + '</span>';
     /* chain badge */
     h += '<span style="background:' + CHAIN_BG[chain] + ';color:' + cc + ';font-size:10px;font-weight:700;'
        + 'padding:2px 8px;border-radius:20px;border:1px solid ' + cc + ';white-space:nowrap">Chain ' + chain + '</span>';
@@ -13611,7 +13611,7 @@
 
     /* SECOND ROW */
     h += '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px">';
-    h += '<span style="color:#94a3b8;font-size:12px;flex:1">' + esc(skuText) + '</span>';
+    h += '<span style="color:#64748b;font-size:12px;flex:1">' + esc(skuText) + '</span>';
     if (!isClaimed || !claimedBy) {
       h += '<span style="background:rgba(239,68,68,0.12);color:#f87171;font-size:11px;font-weight:700;'
          + 'padding:2px 8px;border-radius:20px;border:1px solid rgba(239,68,68,0.3);white-space:nowrap">'
@@ -13628,7 +13628,7 @@
     h += '</div>';
 
     /* RESPONSE AREA */
-    h += '<div style="margin-bottom:10px;padding:8px 10px;background:rgba(0,0,0,0.2);border-radius:6px">';
+    h += '<div style="margin-bottom:10px;padding:8px 10px;background:rgba(0,0,0,0.04);border-radius:6px">';
     if (lastResp) {
       h += '<span style="color:#64748b;font-size:11px;font-style:italic">'
          + esc(lastResp.role) + ' &middot; ' + fmtTime(lastResp.timestamp) + ' &middot; ' + esc(lastResp.text)
@@ -13675,7 +13675,7 @@
     h += '<div style="margin-top:4px">';
     h += '<button id="' + tlBtn + '" class="wr-ab-timeline-toggle" '
        + 'onclick="wrAbToggleTl(\'' + tlId + '\',\'' + tlBtn + '\')">&#9660; Show Timeline</button>';
-    h += '<div id="' + tlId + '" style="display:none;margin-top:8px;background:rgba(0,0,0,0.2);border-radius:8px;padding:10px 12px">';
+    h += '<div id="' + tlId + '" style="display:none;margin-top:8px;background:rgba(0,0,0,0.04);border-radius:8px;padding:10px 12px">';
     h += buildTimeline(rec, inter);
     h += '</div>';
     h += '</div>';
@@ -13716,7 +13716,7 @@
 
     var h = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">'
           + '<span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;color:#475569">Active Alerts</span>'
-          + '<span style="font-size:11px;color:#64748b;background:#1e293b;border:1px solid #2d3f50;padding:3px 10px;border-radius:20px">'
+          + '<span style="font-size:11px;color:#64748b;background:#f1f5f9;border:1px solid #e2e8f0;padding:3px 10px;border-radius:20px">'
           + active.length + ' alert' + (active.length !== 1 ? 's' : '') + '</span>'
           + '</div>';
 
@@ -13754,12 +13754,12 @@
     var opts = roster.map(function (s) {
       return '<option value="' + esc(s.role) + '">' + esc(s.role) + '</option>';
     }).join('');
-    el.innerHTML = '<div style="margin-top:8px;background:rgba(0,0,0,0.2);border-radius:8px;padding:10px">'
+    el.innerHTML = '<div style="margin-top:8px;background:rgba(0,0,0,0.04);border-radius:8px;padding:10px">'
       + '<select id="wr-claim-sel-' + esc(signalName) + '" class="wr-ab-inline-select" style="width:100%;margin-bottom:8px">'
       + '<option value="">-- Select Role --</option>' + opts + '</select>'
       + '<div style="display:flex;gap:6px">'
       + '<button class="wr-ab-btn wr-ab-btn-green" onclick="wrAbClaimSubmit(\'' + esc(signalName) + '\')">Confirm Claim</button>'
-      + '<button class="wr-ab-btn" style="border:1px solid #475569;color:#94a3b8" onclick="wrAbClose(\'' + esc(signalName) + '\')">Cancel</button>'
+      + '<button class="wr-ab-btn" style="border:1px solid #cbd5e1;color:#64748b" onclick="wrAbClose(\'' + esc(signalName) + '\')">Cancel</button>'
       + '</div></div>';
   };
 
@@ -13775,12 +13775,12 @@
   window.wrAbLogResp = function (signalName) {
     var el = formSlot(signalName);
     if (!el) return;
-    el.innerHTML = '<div style="margin-top:8px;background:rgba(0,0,0,0.2);border-radius:8px;padding:10px">'
+    el.innerHTML = '<div style="margin-top:8px;background:rgba(0,0,0,0.04);border-radius:8px;padding:10px">'
       + '<textarea id="wr-resp-ta-' + esc(signalName) + '" rows="2" placeholder="Enter response\u2026" '
       + 'class="wr-ab-inline-input" style="width:100%;box-sizing:border-box;resize:vertical;margin-bottom:8px"></textarea>'
       + '<div style="display:flex;gap:6px">'
       + '<button class="wr-ab-btn wr-ab-btn-blue" onclick="wrAbLogRespSubmit(\'' + esc(signalName) + '\')">Submit</button>'
-      + '<button class="wr-ab-btn" style="border:1px solid #475569;color:#94a3b8" onclick="wrAbClose(\'' + esc(signalName) + '\')">Cancel</button>'
+      + '<button class="wr-ab-btn" style="border:1px solid #cbd5e1;color:#64748b" onclick="wrAbClose(\'' + esc(signalName) + '\')">Cancel</button>'
       + '</div></div>';
   };
 
@@ -13800,14 +13800,14 @@
     var opts = roster.map(function (s) {
       return '<option value="' + esc(s.role) + '">' + esc(s.role) + '</option>';
     }).join('');
-    el.innerHTML = '<div style="margin-top:8px;background:rgba(0,0,0,0.2);border-radius:8px;padding:10px">'
+    el.innerHTML = '<div style="margin-top:8px;background:rgba(0,0,0,0.04);border-radius:8px;padding:10px">'
       + '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">'
       + '<select id="wr-tag-sel-' + esc(signalName) + '" class="wr-ab-inline-select" style="flex:1;min-width:140px">'
       + '<option value="">-- Colleague --</option>' + opts + '</select>'
       + '<input id="wr-tag-msg-' + esc(signalName) + '" type="text" placeholder="Short message\u2026" '
       + 'class="wr-ab-inline-input" style="flex:1.5;min-width:150px">'
       + '<button class="wr-ab-btn wr-ab-btn-amber" onclick="wrAbTagSubmit(\'' + esc(signalName) + '\',this)">Send</button>'
-      + '<button class="wr-ab-btn" style="border:1px solid #475569;color:#94a3b8" onclick="wrAbClose(\'' + esc(signalName) + '\')">Cancel</button>'
+      + '<button class="wr-ab-btn" style="border:1px solid #cbd5e1;color:#64748b" onclick="wrAbClose(\'' + esc(signalName) + '\')">Cancel</button>'
       + '</div></div>';
   };
 
@@ -13832,7 +13832,7 @@
     var opts = causes.map(function (c) {
       return '<option value="' + esc(c) + '">' + esc(c) + '</option>';
     }).join('');
-    el.innerHTML = '<div style="margin-top:8px;background:rgba(0,0,0,0.2);border-radius:8px;padding:10px">'
+    el.innerHTML = '<div style="margin-top:8px;background:rgba(0,0,0,0.04);border-radius:8px;padding:10px">'
       + '<div style="display:flex;flex-direction:column;gap:8px">'
       + '<select id="wr-res-cause-' + esc(signalName) + '" class="wr-ab-inline-select">'
       + '<option value="">-- Root Cause --</option>' + opts + '</select>'
@@ -13841,7 +13841,7 @@
       + '<div style="display:flex;gap:6px">'
       + '<button class="wr-ab-btn" style="background:#0d9488;color:#fff;border:1px solid #0d9488" '
       + 'onclick="wrAbResolveSubmit(\'' + esc(signalName) + '\')">Mark Resolved</button>'
-      + '<button class="wr-ab-btn" style="border:1px solid #475569;color:#94a3b8" onclick="wrAbClose(\'' + esc(signalName) + '\')">Cancel</button>'
+      + '<button class="wr-ab-btn" style="border:1px solid #cbd5e1;color:#64748b" onclick="wrAbClose(\'' + esc(signalName) + '\')">Cancel</button>'
       + '</div></div></div>';
   };
 
@@ -13909,17 +13909,17 @@
   }
   .wr-notif-btn {
     background: none;
-    border: 1px solid #2d3f50;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
     padding: 6px 10px;
     font-size: 18px;
     cursor: pointer;
     position: relative;
     line-height: 1;
-    color: #e2e8f0;
+    color: #1e293b;
     transition: background 0.15s;
   }
-  .wr-notif-btn:hover { background: rgba(255,255,255,0.05); }
+  .wr-notif-btn:hover { background: rgba(0,0,0,0.05); }
   .wr-notif-badge {
     position: absolute;
     top: -6px;
@@ -13945,10 +13945,10 @@
     width: 300px;
     max-height: 280px;
     overflow-y: auto;
-    background: #1e293b;
-    border: 1px solid #2d3f50;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
     border-radius: 10px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
     z-index: 500;
   }
   .wr-notif-dropdown.open { display: block; }
@@ -13963,21 +13963,21 @@
     align-items: flex-start;
     gap: 8px;
     padding: 10px 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
     transition: opacity 0.4s;
   }
   .wr-notif-row:last-child { border-bottom: none; }
   .wr-notif-text {
     flex: 1;
     font-size: 12px;
-    color: #cbd5e1;
+    color: #1e293b;
     line-height: 1.45;
   }
   .wr-notif-check {
     background: none;
-    border: 1px solid #475569;
+    border: 1px solid #cbd5e1;
     border-radius: 4px;
-    color: #94a3b8;
+    color: #64748b;
     font-size: 12px;
     cursor: pointer;
     padding: 2px 6px;
@@ -13989,7 +13989,7 @@
   /* ── Resolved Today ──────────────────────────────────── */
   .wr-resolved-divider {
     height: 1px;
-    background: rgba(255,255,255,0.06);
+    background: #e2e8f0;
     margin: 28px 0 0;
   }
   .wr-resolved-section { margin-top: 0; }
@@ -14002,7 +14002,7 @@
   .wr-resolved-title {
     font-size: 13px;
     font-weight: 700;
-    color: #94a3b8;
+    color: #64748b;
     text-transform: uppercase;
     letter-spacing: 0.07em;
     flex: 1;
@@ -14010,13 +14010,13 @@
   .wr-resolved-chevron {
     background: none;
     border: none;
-    color: #475569;
+    color: #94a3b8;
     font-size: 13px;
     cursor: pointer;
     padding: 2px 6px;
     transition: color 0.15s;
   }
-  .wr-resolved-chevron:hover { color: #94a3b8; }
+  .wr-resolved-chevron:hover { color: #64748b; }
   .wr-resolved-body { display: none; margin-top: 12px; }
   .wr-resolved-body.open { display: block; }
   .wr-resolved-empty {
@@ -14039,19 +14039,19 @@
     color: #475569;
     padding: 6px 10px;
     text-align: left;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
     white-space: nowrap;
   }
   .wr-resolved-table td {
     padding: 8px 10px;
-    color: #94a3b8;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: #64748b;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
     vertical-align: top;
     line-height: 1.4;
   }
   .wr-resolved-table tr:last-child td { border-bottom: none; }
-  .wr-resolved-table tr:hover td { background: rgba(255,255,255,0.02); }
-  .wr-resolved-signal-name { color: #e2e8f0; font-weight: 600; max-width: 160px; word-break: break-word; }
+  .wr-resolved-table tr:hover td { background: rgba(0,0,0,0.03); }
+  .wr-resolved-signal-name { color: #1e293b; font-weight: 600; max-width: 160px; word-break: break-word; }
 </style>
 <script>
 (function () {
