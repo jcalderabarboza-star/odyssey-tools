@@ -12684,7 +12684,7 @@
   <div class="section-block" style="margin-bottom:20px">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px">
       <div>
-        <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin:0 0 4px">Executive Summary</h2>
+        <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin:0 0 4px">Executive Dashboard</h2>
         <div style="font-size:12px;color:#9ca3af;margin-bottom:4px">E2E Control Tower &rsaquo; Board View</div>
         <div style="font-size:13px;color:#374151;margin-bottom:6px">Monthly Performance Review &mdash; Paragon Corp Odyssey Program</div>
         <div style="font-size:11px;color:#9ca3af;font-style:italic">Board Report &mdash; September 2025 | Prepared by: E2E Control Tower v2.0</div>
@@ -15321,7 +15321,7 @@ function switchTab(tab) {
   if(_panel) _panel.classList.add('active');
   const navEl=document.getElementById('nav-'+tab);
   if(navEl) navEl.classList.add('active');
-  const titles={kpi:'Distribution & Warehouse',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal','rmpm-inventory':'RM & PM Inventory',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard',exec:'Executive Summary','it-systems':'IT / Systems','transport-3pl':'Transport & 3PL','aria-intelligence':'ARIA Intelligence','war-room':'War Room','beauty-advisors':'Beauty Advisors','demand-sensing':'Demand Sensing','customer-service':'Customer Service','returns-logistics':'Returns & Reverse Logistics','executive-view':'Executive View'};
+  const titles={kpi:'Distribution & Warehouse',mfg:'Manufacturing',proc:'Procurement & Purchase',suppliers:'Suppliers Portal','rmpm-inventory':'RM & PM Inventory',ct:'Control Tower',rd:'R&D Dashboard',commercial:'Commercial Dashboard',marketing:'Marketing Dashboard',finance:'Finance Dashboard',exec:'Executive Dashboard','it-systems':'IT / Systems','transport-3pl':'Transport & 3PL','aria-intelligence':'ARIA Intelligence','war-room':'War Room','beauty-advisors':'Beauty Advisors','demand-sensing':'Demand Sensing','customer-service':'Customer Service','returns-logistics':'Returns & Reverse Logistics','executive-view':'App Preview'};
   document.getElementById('top-bar-title').textContent=titles[tab]||tab;
   const bcEl=document.getElementById('top-bar-breadcrumb');
   if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Supply Chain';
@@ -15360,7 +15360,7 @@ function switchTab(tab) {
     exInitIfNeeded();
   }
   if(tab==='executive-view'){
-    if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Executive View';
+    if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  App Preview';
     // Populate date and last-updated timestamp
     var evDateEl=document.getElementById('ev-date-display');
     if(evDateEl) evDateEl.textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
