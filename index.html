@@ -5374,6 +5374,9 @@
     <p style="font-size:14px;color:#6b7280;font-weight:500">Supplier Intelligence &amp; Performance Management</p>
   </div>
 
+  <!-- EXCEPTIONS BANNER -->
+  <div id="sp-exceptions-banner" style="margin-bottom:20px"></div>
+
   <!-- SECTION 1: STRATEGIC KPIs -->
   <div class="section-block">
     <div class="section-hdr">
@@ -14897,6 +14900,7 @@ function selectMonth(idx) {
     renderTransportStrategic();
     renderTransportNodeConnection();
   }
+  renderSPExceptions();
   renderSPStrategic();
   renderSPNodeConnection();
   if (document.getElementById('panel-rd') && document.getElementById('panel-rd').classList.contains('active')) {
@@ -16971,8 +16975,85 @@ const SP_COLORS = ['#0070f2','#107e3e','#e76500','#bb0000','#7c3aed','#0f828f'];
 let chartSPTrend=null, chartSPRating=null, chartSPEsg=null;
 let spChartsBuilt=false;
 
+function renderSPExceptions() {
+  var banner = document.getElementById('sp-exceptions-banner');
+  if (!banner) return;
+
+  var SUPPLIER_SIGNALS = [
+    'SUPPLIER_OTIF_BREACH','SUPPLIER_QC_HOLD','SUPPLIER_LEAD_TIME_DRIFT',
+    'SUPPLIER_CONTRACT_EXPIRY','SUPPLIER_COVERAGE_LOW','PACKAGING_OTD_LOW',
+    'RM_COVERAGE_CRITICAL','RM_COVERAGE_WARNING'
+  ];
+
+  var all = (window.OdysseySignalEngine && OdysseySignalEngine.signals) || [];
+  var filtered = all.filter(function(s) {
+    return SUPPLIER_SIGNALS.indexOf(s.name) !== -1;
+  });
+
+  // Sort: CRITICAL first, then WARNING
+  filtered.sort(function(a, b) {
+    if (a.severity === 'CRITICAL' && b.severity !== 'CRITICAL') return -1;
+    if (b.severity === 'CRITICAL' && a.severity !== 'CRITICAL') return 1;
+    return 0;
+  });
+
+  var top = filtered.slice(0, 3);
+
+  if (top.length === 0) {
+    banner.innerHTML =
+      '<div style="background:#f0fdf4;border:1px solid #107e3e;border-radius:8px;' +
+      'padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:4px">' +
+      '<span style="font-size:16px">✅</span>' +
+      '<span style="font-size:13px;font-weight:600;color:#107e3e">No active supplier exceptions</span>' +
+      '</div>';
+    return;
+  }
+
+  var critCount = filtered.filter(function(s){ return s.severity==='CRITICAL'; }).length;
+  var warnCount = filtered.filter(function(s){ return s.severity==='WARNING'; }).length;
+
+  var html = '<div style="background:#fff7ed;border:1.5px solid #e76500;border-radius:8px;' +
+    'padding:16px;margin-bottom:4px">' +
+    '<div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">' +
+    '<span style="font-size:13px;font-weight:700;color:#1e293b">⚡ SUPPLIER EXCEPTIONS</span>';
+
+  if (critCount > 0) {
+    html += '<span style="background:#fee2e2;color:#bb0000;padding:2px 10px;border-radius:4px;' +
+      'font-size:11px;font-weight:700">🔴 CRITICAL: ' + critCount + '</span>';
+  }
+  if (warnCount > 0) {
+    html += '<span style="background:#fff7ed;color:#e76500;padding:2px 10px;border-radius:4px;' +
+      'font-size:11px;font-weight:700">⚠️ WARNING: ' + warnCount + '</span>';
+  }
+  html += '</div><div style="display:flex;flex-direction:column;gap:8px">';
+
+  top.forEach(function(s) {
+    var isCrit = s.severity === 'CRITICAL';
+    var bgCol  = isCrit ? '#fee2e2' : '#fff7ed';
+    var bdCol  = isCrit ? '#bb0000' : '#e76500';
+    var txCol  = isCrit ? '#bb0000' : '#e76500';
+    var icon   = isCrit ? '🔴' : '⚠️';
+    var desc   = s.trigger || s.description || s.name.replace(/_/g,' ');
+    var detail = s.supplier ? ' — ' + s.supplier : (s.currentValue ? ' — ' + s.currentValue : '');
+
+    html += '<div style="background:' + bgCol + ';border-left:3px solid ' + bdCol + ';' +
+      'border-radius:4px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center">' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+      '<span>' + icon + '</span>' +
+      '<span style="font-size:12px;font-weight:600;color:#1e293b">' + desc + detail + '</span>' +
+      '</div>' +
+      '<span style="font-size:11px;color:' + txCol + ';font-weight:600;white-space:nowrap;margin-left:12px">' +
+      s.severity + '</span>' +
+      '</div>';
+  });
+
+  html += '</div></div>';
+  banner.innerHTML = html;
+}
+
 /* ══ RENDER: SP STRATEGIC KPI CARDS ══ */
 function renderSPStrategic() {
+  renderSPExceptions();
   const idx=selectedMonthIdx, grid=document.getElementById('sp-strategic-grid');
   if(!grid) return;
   grid.innerHTML='';
@@ -18092,6 +18173,7 @@ buildDWGauges();
 initTransportMapTooltips();
 
 // Suppliers Portal module init
+renderSPExceptions();
 renderSPStrategic();
 renderSPTactical();
 renderSPOperational();
