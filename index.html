@@ -5374,6 +5374,9 @@
     <p style="font-size:14px;color:#6b7280;font-weight:500">Supplier Intelligence &amp; Performance Management</p>
   </div>
 
+  <!-- EXCEPTIONS BANNER -->
+  <div id="sp-exceptions-banner"></div>
+
   <!-- SECTION 1: STRATEGIC KPIs -->
   <div class="section-block">
     <div class="section-hdr">
@@ -16973,6 +16976,7 @@ let spChartsBuilt=false;
 
 /* ══ RENDER: SP STRATEGIC KPI CARDS ══ */
 function renderSPStrategic() {
+  renderSPExceptions();
   const idx=selectedMonthIdx, grid=document.getElementById('sp-strategic-grid');
   if(!grid) return;
   grid.innerHTML='';
