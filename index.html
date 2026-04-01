@@ -3883,6 +3883,9 @@
 ══════════════════════════════════════════ -->
 <div class="tab-panel" id="panel-mfg">
 
+  <!-- MANUFACTURING EXCEPTIONS BANNER -->
+  <div id="mfg-exceptions-banner" style="margin-bottom:20px"></div>
+
   <!-- MATERIAL AVAILABILITY COMPACT CARD -->
   <div class="section-block">
     <div style="background:#ffffff; border:1px solid #e5e7eb; border-left:4px solid #ef4444; border-radius:8px; padding:18px 20px; box-shadow:0 1px 4px rgba(0,0,0,0.08);">
@@ -15338,7 +15341,7 @@ function switchTab(tab) {
     if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  AI Intelligence';
     if(typeof ariaInitIfNeeded==='function') ariaInitIfNeeded();
   }
-  if(tab==='mfg'){ mfgInitChartsIfNeeded(); }
+  if(tab==='mfg'){ renderMfgExceptions(); mfgInitChartsIfNeeded(); }
   if(tab==='proc'){ renderProcExceptions(); procInitChartsIfNeeded(); }
   if(tab==='suppliers'){ spInitChartsIfNeeded(); }
   if(tab==='ct'){
@@ -15443,6 +15446,80 @@ function mfgGetVal(kpi,idx) { return idx===IS_YTD?kpi.ytd:kpi.monthly[idx]; }
 function mfgGetPrev(kpi,idx){ return (idx===IS_YTD||idx===0)?null:kpi.monthly[idx-1]; }
 function mfgStatus(kpi,val) { if(kpi.greenFn(val)) return 'green'; if(kpi.yellowFn(val)) return 'yellow'; return 'red'; }
 function mfgFmt(kpi,val)    { if(kpi.id==='cpu') return 'IDR\u00a0'+Math.round(val).toLocaleString('en-US'); return kpi.prefix+Number(val).toFixed(kpi.decimals)+kpi.unit; }
+
+function renderMfgExceptions() {
+  var banner = document.getElementById('mfg-exceptions-banner');
+  if (!banner) return;
+
+  var MFG_SIGNALS = [
+    'SUPPLIER_OTIF_BREACH','RM_SHORTAGE_RISK','PRODUCTION_DELAY_RISK',
+    'STOCK_RISK','RM_OOS_ALERT','PM_OOS_ALERT'
+  ];
+
+  var all = (window.OdysseySignalEngine && OdysseySignalEngine.signals) || [];
+  var filtered = all.filter(function(s) {
+    return MFG_SIGNALS.indexOf(s.name) !== -1;
+  });
+
+  filtered.sort(function(a, b) {
+    if (a.severity === 'CRITICAL' && b.severity !== 'CRITICAL') return -1;
+    if (b.severity === 'CRITICAL' && a.severity !== 'CRITICAL') return 1;
+    return 0;
+  });
+
+  var top = filtered.slice(0, 3);
+
+  if (top.length === 0) {
+    banner.innerHTML =
+      '<div style="background:#f0fdf4;border:1px solid #107e3e;border-radius:8px;' +
+      'padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:4px">' +
+      '<span style="font-size:16px">✅</span>' +
+      '<span style="font-size:13px;font-weight:600;color:#107e3e">No active manufacturing exceptions</span>' +
+      '</div>';
+    return;
+  }
+
+  var critCount = filtered.filter(function(s){ return s.severity==='CRITICAL'; }).length;
+  var warnCount = filtered.filter(function(s){ return s.severity==='WARNING'; }).length;
+
+  var html = '<div style="background:#fff7ed;border:1.5px solid #e76500;border-radius:8px;' +
+    'padding:16px;margin-bottom:4px">' +
+    '<div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">' +
+    '<span style="font-size:13px;font-weight:700;color:#1e293b">⚡ MANUFACTURING EXCEPTIONS</span>';
+
+  if (critCount > 0) {
+    html += '<span style="background:#fee2e2;color:#bb0000;padding:2px 10px;border-radius:4px;' +
+      'font-size:11px;font-weight:700">🔴 CRITICAL: ' + critCount + '</span>';
+  }
+  if (warnCount > 0) {
+    html += '<span style="background:#fff7ed;color:#e76500;padding:2px 10px;border-radius:4px;' +
+      'font-size:11px;font-weight:700">⚠️ WARNING: ' + warnCount + '</span>';
+  }
+  html += '</div><div style="display:flex;flex-direction:column;gap:8px">';
+
+  top.forEach(function(s) {
+    var isCrit = s.severity === 'CRITICAL';
+    var bgCol  = isCrit ? '#fee2e2' : '#fff7ed';
+    var bdCol  = isCrit ? '#bb0000' : '#e76500';
+    var txCol  = isCrit ? '#bb0000' : '#e76500';
+    var icon   = isCrit ? '🔴' : '⚠️';
+    var desc   = s.trigger || s.description || s.name.replace(/_/g,' ');
+    var detail = s.supplier ? ' — ' + s.supplier : (s.sku ? ' — ' + s.sku : '');
+
+    html += '<div style="background:' + bgCol + ';border-left:3px solid ' + bdCol + ';' +
+      'border-radius:4px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center">' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+      '<span>' + icon + '</span>' +
+      '<span style="font-size:12px;font-weight:600;color:#1e293b">' + desc + detail + '</span>' +
+      '</div>' +
+      '<span style="font-size:11px;color:' + txCol + ';font-weight:600;white-space:nowrap;margin-left:12px">' +
+      s.severity + '</span>' +
+      '</div>';
+  });
+
+  html += '</div></div>';
+  banner.innerHTML = html;
+}
 
 function renderMfgStrategic() {
   const idx=selectedMonthIdx, grid=document.getElementById('mfg-strategic-grid');
@@ -18230,6 +18307,7 @@ renderMonthChips();
 renderWeekChips();
 renderAll();
 renderWarehouseLog();
+renderMfgExceptions();
 renderMfgStrategic();
 renderMfgTactical();
 renderMfgOperational();
@@ -24606,7 +24684,7 @@ function exportBoardPack() {
     CONVERSION_DROP:             ['nav-exec'],
     SUPPLIER_OTIF_BREACH:        ['nav-mfg'],
     RM_SHORTAGE_RISK:            ['nav-mfg', 'nav-kpi'],
-    PRODUCTION_DELAY_RISK:       ['nav-kpi'],
+    PRODUCTION_DELAY_RISK:       ['nav-kpi', 'nav-mfg'],
     RETURN_RATE_SPIKE:           ['nav-customer-service'],
     COMPLAINT_SURGE:             ['nav-marketing'],
     NEGATIVE_SENTIMENT_FEEDBACK: ['nav-demand-sensing']
