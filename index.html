@@ -5514,6 +5514,131 @@
     <p style="font-size:14px;color:#6b7280;font-weight:500">Raw Material &amp; Packaging Material stock control — ensuring Manufacturing never stops</p>
   </div>
 
+  <!-- CRITICAL MATERIAL ALERTS PANEL -->
+    <div id="rmpm-alerts" class="section-block" style="margin-bottom:20px">
+      <div class="section-hdr">
+        <p class="section-label" style="font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#bb0000">⚠ Critical Material Alerts — Production at Risk</p>
+        <span class="section-sub">Materials below safety stock or OOS — immediate procurement action required</span>
+      </div>
+
+      <div class="table-scroll">
+        <table class="data-table" style="min-width:1400px">
+          <thead>
+            <tr>
+              <th>Material</th>
+              <th>Type</th>
+              <th>Current Coverage</th>
+              <th>Safety Stock</th>
+              <th>Shortfall (days)</th>
+              <th>Linked Production SKU</th>
+              <th>Production Impact</th>
+              <th>Action Required</th>
+              <th>Urgency</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <!-- 1. Vitamin C Ascorbic Acid — OOS / Stop Risk -->
+            <tr style="background:#fff0f0;box-shadow:inset 4px 0 0 #bb0000;animation:rmpm-oos-pulse 1.8s infinite">
+              <td style="font-weight:700;color:#bb0000">Vitamin C Ascorbic Acid</td>
+              <td><span class="rmpm-type-badge rmpm-type-active">RM</span></td>
+              <td style="font-weight:700;color:#bb0000">0d</td>
+              <td style="color:#6b7280">10d</td>
+              <td style="font-weight:700;color:#bb0000">−10d</td>
+              <td style="font-size:12px;color:#6b7280">Emina Brightening Range</td>
+              <td><span class="status-badge badge-red">Stop Risk</span></td>
+              <td style="font-size:12px;font-weight:600;color:#bb0000">Emergency PO + expedite</td>
+              <td><span class="status-badge badge-red" style="animation:pulse-red-light 1.8s infinite">Immediate</span></td>
+            </tr>
+
+            <!-- 2. Foundation Bottle 30ml — OOS / Stop Risk -->
+            <tr style="background:#fff0f0;box-shadow:inset 4px 0 0 #bb0000;animation:rmpm-oos-pulse 1.8s infinite">
+              <td style="font-weight:700;color:#bb0000">Foundation Bottle 30ml</td>
+              <td><span class="pm-type-badge pm-type-primary">PM</span></td>
+              <td style="font-weight:700;color:#bb0000">0d</td>
+              <td style="color:#6b7280">10d</td>
+              <td style="font-weight:700;color:#bb0000">−10d</td>
+              <td style="font-size:12px;color:#6b7280">Make Over Foundation</td>
+              <td><span class="status-badge badge-red">Stop Risk</span></td>
+              <td style="font-size:12px;font-weight:600;color:#bb0000">Emergency PO + air freight</td>
+              <td><span class="status-badge badge-red" style="animation:pulse-red-light 1.8s infinite">Immediate</span></td>
+            </tr>
+
+            <!-- 3. SPF UV Filter Octinoxate — Critical / Stop Risk -->
+            <tr style="background:#fff0f0;box-shadow:inset 4px 0 0 #bb0000;animation:rmpm-oos-pulse 1.8s infinite">
+              <td style="font-weight:700;color:#bb0000">SPF UV Filter Octinoxate</td>
+              <td><span class="rmpm-type-badge rmpm-type-active">RM</span></td>
+              <td style="font-weight:700;color:#bb0000">3.1d</td>
+              <td style="color:#6b7280">10d</td>
+              <td style="font-weight:700;color:#bb0000">−6.9d</td>
+              <td style="font-size:12px;color:#6b7280">Azarine + Emina SPF</td>
+              <td><span class="status-badge badge-red">Stop Risk</span></td>
+              <td style="font-size:12px;font-weight:600;color:#bb0000">Expedite existing PO</td>
+              <td><span class="status-badge badge-red" style="animation:pulse-red-light 1.8s infinite">Immediate</span></td>
+            </tr>
+
+            <!-- 4. Sunscreen Tube 50ml — Critical / Stop Risk -->
+            <tr style="background:#fff0f0;box-shadow:inset 4px 0 0 #bb0000;animation:rmpm-oos-pulse 1.8s infinite">
+              <td style="font-weight:700;color:#bb0000">Sunscreen Tube 50ml</td>
+              <td><span class="pm-type-badge pm-type-primary">PM</span></td>
+              <td style="font-weight:700;color:#bb0000">3.0d</td>
+              <td style="color:#6b7280">10d</td>
+              <td style="font-weight:700;color:#bb0000">−7d</td>
+              <td style="font-size:12px;color:#6b7280">Emina Sun Protection</td>
+              <td><span class="status-badge badge-red">Stop Risk</span></td>
+              <td style="font-size:12px;font-weight:600;color:#bb0000">Expedite existing PO</td>
+              <td><span class="status-badge badge-red" style="animation:pulse-red-light 1.8s infinite">Immediate</span></td>
+            </tr>
+
+            <!-- 5. Titanium Dioxide — Delay Risk -->
+            <tr style="background:#fff8f0;box-shadow:inset 4px 0 0 #e76500">
+              <td style="font-weight:600;color:#1d2d3e">Titanium Dioxide</td>
+              <td><span class="rmpm-type-badge rmpm-type-active">RM</span></td>
+              <td style="font-weight:700;color:#e76500">4.3d</td>
+              <td style="color:#6b7280">10d</td>
+              <td style="font-weight:700;color:#e76500">−5.7d</td>
+              <td style="font-size:12px;color:#6b7280">Multiple SPF SKUs</td>
+              <td><span class="status-badge badge-yellow">Delay Risk</span></td>
+              <td style="font-size:12px;font-weight:600;color:#e76500">Confirm ETA with supplier</td>
+              <td><span class="status-badge badge-yellow">Urgent</span></td>
+            </tr>
+
+            <!-- 6. SPF Stick Packaging — Delay Risk -->
+            <tr style="background:#fff8f0;box-shadow:inset 4px 0 0 #e76500">
+              <td style="font-weight:600;color:#1d2d3e">SPF Stick Packaging</td>
+              <td><span class="pm-type-badge pm-type-primary">PM</span></td>
+              <td style="font-weight:700;color:#e76500">4.7d</td>
+              <td style="color:#6b7280">10d</td>
+              <td style="font-weight:700;color:#e76500">−5.3d</td>
+              <td style="font-size:12px;color:#6b7280">Azarine SPF Stick</td>
+              <td><span class="status-badge badge-yellow">Delay Risk</span></td>
+              <td style="font-size:12px;font-weight:600;color:#e76500">Alternative supplier check</td>
+              <td><span class="status-badge badge-yellow">Urgent</span></td>
+            </tr>
+
+            <!-- 7. Retinol 0.1% — Delay Risk -->
+            <tr style="background:#fff8f0;box-shadow:inset 4px 0 0 #e76500">
+              <td style="font-weight:600;color:#1d2d3e">Retinol 0.1%</td>
+              <td><span class="rmpm-type-badge rmpm-type-active">RM</span></td>
+              <td style="font-weight:700;color:#e76500">5.3d</td>
+              <td style="color:#6b7280">14d</td>
+              <td style="font-weight:700;color:#e76500">−8.7d</td>
+              <td style="font-size:12px;color:#6b7280">Wardah Retinol Night Repair</td>
+              <td><span class="status-badge badge-yellow">Delay Risk</span></td>
+              <td style="font-size:12px;font-weight:600;color:#e76500">Emergency PO raised</td>
+              <td><span class="status-badge badge-yellow">Urgent</span></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <p style="margin-top:12px;font-size:11px;color:#6b7280;font-style:italic">
+        <strong style="color:#bb0000">Stop Risk</strong> = production line halt within 3 days.&nbsp;&nbsp;
+        <strong style="color:#e76500">Delay Risk</strong> = production delay within 7 days.
+      </p>
+    </div>
+
   <!-- KPI SUMMARY CARDS -->
   <div class="section-block">
     <div class="section-hdr">
@@ -6004,131 +6129,6 @@
           </tbody>
         </table>
       </div>
-    </div>
-
-    <!-- CRITICAL MATERIAL ALERTS PANEL -->
-    <div id="rmpm-alerts" class="section-block" style="margin-bottom:20px">
-      <div class="section-hdr">
-        <p class="section-label" style="font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#bb0000">⚠ Critical Material Alerts — Production at Risk</p>
-        <span class="section-sub">Materials below safety stock or OOS — immediate procurement action required</span>
-      </div>
-
-      <div class="table-scroll">
-        <table class="data-table" style="min-width:1400px">
-          <thead>
-            <tr>
-              <th>Material</th>
-              <th>Type</th>
-              <th>Current Coverage</th>
-              <th>Safety Stock</th>
-              <th>Shortfall (days)</th>
-              <th>Linked Production SKU</th>
-              <th>Production Impact</th>
-              <th>Action Required</th>
-              <th>Urgency</th>
-            </tr>
-          </thead>
-          <tbody>
-
-            <!-- 1. Vitamin C Ascorbic Acid — OOS / Stop Risk -->
-            <tr style="background:#fff0f0;box-shadow:inset 4px 0 0 #bb0000;animation:rmpm-oos-pulse 1.8s infinite">
-              <td style="font-weight:700;color:#bb0000">Vitamin C Ascorbic Acid</td>
-              <td><span class="rmpm-type-badge rmpm-type-active">RM</span></td>
-              <td style="font-weight:700;color:#bb0000">0d</td>
-              <td style="color:#6b7280">10d</td>
-              <td style="font-weight:700;color:#bb0000">−10d</td>
-              <td style="font-size:12px;color:#6b7280">Emina Brightening Range</td>
-              <td><span class="status-badge badge-red">Stop Risk</span></td>
-              <td style="font-size:12px;font-weight:600;color:#bb0000">Emergency PO + expedite</td>
-              <td><span class="status-badge badge-red" style="animation:pulse-red-light 1.8s infinite">Immediate</span></td>
-            </tr>
-
-            <!-- 2. Foundation Bottle 30ml — OOS / Stop Risk -->
-            <tr style="background:#fff0f0;box-shadow:inset 4px 0 0 #bb0000;animation:rmpm-oos-pulse 1.8s infinite">
-              <td style="font-weight:700;color:#bb0000">Foundation Bottle 30ml</td>
-              <td><span class="pm-type-badge pm-type-primary">PM</span></td>
-              <td style="font-weight:700;color:#bb0000">0d</td>
-              <td style="color:#6b7280">10d</td>
-              <td style="font-weight:700;color:#bb0000">−10d</td>
-              <td style="font-size:12px;color:#6b7280">Make Over Foundation</td>
-              <td><span class="status-badge badge-red">Stop Risk</span></td>
-              <td style="font-size:12px;font-weight:600;color:#bb0000">Emergency PO + air freight</td>
-              <td><span class="status-badge badge-red" style="animation:pulse-red-light 1.8s infinite">Immediate</span></td>
-            </tr>
-
-            <!-- 3. SPF UV Filter Octinoxate — Critical / Stop Risk -->
-            <tr style="background:#fff0f0;box-shadow:inset 4px 0 0 #bb0000;animation:rmpm-oos-pulse 1.8s infinite">
-              <td style="font-weight:700;color:#bb0000">SPF UV Filter Octinoxate</td>
-              <td><span class="rmpm-type-badge rmpm-type-active">RM</span></td>
-              <td style="font-weight:700;color:#bb0000">3.1d</td>
-              <td style="color:#6b7280">10d</td>
-              <td style="font-weight:700;color:#bb0000">−6.9d</td>
-              <td style="font-size:12px;color:#6b7280">Azarine + Emina SPF</td>
-              <td><span class="status-badge badge-red">Stop Risk</span></td>
-              <td style="font-size:12px;font-weight:600;color:#bb0000">Expedite existing PO</td>
-              <td><span class="status-badge badge-red" style="animation:pulse-red-light 1.8s infinite">Immediate</span></td>
-            </tr>
-
-            <!-- 4. Sunscreen Tube 50ml — Critical / Stop Risk -->
-            <tr style="background:#fff0f0;box-shadow:inset 4px 0 0 #bb0000;animation:rmpm-oos-pulse 1.8s infinite">
-              <td style="font-weight:700;color:#bb0000">Sunscreen Tube 50ml</td>
-              <td><span class="pm-type-badge pm-type-primary">PM</span></td>
-              <td style="font-weight:700;color:#bb0000">3.0d</td>
-              <td style="color:#6b7280">10d</td>
-              <td style="font-weight:700;color:#bb0000">−7d</td>
-              <td style="font-size:12px;color:#6b7280">Emina Sun Protection</td>
-              <td><span class="status-badge badge-red">Stop Risk</span></td>
-              <td style="font-size:12px;font-weight:600;color:#bb0000">Expedite existing PO</td>
-              <td><span class="status-badge badge-red" style="animation:pulse-red-light 1.8s infinite">Immediate</span></td>
-            </tr>
-
-            <!-- 5. Titanium Dioxide — Delay Risk -->
-            <tr style="background:#fff8f0;box-shadow:inset 4px 0 0 #e76500">
-              <td style="font-weight:600;color:#1d2d3e">Titanium Dioxide</td>
-              <td><span class="rmpm-type-badge rmpm-type-active">RM</span></td>
-              <td style="font-weight:700;color:#e76500">4.3d</td>
-              <td style="color:#6b7280">10d</td>
-              <td style="font-weight:700;color:#e76500">−5.7d</td>
-              <td style="font-size:12px;color:#6b7280">Multiple SPF SKUs</td>
-              <td><span class="status-badge badge-yellow">Delay Risk</span></td>
-              <td style="font-size:12px;font-weight:600;color:#e76500">Confirm ETA with supplier</td>
-              <td><span class="status-badge badge-yellow">Urgent</span></td>
-            </tr>
-
-            <!-- 6. SPF Stick Packaging — Delay Risk -->
-            <tr style="background:#fff8f0;box-shadow:inset 4px 0 0 #e76500">
-              <td style="font-weight:600;color:#1d2d3e">SPF Stick Packaging</td>
-              <td><span class="pm-type-badge pm-type-primary">PM</span></td>
-              <td style="font-weight:700;color:#e76500">4.7d</td>
-              <td style="color:#6b7280">10d</td>
-              <td style="font-weight:700;color:#e76500">−5.3d</td>
-              <td style="font-size:12px;color:#6b7280">Azarine SPF Stick</td>
-              <td><span class="status-badge badge-yellow">Delay Risk</span></td>
-              <td style="font-size:12px;font-weight:600;color:#e76500">Alternative supplier check</td>
-              <td><span class="status-badge badge-yellow">Urgent</span></td>
-            </tr>
-
-            <!-- 7. Retinol 0.1% — Delay Risk -->
-            <tr style="background:#fff8f0;box-shadow:inset 4px 0 0 #e76500">
-              <td style="font-weight:600;color:#1d2d3e">Retinol 0.1%</td>
-              <td><span class="rmpm-type-badge rmpm-type-active">RM</span></td>
-              <td style="font-weight:700;color:#e76500">5.3d</td>
-              <td style="color:#6b7280">14d</td>
-              <td style="font-weight:700;color:#e76500">−8.7d</td>
-              <td style="font-size:12px;color:#6b7280">Wardah Retinol Night Repair</td>
-              <td><span class="status-badge badge-yellow">Delay Risk</span></td>
-              <td style="font-size:12px;font-weight:600;color:#e76500">Emergency PO raised</td>
-              <td><span class="status-badge badge-yellow">Urgent</span></td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-
-      <p style="margin-top:12px;font-size:11px;color:#6b7280;font-style:italic">
-        <strong style="color:#bb0000">Stop Risk</strong> = production line halt within 3 days.&nbsp;&nbsp;
-        <strong style="color:#e76500">Delay Risk</strong> = production delay within 7 days.
-      </p>
     </div>
 
     <!-- ── BLOCK 1: IN-TRANSIT TRACKER ── -->
