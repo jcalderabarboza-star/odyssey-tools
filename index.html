@@ -4185,14 +4185,14 @@
 ══════════════════════════════════════════ -->
 <div class="tab-panel" id="panel-transport-3pl">
 
+  <!-- TRANSPORT EXCEPTIONS BANNER -->
+  <div id="transport-exceptions-banner" style="margin-bottom:20px"></div>
+
   <!-- MODULE TAB NAVIGATION -->
   <div class="module-tab-nav" id="transport-3pl-tab-nav">
     <button class="module-tab-pill active" onclick="switchTransport3PLInnerTab('transport')">🚛 Transport</button>
     <button class="module-tab-pill" onclick="switchTransport3PLInnerTab('3pl')">🏪 3PL / Logistics</button>
   </div>
-
-  <!-- TRANSPORT EXCEPTIONS BANNER -->
-  <div id="transport-exceptions-banner" style="margin-bottom:20px"></div>
 
   <!-- ── TRANSPORT PANE ── -->
   <div id="transport-3pl-pane-transport" class="transport-3pl-pane active">
@@ -16474,6 +16474,14 @@ function renderTransportExceptions() {
   var all = (window.OdysseySignalEngine && OdysseySignalEngine.signals) || [];
   var filtered = all.filter(function(s) {
     return TRANSPORT_SIGNALS.indexOf(s.name) !== -1;
+  });
+
+  // Dedup by signal name — keep only first occurrence
+  var seen = {};
+  filtered = filtered.filter(function(s) {
+    if (seen[s.name]) return false;
+    seen[s.name] = true;
+    return true;
   });
 
   filtered.sort(function(a, b) {
