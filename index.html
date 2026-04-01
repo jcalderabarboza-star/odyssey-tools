@@ -16476,6 +16476,13 @@ function renderTransportExceptions() {
     return TRANSPORT_SIGNALS.indexOf(s.name) !== -1;
   });
 
+  var seen = {};
+  filtered = filtered.filter(function(s) {
+    if (seen[s.name]) return false;
+    seen[s.name] = true;
+    return true;
+  });
+
   filtered.sort(function(a, b) {
     if (a.severity === 'CRITICAL' && b.severity !== 'CRITICAL') return -1;
     if (b.severity === 'CRITICAL' && a.severity !== 'CRITICAL') return 1;
