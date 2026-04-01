@@ -6429,6 +6429,9 @@
 <!-- === FINANCE MODULE === -->
 <div class="tab-panel" id="panel-finance">
 
+    <!-- FINANCE EXCEPTIONS BANNER -->
+    <div id="finance-exceptions-banner" style="margin-bottom:20px"></div>
+
   <!-- PART 1: HEADER -->
   <div class="section-block" style="margin-bottom:20px">
     <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin-bottom:4px">Finance Dashboard</h2>
@@ -15443,6 +15446,7 @@ function switchTab(tab) {
   }
   if(tab==='finance'){
     if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Finance';
+    renderFinanceExceptions();
     initFinanceTab();
     fnInitChartsIfNeeded();
   }
@@ -20663,6 +20667,85 @@ let fnChartsBuilt = false;
 let fnYtdMode = false;
 let chartFnPl = null, chartFnWc = null, chartFnScCost = null, chartFnWaterfall = null, chartFnDonut = null;
 
+/* ─── RENDER: FINANCE EXCEPTIONS BANNER ─── */
+function renderFinanceExceptions() {
+  var banner = document.getElementById('finance-exceptions-banner');
+  if (!banner) return;
+
+  var FINANCE_SIGNALS = [
+    'FX_VOLATILITY_ALERT','RM_INFLATION_RISK','AR_OVERDUE_ALERT',
+    'EMERGENCY_PO_RAISED','PERFECT_ORDER_BREACH'
+  ];
+
+  var all = (window.OdysseySignalEngine && OdysseySignalEngine.signals) || [];
+  var seen = {};
+  var filtered = all.filter(function(s) {
+    if (FINANCE_SIGNALS.indexOf(s.name) === -1) return false;
+    if (seen[s.name]) return false;
+    seen[s.name] = true;
+    return true;
+  });
+
+  filtered.sort(function(a, b) {
+    if (a.severity === 'CRITICAL' && b.severity !== 'CRITICAL') return -1;
+    if (b.severity === 'CRITICAL' && a.severity !== 'CRITICAL') return 1;
+    return 0;
+  });
+
+  var top = filtered.slice(0, 3);
+
+  if (top.length === 0) {
+    banner.innerHTML =
+      '<div style="background:#f0fdf4;border:1px solid #107e3e;border-radius:8px;' +
+      'padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:4px">' +
+      '<span style="font-size:16px">✅</span>' +
+      '<span style="font-size:13px;font-weight:600;color:#107e3e">No active finance exceptions</span>' +
+      '</div>';
+    return;
+  }
+
+  var critCount = filtered.filter(function(s){ return s.severity==='CRITICAL'; }).length;
+  var warnCount = filtered.filter(function(s){ return s.severity==='WARNING'; }).length;
+
+  var html = '<div style="background:#fff7ed;border:1.5px solid #e76500;border-radius:8px;' +
+    'padding:16px;margin-bottom:4px">' +
+    '<div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">' +
+    '<span style="font-size:13px;font-weight:700;color:#1e293b">⚡ FINANCE EXCEPTIONS</span>';
+
+  if (critCount > 0) {
+    html += '<span style="background:#fee2e2;color:#bb0000;padding:2px 10px;border-radius:4px;' +
+      'font-size:11px;font-weight:700">🔴 CRITICAL: ' + critCount + '</span>';
+  }
+  if (warnCount > 0) {
+    html += '<span style="background:#fff7ed;color:#e76500;padding:2px 10px;border-radius:4px;' +
+      'font-size:11px;font-weight:700">⚠️ WARNING: ' + warnCount + '</span>';
+  }
+  html += '</div><div style="display:flex;flex-direction:column;gap:8px">';
+
+  top.forEach(function(s) {
+    var isCrit = s.severity === 'CRITICAL';
+    var bgCol  = isCrit ? '#fee2e2' : '#fff7ed';
+    var bdCol  = isCrit ? '#bb0000' : '#e76500';
+    var txCol  = isCrit ? '#bb0000' : '#e76500';
+    var icon   = isCrit ? '🔴' : '⚠️';
+    var desc   = s.trigger || s.description || s.name.replace(/_/g,' ');
+    var detail = s.currentValue ? ' · ' + s.currentValue : '';
+
+    html += '<div style="background:' + bgCol + ';border-left:3px solid ' + bdCol + ';' +
+      'border-radius:4px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center">' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+      '<span>' + icon + '</span>' +
+      '<span style="font-size:12px;font-weight:600;color:#1e293b">' + desc + detail + '</span>' +
+      '</div>' +
+      '<span style="font-size:11px;color:' + txCol + ';font-weight:600;white-space:nowrap;margin-left:12px">' +
+      s.severity + '</span>' +
+      '</div>';
+  });
+
+  html += '</div></div>';
+  banner.innerHTML = html;
+}
+
 /* ─── RENDER: FN STRATEGIC KPIs ─── */
 function renderFNStrategic() {
   var idx = selectedMonthIdx, grid = document.getElementById('fn-strategic-grid');
@@ -21089,6 +21172,7 @@ function fnInitChartsIfNeeded() {
 
 /* ─── INIT FINANCE TAB ─── */
 function initFinanceTab() {
+  renderFinanceExceptions();
   renderFNStrategic();
   renderFNPL();
   renderFNSCCost();
@@ -21584,6 +21668,42 @@ function exportBoardPack() {
         trigger:      '3PL Alert: Sumatra route flooding delay — rerouting required · Today',
         currentValue: 'Route disrupted',
         severity:     'CRITICAL'
+      },
+      FX_VOLATILITY_ALERT: {
+        product:      'Import Cost Base',
+        metric:       'USD/IDR Rate Impact',
+        value:        0.8,
+        unit:         '% COGS impact',
+        threshold:    0.5,
+        operator:     '>',
+        description:  'USD/IDR rate +0.8% today — import cost impact on COGS',
+        trigger:      '[FINANCE] USD/IDR rate +0.8% today — import cost impact on COGS · immediate review',
+        currentValue: '+0.8% COGS impact',
+        severity:     'CRITICAL'
+      },
+      RM_INFLATION_RISK: {
+        product:      'Raw Material Cost',
+        metric:       'RM Price Inflation',
+        value:        4.2,
+        unit:         '%',
+        threshold:    3,
+        operator:     '>',
+        description:  'RM cost inflation 4.2% — above 3% threshold',
+        trigger:      '[FINANCE] RM cost inflation 4.2% — above 3% budget threshold · procurement impact',
+        currentValue: '4.2% inflation',
+        severity:     'WARNING'
+      },
+      AR_OVERDUE_ALERT: {
+        product:      'Accounts Receivable',
+        metric:       'AR Overdue >60 days',
+        value:        1.4,
+        unit:         'IDR B',
+        threshold:    1,
+        operator:     '>',
+        description:  'AR overdue >60 days: IDR 1.4B — PT Papua + 2 distributors',
+        trigger:      '[FINANCE] AR overdue >60 days: IDR 1.4B — PT Papua + 2 distributors · collection action required',
+        currentValue: 'IDR 1.4B overdue',
+        severity:     'WARNING'
       }
     },
 
@@ -22725,6 +22845,9 @@ function exportBoardPack() {
     OdysseySignalEngine.fire('SUMATRA_ROUTE_ALERT');
     OdysseySignalEngine.fire('MIDDLE_MILE_DELAY');
     OdysseySignalEngine.fire('CARRIER_SLA_BREACH');
+    OdysseySignalEngine.fire('FX_VOLATILITY_ALERT');
+    OdysseySignalEngine.fire('RM_INFLATION_RISK');
+    OdysseySignalEngine.fire('AR_OVERDUE_ALERT');
   }
 
   if (document.readyState === 'loading') {
