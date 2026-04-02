@@ -14341,22 +14341,66 @@
     </p>
   </div>
 
+      <!-- IBP INTEGRATION STATUS BAR -->
+      <div style="background:#f1f5f9;border:1px solid #e2e8f0;border-left:4px solid #7c3aed;
+        border-radius:8px;padding:14px 18px;margin-bottom:20px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <span style="font-size:12px;font-weight:700;color:#7c3aed;text-transform:uppercase;
+            letter-spacing:0.08em">🔗 SAP IBP Integration Status — Brain Engine Roadmap</span>
+          <span style="background:#fff;border:1px solid #e2e8f0;border-radius:4px;
+            padding:2px 8px;font-size:10px;font-weight:600;color:#64748b">
+            Data: SAP S/4HANA → IBP (target state)
+          </span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span style="background:#fef9c3;border:1px solid #ca8a04;border-radius:4px;
+            padding:3px 10px;font-size:11px;font-weight:600;color:#92400e">
+            🟡 IBP Demand — In Progress
+          </span>
+          <span style="background:#eff6ff;border:1px solid #93c5fd;border-radius:4px;
+            padding:3px 10px;font-size:11px;font-weight:600;color:#1d4ed8">
+            🔵 IBP Inventory — Planned
+          </span>
+          <span style="background:#eff6ff;border:1px solid #93c5fd;border-radius:4px;
+            padding:3px 10px;font-size:11px;font-weight:600;color:#1d4ed8">
+            🔵 IBP Supply — Planned
+          </span>
+          <span style="background:#eff6ff;border:1px solid #93c5fd;border-radius:4px;
+            padding:3px 10px;font-size:11px;font-weight:600;color:#1d4ed8">
+            🔵 S&amp;OP — Planned
+          </span>
+          <span style="background:#eff6ff;border:1px solid #93c5fd;border-radius:4px;
+            padding:3px 10px;font-size:11px;font-weight:600;color:#1d4ed8">
+            🔵 aATP — Planned
+          </span>
+          <span style="background:#eff6ff;border:1px solid #93c5fd;border-radius:4px;
+            padding:3px 10px;font-size:11px;font-weight:600;color:#1d4ed8">
+            🔵 AI Agent — Planned
+          </span>
+        </div>
+      </div>
+
   <!-- TAB NAVIGATION -->
   <div style="display:flex;gap:4px;margin-bottom:24px;border-bottom:2px solid #e2e8f0;padding-bottom:0">
     <button onclick="switchPlanTab('demand')" id="plan-tab-demand"
       style="padding:8px 20px;border:none;background:none;font-size:13px;font-weight:600;
       color:#0070f2;border-bottom:2px solid #0070f2;cursor:pointer;margin-bottom:-2px">
-      Demand Plan Health
+      📊 Demand Plan Health
     </button>
     <button onclick="switchPlanTab('supply')" id="plan-tab-supply"
       style="padding:8px 20px;border:none;background:none;font-size:13px;font-weight:600;
       color:#64748b;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-2px">
-      Supply & Capacity Plan
+      🏭 Supply & Capacity Plan
     </button>
     <button onclick="switchPlanTab('soe')" id="plan-tab-soe"
       style="padding:8px 20px;border:none;background:none;font-size:13px;font-weight:600;
       color:#64748b;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-2px">
-      S&OE Exception Board
+      ⚡ S&amp;OE Exception Board
+    </button>
+    <button onclick="switchPlanTab('ibp')" id="plan-tab-ibp"
+      style="padding:8px 20px;border:none;background:none;font-size:13px;font-weight:600;
+      color:#64748b;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-2px">
+      🔗 IBP Roadmap
     </button>
   </div>
 
@@ -14585,16 +14629,264 @@
     </div>
   </div>
 
+  <!-- TAB 4: IBP ROADMAP -->
+  <div id="plan-panel-ibp" style="display:none">
+
+    <!-- ROADMAP HEADER -->
+    <div style="background:#faf5ff;border:1px solid #e9d5ff;border-radius:10px;
+      padding:20px;margin-bottom:24px">
+      <div style="font-size:15px;font-weight:700;color:#7c3aed;margin-bottom:6px">
+        🧠 Brain Engine — SAP IBP Implementation Roadmap
+      </div>
+      <div style="font-size:13px;color:#64748b;line-height:1.6">
+        Paragon Corp's planning intelligence journey from S/4HANA baseline to
+        autonomous AI-driven supply chain planning. Each phase unlocks the next.
+      </div>
+    </div>
+
+    <!-- PHASE PROGRESS BARS -->
+    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px">
+
+      <!-- Phase 1: IBP Demand -->
+      <div style="background:#fff;border-radius:10px;padding:18px;border:1px solid #e2e8f0;
+        border-left:4px solid #ca8a04">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div>
+            <span style="font-size:13px;font-weight:700;color:#1e293b">Phase 1 — IBP Demand</span>
+            <span style="margin-left:10px;background:#fef9c3;border:1px solid #ca8a04;
+              border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;color:#92400e">
+              🟡 IN PROGRESS
+            </span>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:#ca8a04">80%</span>
+        </div>
+        <div style="background:#f1f5f9;border-radius:4px;height:8px;margin-bottom:10px">
+          <div style="background:#ca8a04;height:8px;border-radius:4px;width:80%"></div>
+        </div>
+        <div style="font-size:12px;color:#64748b">
+          Forecast accuracy · Demand sensing integration · Statistical baseline models ·
+          Consensus planning workflow
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#92400e;font-weight:600">
+          → Unlocks: Forecast accuracy KPIs, demand signal integration, statistical baseline
+        </div>
+      </div>
+
+      <!-- Phase 2: IBP Inventory -->
+      <div style="background:#fff;border-radius:10px;padding:18px;border:1px solid #e2e8f0;
+        border-left:4px solid #93c5fd">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div>
+            <span style="font-size:13px;font-weight:700;color:#1e293b">Phase 2 — IBP Inventory</span>
+            <span style="margin-left:10px;background:#eff6ff;border:1px solid #93c5fd;
+              border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;color:#1d4ed8">
+              🔵 PLANNED
+            </span>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:#93c5fd">0%</span>
+        </div>
+        <div style="background:#f1f5f9;border-radius:4px;height:8px;margin-bottom:10px">
+          <div style="background:#93c5fd;height:8px;border-radius:4px;width:0%"></div>
+        </div>
+        <div style="font-size:12px;color:#64748b">
+          Multi-echelon inventory optimization · Safety stock policies · MEIO · Coverage targeting
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#1d4ed8;font-weight:600">
+          → Unlocks: Inventory positioning score, safety stock optimization, coverage vs plan
+        </div>
+      </div>
+
+      <!-- Phase 3: IBP Supply -->
+      <div style="background:#fff;border-radius:10px;padding:18px;border:1px solid #e2e8f0;
+        border-left:4px solid #93c5fd">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div>
+            <span style="font-size:13px;font-weight:700;color:#1e293b">Phase 3 — IBP Supply</span>
+            <span style="margin-left:10px;background:#eff6ff;border:1px solid #93c5fd;
+              border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;color:#1d4ed8">
+              🔵 PLANNED
+            </span>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:#93c5fd">0%</span>
+        </div>
+        <div style="background:#f1f5f9;border-radius:4px;height:8px;margin-bottom:10px">
+          <div style="background:#93c5fd;height:8px;border-radius:4px;width:0%"></div>
+        </div>
+        <div style="font-size:12px;color:#64748b">
+          Finite capacity planning · Production scheduling · Supply constraints · Supplier integration
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#1d4ed8;font-weight:600">
+          → Unlocks: Supply plan adherence, capacity constraint visibility, supplier sync
+        </div>
+      </div>
+
+      <!-- Phase 4: S&OP -->
+      <div style="background:#fff;border-radius:10px;padding:18px;border:1px solid #e2e8f0;
+        border-left:4px solid #93c5fd">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div>
+            <span style="font-size:13px;font-weight:700;color:#1e293b">Phase 4 — S&amp;OP</span>
+            <span style="margin-left:10px;background:#eff6ff;border:1px solid #93c5fd;
+              border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;color:#1d4ed8">
+              🔵 PLANNED
+            </span>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:#93c5fd">0%</span>
+        </div>
+        <div style="background:#f1f5f9;border-radius:4px;height:8px;margin-bottom:10px">
+          <div style="background:#93c5fd;height:8px;border-radius:4px;width:0%"></div>
+        </div>
+        <div style="font-size:12px;color:#64748b">
+          Integrated business planning · Cross-functional consensus · Executive S&OP dashboard
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#1d4ed8;font-weight:600">
+          → Unlocks: S&OE exception board, consensus plan adherence, scenario planning
+        </div>
+      </div>
+
+      <!-- Phase 5: aATP -->
+      <div style="background:#fff;border-radius:10px;padding:18px;border:1px solid #e2e8f0;
+        border-left:4px solid #93c5fd">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div>
+            <span style="font-size:13px;font-weight:700;color:#1e293b">Phase 5 — aATP</span>
+            <span style="margin-left:10px;background:#eff6ff;border:1px solid #93c5fd;
+              border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;color:#1d4ed8">
+              🔵 PLANNED
+            </span>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:#93c5fd">0%</span>
+        </div>
+        <div style="background:#f1f5f9;border-radius:4px;height:8px;margin-bottom:10px">
+          <div style="background:#93c5fd;height:8px;border-radius:4px;width:0%"></div>
+        </div>
+        <div style="font-size:12px;color:#64748b">
+          Advanced available-to-promise · Real-time order promising · Allocation rules engine
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#1d4ed8;font-weight:600">
+          → Unlocks: Real-time order promising, allocation intelligence, customer commit accuracy
+        </div>
+      </div>
+
+      <!-- Phase 6: AI Agent -->
+      <div style="background:#fff;border-radius:10px;padding:18px;border:1px solid #e2e8f0;
+        border-left:4px solid #7c3aed">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div>
+            <span style="font-size:13px;font-weight:700;color:#1e293b">Phase 6 — AI Agent</span>
+            <span style="margin-left:10px;background:#faf5ff;border:1px solid #e9d5ff;
+              border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;color:#7c3aed">
+              🤖 TARGET STATE
+            </span>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:#7c3aed">0%</span>
+        </div>
+        <div style="background:#f1f5f9;border-radius:4px;height:8px;margin-bottom:10px">
+          <div style="background:#7c3aed;height:8px;border-radius:4px;width:0%"></div>
+        </div>
+        <div style="font-size:12px;color:#64748b">
+          Autonomous planning decisions · Self-correcting forecasts · Exception resolution ·
+          ARIA full integration
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#7c3aed;font-weight:600">
+          → Unlocks: Autonomous supply chain planning · ARIA full intelligence layer
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CURRENT DATA SOURCE MAP -->
+    <div style="background:#fff;border-radius:10px;padding:20px;border:1px solid #e2e8f0">
+      <div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:16px">
+        📡 Current Data Source Mapping
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr style="background:#f8fafc">
+            <th style="padding:10px;text-align:left;color:#64748b;font-weight:600;
+              border-bottom:1px solid #e2e8f0">KPI / Module</th>
+            <th style="padding:10px;text-align:left;color:#64748b;font-weight:600;
+              border-bottom:1px solid #e2e8f0">Current Source</th>
+            <th style="padding:10px;text-align:left;color:#64748b;font-weight:600;
+              border-bottom:1px solid #e2e8f0">Target Source</th>
+            <th style="padding:10px;text-align:center;color:#64748b;font-weight:600;
+              border-bottom:1px solid #e2e8f0">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #f1f5f9">
+            <td style="padding:10px;color:#1e293b;font-weight:600">Forecast Accuracy (MAPE)</td>
+            <td style="padding:10px;color:#64748b">Manual / Excel</td>
+            <td style="padding:10px;color:#64748b">SAP IBP Demand</td>
+            <td style="padding:10px;text-align:center">
+              <span style="background:#fef9c3;color:#92400e;padding:2px 8px;
+                border-radius:4px;font-size:10px;font-weight:700">IN PROGRESS</span>
+            </td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9">
+            <td style="padding:10px;color:#1e293b;font-weight:600">Demand Signal Confidence</td>
+            <td style="padding:10px;color:#64748b">Odyssey Demand Sensing</td>
+            <td style="padding:10px;color:#64748b">SAP IBP Demand + Odyssey</td>
+            <td style="padding:10px;text-align:center">
+              <span style="background:#fef9c3;color:#92400e;padding:2px 8px;
+                border-radius:4px;font-size:10px;font-weight:700">IN PROGRESS</span>
+            </td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9">
+            <td style="padding:10px;color:#1e293b;font-weight:600">Inventory Positioning Score</td>
+            <td style="padding:10px;color:#64748b">SAP S/4HANA (manual calc)</td>
+            <td style="padding:10px;color:#64748b">SAP IBP Inventory</td>
+            <td style="padding:10px;text-align:center">
+              <span style="background:#eff6ff;color:#1d4ed8;padding:2px 8px;
+                border-radius:4px;font-size:10px;font-weight:700">PLANNED</span>
+            </td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9">
+            <td style="padding:10px;color:#1e293b;font-weight:600">Supply Plan Adherence</td>
+            <td style="padding:10px;color:#64748b">SAP S/4HANA (manual calc)</td>
+            <td style="padding:10px;color:#64748b">SAP IBP Supply</td>
+            <td style="padding:10px;text-align:center">
+              <span style="background:#eff6ff;color:#1d4ed8;padding:2px 8px;
+                border-radius:4px;font-size:10px;font-weight:700">PLANNED</span>
+            </td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9">
+            <td style="padding:10px;color:#1e293b;font-weight:600">S&amp;OE Exception Board</td>
+            <td style="padding:10px;color:#64748b">Manual / War Room</td>
+            <td style="padding:10px;color:#64748b">SAP IBP S&amp;OP</td>
+            <td style="padding:10px;text-align:center">
+              <span style="background:#eff6ff;color:#1d4ed8;padding:2px 8px;
+                border-radius:4px;font-size:10px;font-weight:700">PLANNED</span>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:10px;color:#1e293b;font-weight:600">Order Promising (ATP)</td>
+            <td style="padding:10px;color:#64748b">SAP S/4HANA basic ATP</td>
+            <td style="padding:10px;color:#64748b">SAP aATP</td>
+            <td style="padding:10px;text-align:center">
+              <span style="background:#eff6ff;color:#1d4ed8;padding:2px 8px;
+                border-radius:4px;font-size:10px;font-weight:700">PLANNED</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
 </div>
 
 <!-- TAB SWITCHING SCRIPT -->
 <script>
 function switchPlanTab(tab) {
-  ['demand','supply','soe'].forEach(t => {
-    document.getElementById('plan-panel-'+t).style.display = t===tab?'block':'none';
-    const btn = document.getElementById('plan-tab-'+t);
-    btn.style.color = t===tab?'#0070f2':'#64748b';
-    btn.style.borderBottomColor = t===tab?'#0070f2':'transparent';
+  ['demand','supply','soe','ibp'].forEach(function(t) {
+    var panel = document.getElementById('plan-panel-' + t);
+    if (panel) panel.style.display = t === tab ? 'block' : 'none';
+    var btn = document.getElementById('plan-tab-' + t);
+    if (btn) {
+      btn.style.color = t === tab ? '#0070f2' : '#64748b';
+      btn.style.borderBottomColor = t === tab ? '#0070f2' : 'transparent';
+    }
   });
 }
 </script>
