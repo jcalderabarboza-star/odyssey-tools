@@ -12711,6 +12711,49 @@
     </div>
   </div>
 
+  <!-- PART 3c: ACTIVE CRITICAL ALERTS FEED — dynamic via OdysseySignalEngine -->
+  <div class="section-block ex-page-break">
+    <div class="section-hdr" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div>
+        <p class="section-label" style="font-size:13px;font-weight:700;color:#1d2d3e;text-transform:uppercase;letter-spacing:0.06em">Active Critical Alerts &mdash; Cross-Node</p>
+        <span class="section-sub">Real-time alerts requiring immediate action</span>
+      </div>
+      <button id="exec-clear-alerts-btn" onclick="(function(){var f=document.getElementById('exec-live-alerts');if(f)f.innerHTML=''})()" style="font-size:11px;font-weight:600;color:#6b7280;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;padding:4px 12px;cursor:pointer;white-space:nowrap">Clear all</button>
+    </div>
+    <div id="exec-live-alerts" style="display:flex;flex-direction:column;gap:8px"></div>
+  </div>
+
+  <!-- PART 3b-3: PRODUCTION STOP RISK ALERT STRIP -->
+  <div class="section-block ex-page-break">
+    <div class="section-hdr">
+      <p class="section-label" style="font-size:13px;font-weight:700;color:#bb0000;text-transform:uppercase;letter-spacing:0.06em">&#9888; Production Stop Risk &mdash; Immediate Action Required</p>
+      <span class="section-sub">Materials at OOS or critically low coverage requiring emergency procurement | Sep-25</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <!-- Alert 1: Vitamin C Ascorbic Acid -->
+      <div class="ds-flag" style="border-left-color:#bb0000;background:#fff0f0;flex-direction:column;gap:4px;padding:14px 16px">
+        <span style="display:inline-block;margin-bottom:5px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;background:#bb0000;color:#fff;border-radius:4px;padding:2px 8px">&#128308; OOS — Halt Risk</span>
+        <div class="ds-flag-msg">Vitamin C Ascorbic Acid &mdash; OOS | Emina Brightening Range production at halt risk</div>
+        <div class="ds-flag-msg" style="font-weight:400">Procurement: Emergency PO required</div>
+        <div class="ds-flag-sub" style="color:#bb0000;font-weight:700;margin-top:5px">&#8594; Action Required: NOW</div>
+      </div>
+      <!-- Alert 2: Foundation Bottle 30ml -->
+      <div class="ds-flag" style="border-left-color:#bb0000;background:#fff0f0;flex-direction:column;gap:4px;padding:14px 16px">
+        <span style="display:inline-block;margin-bottom:5px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;background:#bb0000;color:#fff;border-radius:4px;padding:2px 8px">&#128308; OOS — Halt Risk</span>
+        <div class="ds-flag-msg">Foundation Bottle 30ml &mdash; OOS | Make Over Foundation production at halt risk</div>
+        <div class="ds-flag-msg" style="font-weight:400">Packaging Buyer: Emergency PO + air freight</div>
+        <div class="ds-flag-sub" style="color:#bb0000;font-weight:700;margin-top:5px">&#8594; Action Required: NOW</div>
+      </div>
+      <!-- Alert 3: SPF UV Filter Octinoxate -->
+      <div class="ds-flag" style="border-left-color:#bb0000;background:#fff0f0;flex-direction:column;gap:4px;padding:14px 16px">
+        <span style="display:inline-block;margin-bottom:5px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;background:#bb0000;color:#fff;border-radius:4px;padding:2px 8px">&#128308; Critical — 3.1 Days Coverage</span>
+        <div class="ds-flag-msg">SPF UV Filter Octinoxate &mdash; 3.1 days coverage | Azarine + Emina SPF lines at risk</div>
+        <div class="ds-flag-msg" style="font-weight:400">Procurement: Expedite existing PO</div>
+        <div class="ds-flag-sub" style="color:#bb0000;font-weight:700;margin-top:5px">&#8594; Action Required: &lt;24h</div>
+      </div>
+    </div>
+  </div>
+
   <!-- PART 2: COMPANY HEALTH SCORECARD -->
   <div class="section-block ex-page-break">
     <div class="section-hdr">
@@ -12858,49 +12901,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- PART 3b-3: PRODUCTION STOP RISK ALERT STRIP -->
-  <div class="section-block ex-page-break">
-    <div class="section-hdr">
-      <p class="section-label" style="font-size:13px;font-weight:700;color:#bb0000;text-transform:uppercase;letter-spacing:0.06em">&#9888; Production Stop Risk &mdash; Immediate Action Required</p>
-      <span class="section-sub">Materials at OOS or critically low coverage requiring emergency procurement | Sep-25</span>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <!-- Alert 1: Vitamin C Ascorbic Acid -->
-      <div class="ds-flag" style="border-left-color:#bb0000;background:#fff0f0;flex-direction:column;gap:4px;padding:14px 16px">
-        <span style="display:inline-block;margin-bottom:5px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;background:#bb0000;color:#fff;border-radius:4px;padding:2px 8px">&#128308; OOS — Halt Risk</span>
-        <div class="ds-flag-msg">Vitamin C Ascorbic Acid &mdash; OOS | Emina Brightening Range production at halt risk</div>
-        <div class="ds-flag-msg" style="font-weight:400">Procurement: Emergency PO required</div>
-        <div class="ds-flag-sub" style="color:#bb0000;font-weight:700;margin-top:5px">&#8594; Action Required: NOW</div>
-      </div>
-      <!-- Alert 2: Foundation Bottle 30ml -->
-      <div class="ds-flag" style="border-left-color:#bb0000;background:#fff0f0;flex-direction:column;gap:4px;padding:14px 16px">
-        <span style="display:inline-block;margin-bottom:5px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;background:#bb0000;color:#fff;border-radius:4px;padding:2px 8px">&#128308; OOS — Halt Risk</span>
-        <div class="ds-flag-msg">Foundation Bottle 30ml &mdash; OOS | Make Over Foundation production at halt risk</div>
-        <div class="ds-flag-msg" style="font-weight:400">Packaging Buyer: Emergency PO + air freight</div>
-        <div class="ds-flag-sub" style="color:#bb0000;font-weight:700;margin-top:5px">&#8594; Action Required: NOW</div>
-      </div>
-      <!-- Alert 3: SPF UV Filter Octinoxate -->
-      <div class="ds-flag" style="border-left-color:#bb0000;background:#fff0f0;flex-direction:column;gap:4px;padding:14px 16px">
-        <span style="display:inline-block;margin-bottom:5px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;background:#bb0000;color:#fff;border-radius:4px;padding:2px 8px">&#128308; Critical — 3.1 Days Coverage</span>
-        <div class="ds-flag-msg">SPF UV Filter Octinoxate &mdash; 3.1 days coverage | Azarine + Emina SPF lines at risk</div>
-        <div class="ds-flag-msg" style="font-weight:400">Procurement: Expedite existing PO</div>
-        <div class="ds-flag-sub" style="color:#bb0000;font-weight:700;margin-top:5px">&#8594; Action Required: &lt;24h</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PART 3c: ACTIVE CRITICAL ALERTS FEED — dynamic via OdysseySignalEngine -->
-  <div class="section-block ex-page-break">
-    <div class="section-hdr" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
-      <div>
-        <p class="section-label" style="font-size:13px;font-weight:700;color:#1d2d3e;text-transform:uppercase;letter-spacing:0.06em">Active Critical Alerts &mdash; Cross-Node</p>
-        <span class="section-sub">Real-time alerts requiring immediate action</span>
-      </div>
-      <button id="exec-clear-alerts-btn" onclick="(function(){var f=document.getElementById('exec-live-alerts');if(f)f.innerHTML=''})()" style="font-size:11px;font-weight:600;color:#6b7280;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;padding:4px 12px;cursor:pointer;white-space:nowrap">Clear all</button>
-    </div>
-    <div id="exec-live-alerts" style="display:flex;flex-direction:column;gap:8px"></div>
   </div>
 
   <!-- PART 4: TOP 5 STRATEGIC RISKS -->
