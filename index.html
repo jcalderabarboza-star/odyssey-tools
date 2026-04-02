@@ -17861,7 +17861,7 @@ const CT_MODULES = [
 
   // === SUPPLY SIDE ===
   { name: 'Suppliers Portal',        icon: '🏭', health: 84, status: 'warning',  border: '#e76500', alerts: 2, alertDesc: 'contract expiry + QC hold',                 trend: '▲ +2%', trendDir: 'up',   tab: 'suppliers',          category: 'supply'    },
-  { name: 'RM & PM Inventory',       icon: '🧪', health: 79, status: 'warning',  border: '#e76500', alerts: 3, alertDesc: 'W3 coverage below 21-day optimal',          trend: '▼ -1%', trendDir: 'down', tab: 'rm-pm-inventory',    category: 'supply'    },
+  { name: 'RM & PM Inventory',       icon: '🧪', health: 79, status: 'warning',  border: '#e76500', alerts: 3, alertDesc: 'W3 coverage below 21-day optimal',          trend: '▼ -1%', trendDir: 'down', tab: 'rmpm-inventory',     category: 'supply'    },
   { name: 'Procurement & Purchase',  icon: '🛒', health: 91, status: 'ontarget', border: '#107e3e', alerts: 1, alertDesc: 'RM/PM W3 coverage low',                      trend: '▲ +3%', trendDir: 'up',   tab: 'proc',               category: 'supply'    },
   { name: 'Manufacturing',           icon: '⚙️', health: 88, status: 'warning',  border: '#e76500', alerts: 2, alertDesc: 'OEE below target + changeover time',         trend: '→ flat', trendDir: 'flat', tab: 'mfg',               category: 'supply'    },
 
@@ -17880,7 +17880,7 @@ const CT_MODULES = [
 
   // === POST-DELIVERY ===
   { name: 'Customer Service',        icon: '👤', health: 95, status: 'ontarget', border: '#107e3e', alerts: 0, alertDesc: '',                                           trend: '▲ +1%', trendDir: 'up',   tab: 'customer-service',   category: 'post'      },
-  { name: 'Returns & Reverse Logistics', icon: '🔄', health: 81, status: 'warning', border: '#e76500', alerts: 2, alertDesc: 'return rate above 3% threshold in e-comm', trend: '▼ -1%', trendDir: 'down', tab: 'returns',          category: 'post'      }
+  { name: 'Returns & Reverse Logistics', icon: '🔄', health: 81, status: 'warning', border: '#e76500', alerts: 2, alertDesc: 'return rate above 3% threshold in e-comm', trend: '▼ -1%', trendDir: 'down', tab: 'returns-logistics', category: 'post'      }
 ];
 
 function renderCTModuleCards() {
