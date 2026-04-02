@@ -14407,7 +14407,7 @@
   <!-- TAB 1: DEMAND PLAN HEALTH -->
   <div id="plan-panel-demand">
     <!-- KPI CARDS ROW -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:24px">
       <div style="background:#fff;border-radius:10px;padding:16px;border-left:4px solid #e76500">
         <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase">Forecast Accuracy (MAPE)</div>
         <div style="font-size:28px;font-weight:800;color:#e76500;margin:6px 0">78%</div>
@@ -14427,6 +14427,12 @@
         <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase">Demand Signal Confidence</div>
         <div style="font-size:28px;font-weight:800;color:#107e3e;margin:6px 0">86%</div>
         <div style="font-size:11px;color:#64748b">Target ≥85% · ✅ On Target</div>
+      </div>
+      <div style="background:#fff;border-radius:10px;padding:16px;border-left:4px solid #e76500">
+        <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase">Consensus Plan Adherence</div>
+        <div style="font-size:28px;font-weight:800;color:#e76500;margin:6px 0">74%</div>
+        <div style="font-size:11px;color:#64748b">Target ≥85% · ⚠️ Warning</div>
+        <div style="font-size:10px;color:#94a3b8;margin-top:4px;font-style:italic">📋 Placeholder · Target: IBP S&amp;OP</div>
       </div>
     </div>
     <!-- TOP SKUs TABLE -->
@@ -14483,11 +14489,97 @@
         </tbody>
       </table>
     </div>
+
+    <!-- FORECAST ACCURACY BY BRAND -->
+    <div style="background:#fff;border-radius:10px;padding:20px;margin-top:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div style="font-size:13px;font-weight:700;color:#1e293b">📊 Forecast Accuracy by Brand — MAPE %</div>
+        <div style="font-size:10px;color:#94a3b8;font-style:italic">📋 Placeholder data · Target source: SAP IBP Demand</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:600;color:#1e293b">Wardah</span>
+            <span style="font-size:12px;font-weight:700;color:#bb0000">31% MAPE</span>
+          </div>
+          <div style="background:#f1f5f9;border-radius:4px;height:8px">
+            <div style="background:#bb0000;height:8px;border-radius:4px;width:31%"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:600;color:#1e293b">Emina</span>
+            <span style="font-size:12px;font-weight:700;color:#e76500">26% MAPE</span>
+          </div>
+          <div style="background:#f1f5f9;border-radius:4px;height:8px">
+            <div style="background:#e76500;height:8px;border-radius:4px;width:26%"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:600;color:#1e293b">Make Over</span>
+            <span style="font-size:12px;font-weight:700;color:#e76500">22% MAPE</span>
+          </div>
+          <div style="background:#f1f5f9;border-radius:4px;height:8px">
+            <div style="background:#e76500;height:8px;border-radius:4px;width:22%"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:600;color:#1e293b">Scarlett</span>
+            <span style="font-size:12px;font-weight:700;color:#e76500">19% MAPE</span>
+          </div>
+          <div style="background:#f1f5f9;border-radius:4px;height:8px">
+            <div style="background:#e76500;height:8px;border-radius:4px;width:19%"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:600;color:#1e293b">BLP</span>
+            <span style="font-size:12px;font-weight:700;color:#107e3e">14% MAPE</span>
+          </div>
+          <div style="background:#f1f5f9;border-radius:4px;height:8px">
+            <div style="background:#107e3e;height:8px;border-radius:4px;width:14%"></div>
+          </div>
+        </div>
+        <div style="margin-top:6px;padding-top:10px;border-top:1px solid #f1f5f9;
+          display:flex;gap:16px;font-size:11px;color:#64748b">
+          <span>🔴 Critical: >25% MAPE</span>
+          <span>⚠️ Warning: 20–25%</span>
+          <span>✅ Target: ≤20% MAPE</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLANNING CYCLE HEALTH -->
+    <div style="background:#fff;border-radius:10px;padding:20px;margin-top:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div style="font-size:13px;font-weight:700;color:#1e293b">🔄 Planning Cycle Health — Sep-25</div>
+        <div style="font-size:10px;color:#94a3b8;font-style:italic">📋 Placeholder · Target source: SAP IBP Demand + S&amp;OP</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        <div style="background:#f8fafc;border-radius:8px;padding:14px;text-align:center">
+          <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;margin-bottom:6px">Forecast Cycle</div>
+          <div style="font-size:20px;font-weight:800;color:#107e3e">Weekly</div>
+          <div style="font-size:10px;color:#64748b;margin-top:4px">Rolling 13-week horizon</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:8px;padding:14px;text-align:center">
+          <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;margin-bottom:6px">Last Consensus</div>
+          <div style="font-size:20px;font-weight:800;color:#1e293b">Sep 20</div>
+          <div style="font-size:10px;color:#64748b;margin-top:4px">Next: Oct 4, 2025</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:8px;padding:14px;text-align:center">
+          <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;margin-bottom:6px">Participants</div>
+          <div style="font-size:20px;font-weight:800;color:#1e293b">8</div>
+          <div style="font-size:10px;color:#64748b;margin-top:4px">Commercial · Supply · Finance</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- TAB 2: SUPPLY & CAPACITY PLAN -->
   <div id="plan-panel-supply" style="display:none">
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:24px">
       <div style="background:#fff;border-radius:10px;padding:16px;border-left:4px solid #107e3e">
         <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase">Capacity Utilization</div>
         <div style="font-size:28px;font-weight:800;color:#107e3e;margin:6px 0">87%</div>
@@ -14507,6 +14599,12 @@
         <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase">Constrained SKUs</div>
         <div style="font-size:28px;font-weight:800;color:#bb0000;margin:6px 0">7</div>
         <div style="font-size:11px;color:#64748b">Target 0 · 🔴 Critical</div>
+      </div>
+      <div style="background:#fff;border-radius:10px;padding:16px;border-left:4px solid #e76500">
+        <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase">Inventory Positioning Score</div>
+        <div style="font-size:28px;font-weight:800;color:#e76500;margin:6px 0">71%</div>
+        <div style="font-size:11px;color:#64748b">Target ≥80% · ⚠️ Warning</div>
+        <div style="font-size:10px;color:#94a3b8;margin-top:4px;font-style:italic">📋 Placeholder · Target: IBP Inventory</div>
       </div>
     </div>
     <div style="background:#fff;border-radius:10px;padding:20px">
@@ -14562,14 +14660,86 @@
         </tbody>
       </table>
     </div>
+
+    <!-- CAPACITY BY PRODUCTION LINE -->
+    <div style="background:#fff;border-radius:10px;padding:20px;margin-top:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div style="font-size:13px;font-weight:700;color:#1e293b">🏭 Capacity Utilization by Production Line — Week 3</div>
+        <div style="font-size:10px;color:#94a3b8;font-style:italic">📋 Placeholder · Target source: SAP IBP Supply + MES</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:600;color:#1e293b">Skincare Line 1 — Emina Brightening</span>
+            <span style="font-size:12px;font-weight:700;color:#bb0000">98% · HALT RISK</span>
+          </div>
+          <div style="background:#f1f5f9;border-radius:4px;height:10px">
+            <div style="background:#bb0000;height:10px;border-radius:4px;width:98%"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:600;color:#1e293b">Makeup Line 2 — Make Over Foundation</span>
+            <span style="font-size:12px;font-weight:700;color:#bb0000">95% · HALT RISK</span>
+          </div>
+          <div style="background:#f1f5f9;border-radius:4px;height:10px">
+            <div style="background:#bb0000;height:10px;border-radius:4px;width:95%"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:600;color:#1e293b">Suncare Line 3 — Azarine + Emina SPF</span>
+            <span style="font-size:12px;font-weight:700;color:#e76500">89% · WARNING</span>
+          </div>
+          <div style="background:#f1f5f9;border-radius:4px;height:10px">
+            <div style="background:#e76500;height:10px;border-radius:4px;width:89%"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:600;color:#1e293b">Skincare Line 2 — Wardah Retinol</span>
+            <span style="font-size:12px;font-weight:700;color:#e76500">84% · WARNING</span>
+          </div>
+          <div style="background:#f1f5f9;border-radius:4px;height:10px">
+            <div style="background:#e76500;height:10px;border-radius:4px;width:84%"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:600;color:#1e293b">Bodycare Line 1 — Scarlett</span>
+            <span style="font-size:12px;font-weight:700;color:#107e3e">72% · ON TARGET</span>
+          </div>
+          <div style="background:#f1f5f9;border-radius:4px;height:10px">
+            <div style="background:#107e3e;height:10px;border-radius:4px;width:72%"></div>
+          </div>
+        </div>
+        <div style="margin-top:6px;padding-top:10px;border-top:1px solid #f1f5f9;
+          display:flex;gap:16px;font-size:11px;color:#64748b">
+          <span>🔴 Halt Risk: >95%</span>
+          <span>⚠️ Warning: 85–95%</span>
+          <span>✅ On Target: ≤85%</span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- TAB 3: S&OE EXCEPTION BOARD -->
   <div id="plan-panel-soe" style="display:none">
-    <div style="background:#fff3cd;border:1px solid #e76500;border-radius:10px;padding:16px;margin-bottom:20px;display:flex;gap:24px;align-items:center">
+    <div style="background:#fff3cd;border:1px solid #e76500;border-radius:10px;padding:16px;
+      margin-bottom:20px;display:flex;gap:24px;align-items:center;flex-wrap:wrap">
       <span style="font-size:13px;font-weight:700;color:#1e293b">🔴 Critical: 2</span>
       <span style="font-size:13px;font-weight:700;color:#e76500">⚠️ Warning: 3</span>
       <span style="font-size:13px;color:#64748b">Horizon: 0–4 weeks · Last updated: Sep-25</span>
+      <span style="margin-left:auto">
+        <button onclick="switchTab('war-room')"
+          style="background:#7c3aed;color:#fff;border:none;border-radius:6px;
+          padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer">
+          🎯 Open War Room
+        </button>
+      </span>
+      <div style="width:100%;margin-top:8px;font-size:10px;color:#94a3b8;font-style:italic">
+        📋 Placeholder data · Target source: SAP IBP S&amp;OP · Manual input until S&amp;OP phase live
+      </div>
     </div>
     <div style="background:#fff;border-radius:10px;padding:20px">
       <table style="width:100%;border-collapse:collapse;font-size:13px">
@@ -14580,6 +14750,7 @@
             <th style="padding:10px;text-align:left;color:#64748b;font-weight:600">Owner</th>
             <th style="padding:10px;text-align:left;color:#64748b;font-weight:600">Impact</th>
             <th style="padding:10px;text-align:left;color:#64748b;font-weight:600">SLA</th>
+            <th style="padding:10px;text-align:center;color:#64748b;font-weight:600">Age</th>
             <th style="padding:10px;text-align:center;color:#64748b;font-weight:600">Status</th>
           </tr>
         </thead>
@@ -14590,6 +14761,7 @@
             <td style="padding:10px;color:#64748b">Procurement</td>
             <td style="padding:10px;color:#bb0000;font-weight:600">847 orders</td>
             <td style="padding:10px;color:#bb0000;font-weight:600">2d remaining</td>
+            <td style="padding:10px;text-align:center;color:#bb0000;font-weight:600;font-size:12px">3d</td>
             <td style="padding:10px;text-align:center"><span style="background:#fee2e2;color:#bb0000;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">CRITICAL</span></td>
           </tr>
           <tr style="border-top:1px solid #f1f5f9">
@@ -14598,6 +14770,7 @@
             <td style="padding:10px;color:#64748b">Procurement</td>
             <td style="padding:10px;color:#bb0000;font-weight:600">12 SKUs</td>
             <td style="padding:10px;color:#bb0000;font-weight:600">1d remaining</td>
+            <td style="padding:10px;text-align:center;color:#bb0000;font-weight:600;font-size:12px">4d</td>
             <td style="padding:10px;text-align:center"><span style="background:#fee2e2;color:#bb0000;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">CRITICAL</span></td>
           </tr>
           <tr style="border-top:1px solid #f1f5f9">
@@ -14606,6 +14779,7 @@
             <td style="padding:10px;color:#64748b">Demand Planning</td>
             <td style="padding:10px;color:#e76500;font-weight:600">IDR 2.1B</td>
             <td style="padding:10px;color:#e76500;font-weight:600">3d remaining</td>
+            <td style="padding:10px;text-align:center;color:#e76500;font-weight:600;font-size:12px">1d</td>
             <td style="padding:10px;text-align:center"><span style="background:#fff7ed;color:#e76500;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">WARNING</span></td>
           </tr>
           <tr style="border-top:1px solid #f1f5f9">
@@ -14614,6 +14788,7 @@
             <td style="padding:10px;color:#64748b">Manufacturing</td>
             <td style="padding:10px;color:#e76500;font-weight:600">4 lines</td>
             <td style="padding:10px;color:#e76500;font-weight:600">5d remaining</td>
+            <td style="padding:10px;text-align:center;color:#e76500;font-weight:600;font-size:12px">2d</td>
             <td style="padding:10px;text-align:center"><span style="background:#fff7ed;color:#e76500;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">WARNING</span></td>
           </tr>
           <tr style="border-top:1px solid #f1f5f9">
@@ -14622,6 +14797,7 @@
             <td style="padding:10px;color:#64748b">Logistics</td>
             <td style="padding:10px;color:#e76500;font-weight:600">234 orders</td>
             <td style="padding:10px;color:#e76500;font-weight:600">4d remaining</td>
+            <td style="padding:10px;text-align:center;color:#e76500;font-weight:600;font-size:12px">1d</td>
             <td style="padding:10px;text-align:center"><span style="background:#fff7ed;color:#e76500;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">WARNING</span></td>
           </tr>
         </tbody>
