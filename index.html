@@ -2034,6 +2034,9 @@
 ══════════════════════════════════════════ -->
 <div class="tab-panel" id="panel-beauty-advisors">
 
+    <!-- BEAUTY ADVISORS EXCEPTIONS BANNER -->
+    <div id="ba-exceptions-banner" style="margin-bottom:20px"></div>
+
   <!-- PAGE HEADER -->
   <div style="margin-bottom:20px">
     <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin:0 0 4px">Beauty Advisors</h2>
@@ -15503,6 +15506,7 @@ function switchTab(tab) {
   if(tab==='marketing'){
     if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Commercial & Innovation';
     renderMarketingExceptions();
+    renderBAExceptions();
     mkInitChartsIfNeeded();
   }
   if(tab==='finance'){
@@ -20158,6 +20162,85 @@ function mkFilterCampaigns(type) {
   });
 }
 
+/* ── BA: RENDER BEAUTY ADVISOR EXCEPTIONS BANNER ── */
+function renderBAExceptions() {
+  var banner = document.getElementById('ba-exceptions-banner');
+  if (!banner) return;
+
+  var BA_SIGNALS = [
+    'BA_OOS_ESCALATION','BA_ATTENDANCE_LOW','BA_CONVERSION_DROP',
+    'VIRAL_SPIKE','DEMAND_SPIKE','STOCK_RISK'
+  ];
+
+  var all = (window.OdysseySignalEngine && OdysseySignalEngine.signals) || [];
+  var seen = {};
+  var filtered = all.filter(function(s) {
+    if (BA_SIGNALS.indexOf(s.name) === -1) return false;
+    if (seen[s.name]) return false;
+    seen[s.name] = true;
+    return true;
+  });
+
+  filtered.sort(function(a, b) {
+    if (a.severity === 'CRITICAL' && b.severity !== 'CRITICAL') return -1;
+    if (b.severity === 'CRITICAL' && a.severity !== 'CRITICAL') return 1;
+    return 0;
+  });
+
+  var top = filtered.slice(0, 3);
+
+  if (top.length === 0) {
+    banner.innerHTML =
+      '<div style="background:#f0fdf4;border:1px solid #107e3e;border-radius:8px;' +
+      'padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:4px">' +
+      '<span style="font-size:16px">✅</span>' +
+      '<span style="font-size:13px;font-weight:600;color:#107e3e">No active Beauty Advisor exceptions</span>' +
+      '</div>';
+    return;
+  }
+
+  var critCount = filtered.filter(function(s){ return s.severity==='CRITICAL'; }).length;
+  var warnCount = filtered.filter(function(s){ return s.severity==='WARNING'; }).length;
+
+  var html = '<div style="background:#fff7ed;border:1.5px solid #e76500;border-radius:8px;' +
+    'padding:16px;margin-bottom:4px">' +
+    '<div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">' +
+    '<span style="font-size:13px;font-weight:700;color:#1e293b">⚡ BEAUTY ADVISOR EXCEPTIONS</span>';
+
+  if (critCount > 0) {
+    html += '<span style="background:#fee2e2;color:#bb0000;padding:2px 10px;border-radius:4px;' +
+      'font-size:11px;font-weight:700">🔴 CRITICAL: ' + critCount + '</span>';
+  }
+  if (warnCount > 0) {
+    html += '<span style="background:#fff7ed;color:#e76500;padding:2px 10px;border-radius:4px;' +
+      'font-size:11px;font-weight:700">⚠️ WARNING: ' + warnCount + '</span>';
+  }
+  html += '</div><div style="display:flex;flex-direction:column;gap:8px">';
+
+  top.forEach(function(s) {
+    var isCrit = s.severity === 'CRITICAL';
+    var bgCol  = isCrit ? '#fee2e2' : '#fff7ed';
+    var bdCol  = isCrit ? '#bb0000' : '#e76500';
+    var txCol  = isCrit ? '#bb0000' : '#e76500';
+    var icon   = isCrit ? '🔴' : '⚠️';
+    var desc   = s.trigger || s.description || s.name.replace(/_/g,' ');
+    var detail = s.currentValue ? ' · ' + s.currentValue : '';
+
+    html += '<div style="background:' + bgCol + ';border-left:3px solid ' + bdCol + ';' +
+      'border-radius:4px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center">' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+      '<span>' + icon + '</span>' +
+      '<span style="font-size:12px;font-weight:600;color:#1e293b">' + desc + detail + '</span>' +
+      '</div>' +
+      '<span style="font-size:11px;color:' + txCol + ';font-weight:600;white-space:nowrap;margin-left:12px">' +
+      s.severity + '</span>' +
+      '</div>';
+  });
+
+  html += '</div></div>';
+  banner.innerHTML = html;
+}
+
 /* ── MK: RENDER BEAUTY ADVISOR SCORECARD ── */
 function renderMKBA() {
   var wrap = document.getElementById('mk-ba-section');
@@ -20665,6 +20748,7 @@ function renderMarketingExceptions() {
 let mkChartsBuilt = false;
 
 function mkInitChartsIfNeeded() {
+  renderBAExceptions();
   renderMarketingExceptions();
   renderMKStrategic();
   renderMKCampaigns();
@@ -22102,6 +22186,42 @@ function exportBoardPack() {
         trigger:      'Unplanned influencer spike +127% — Wardah Niacinamide Serum · stock not pre-positioned · OOS risk',
         currentValue: '+127% spike',
         severity:     'WARNING'
+      },
+      BA_OOS_ESCALATION: {
+        product:      'Beauty Advisor Network',
+        metric:       'BA Stock Availability',
+        value:        87,
+        unit:         '%',
+        threshold:    90,
+        operator:     '<',
+        description:  'BA stock availability 87% — below 90% in 3 zones',
+        trigger:      'BA stock availability below 90% — Jakarta Selatan, Surabaya, Bandung zones affected · 2 active OOS reports',
+        currentValue: '87% availability',
+        severity:     'WARNING'
+      },
+      BA_ATTENDANCE_LOW: {
+        product:      'Beauty Advisor Workforce',
+        metric:       'POS Attendance Compliance',
+        value:        84,
+        unit:         '%',
+        threshold:    90,
+        operator:     '<',
+        description:  'BA attendance 84% — below 90% target in modern trade',
+        trigger:      'BA attendance below 90% target — modern trade channel · 6 unattended POS locations today',
+        currentValue: '84% attendance',
+        severity:     'WARNING'
+      },
+      BA_CONVERSION_DROP: {
+        product:      'Beauty Advisor Sales',
+        metric:       'Consultation-to-Conversion',
+        value:        31,
+        unit:         '%',
+        threshold:    35,
+        operator:     '<',
+        description:  'Consultation-to-conversion 31% — below 35% target',
+        trigger:      'BA conversion rate 31% — below 35% target · product knowledge refresher recommended',
+        currentValue: '31% conversion',
+        severity:     'WARNING'
       }
     },
 
@@ -23251,6 +23371,9 @@ function exportBoardPack() {
     OdysseySignalEngine.fire('CHANNEL_FILL_RATE_LOW');
     OdysseySignalEngine.fire('CAMPAIGN_STOCK_GAP');
     OdysseySignalEngine.fire('INFLUENCER_SPIKE_UNPLANNED');
+    OdysseySignalEngine.fire('BA_OOS_ESCALATION');
+    OdysseySignalEngine.fire('BA_ATTENDANCE_LOW');
+    OdysseySignalEngine.fire('BA_CONVERSION_DROP');
   }
 
   if (document.readyState === 'loading') {
