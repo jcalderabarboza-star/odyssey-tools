@@ -3889,6 +3889,17 @@
   <!-- MANUFACTURING EXCEPTIONS BANNER -->
   <div id="mfg-exceptions-banner" style="margin-bottom:20px"></div>
 
+  <!-- MFG SUB-TAB NAVIGATION -->
+  <div class="section-block" style="margin-bottom:12px">
+    <div class="transport-subtab-nav" id="mfg-subtab-nav">
+      <button class="transport-pill active" onclick="switchMfgSubTab('main')">⚙️ Manufacturing</button>
+      <button class="transport-pill" onclick="switchMfgSubTab('ops')">🏭 Operational</button>
+    </div>
+  </div>
+
+  <!-- SUB-TAB: Manufacturing (main) -->
+  <div class="kpi-sub-panel active" id="mfg-sub-main">
+
   <!-- MATERIAL AVAILABILITY COMPACT CARD -->
   <div class="section-block">
     <div style="background:#ffffff; border:1px solid #e5e7eb; border-left:4px solid #ef4444; border-radius:8px; padding:18px 20px; box-shadow:0 1px 4px rgba(0,0,0,0.08);">
@@ -4037,6 +4048,31 @@
         Node Connection Indicators
       </div>
       <div class="ds-grid" id="mfg-ds-grid"></div>
+    </div>
+  </div>
+
+  </div><!-- end mfg-sub-main -->
+
+  <div class="kpi-sub-panel" id="mfg-sub-ops">
+    <div class="section-block" style="margin-top:24px">
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;
+        padding:60px 24px;background:#f8fafc;border-radius:12px;border:2px dashed #e2e8f0;
+        text-align:center">
+        <div style="font-size:48px;margin-bottom:16px">🏭</div>
+        <div style="font-size:20px;font-weight:700;color:#1e293b;margin-bottom:8px">
+          Operational Manufacturing
+        </div>
+        <div style="background:#f1f5f9;border-radius:6px;padding:4px 16px;
+          font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;
+          letter-spacing:0.08em;margin-bottom:16px">
+          🚧 Under Construction
+        </div>
+        <div style="font-size:14px;color:#64748b;max-width:480px;line-height:1.6">
+          This module will include real-time production line status, shift performance,
+          OEE live tracking, line stop alerts, and operator dashboards.
+          KPI definitions in progress — linked to SAP MES integration roadmap.
+        </div>
+      </div>
     </div>
   </div>
 
@@ -15405,6 +15441,20 @@ function switchKpiSubTab(subTab) {
   const map = {dw: 0, wh: 1};
   if (pills[map[subTab]]) pills[map[subTab]].classList.add('active');
   if (subTab === 'wh') { whInitChartsIfNeeded(); }
+}
+
+function switchMfgSubTab(subTab) {
+  document.querySelectorAll('#panel-mfg .kpi-sub-panel').forEach(function(p) {
+    p.classList.remove('active');
+  });
+  document.querySelectorAll('#mfg-subtab-nav .transport-pill').forEach(function(b) {
+    b.classList.remove('active');
+  });
+  var panel = document.getElementById('mfg-sub-' + subTab);
+  if (panel) panel.classList.add('active');
+  var pills = document.querySelectorAll('#mfg-subtab-nav .transport-pill');
+  var map = { main: 0, ops: 1 };
+  if (pills[map[subTab]]) pills[map[subTab]].classList.add('active');
 }
 
 function switchTab(tab) {
