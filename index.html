@@ -14579,7 +14579,7 @@
 
   <!-- TAB 2: SUPPLY & CAPACITY PLAN -->
   <div id="plan-panel-supply" style="display:none">
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:24px">
       <div style="background:#fff;border-radius:10px;padding:16px;border-left:4px solid #107e3e">
         <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase">Capacity Utilization</div>
         <div style="font-size:28px;font-weight:800;color:#107e3e;margin:6px 0">87%</div>
@@ -14599,6 +14599,12 @@
         <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase">Constrained SKUs</div>
         <div style="font-size:28px;font-weight:800;color:#bb0000;margin:6px 0">7</div>
         <div style="font-size:11px;color:#64748b">Target 0 · 🔴 Critical</div>
+      </div>
+      <div style="background:#fff;border-radius:10px;padding:16px;border-left:4px solid #e76500">
+        <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase">Inventory Positioning Score</div>
+        <div style="font-size:28px;font-weight:800;color:#e76500;margin:6px 0">71%</div>
+        <div style="font-size:11px;color:#64748b">Target ≥80% · ⚠️ Warning</div>
+        <div style="font-size:10px;color:#94a3b8;margin-top:4px;font-style:italic">📋 Placeholder · Target: IBP Inventory</div>
       </div>
     </div>
     <div style="background:#fff;border-radius:10px;padding:20px">
@@ -14653,6 +14659,67 @@
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- CAPACITY BY PRODUCTION LINE -->
+    <div style="background:#fff;border-radius:10px;padding:20px;margin-top:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div style="font-size:13px;font-weight:700;color:#1e293b">🏭 Capacity Utilization by Production Line — Week 3</div>
+        <div style="font-size:10px;color:#94a3b8;font-style:italic">📋 Placeholder · Target source: SAP IBP Supply + MES</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:600;color:#1e293b">Skincare Line 1 — Emina Brightening</span>
+            <span style="font-size:12px;font-weight:700;color:#bb0000">98% · HALT RISK</span>
+          </div>
+          <div style="background:#f1f5f9;border-radius:4px;height:10px">
+            <div style="background:#bb0000;height:10px;border-radius:4px;width:98%"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:600;color:#1e293b">Makeup Line 2 — Make Over Foundation</span>
+            <span style="font-size:12px;font-weight:700;color:#bb0000">95% · HALT RISK</span>
+          </div>
+          <div style="background:#f1f5f9;border-radius:4px;height:10px">
+            <div style="background:#bb0000;height:10px;border-radius:4px;width:95%"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:600;color:#1e293b">Suncare Line 3 — Azarine + Emina SPF</span>
+            <span style="font-size:12px;font-weight:700;color:#e76500">89% · WARNING</span>
+          </div>
+          <div style="background:#f1f5f9;border-radius:4px;height:10px">
+            <div style="background:#e76500;height:10px;border-radius:4px;width:89%"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:600;color:#1e293b">Skincare Line 2 — Wardah Retinol</span>
+            <span style="font-size:12px;font-weight:700;color:#e76500">84% · WARNING</span>
+          </div>
+          <div style="background:#f1f5f9;border-radius:4px;height:10px">
+            <div style="background:#e76500;height:10px;border-radius:4px;width:84%"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:12px;font-weight:600;color:#1e293b">Bodycare Line 1 — Scarlett</span>
+            <span style="font-size:12px;font-weight:700;color:#107e3e">72% · ON TARGET</span>
+          </div>
+          <div style="background:#f1f5f9;border-radius:4px;height:10px">
+            <div style="background:#107e3e;height:10px;border-radius:4px;width:72%"></div>
+          </div>
+        </div>
+        <div style="margin-top:6px;padding-top:10px;border-top:1px solid #f1f5f9;
+          display:flex;gap:16px;font-size:11px;color:#64748b">
+          <span>🔴 Halt Risk: >95%</span>
+          <span>⚠️ Warning: 85–95%</span>
+          <span>✅ On Target: ≤85%</span>
+        </div>
+      </div>
     </div>
   </div>
 
