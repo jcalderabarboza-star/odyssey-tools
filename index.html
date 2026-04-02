@@ -17993,8 +17993,8 @@ function renderCTFlowDiagram() {
   const fg      = document.getElementById('ct-flow-finance');
   if (!svgEl||!gNodes||!gArrows) return;
 
-  svgEl.setAttribute('height',  '560');
-  svgEl.setAttribute('viewBox', '0 0 1200 560');
+  svgEl.setAttribute('height',  '580');
+  svgEl.setAttribute('viewBox', '0 0 1600 580');
 
   gNodes.innerHTML=''; gArrows.innerHTML='';
   if (gDots) gDots.innerHTML='';
@@ -18008,12 +18008,12 @@ function renderCTFlowDiagram() {
 
   // ── LAYOUT ──
   const nW=120, nH=100, badgeH=16;
-  const demandX=60,  demandStartY=30,  demandGapY=108;
-  const sourceX=290, sourceStartY=30,  sourceGapY=108;
-  const makeX=530,   makeY=138;
-  const deliverX=680,deliverStartY=138, deliverGapY=108;
-  const enableY=460;
-  const planX=185, planY=138;
+  const demandX=20,  demandStartY=30,  demandGapY=108;
+  const planX=240,   planY=138;
+  const sourceX=480, sourceStartY=30,  sourceGapY=108;
+  const makeX=780,   makeY=138;
+  const deliverX=1000, deliverStartY=138, deliverGapY=108;
+  const enableY=470;
 
   // ── NODE DATA ──
   const DEMAND = [
@@ -18223,7 +18223,7 @@ function renderCTFlowDiagram() {
 
   // ── ENABLE LANE: Finance bar ──
   if (fg) {
-    const barX=30, barW=1160, barH=44;
+    const barX=30, barW=1560, barH=44;
     // Background bar
     fg.appendChild(mkEl('rect',{x:barX,y:enableY,width:barW,height:barH,rx:'6',
       fill:'#fff7ed',stroke:'#e76500','stroke-width':'1.5',
