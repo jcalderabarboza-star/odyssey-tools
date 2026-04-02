@@ -18043,8 +18043,8 @@ function renderCTFlowDiagram() {
   const fg      = document.getElementById('ct-flow-finance');
   if (!svgEl||!gNodes||!gArrows) return;
 
-  svgEl.setAttribute('height',  '580');
-  svgEl.setAttribute('viewBox', '0 0 1600 580');
+  svgEl.setAttribute('height',  '600');
+  svgEl.setAttribute('viewBox', '0 0 1800 600');
 
   gNodes.innerHTML=''; gArrows.innerHTML='';
   if (gDots) gDots.innerHTML='';
@@ -18057,13 +18057,15 @@ function renderCTFlowDiagram() {
   };
 
   // ── LAYOUT ──
-  const nW=120, nH=100, badgeH=16;
-  const demandX=20,  demandStartY=30,  demandGapY=108;
-  const planX=240,   planY=138;
-  const sourceX=480, sourceStartY=30,  sourceGapY=108;
-  const makeX=780,   makeY=138;
-  const deliverX=1000, deliverStartY=138, deliverGapY=108;
-  const enableY=470;
+  const nW=110, nH=100, badgeH=16;
+  const demandX=20,   demandStartY=30,  demandGapY=108;
+  const planX=210,    planY=138;
+  const sourceX=390,  sourceStartY=30,  sourceGapY=108;
+  const makeX=630,    makeY=138;
+  const fulfillX=800, fulfillY=138;
+  const deliverX=970, deliverStartY=138, deliverGapY=108;
+  const customerX=1140, customerStartY=84, customerGapY=108;
+  const enableY=490;
 
   // ── NODE DATA ──
   const DEMAND = [
@@ -18088,11 +18090,19 @@ function renderCTFlowDiagram() {
     { label:'Manufacturing', icon:'⚙️', health:88, status:'warning',
       kpi1:'OEE 82%',      kpi2:'Adher 88%' },
   ];
-  const DELIVER = [
+  const FULFILL = [
     { label:'Distribution', icon:'📦', health:87, status:'warning',
-      kpi1:'PO Rate 90%',  kpi2:'Backlog 847' },
-    { label:'Transport',    icon:'🚛', health:92, status:'ontarget',
-      kpi1:'OTD 92%',      kpi2:'ETA Acc 89%' },
+      kpi1:'PO Rate 90%', kpi2:'Backlog 847' }
+  ];
+  const DELIVER = [
+    { label:'Transport', icon:'🚛', health:92, status:'ontarget',
+      kpi1:'OTD 92%', kpi2:'ETA Acc 89%' }
+  ];
+  const CUSTOMER = [
+    { label:'B2B Customer', icon:'🏢', health:94, status:'ontarget',
+      kpi1:'OTIF 94%', kpi2:'Fill Rate 96%' },
+    { label:'B2C Customer', icon:'👤', health:91, status:'ontarget',
+      kpi1:'OTD 91%', kpi2:'NPS 72' }
   ];
 
   const addDot = (pathD, color, dur) => {
@@ -18148,11 +18158,13 @@ function renderCTFlowDiagram() {
       'letter-spacing':'1.5','font-family':'sans-serif'});
     lb.textContent=text; gNodes.appendChild(lb);
   };
-  laneLabel(demandX,  'DEMAND SIGNALS', '#0891b2');
-  laneLabel(sourceX,  'SOURCE',         '#e76500');
-  laneLabel(makeX,    'MAKE',           '#7c3aed');
-  laneLabel(deliverX, 'DELIVER',        '#107e3e');
-  laneLabel(planX, 'PLAN', '#7c3aed');
+  laneLabel(demandX,   'DEMAND SIGNALS', '#0891b2');
+  laneLabel(planX,     'PLAN',           '#7c3aed');
+  laneLabel(sourceX,   'SOURCE',         '#e76500');
+  laneLabel(makeX,     'MAKE',           '#7c3aed');
+  laneLabel(fulfillX,  'FULFILL',        '#107e3e');
+  laneLabel(deliverX,  'DELIVER',        '#107e3e');
+  laneLabel(customerX, 'CUSTOMER',       '#0891b2');
 
   // ── DRAW DEMAND COLUMN ──
   DEMAND.forEach((n,i) => drawNode(demandX, demandStartY+i*demandGapY, n));
@@ -18232,8 +18244,14 @@ function renderCTFlowDiagram() {
   // ── DRAW MAKE ──
   MAKE.forEach((n,i) => drawNode(makeX, makeY+i*108, n));
 
-  // ── DRAW DELIVER COLUMN ──
-  DELIVER.forEach((n,i) => drawNode(deliverX, deliverStartY+i*deliverGapY, n));
+  // ── DRAW FULFILL ──
+  FULFILL.forEach(function(n, i) { drawNode(fulfillX, fulfillY + i*108, n); });
+
+  // ── DRAW DELIVER ──
+  DELIVER.forEach(function(n, i) { drawNode(deliverX, deliverStartY + i*deliverGapY, n); });
+
+  // ── DRAW CUSTOMER ──
+  CUSTOMER.forEach(function(n, i) { drawNode(customerX, customerStartY + i*customerGapY, n); });
 
   // ── NOTE: Demand → PLAN arrows already drawn above ──
   // (removed old Demand → Procurement direct arrows)
@@ -18257,23 +18275,60 @@ function renderCTFlowDiagram() {
   drawArrow(rmRX, rmY, makeLX, makeCY, '#e76500', false);
   addDot(`M ${rmRX},${rmY} L ${makeLX},${makeCY}`, '#e76500', '2s');
 
-  // ── SOLID ARROW: Make → Distribution ──
-  const makeRX  = makeX+nW;
-  const distLX  = deliverX;
-  const distCY  = deliverStartY+nH/2;
-  drawArrow(makeRX,makeCY,distLX,distCY,'#7c3aed',false);
-  addDot(`M ${makeRX},${makeCY} L ${distLX},${distCY}`,'#7c3aed','2s');
+  // Make → Fulfill
+  const makeRX  = makeX + nW;
+  const fulfillLX = fulfillX;
+  const fulfillCY = fulfillY + nH/2;
+  drawArrow(makeRX, makeCY, fulfillLX, fulfillCY, '#7c3aed', false);
+  addDot('M '+makeRX+','+makeCY+' L '+fulfillLX+','+fulfillCY, '#7c3aed', '2s');
 
-  // ── SOLID ARROW: Distribution → Transport ──
-  const distCX  = deliverX+nW/2;
-  const distBY  = deliverStartY+nH;
-  const transTY = deliverStartY+deliverGapY;
-  drawArrow(distCX,distBY,distCX,transTY,'#107e3e',false);
-  addDot(`M ${distCX},${distBY} L ${distCX},${transTY}`,'#107e3e','2s');
+  // Fulfill → Deliver
+  const fulfillRX = fulfillX + nW;
+  const deliverLX = deliverX;
+  const deliverCY = deliverStartY + nH/2;
+  drawArrow(fulfillRX, fulfillCY, deliverLX, deliverCY, '#107e3e', false);
+  addDot('M '+fulfillRX+','+fulfillCY+' L '+deliverLX+','+deliverCY, '#107e3e', '2s');
+
+  // Deliver → B2B Customer
+  const deliverRX = deliverX + nW;
+  const b2bCY = customerStartY + nH/2;
+  const customerLX = customerX;
+  drawArrow(deliverRX, deliverCY, customerLX, b2bCY, '#107e3e', false);
+  addDot('M '+deliverRX+','+deliverCY+' L '+customerLX+','+b2bCY, '#107e3e', '2s');
+
+  // Deliver → B2C Customer
+  const b2cCY = customerStartY + customerGapY + nH/2;
+  drawArrow(deliverRX, deliverCY, customerLX, b2cCY, '#107e3e', false);
+  addDot('M '+deliverRX+','+deliverCY+' L '+customerLX+','+b2cCY, '#107e3e', '2s');
+
+  // ── CUSTOMER FEEDBACK LOOP ──
+  // Curved path from B2C Customer back to Demand Sensing top
+  const feedbackStartX = customerX + nW/2;
+  const feedbackStartY = customerStartY + customerGapY + nH;
+  const feedbackEndX   = demandX + nW/2;
+  const feedbackEndY   = demandStartY + nH;
+  const feedbackPath   = 'M '+feedbackStartX+','+feedbackStartY+
+    ' C '+feedbackStartX+',560 '+feedbackEndX+',560 '+feedbackEndX+','+feedbackEndY;
+  gArrows.appendChild(mkEl('path', {
+    d: feedbackPath,
+    stroke: '#0891b2', 'stroke-width': '1.5',
+    'stroke-dasharray': '6,3', fill: 'none',
+    'marker-end': 'url(#ct-arrow-teal)'
+  }));
+  // Feedback label
+  const fbLabel = mkEl('text', {
+    x: '640', y: '578',
+    'text-anchor': 'middle', fill: '#0891b2',
+    'font-size': '10', 'font-weight': '700',
+    'font-family': 'sans-serif', 'letter-spacing': '1'
+  });
+  fbLabel.textContent = '◄ CUSTOMER FEEDBACK LOOP';
+  gArrows.appendChild(fbLabel);
+  addDot(feedbackPath, '#0891b2', '4s');
 
   // ── ENABLE LANE: Finance bar ──
   if (fg) {
-    const barX=30, barW=1560, barH=44;
+    const barX=30, barW=1760, barH=44;
     // Background bar
     fg.appendChild(mkEl('rect',{x:barX,y:enableY,width:barW,height:barH,rx:'6',
       fill:'#fff7ed',stroke:'#e76500','stroke-width':'1.5',
