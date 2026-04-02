@@ -18013,6 +18013,7 @@ function renderCTFlowDiagram() {
   const makeX=530,   makeY=138;
   const deliverX=680,deliverStartY=138, deliverGapY=108;
   const enableY=460;
+  const planX=185, planY=138;
 
   // ── NODE DATA ──
   const DEMAND = [
@@ -18101,9 +18102,79 @@ function renderCTFlowDiagram() {
   laneLabel(sourceX,  'SOURCE',         '#e76500');
   laneLabel(makeX,    'MAKE',           '#7c3aed');
   laneLabel(deliverX, 'DELIVER',        '#107e3e');
+  laneLabel(planX, 'PLAN', '#7c3aed');
 
   // ── DRAW DEMAND COLUMN ──
   DEMAND.forEach((n,i) => drawNode(demandX, demandStartY+i*demandGapY, n));
+
+  // ── DRAW PLAN NODE ──
+  const planNode = {
+    label: 'Demand &', sub2: 'Supply Plan',
+    icon: '📋', health: 83, status: 'warning',
+    kpi1: 'Fcst Acc 78%', kpi2: 'Plan Adh 82%'
+  };
+  (function() {
+    var col = statusColor(planNode.status);
+    // Box
+    gNodes.appendChild(mkEl('rect',{x:planX,y:planY,width:nW,height:nH,rx:'8',
+      fill:'#ffffff',stroke:'#7c3aed','stroke-width':'2.5'}));
+    // Icon
+    var ico=mkEl('text',{x:planX+nW/2,y:planY+20,'text-anchor':'middle','font-size':'15'});
+    ico.textContent=planNode.icon; gNodes.appendChild(ico);
+    // Label line 1
+    var lb1=mkEl('text',{x:planX+nW/2,y:planY+36,'text-anchor':'middle',
+      fill:'#1e293b','font-size':'9','font-weight':'700','font-family':'sans-serif'});
+    lb1.textContent=planNode.label; gNodes.appendChild(lb1);
+    // Label line 2
+    var lb2=mkEl('text',{x:planX+nW/2,y:planY+46,'text-anchor':'middle',
+      fill:'#1e293b','font-size':'9','font-weight':'700','font-family':'sans-serif'});
+    lb2.textContent=planNode.sub2; gNodes.appendChild(lb2);
+    // Health %
+    var pct=mkEl('text',{x:planX+nW/2,y:planY+60,'text-anchor':'middle',
+      fill:'#7c3aed','font-size':'14','font-weight':'800','font-family':'sans-serif'});
+    pct.textContent=planNode.health+'%'; gNodes.appendChild(pct);
+    // KPI Badge 1
+    gNodes.appendChild(mkEl('rect',{x:planX+4,y:planY+66,width:nW-8,height:badgeH,rx:'3',
+      fill:'#7c3aed',opacity:'0.12'}));
+    var k1=mkEl('text',{x:planX+nW/2,y:planY+77,'text-anchor':'middle',
+      fill:'#7c3aed','font-size':'8','font-weight':'600','font-family':'sans-serif'});
+    k1.textContent=planNode.kpi1; gNodes.appendChild(k1);
+    // KPI Badge 2
+    gNodes.appendChild(mkEl('rect',{x:planX+4,y:planY+84,width:nW-8,height:badgeH,rx:'3',
+      fill:'#7c3aed',opacity:'0.08'}));
+    var k2=mkEl('text',{x:planX+nW/2,y:planY+95,'text-anchor':'middle',
+      fill:'#64748b','font-size':'8','font-family':'sans-serif'});
+    k2.textContent=planNode.kpi2; gNodes.appendChild(k2);
+  })();
+
+  // ── ARROWS: Demand nodes → PLAN (dashed teal) ──
+  var planLX = planX;
+  var planCY = planY + nH/2;
+  DEMAND.forEach(function(n, i) {
+    var y1 = demandStartY + i * demandGapY + nH/2;
+    var x1 = demandX + nW;
+    var pathD = 'M '+x1+','+y1+' L '+planLX+','+planCY;
+    drawArrow(x1, y1, planLX, planCY, '#0891b2', true, 'url(#ct-arrow-teal)');
+    addDot(pathD, '#0891b2', '2.5s');
+  });
+
+  // ── ARROWS: PLAN → Procurement (solid purple) ──
+  var planRX = planX + nW;
+  var procTopY = sourceStartY + nH/2;
+  var procLX = sourceX;
+  drawArrow(planRX, planCY, procLX, procTopY, '#7c3aed', false);
+  addDot('M '+planRX+','+planCY+' L '+procLX+','+procTopY, '#7c3aed', '2s');
+
+  // ── ARROWS: Suppliers → PLAN (dashed purple feedback) ──
+  var suppCY = sourceStartY + sourceGapY + nH/2;
+  var suppLX = sourceX;
+  drawArrow(suppLX, suppCY, planRX, planCY, '#7c3aed', true);
+  addDot('M '+suppLX+','+suppCY+' L '+planRX+','+planCY, '#7c3aed', '3s');
+
+  // ── ARROW: PLAN → RM & PM (dashed purple signal) ──
+  var rmCY = sourceStartY + 2*sourceGapY + nH/2;
+  drawArrow(planRX, planCY, procLX, rmCY, '#7c3aed', true);
+  addDot('M '+planRX+','+planCY+' L '+procLX+','+rmCY, '#7c3aed', '3s');
 
   // ── DRAW SOURCE COLUMN ──
   SOURCE.forEach((n,i) => drawNode(sourceX, sourceStartY+i*sourceGapY, n));
@@ -18114,16 +18185,8 @@ function renderCTFlowDiagram() {
   // ── DRAW DELIVER COLUMN ──
   DELIVER.forEach((n,i) => drawNode(deliverX, deliverStartY+i*deliverGapY, n));
 
-  // ── DASHED SIGNAL ARROWS: All Demand nodes → Procurement (top of Source) ──
-  const procTopY = sourceStartY + nH / 2;
-  const procLX   = sourceX;
-  DEMAND.forEach((n, i) => {
-    const y1 = demandStartY + i * demandGapY + nH / 2;
-    const x1 = demandX + nW;
-    const pathD = `M ${x1},${y1} L ${procLX},${procTopY}`;
-    drawArrow(x1, y1, procLX, procTopY, '#0891b2', true, 'url(#ct-arrow-teal)');
-    addDot(pathD, '#0891b2', '2s');
-  });
+  // ── NOTE: Demand → PLAN arrows already drawn above ──
+  // (removed old Demand → Procurement direct arrows)
 
   // ── SOLID ARROWS: Source internal ──
   SOURCE.forEach((n,i) => {
