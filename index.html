@@ -8865,6 +8865,9 @@
 <!-- === COMMERCIAL MODULE HTML === -->
 <div class="tab-panel" id="panel-commercial">
 
+    <!-- COMMERCIAL EXCEPTIONS BANNER -->
+    <div id="commercial-exceptions-banner" style="margin-bottom:20px"></div>
+
   <!-- PAGE HEADER -->
   <div style="margin-bottom:20px">
     <h2 style="font-size:22px;font-weight:700;color:#1d2d3e;margin:0 0 4px">Commercial Dashboard</h2>
@@ -15491,6 +15494,7 @@ function switchTab(tab) {
   }
   if(tab==='commercial'){
     if(bcEl) bcEl.textContent='E2E Control Tower  \u203a  Commercial & Innovation';
+    renderCommercialExceptions();
     cmInitChartsIfNeeded();
   }
   if(tab==='marketing'){
@@ -19713,9 +19717,88 @@ function renderCMNodeConnection() {
     </div>`).join('');
 }
 
+function renderCommercialExceptions() {
+  var banner = document.getElementById('commercial-exceptions-banner');
+  if (!banner) return;
+
+  var COMM_SIGNALS = [
+    'DISTRIBUTOR_OTD_BREACH','AGING_STOCK_ALERT','CHANNEL_FILL_RATE_LOW',
+    'DEMAND_SPIKE','CONVERSION_DROP','VIRAL_SPIKE'
+  ];
+
+  var all = (window.OdysseySignalEngine && OdysseySignalEngine.signals) || [];
+  var seen = {};
+  var filtered = all.filter(function(s) {
+    if (COMM_SIGNALS.indexOf(s.name) === -1) return false;
+    if (seen[s.name]) return false;
+    seen[s.name] = true;
+    return true;
+  });
+
+  filtered.sort(function(a, b) {
+    if (a.severity === 'CRITICAL' && b.severity !== 'CRITICAL') return -1;
+    if (b.severity === 'CRITICAL' && a.severity !== 'CRITICAL') return 1;
+    return 0;
+  });
+
+  var top = filtered.slice(0, 3);
+
+  if (top.length === 0) {
+    banner.innerHTML =
+      '<div style="background:#f0fdf4;border:1px solid #107e3e;border-radius:8px;' +
+      'padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:4px">' +
+      '<span style="font-size:16px">✅</span>' +
+      '<span style="font-size:13px;font-weight:600;color:#107e3e">No active commercial exceptions</span>' +
+      '</div>';
+    return;
+  }
+
+  var critCount = filtered.filter(function(s){ return s.severity==='CRITICAL'; }).length;
+  var warnCount = filtered.filter(function(s){ return s.severity==='WARNING'; }).length;
+
+  var html = '<div style="background:#fff7ed;border:1.5px solid #e76500;border-radius:8px;' +
+    'padding:16px;margin-bottom:4px">' +
+    '<div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">' +
+    '<span style="font-size:13px;font-weight:700;color:#1e293b">⚡ COMMERCIAL EXCEPTIONS</span>';
+
+  if (critCount > 0) {
+    html += '<span style="background:#fee2e2;color:#bb0000;padding:2px 10px;border-radius:4px;' +
+      'font-size:11px;font-weight:700">🔴 CRITICAL: ' + critCount + '</span>';
+  }
+  if (warnCount > 0) {
+    html += '<span style="background:#fff7ed;color:#e76500;padding:2px 10px;border-radius:4px;' +
+      'font-size:11px;font-weight:700">⚠️ WARNING: ' + warnCount + '</span>';
+  }
+  html += '</div><div style="display:flex;flex-direction:column;gap:8px">';
+
+  top.forEach(function(s) {
+    var isCrit = s.severity === 'CRITICAL';
+    var bgCol  = isCrit ? '#fee2e2' : '#fff7ed';
+    var bdCol  = isCrit ? '#bb0000' : '#e76500';
+    var txCol  = isCrit ? '#bb0000' : '#e76500';
+    var icon   = isCrit ? '🔴' : '⚠️';
+    var desc   = s.trigger || s.description || s.name.replace(/_/g,' ');
+    var detail = s.currentValue ? ' · ' + s.currentValue : '';
+
+    html += '<div style="background:' + bgCol + ';border-left:3px solid ' + bdCol + ';' +
+      'border-radius:4px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center">' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+      '<span>' + icon + '</span>' +
+      '<span style="font-size:12px;font-weight:600;color:#1e293b">' + desc + detail + '</span>' +
+      '</div>' +
+      '<span style="font-size:11px;color:' + txCol + ';font-weight:600;white-space:nowrap;margin-left:12px">' +
+      s.severity + '</span>' +
+      '</div>';
+  });
+
+  html += '</div></div>';
+  banner.innerHTML = html;
+}
+
 /* ── CM: CHART INITIALIZATION ── */
 let cmChartsBuilt=false;
 function cmInitChartsIfNeeded() {
+  renderCommercialExceptions();
   renderCMStrategic();
   renderCMChannelMatrix();
   renderCMDistributor();
@@ -21875,6 +21958,42 @@ function exportBoardPack() {
         trigger:      '[FINANCE] AR overdue >60 days: IDR 1.4B — PT Papua + 2 distributors · collection action required',
         currentValue: 'IDR 1.4B overdue',
         severity:     'WARNING'
+      },
+      DISTRIBUTOR_OTD_BREACH: {
+        product:      'Distributor Network',
+        metric:       'Distributor OTD',
+        value:        88,
+        unit:         '%',
+        threshold:    95,
+        operator:     '<',
+        description:  'Distributor OTD 88% — below 95% SLA in 2 regions',
+        trigger:      'Distributor OTD below SLA — Surabaya and Medan regions affected · 2 distributors',
+        currentValue: '88% OTD',
+        severity:     'WARNING'
+      },
+      AGING_STOCK_ALERT: {
+        product:      'Consignment Stock',
+        metric:       'Aging Stock at Risk',
+        value:        3,
+        unit:         'SKUs',
+        threshold:    0,
+        operator:     '>',
+        description:  '3 consignment SKUs at expiry risk — action required',
+        trigger:      'Consignment aging stock alert — 3 SKUs approaching expiry at customer locations',
+        currentValue: '3 SKUs at risk',
+        severity:     'WARNING'
+      },
+      CHANNEL_FILL_RATE_LOW: {
+        product:      'Channel Performance',
+        metric:       'Channel Fill Rate',
+        value:        91,
+        unit:         '%',
+        threshold:    95,
+        operator:     '<',
+        description:  'Channel fill rate 91% — below 95% target',
+        trigger:      'Channel fill rate 91% — below 95% target · Modern trade channel affected',
+        currentValue: '91% fill rate',
+        severity:     'WARNING'
       }
     },
 
@@ -23019,6 +23138,9 @@ function exportBoardPack() {
     OdysseySignalEngine.fire('FX_VOLATILITY_ALERT');
     OdysseySignalEngine.fire('RM_INFLATION_RISK');
     OdysseySignalEngine.fire('AR_OVERDUE_ALERT');
+    OdysseySignalEngine.fire('DISTRIBUTOR_OTD_BREACH');
+    OdysseySignalEngine.fire('AGING_STOCK_ALERT');
+    OdysseySignalEngine.fire('CHANNEL_FILL_RATE_LOW');
   }
 
   if (document.readyState === 'loading') {
