@@ -14725,10 +14725,21 @@
 
   <!-- TAB 3: S&OE EXCEPTION BOARD -->
   <div id="plan-panel-soe" style="display:none">
-    <div style="background:#fff3cd;border:1px solid #e76500;border-radius:10px;padding:16px;margin-bottom:20px;display:flex;gap:24px;align-items:center">
+    <div style="background:#fff3cd;border:1px solid #e76500;border-radius:10px;padding:16px;
+      margin-bottom:20px;display:flex;gap:24px;align-items:center;flex-wrap:wrap">
       <span style="font-size:13px;font-weight:700;color:#1e293b">🔴 Critical: 2</span>
       <span style="font-size:13px;font-weight:700;color:#e76500">⚠️ Warning: 3</span>
       <span style="font-size:13px;color:#64748b">Horizon: 0–4 weeks · Last updated: Sep-25</span>
+      <span style="margin-left:auto">
+        <button onclick="switchTab('war-room')"
+          style="background:#7c3aed;color:#fff;border:none;border-radius:6px;
+          padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer">
+          🎯 Open War Room
+        </button>
+      </span>
+      <div style="width:100%;margin-top:8px;font-size:10px;color:#94a3b8;font-style:italic">
+        📋 Placeholder data · Target source: SAP IBP S&amp;OP · Manual input until S&amp;OP phase live
+      </div>
     </div>
     <div style="background:#fff;border-radius:10px;padding:20px">
       <table style="width:100%;border-collapse:collapse;font-size:13px">
@@ -14739,6 +14750,7 @@
             <th style="padding:10px;text-align:left;color:#64748b;font-weight:600">Owner</th>
             <th style="padding:10px;text-align:left;color:#64748b;font-weight:600">Impact</th>
             <th style="padding:10px;text-align:left;color:#64748b;font-weight:600">SLA</th>
+            <th style="padding:10px;text-align:center;color:#64748b;font-weight:600">Age</th>
             <th style="padding:10px;text-align:center;color:#64748b;font-weight:600">Status</th>
           </tr>
         </thead>
@@ -14749,6 +14761,7 @@
             <td style="padding:10px;color:#64748b">Procurement</td>
             <td style="padding:10px;color:#bb0000;font-weight:600">847 orders</td>
             <td style="padding:10px;color:#bb0000;font-weight:600">2d remaining</td>
+            <td style="padding:10px;text-align:center;color:#bb0000;font-weight:600;font-size:12px">3d</td>
             <td style="padding:10px;text-align:center"><span style="background:#fee2e2;color:#bb0000;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">CRITICAL</span></td>
           </tr>
           <tr style="border-top:1px solid #f1f5f9">
@@ -14757,6 +14770,7 @@
             <td style="padding:10px;color:#64748b">Procurement</td>
             <td style="padding:10px;color:#bb0000;font-weight:600">12 SKUs</td>
             <td style="padding:10px;color:#bb0000;font-weight:600">1d remaining</td>
+            <td style="padding:10px;text-align:center;color:#bb0000;font-weight:600;font-size:12px">4d</td>
             <td style="padding:10px;text-align:center"><span style="background:#fee2e2;color:#bb0000;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">CRITICAL</span></td>
           </tr>
           <tr style="border-top:1px solid #f1f5f9">
@@ -14765,6 +14779,7 @@
             <td style="padding:10px;color:#64748b">Demand Planning</td>
             <td style="padding:10px;color:#e76500;font-weight:600">IDR 2.1B</td>
             <td style="padding:10px;color:#e76500;font-weight:600">3d remaining</td>
+            <td style="padding:10px;text-align:center;color:#e76500;font-weight:600;font-size:12px">1d</td>
             <td style="padding:10px;text-align:center"><span style="background:#fff7ed;color:#e76500;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">WARNING</span></td>
           </tr>
           <tr style="border-top:1px solid #f1f5f9">
@@ -14773,6 +14788,7 @@
             <td style="padding:10px;color:#64748b">Manufacturing</td>
             <td style="padding:10px;color:#e76500;font-weight:600">4 lines</td>
             <td style="padding:10px;color:#e76500;font-weight:600">5d remaining</td>
+            <td style="padding:10px;text-align:center;color:#e76500;font-weight:600;font-size:12px">2d</td>
             <td style="padding:10px;text-align:center"><span style="background:#fff7ed;color:#e76500;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">WARNING</span></td>
           </tr>
           <tr style="border-top:1px solid #f1f5f9">
@@ -14781,6 +14797,7 @@
             <td style="padding:10px;color:#64748b">Logistics</td>
             <td style="padding:10px;color:#e76500;font-weight:600">234 orders</td>
             <td style="padding:10px;color:#e76500;font-weight:600">4d remaining</td>
+            <td style="padding:10px;text-align:center;color:#e76500;font-weight:600;font-size:12px">1d</td>
             <td style="padding:10px;text-align:center"><span style="background:#fff7ed;color:#e76500;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">WARNING</span></td>
           </tr>
         </tbody>
