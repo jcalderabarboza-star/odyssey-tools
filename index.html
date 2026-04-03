@@ -286,6 +286,16 @@
     }
     .kpi-prefix { font-size: 16px; font-weight: 700; color: #6b7280; align-self: center; }
     .kpi-unit   { font-size: 14px; font-weight: 600; color: #6b7280; }
+    .kpi-freshness {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 10px; color: #9ca3af; margin-bottom: 8px;
+    }
+    .kpi-freshness::before {
+      content: ''; display: inline-block;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #107e3e; flex-shrink: 0;
+    }
+    .kpi-freshness--amber::before { background: #e76500; }
     .trend-arrow svg { width: 22px; height: 22px; }
 
     .kpi-target { font-size: 12px; color: #6b7280; margin-bottom: 10px; }
@@ -2067,6 +2077,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>≥ 90%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -2092,6 +2103,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>≥ 40%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -2117,6 +2129,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>≥ 85%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -2142,6 +2155,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>≥ 75%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -3014,6 +3028,7 @@
             <span class="kpi-unit">days</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>≤ 180 days</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -3038,6 +3053,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>≥ 80%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -3062,6 +3078,7 @@
             <span class="kpi-unit">projects</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>≥ 10 active</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -3086,6 +3103,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>≥ 65%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -4889,6 +4907,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&ge; 93.0%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -4914,6 +4933,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&ge; 91.0%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -4939,6 +4959,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&ge; 83.0%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -4964,6 +4985,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&le; 5.0%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -5716,6 +5738,7 @@
             <span class="kpi-unit">days</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>≥ 21 days</strong></div>
       </div>
 
@@ -5734,6 +5757,7 @@
             <span class="kpi-unit">days</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>≥ 21 days</strong></div>
       </div>
 
@@ -5752,6 +5776,7 @@
             <span class="kpi-unit">materials</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>0 materials at risk</strong></div>
       </div>
 
@@ -5769,6 +5794,7 @@
             <span class="kpi-current" style="color:#0070f2;font-size:22px">IDR 8.2B</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Pipeline replenishment stock en route</div>
       </div>
 
@@ -6511,6 +6537,7 @@
             <span class="kpi-current" style="font-size:22px">18,400</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Benchmark: <strong>IDR 18,000</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -6536,6 +6563,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&ge; 98%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -6561,6 +6589,7 @@
             <span class="kpi-current" style="font-size:22px">2,150</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&le; IDR 2,200</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -6586,6 +6615,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&le; 0%</strong> variance</div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -7615,6 +7645,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">vs. prior 7d: <strong>+41%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -7640,6 +7671,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>&ge; 75%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -7665,6 +7697,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>&ge; 35%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -7690,6 +7723,7 @@
             <span class="kpi-unit">SKUs</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Threshold: <strong>&ge; 5 SKUs</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -7714,6 +7748,7 @@
             <span class="kpi-current" style="color:#107e3e">0.87</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>&ge; 0.70</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -10608,6 +10643,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&ge; 5.0%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -10633,6 +10669,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&ge; 4.0%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -10658,6 +10695,7 @@
             <span class="kpi-unit">/100</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&ge; 70 / 100</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -10684,6 +10722,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Threshold: <strong>&le; +30%</strong> supply buffer</div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -11245,6 +11284,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>&ge; 99.0%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -11270,6 +11310,7 @@
             <span class="kpi-unit">min</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>&le; 3.0 min</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -11295,6 +11336,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>&le; 0.5%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -11320,6 +11362,7 @@
             <span class="kpi-unit">open</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>0 P1 incidents</strong></div>
         <div style="font-size:11px;color:#9ca3af;margin-top:6px">1 × P1 &nbsp;·&nbsp; 1 × P2 &nbsp;·&nbsp; 0 × P3</div>
       </div>
@@ -11668,6 +11711,7 @@
             <span class="kpi-unit">min</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&le; 15 min</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -11693,6 +11737,7 @@
             <span class="kpi-unit">hrs</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&le; 6.0 hrs</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -11718,6 +11763,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&le; 4.0%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -11743,6 +11789,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&le; 5.0%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -11779,6 +11826,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness kpi-freshness--amber">Q3-25</div>
         <div class="kpi-target">Target: <strong>≥ 85%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -11803,6 +11851,7 @@
             <span class="kpi-current">+42</span>
           </div>
         </div>
+        <div class="kpi-freshness kpi-freshness--amber">Q3-25</div>
         <div class="kpi-target">Target: <strong>≥ +50</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -11828,6 +11877,7 @@
             <span class="kpi-unit">/7</span>
           </div>
         </div>
+        <div class="kpi-freshness kpi-freshness--amber">Q3-25</div>
         <div class="kpi-target">Target: <strong>≥ 5.5 / 7</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -11853,6 +11903,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>≥ 80%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -11889,6 +11940,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>≤ 85%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -11914,6 +11966,7 @@
             <span class="kpi-unit">cases</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>≤ 30 cases</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -11939,6 +11992,7 @@
             <span class="kpi-unit">cases</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>≤ 80 cases</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -11964,6 +12018,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">W1 Mar-26</div>
         <div class="kpi-target">Target: <strong>≤ 8%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -11999,6 +12054,7 @@
             <span class="kpi-current">IDR 2.4B</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>≥ IDR 2.0B / month</strong></div>
       </div>
 
@@ -12017,6 +12073,7 @@
             <span class="kpi-current">IDR 47K</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>≤ IDR 55K</strong></div>
       </div>
 
@@ -12036,6 +12093,7 @@
             <span class="kpi-unit">cases</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>≤ 15 cases</strong></div>
       </div>
 
@@ -12055,6 +12113,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>≤ 2.5%</strong></div>
       </div>
 
@@ -12560,6 +12619,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&le; 5.0%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -12585,6 +12645,7 @@
             <span class="kpi-unit">days</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&le; 3.0 days</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -12610,6 +12671,7 @@
             <span class="kpi-unit">%</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&ge; 70%</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
@@ -12635,6 +12697,7 @@
             <span class="kpi-unit">days</span>
           </div>
         </div>
+        <div class="kpi-freshness">Sep-25</div>
         <div class="kpi-target">Target: <strong>&le; 3.0 days</strong></div>
         <div class="bc-wrap">
           <div class="bc-row">
