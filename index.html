@@ -23840,7 +23840,8 @@ function exportBoardPack() {
     'dist-warehouse':    { navId: 'nav-kpi',  signals: ['VIRAL_SPIKE', 'STOCK_RISK'] },
     'procurement':       { navId: 'nav-proc', signals: ['VIRAL_SPIKE'] },
     'manufacturing':     { navId: 'nav-mfg',  signals: ['STOCK_RISK'] },
-    'executive-summary': { navId: 'nav-exec', signals: null }   // null = all CRITICAL
+    'executive-summary': { navId: 'nav-exec', signals: null },   // null = all CRITICAL
+    'transport-3pl':     { navId: 'nav-transport-3pl', signals: ['SUMATRA_ROUTE_ALERT', 'MIDDLE_MILE_DELAY', 'CARRIER_SLA_BREACH', 'PERFECT_ORDER_BREACH', 'NETWORK_SERVICE_BREACH', 'WAREHOUSE_UTIL_HIGH', 'DISTRIBUTOR_OTD_BREACH'] }
   };
 
   /** Per-module unseen signal counts */
