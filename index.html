@@ -23847,12 +23847,12 @@ function exportBoardPack() {
     'executive-summary': { navId: 'nav-exec', signals: null },   // null = all CRITICAL
     'transport-3pl':     { navId: 'nav-transport-3pl', signals: ['SUMATRA_ROUTE_ALERT', 'MIDDLE_MILE_DELAY', 'CARRIER_SLA_BREACH', 'PERFECT_ORDER_BREACH', 'NETWORK_SERVICE_BREACH', 'WAREHOUSE_UTIL_HIGH', 'DISTRIBUTOR_OTD_BREACH'] },
     'finance':           { navId: 'nav-finance', signals: ['FX_VOLATILITY_ALERT', 'RM_INFLATION_RISK', 'AR_OVERDUE_ALERT', 'EMERGENCY_PO_RAISED', 'PERFECT_ORDER_BREACH', 'RM_COST_SPIKE'] },
-    'rmpm-inventory':    { navId: 'nav-rmpm', signals: ['PROC_COVERAGE_LOW', 'RM_COST_SPIKE', 'EMERGENCY_PO_RAISED'] },
+    'rmpm-inventory':    { navId: 'nav-rmpm-inventory', signals: ['PROC_COVERAGE_LOW', 'RM_COST_SPIKE', 'EMERGENCY_PO_RAISED'] },
     'commercial':        { navId: 'nav-commercial', signals: ['DISTRIBUTOR_OTD_BREACH','AGING_STOCK_ALERT','CHANNEL_FILL_RATE_LOW','DEMAND_SPIKE','CONVERSION_DROP','VIRAL_SPIKE'] },
-    'beauty-advisors':   { navId: 'nav-beauty', signals: ['BA_OOS_ESCALATION','BA_ATTENDANCE_LOW','BA_CONVERSION_DROP','VIRAL_SPIKE','DEMAND_SPIKE','STOCK_RISK'] },
-    'ds-plan':           { navId: 'nav-ds-plan', signals: ['DEMAND_SPIKE','STOCK_RISK','VIRAL_SPIKE','PROC_COVERAGE_LOW'] },
+    'beauty-advisors':   { navId: 'nav-beauty-advisors', signals: ['BA_OOS_ESCALATION','BA_ATTENDANCE_LOW','BA_CONVERSION_DROP','VIRAL_SPIKE','DEMAND_SPIKE','STOCK_RISK'] },
+    'ds-plan':           { navId: 'nav-demand-supply-plan', signals: ['DEMAND_SPIKE','STOCK_RISK','VIRAL_SPIKE','PROC_COVERAGE_LOW'] },
     'rd':                { navId: 'nav-rd', signals: ['BPOM_SUBMISSION_AT_RISK','NEW_LAUNCH_STOCK_RISK','STOCK_RISK','PROC_COVERAGE_LOW','FORMULA_HOLD_RISK','VIRAL_SPIKE'] },
-    'it-systems':        { navId: 'nav-it', signals: ['SYSTEM_DEGRADED','DATA_LATENCY_HIGH','OPEN_INCIDENTS_HIGH','SYSTEM_LATENCY_ALERT'] }
+    'it-systems':        { navId: 'nav-it-systems', signals: ['SYSTEM_DEGRADED','DATA_LATENCY_HIGH','OPEN_INCIDENTS_HIGH','SYSTEM_LATENCY_ALERT'] }
   };
 
   /** Per-module unseen signal counts */
@@ -25089,8 +25089,10 @@ function exportBoardPack() {
     if (rmpmSignals.indexOf(signal.name) === -1) return;
     var banner = document.getElementById('rmpm-signal-banner');
     if (!banner) return;
+    if (document.getElementById('rmpm-card-' + signal.name)) return;
     banner.style.display = 'block';
     var card = document.createElement('div');
+    card.id = 'rmpm-card-' + signal.name;
     card.className = 'ds-flag';
     card.style.cssText = 'border-left-color:#bb0000;background:#fff0f0;padding:12px 16px;margin-bottom:8px;border-radius:4px;';
     card.innerHTML =
@@ -25144,8 +25146,10 @@ function exportBoardPack() {
     if (dspSignals.indexOf(signal.name) === -1) return;
     var banner = document.getElementById('ds-plan-signal-banner');
     if (!banner) return;
+    if (document.getElementById('dsplan-card-' + signal.name)) return;
     banner.style.display = 'block';
     var card = document.createElement('div');
+    card.id = 'dsplan-card-' + signal.name;
     card.className = 'ds-flag';
     card.style.cssText = 'border-left-color:#e76500;background:#fff8f0;padding:12px 16px;margin-bottom:8px;border-radius:4px;';
     card.innerHTML =
