@@ -17597,8 +17597,9 @@ function renderTransportExceptions() {
   if (!banner) return;
 
   var TRANSPORT_SIGNALS = [
-    'SUMATRA_ROUTE_ALERT','MIDDLE_MILE_DELAY','CARRIER_SLA_BREACH',
-    'PERFECT_ORDER_BREACH','NETWORK_SERVICE_BREACH'
+    'SUMATRA_ROUTE_ALERT', 'MIDDLE_MILE_DELAY', 'CARRIER_SLA_BREACH',
+    'PERFECT_ORDER_BREACH', 'NETWORK_SERVICE_BREACH',
+    'WAREHOUSE_UTIL_HIGH', 'DISTRIBUTOR_OTD_BREACH'
   ];
 
   var all = (window.OdysseySignalEngine && OdysseySignalEngine.signals) || [];
@@ -23944,6 +23945,24 @@ function exportBoardPack() {
     });
     OdysseySignalEngine.subscribe('executive-summary', function(signal) {
       showSidebarBadge('executive-summary', signal);
+    });
+    OdysseySignalEngine.subscribe('transport-3pl', function(signal) {
+      var transportSignals = [
+        'SUMATRA_ROUTE_ALERT', 'MIDDLE_MILE_DELAY', 'CARRIER_SLA_BREACH',
+        'PERFECT_ORDER_BREACH', 'NETWORK_SERVICE_BREACH',
+        'WAREHOUSE_UTIL_HIGH', 'DISTRIBUTOR_OTD_BREACH'
+      ];
+      if (transportSignals.indexOf(signal.name) === -1) return;
+      renderTransportExceptions();
+    });
+    OdysseySignalEngine.subscribe('transport-badge', function(signal) {
+      var transportSignals = [
+        'SUMATRA_ROUTE_ALERT', 'MIDDLE_MILE_DELAY', 'CARRIER_SLA_BREACH',
+        'PERFECT_ORDER_BREACH', 'NETWORK_SERVICE_BREACH',
+        'WAREHOUSE_UTIL_HIGH', 'DISTRIBUTOR_OTD_BREACH'
+      ];
+      if (transportSignals.indexOf(signal.name) === -1) return;
+      showSidebarBadge('nav-transport', signal);
     });
   }
 
