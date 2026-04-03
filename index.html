@@ -23992,6 +23992,44 @@ function exportBoardPack() {
       if (financeSignals.indexOf(signal.name) === -1) return;
       showSidebarBadge('finance', signal);
     });
+    OdysseySignalEngine.subscribe('commercial-badge', function(signal) {
+      var commSignals = [
+        'DISTRIBUTOR_OTD_BREACH','AGING_STOCK_ALERT','CHANNEL_FILL_RATE_LOW',
+        'DEMAND_SPIKE','CONVERSION_DROP','VIRAL_SPIKE'
+      ];
+      if (commSignals.indexOf(signal.name) === -1) return;
+      showSidebarBadge('commercial', signal);
+    });
+    OdysseySignalEngine.subscribe('beauty-badge', function(signal) {
+      var baSignals = [
+        'BA_OOS_ESCALATION','BA_ATTENDANCE_LOW','BA_CONVERSION_DROP',
+        'VIRAL_SPIKE','DEMAND_SPIKE','STOCK_RISK'
+      ];
+      if (baSignals.indexOf(signal.name) === -1) return;
+      showSidebarBadge('beauty-advisors', signal);
+    });
+    OdysseySignalEngine.subscribe('ds-plan-badge', function(signal) {
+      var dspSignals = ['DEMAND_SPIKE','STOCK_RISK','VIRAL_SPIKE','PROC_COVERAGE_LOW'];
+      if (dspSignals.indexOf(signal.name) === -1) return;
+      showSidebarBadge('ds-plan', signal);
+    });
+    OdysseySignalEngine.subscribe('rd-badge', function(signal) {
+      var rdSignals = [
+        'BPOM_SUBMISSION_AT_RISK','NEW_LAUNCH_STOCK_RISK',
+        'STOCK_RISK','PROC_COVERAGE_LOW',
+        'FORMULA_HOLD_RISK','VIRAL_SPIKE'
+      ];
+      if (rdSignals.indexOf(signal.name) === -1) return;
+      showSidebarBadge('rd', signal);
+    });
+    OdysseySignalEngine.subscribe('it-badge', function(signal) {
+      var itSignals = [
+        'SYSTEM_DEGRADED','DATA_LATENCY_HIGH','OPEN_INCIDENTS_HIGH',
+        'SYSTEM_LATENCY_ALERT'
+      ];
+      if (itSignals.indexOf(signal.name) === -1) return;
+      showSidebarBadge('it-systems', signal);
+    });
   }
 
   function init() {
@@ -25115,15 +25153,6 @@ function exportBoardPack() {
     if (commSignals.indexOf(signal.name) === -1) return;
     renderCommercialExceptions();
   });
-  OdysseySignalEngine.subscribe('commercial-badge', function(signal) {
-    var commSignals = [
-      'DISTRIBUTOR_OTD_BREACH','AGING_STOCK_ALERT','CHANNEL_FILL_RATE_LOW',
-      'DEMAND_SPIKE','CONVERSION_DROP','VIRAL_SPIKE'
-    ];
-    if (commSignals.indexOf(signal.name) === -1) return;
-    showSidebarBadge('commercial', signal);
-  });
-
   OdysseySignalEngine.subscribe('beauty-advisors', function(signal) {
     var baSignals = [
       'BA_OOS_ESCALATION','BA_ATTENDANCE_LOW','BA_CONVERSION_DROP',
@@ -25131,14 +25160,6 @@ function exportBoardPack() {
     ];
     if (baSignals.indexOf(signal.name) === -1) return;
     renderBAExceptions();
-  });
-  OdysseySignalEngine.subscribe('beauty-badge', function(signal) {
-    var baSignals = [
-      'BA_OOS_ESCALATION','BA_ATTENDANCE_LOW','BA_CONVERSION_DROP',
-      'VIRAL_SPIKE','DEMAND_SPIKE','STOCK_RISK'
-    ];
-    if (baSignals.indexOf(signal.name) === -1) return;
-    showSidebarBadge('beauty-advisors', signal);
   });
 
   OdysseySignalEngine.subscribe('ds-plan', function(signal) {
@@ -25158,11 +25179,6 @@ function exportBoardPack() {
       '<div style="font-size:11px;color:#888;margin-top:4px;">Severity: ' + (signal.severity || 'WARNING') + ' · Current: ' + (signal.currentValue || '—') + '</div>';
     banner.appendChild(card);
   });
-  OdysseySignalEngine.subscribe('ds-plan-badge', function(signal) {
-    var dspSignals = ['DEMAND_SPIKE','STOCK_RISK','VIRAL_SPIKE','PROC_COVERAGE_LOW'];
-    if (dspSignals.indexOf(signal.name) === -1) return;
-    showSidebarBadge('ds-plan', signal);
-  });
 
   OdysseySignalEngine.subscribe('rd', function(signal) {
     var rdSignals = [
@@ -25173,15 +25189,6 @@ function exportBoardPack() {
     if (rdSignals.indexOf(signal.name) === -1) return;
     renderRDExceptions();
   });
-  OdysseySignalEngine.subscribe('rd-badge', function(signal) {
-    var rdSignals = [
-      'BPOM_SUBMISSION_AT_RISK','NEW_LAUNCH_STOCK_RISK',
-      'STOCK_RISK','PROC_COVERAGE_LOW',
-      'FORMULA_HOLD_RISK','VIRAL_SPIKE'
-    ];
-    if (rdSignals.indexOf(signal.name) === -1) return;
-    showSidebarBadge('rd', signal);
-  });
 
   OdysseySignalEngine.subscribe('it-systems', function(signal) {
     var itSignals = [
@@ -25190,14 +25197,6 @@ function exportBoardPack() {
     ];
     if (itSignals.indexOf(signal.name) === -1) return;
     renderITExceptions();
-  });
-  OdysseySignalEngine.subscribe('it-badge', function(signal) {
-    var itSignals = [
-      'SYSTEM_DEGRADED','DATA_LATENCY_HIGH','OPEN_INCIDENTS_HIGH',
-      'SYSTEM_LATENCY_ALERT'
-    ];
-    if (itSignals.indexOf(signal.name) === -1) return;
-    showSidebarBadge('it-systems', signal);
   });
 
   /* ── 3. Manufacturing: Subscribe to RM/PM OOS alerts ─────── */
