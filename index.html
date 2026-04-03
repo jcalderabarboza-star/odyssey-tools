@@ -14838,6 +14838,7 @@
 
 <!-- === DEMAND & SUPPLY PLAN PANEL === -->
 <div class="tab-panel" id="panel-demand-supply-plan">
+<div id="ds-plan-signal-banner" style="display:none; margin-bottom:16px;"></div>
 <div class="plan-module" style="padding:24px;background:#f8fafc;min-height:600px">
 
   <!-- MODULE HEADER -->
@@ -23844,7 +23845,10 @@ function exportBoardPack() {
     'executive-summary': { navId: 'nav-exec', signals: null },   // null = all CRITICAL
     'transport-3pl':     { navId: 'nav-transport-3pl', signals: ['SUMATRA_ROUTE_ALERT', 'MIDDLE_MILE_DELAY', 'CARRIER_SLA_BREACH', 'PERFECT_ORDER_BREACH', 'NETWORK_SERVICE_BREACH', 'WAREHOUSE_UTIL_HIGH', 'DISTRIBUTOR_OTD_BREACH'] },
     'finance':           { navId: 'nav-finance', signals: ['FX_VOLATILITY_ALERT', 'RM_INFLATION_RISK', 'AR_OVERDUE_ALERT', 'EMERGENCY_PO_RAISED', 'PERFECT_ORDER_BREACH', 'RM_COST_SPIKE'] },
-    'rmpm-inventory':    { navId: 'nav-rmpm', signals: ['PROC_COVERAGE_LOW', 'RM_COST_SPIKE', 'EMERGENCY_PO_RAISED'] }
+    'rmpm-inventory':    { navId: 'nav-rmpm', signals: ['PROC_COVERAGE_LOW', 'RM_COST_SPIKE', 'EMERGENCY_PO_RAISED'] },
+    'commercial':        { navId: 'nav-commercial', signals: ['DISTRIBUTOR_OTD_BREACH','AGING_STOCK_ALERT','CHANNEL_FILL_RATE_LOW','DEMAND_SPIKE','CONVERSION_DROP','VIRAL_SPIKE'] },
+    'beauty-advisors':   { navId: 'nav-beauty', signals: ['BA_OOS_ESCALATION','BA_ATTENDANCE_LOW','BA_CONVERSION_DROP','VIRAL_SPIKE','DEMAND_SPIKE','STOCK_RISK'] },
+    'ds-plan':           { navId: 'nav-ds-plan', signals: ['DEMAND_SPIKE','STOCK_RISK','VIRAL_SPIKE','PROC_COVERAGE_LOW'] }
   };
 
   /** Per-module unseen signal counts */
@@ -25095,6 +25099,61 @@ function exportBoardPack() {
     var rmpmSignals = ['PROC_COVERAGE_LOW', 'RM_COST_SPIKE', 'EMERGENCY_PO_RAISED'];
     if (rmpmSignals.indexOf(signal.name) === -1) return;
     showSidebarBadge('rmpm-inventory', signal);
+  });
+
+  OdysseySignalEngine.subscribe('commercial', function(signal) {
+    var commSignals = [
+      'DISTRIBUTOR_OTD_BREACH','AGING_STOCK_ALERT','CHANNEL_FILL_RATE_LOW',
+      'DEMAND_SPIKE','CONVERSION_DROP','VIRAL_SPIKE'
+    ];
+    if (commSignals.indexOf(signal.name) === -1) return;
+    renderCommercialExceptions();
+  });
+  OdysseySignalEngine.subscribe('commercial-badge', function(signal) {
+    var commSignals = [
+      'DISTRIBUTOR_OTD_BREACH','AGING_STOCK_ALERT','CHANNEL_FILL_RATE_LOW',
+      'DEMAND_SPIKE','CONVERSION_DROP','VIRAL_SPIKE'
+    ];
+    if (commSignals.indexOf(signal.name) === -1) return;
+    showSidebarBadge('commercial', signal);
+  });
+
+  OdysseySignalEngine.subscribe('beauty-advisors', function(signal) {
+    var baSignals = [
+      'BA_OOS_ESCALATION','BA_ATTENDANCE_LOW','BA_CONVERSION_DROP',
+      'VIRAL_SPIKE','DEMAND_SPIKE','STOCK_RISK'
+    ];
+    if (baSignals.indexOf(signal.name) === -1) return;
+    renderBAExceptions();
+  });
+  OdysseySignalEngine.subscribe('beauty-badge', function(signal) {
+    var baSignals = [
+      'BA_OOS_ESCALATION','BA_ATTENDANCE_LOW','BA_CONVERSION_DROP',
+      'VIRAL_SPIKE','DEMAND_SPIKE','STOCK_RISK'
+    ];
+    if (baSignals.indexOf(signal.name) === -1) return;
+    showSidebarBadge('beauty-advisors', signal);
+  });
+
+  OdysseySignalEngine.subscribe('ds-plan', function(signal) {
+    var dspSignals = ['DEMAND_SPIKE','STOCK_RISK','VIRAL_SPIKE','PROC_COVERAGE_LOW'];
+    if (dspSignals.indexOf(signal.name) === -1) return;
+    var banner = document.getElementById('ds-plan-signal-banner');
+    if (!banner) return;
+    banner.style.display = 'block';
+    var card = document.createElement('div');
+    card.className = 'ds-flag';
+    card.style.cssText = 'border-left-color:#e76500;background:#fff8f0;padding:12px 16px;margin-bottom:8px;border-radius:4px;';
+    card.innerHTML =
+      '<div style="font-weight:600;color:#e76500;font-size:13px;">⚠ ' + signal.name.replace(/_/g,' ') + '</div>' +
+      '<div style="font-size:12px;color:#555;margin-top:4px;">' + (signal.trigger || signal.description || '') + '</div>' +
+      '<div style="font-size:11px;color:#888;margin-top:4px;">Severity: ' + (signal.severity || 'WARNING') + ' · Current: ' + (signal.currentValue || '—') + '</div>';
+    banner.appendChild(card);
+  });
+  OdysseySignalEngine.subscribe('ds-plan-badge', function(signal) {
+    var dspSignals = ['DEMAND_SPIKE','STOCK_RISK','VIRAL_SPIKE','PROC_COVERAGE_LOW'];
+    if (dspSignals.indexOf(signal.name) === -1) return;
+    showSidebarBadge('ds-plan', signal);
   });
 
   /* ── 3. Manufacturing: Subscribe to RM/PM OOS alerts ─────── */
