@@ -23418,6 +23418,42 @@ function exportBoardPack() {
         trigger:      '2 open IT incidents — 1 P1 affecting WMS sync · resolution in progress',
         currentValue: '2 open incidents',
         severity:     'WARNING'
+      },
+      RM_COST_SPIKE: {
+        product:      'Niacinamide / Palm Oil',
+        metric:       'RM Cost Index',
+        value:        18,
+        unit:         '%',
+        threshold:    10,
+        operator:     '>',
+        description:  'RM cost index +18% above budget — threshold > 10%',
+        trigger:      'RM cost spike +18% above budget — Niacinamide and Palm Oil · margin pressure on Wardah line',
+        currentValue: '+18% vs budget',
+        severity:     'WARNING'
+      },
+      FORMULA_HOLD_RISK: {
+        product:      'Emina Tone-Up Essence',
+        metric:       'BPOM Approval Status',
+        value:        47,
+        unit:         'days delayed',
+        threshold:    30,
+        operator:     '>',
+        description:  'BPOM approval delayed 47 days — threshold > 30 days',
+        trigger:      'BPOM approval delay 47 days — Emina Tone-Up Essence blocked · launch plan at risk',
+        currentValue: '47 days delayed',
+        severity:     'WARNING'
+      },
+      SYSTEM_LATENCY_ALERT: {
+        product:      'SAP S/4HANA — EWM Sync',
+        metric:       'System Sync Lag',
+        value:        8.4,
+        unit:         'minutes',
+        threshold:    3,
+        operator:     '>',
+        description:  'SAP/EWM sync lag 8.4 min — threshold > 3 min',
+        trigger:      'SAP/EWM sync lag 8.4 min during signal burst — WMS order confirmation delayed',
+        currentValue: '8.4 min lag',
+        severity:     'WARNING'
       }
     },
 
