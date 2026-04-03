@@ -23974,7 +23974,7 @@ function exportBoardPack() {
         'WAREHOUSE_UTIL_HIGH', 'DISTRIBUTOR_OTD_BREACH'
       ];
       if (transportSignals.indexOf(signal.name) === -1) return;
-      showSidebarBadge('nav-transport', signal);
+      showSidebarBadge('transport-3pl', signal);
     });
     OdysseySignalEngine.subscribe('finance', function(signal) {
       var financeSignals = [
@@ -23990,7 +23990,7 @@ function exportBoardPack() {
         'EMERGENCY_PO_RAISED', 'PERFECT_ORDER_BREACH', 'RM_COST_SPIKE'
       ];
       if (financeSignals.indexOf(signal.name) === -1) return;
-      showSidebarBadge('nav-finance', signal);
+      showSidebarBadge('finance', signal);
     });
   }
 
@@ -27066,7 +27066,20 @@ function renderDSExceptions() {
     PRODUCTION_DELAY_RISK:       ['nav-kpi', 'nav-mfg'],
     RETURN_RATE_SPIKE:           ['nav-customer-service'],
     COMPLAINT_SURGE:             ['nav-marketing'],
-    NEGATIVE_SENTIMENT_FEEDBACK: ['nav-demand-sensing']
+    NEGATIVE_SENTIMENT_FEEDBACK: ['nav-demand-sensing'],
+    MIDDLE_MILE_DELAY:           ['nav-transport-3pl'],
+    CARRIER_SLA_BREACH:          ['nav-transport-3pl'],
+    SUMATRA_ROUTE_ALERT:         ['nav-transport-3pl'],
+    RM_COST_SPIKE:               ['nav-finance', 'nav-rmpm-inventory'],
+    FX_VOLATILITY_ALERT:         ['nav-finance'],
+    PROC_COVERAGE_LOW:           ['nav-rmpm-inventory', 'nav-demand-supply-plan'],
+    EMERGENCY_PO_RAISED:         ['nav-rmpm-inventory'],
+    CONVERSION_DROP:             ['nav-commercial', 'nav-beauty-advisors'],
+    DEMAND_SPIKE:                ['nav-commercial', 'nav-beauty-advisors', 'nav-demand-supply-plan'],
+    VIRAL_SPIKE:                 ['nav-commercial', 'nav-beauty-advisors', 'nav-demand-supply-plan'],
+    FORMULA_HOLD_RISK:           ['nav-rd'],
+    SYSTEM_LATENCY_ALERT:        ['nav-it-systems'],
+    BA_OOS_ESCALATION:           ['nav-beauty-advisors']
   };
 
   /* ── Tiny helpers ──────────────────────────────────────────── */
