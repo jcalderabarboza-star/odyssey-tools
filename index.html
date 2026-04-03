@@ -22232,8 +22232,8 @@ function renderFinanceExceptions() {
   if (!banner) return;
 
   var FINANCE_SIGNALS = [
-    'FX_VOLATILITY_ALERT','RM_INFLATION_RISK','AR_OVERDUE_ALERT',
-    'EMERGENCY_PO_RAISED','PERFECT_ORDER_BREACH'
+    'FX_VOLATILITY_ALERT', 'RM_INFLATION_RISK', 'AR_OVERDUE_ALERT',
+    'EMERGENCY_PO_RAISED', 'PERFECT_ORDER_BREACH', 'RM_COST_SPIKE'
   ];
 
   var all = (window.OdysseySignalEngine && OdysseySignalEngine.signals) || [];
@@ -23841,7 +23841,8 @@ function exportBoardPack() {
     'procurement':       { navId: 'nav-proc', signals: ['VIRAL_SPIKE'] },
     'manufacturing':     { navId: 'nav-mfg',  signals: ['STOCK_RISK'] },
     'executive-summary': { navId: 'nav-exec', signals: null },   // null = all CRITICAL
-    'transport-3pl':     { navId: 'nav-transport-3pl', signals: ['SUMATRA_ROUTE_ALERT', 'MIDDLE_MILE_DELAY', 'CARRIER_SLA_BREACH', 'PERFECT_ORDER_BREACH', 'NETWORK_SERVICE_BREACH', 'WAREHOUSE_UTIL_HIGH', 'DISTRIBUTOR_OTD_BREACH'] }
+    'transport-3pl':     { navId: 'nav-transport-3pl', signals: ['SUMATRA_ROUTE_ALERT', 'MIDDLE_MILE_DELAY', 'CARRIER_SLA_BREACH', 'PERFECT_ORDER_BREACH', 'NETWORK_SERVICE_BREACH', 'WAREHOUSE_UTIL_HIGH', 'DISTRIBUTOR_OTD_BREACH'] },
+    'finance':           { navId: 'nav-finance', signals: ['FX_VOLATILITY_ALERT', 'RM_INFLATION_RISK', 'AR_OVERDUE_ALERT', 'EMERGENCY_PO_RAISED', 'PERFECT_ORDER_BREACH', 'RM_COST_SPIKE'] }
   };
 
   /** Per-module unseen signal counts */
@@ -23964,6 +23965,22 @@ function exportBoardPack() {
       ];
       if (transportSignals.indexOf(signal.name) === -1) return;
       showSidebarBadge('nav-transport', signal);
+    });
+    OdysseySignalEngine.subscribe('finance', function(signal) {
+      var financeSignals = [
+        'FX_VOLATILITY_ALERT', 'RM_INFLATION_RISK', 'AR_OVERDUE_ALERT',
+        'EMERGENCY_PO_RAISED', 'PERFECT_ORDER_BREACH', 'RM_COST_SPIKE'
+      ];
+      if (financeSignals.indexOf(signal.name) === -1) return;
+      renderFinanceExceptions();
+    });
+    OdysseySignalEngine.subscribe('finance-badge', function(signal) {
+      var financeSignals = [
+        'FX_VOLATILITY_ALERT', 'RM_INFLATION_RISK', 'AR_OVERDUE_ALERT',
+        'EMERGENCY_PO_RAISED', 'PERFECT_ORDER_BREACH', 'RM_COST_SPIKE'
+      ];
+      if (financeSignals.indexOf(signal.name) === -1) return;
+      showSidebarBadge('nav-finance', signal);
     });
   }
 
