@@ -24746,6 +24746,83 @@ function exportBoardPack() {
     addChain2SimulatorButtons();
   }
 
+  /* ── Chain 4 — Transport Risk buttons ── */
+  function addChain4SimulatorButtons() {
+    var body = document.getElementById('ose-demo-body');
+    if (!body) { return; }
+
+    var sep = document.createElement('div');
+    sep.style.cssText = 'border-top:1px solid rgba(255,255,255,.15);margin:8px 0 6px';
+    body.appendChild(sep);
+
+    var sectionLabel = document.createElement('div');
+    sectionLabel.className = 'ose-panel-title';
+    sectionLabel.textContent = 'Chain 4 \u2014 Transport Risk';
+    body.appendChild(sectionLabel);
+
+    var chain4Signals = [
+      { label: 'Fire: Middle Mile Delay',   key: 'MIDDLE_MILE_DELAY' },
+      { label: 'Fire: Carrier SLA Breach',  key: 'CARRIER_SLA_BREACH' },
+      { label: 'Fire: Sumatra Route Alert', key: 'SUMATRA_ROUTE_ALERT' }
+    ];
+
+    chain4Signals.forEach(function(sig) {
+      var btn = document.createElement('button');
+      btn.className = 'ose-sig-btn';
+      btn.textContent = sig.label;
+      btn.style.borderLeftColor = '#0891b2';
+      btn.addEventListener('click', function() {
+        OdysseySignalEngine.fire(sig.key);
+      });
+      body.appendChild(btn);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', addChain4SimulatorButtons);
+  } else {
+    addChain4SimulatorButtons();
+  }
+
+  /* ── Chain 5 — Cost Risk buttons ── */
+  function addChain5SimulatorButtons() {
+    var body = document.getElementById('ose-demo-body');
+    if (!body) { return; }
+
+    var sep = document.createElement('div');
+    sep.style.cssText = 'border-top:1px solid rgba(255,255,255,.15);margin:8px 0 6px';
+    body.appendChild(sep);
+
+    var sectionLabel = document.createElement('div');
+    sectionLabel.className = 'ose-panel-title';
+    sectionLabel.textContent = 'Chain 5 \u2014 Cost Risk';
+    body.appendChild(sectionLabel);
+
+    var chain5Signals = [
+      { label: 'Fire: RM Cost Spike',      key: 'RM_COST_SPIKE' },
+      { label: 'Fire: FX Volatility',      key: 'FX_VOLATILITY_ALERT' },
+      { label: 'Fire: Formula Hold Risk',  key: 'FORMULA_HOLD_RISK' },
+      { label: 'Fire: System Latency',     key: 'SYSTEM_LATENCY_ALERT' }
+    ];
+
+    chain5Signals.forEach(function(sig) {
+      var btn = document.createElement('button');
+      btn.className = 'ose-sig-btn';
+      btn.textContent = sig.label;
+      btn.style.borderLeftColor = '#7c3aed';
+      btn.addEventListener('click', function() {
+        OdysseySignalEngine.fire(sig.key);
+      });
+      body.appendChild(btn);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', addChain5SimulatorButtons);
+  } else {
+    addChain5SimulatorButtons();
+  }
+
 })();
 </script>
 
