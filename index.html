@@ -891,6 +891,163 @@
       .ct-alert-list { flex: none; width: 100%; }
     }
 
+    /* ── E2E HOLOGRAPHIC TOP SECTION ─────────────────────────── */
+    #panel-ct .ct-holo-wrapper {
+      background: radial-gradient(ellipse at 50% 40%, #0a1628 0%, #050810 70%);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    #panel-ct .ct-holo-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.08;
+      pointer-events: none;
+    }
+    #panel-ct .ct-holo-status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding: 8px 12px;
+      background: rgba(0,180,216,0.06);
+      border: 0.5px solid rgba(0,180,216,0.2);
+      border-radius: 6px;
+    }
+    #panel-ct .ct-holo-status-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #00b4d8;
+    }
+    #panel-ct .ct-holo-status-indicators {
+      display: flex;
+      gap: 16px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+    #panel-ct .ct-holo-status-indicators .ind-healthy { color: #3fb950; }
+    #panel-ct .ct-holo-status-indicators .ind-warning { color: #ffbe0b; }
+    #panel-ct .ct-holo-status-indicators .ind-critical { color: #f85149; }
+    #panel-ct .ct-holo-grid-wrapper {
+      perspective: 1200px;
+      perspective-origin: 50% 30%;
+    }
+    #panel-ct .ct-holo-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      transform: rotateX(6deg);
+      transform-style: preserve-3d;
+      transition: transform 0.4s ease;
+    }
+    #panel-ct .ct-holo-grid:hover {
+      transform: rotateX(2deg);
+    }
+    #panel-ct .ct-holo-card {
+      background: rgba(17, 19, 24, 0.85);
+      backdrop-filter: blur(12px);
+      border-radius: 8px;
+      border: 0.5px solid rgba(0,180,216,0.15);
+      padding: 12px 10px 10px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    #panel-ct .ct-holo-card:hover {
+      transform: translateY(-3px) scale(1.02);
+      z-index: 10;
+    }
+    #panel-ct .ct-holo-card.status-healthy {
+      border-top: 2px solid #3fb950;
+      box-shadow: 0 0 12px rgba(63,185,80,0.2), inset 0 0 12px rgba(63,185,80,0.03);
+    }
+    #panel-ct .ct-holo-card.status-warning {
+      border-top: 2px solid #ffbe0b;
+      box-shadow: 0 0 12px rgba(255,190,11,0.25), inset 0 0 12px rgba(255,190,11,0.03);
+    }
+    #panel-ct .ct-holo-card.status-critical {
+      border-top: 2px solid #f85149;
+      box-shadow: 0 0 16px rgba(248,81,73,0.35), inset 0 0 12px rgba(248,81,73,0.05);
+    }
+    #panel-ct .ct-holo-card-name {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #8b949e;
+      margin-bottom: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #panel-ct .ct-holo-card-pct {
+      font-size: 26px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    #panel-ct .ct-holo-card-pct.status-healthy { color: #3fb950; }
+    #panel-ct .ct-holo-card-pct.status-warning { color: #ffbe0b; }
+    #panel-ct .ct-holo-card-pct.status-critical { color: #f85149; }
+    #panel-ct .ct-holo-card-alerts {
+      font-size: 10px;
+      color: #636c76;
+      margin-bottom: 4px;
+    }
+    #panel-ct .ct-holo-card-trend {
+      font-size: 10px;
+      margin-bottom: 8px;
+    }
+    #panel-ct .ct-signal-dots {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding-top: 8px;
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+    }
+    #panel-ct .ct-signal-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #1e2330;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      flex-shrink: 0;
+    }
+    #panel-ct .ct-signal-dot.active-c1 { background: #00b4d8; box-shadow: 0 0 6px rgba(0,180,216,0.8); }
+    #panel-ct .ct-signal-dot.active-c2 { background: #f85149; box-shadow: 0 0 6px rgba(248,81,73,0.8); }
+    #panel-ct .ct-signal-dot.active-c3 { background: #e11d48; box-shadow: 0 0 6px rgba(225,29,72,0.8); }
+    #panel-ct .ct-signal-dot.active-c4 { background: #0891b2; box-shadow: 0 0 6px rgba(8,145,178,0.8); }
+    #panel-ct .ct-signal-dot.active-c5 { background: #7c3aed; box-shadow: 0 0 6px rgba(124,58,237,0.8); }
+    #panel-ct .ct-signal-dot-label {
+      font-size: 8px;
+      color: #636c76;
+      letter-spacing: 0.04em;
+      margin-left: 2px;
+    }
+    @keyframes ct-float {
+      0%, 100% { transform: rotateX(6deg) translateY(0); }
+      50% { transform: rotateX(6deg) translateY(-3px); }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      #panel-ct .ct-holo-grid {
+        animation: ct-float 8s ease-in-out infinite;
+      }
+      #panel-ct .ct-holo-grid:hover {
+        animation: none;
+        transform: rotateX(2deg);
+      }
+    }
+
     /* ══ ARIA INTELLIGENCE PANEL ══ */
     #panel-aria-intelligence {
       background: #f8fafc;
@@ -7473,18 +7630,19 @@
 ══════════════════════════════════════════ -->
 <div class="tab-panel" id="panel-ct">
 
-  <!-- PART 1: HEADER STATUS BAR -->
-  <div class="section-block" style="padding-bottom:12px">
-    <div style="font-size:13px;color:#64748b;margin-bottom:8px">End-to-End Supply Chain Orchestration — Live Network Intelligence</div>
-    <div class="ct-status-bar">🟢 Network Status: 4 modules healthy &nbsp;·&nbsp; ⚠️ 3 modules with warnings &nbsp;·&nbsp; 🔴 0 critical</div>
-  </div>
-
-  <!-- PART 2: NETWORK HEALTH SCORECARD -->
-  <div class="section-block">
-    <div class="section-hdr">
-      <p class="section-label"><span class="section-tag tag-blue">NETWORK HEALTH — ALL MODULES</span></p>
+  <!-- PART 1+2: HOLOGRAPHIC NETWORK STATUS + MODULE GRID -->
+  <div class="ct-holo-wrapper">
+    <div class="ct-holo-status">
+      <span class="ct-holo-status-label">⬡ PARAGON CORP — ODYSSEY PROGRAM &nbsp;·&nbsp; E2E CONTROL TOWER — LIVE NETWORK INTELLIGENCE</span>
+      <div class="ct-holo-status-indicators">
+        <span class="ind-healthy" id="ct-hud-healthy">● 4 healthy</span>
+        <span class="ind-warning" id="ct-hud-warning">▲ 3 warnings</span>
+        <span class="ind-critical" id="ct-hud-critical">● 0 critical</span>
+      </div>
     </div>
-    <div class="ct-module-cards" id="ct-module-cards"></div>
+    <div class="ct-holo-grid-wrapper">
+      <div class="ct-holo-grid" id="ct-module-cards"></div>
+    </div>
   </div>
 
   <!-- PART 3: LIVE ALERT FEED -->
@@ -19016,18 +19174,57 @@ const CT_MODULES = [
 function renderCTModuleCards() {
   const container = document.getElementById('ct-module-cards');
   if (!container) return;
+
+  var moduleSignalMap = {
+    'kpi':             { c1: ['VIRAL_SPIKE','DEMAND_SPIKE'], c2: ['STOCK_RISK','PROC_COVERAGE_LOW'], c3: ['COMPLAINT_SURGE'], c4: ['PERFECT_ORDER_BREACH','NETWORK_SERVICE_BREACH'], c5: [] },
+    'proc':            { c1: ['VIRAL_SPIKE'], c2: ['PROC_COVERAGE_LOW','EMERGENCY_PO_RAISED'], c3: [], c4: [], c5: ['RM_COST_SPIKE'] },
+    'mfg':             { c1: [], c2: ['STOCK_RISK','SUPPLIER_CONFIRM_LATE'], c3: [], c4: [], c5: [] },
+    'suppliers':       { c1: [], c2: ['SUPPLIER_CONFIRM_LATE','EMERGENCY_PO_RAISED'], c3: [], c4: [], c5: [] },
+    'transport-3pl':   { c1: [], c2: [], c3: [], c4: ['MIDDLE_MILE_DELAY','CARRIER_SLA_BREACH','SUMATRA_ROUTE_ALERT'], c5: [] },
+    'finance':         { c1: [], c2: [], c3: [], c4: [], c5: ['FX_VOLATILITY_ALERT','RM_COST_SPIKE'] },
+    'demand-sensing':  { c1: ['VIRAL_SPIKE','DEMAND_SPIKE'], c2: [], c3: ['COMPLAINT_SURGE'], c4: [], c5: [] },
+    'commercial':      { c1: ['VIRAL_SPIKE','DEMAND_SPIKE'], c2: [], c3: ['CONVERSION_DROP'], c4: [], c5: [] },
+    'marketing':       { c1: ['VIRAL_SPIKE'], c2: [], c3: ['COMPLAINT_SURGE'], c4: [], c5: [] },
+    'beauty-advisors': { c1: ['VIRAL_SPIKE','DEMAND_SPIKE'], c2: [], c3: [], c4: [], c5: [] },
+    'customer-service':{ c1: [], c2: ['STOCK_RISK'], c3: ['COMPLAINT_SURGE','CONVERSION_DROP'], c4: [], c5: [] },
+    'returns-logistics':{ c1: [], c2: [], c3: ['COMPLAINT_SURGE'], c4: [], c5: [] }
+  };
+
+  var fired = (window.OdysseySignalEngine && OdysseySignalEngine.signals)
+    ? OdysseySignalEngine.signals.map(function(s){ return s.name; })
+    : [];
+
+  function dotClass(chains) {
+    return chains.some(function(s){ return fired.indexOf(s) > -1; });
+  }
+
   container.innerHTML = CT_MODULES.map(function(m) {
-    const hc = m.status === 'ontarget' ? '#107e3e' : m.status === 'warning' ? '#e76500' : '#bb0000';
-    const tc = m.trendDir === 'up' ? '#107e3e' : m.trendDir === 'flat' ? '#6b7280' : '#bb0000';
-    const clickAttr = m.tab
+    var statusClass = m.health >= 90 ? 'status-healthy' : m.health >= 80 ? 'status-warning' : 'status-critical';
+    var smap = moduleSignalMap[m.tab] || { c1:[], c2:[], c3:[], c4:[], c5:[] };
+    var d1 = dotClass(smap.c1) ? 'active-c1' : '';
+    var d2 = dotClass(smap.c2) ? 'active-c2' : '';
+    var d3 = dotClass(smap.c3) ? 'active-c3' : '';
+    var d4 = dotClass(smap.c4) ? 'active-c4' : '';
+    var d5 = dotClass(smap.c5) ? 'active-c5' : '';
+    var trendColor = m.trendDir === 'up' ? '#3fb950' : m.trendDir === 'down' ? '#f85149' : '#8b949e';
+    var alertText = m.alerts === 0
+      ? '<span style="color:#3fb950">No active alerts</span>'
+      : '<span style="color:#ffbe0b">' + m.alerts + ' active alert' + (m.alerts > 1 ? 's' : '') + '</span>';
+    var clickAttr = m.tab
       ? (m.tab === 'transport-3pl' ? 'onclick="switchToTransport3PL()"' : 'onclick="switchTab(\'' + m.tab + '\')"')
       : '';
-    return '<div class="ct-module-card" style="border-top-color:' + m.border + '" ' + clickAttr + '>' +
-      '<div class="ct-module-card-name">' + m.icon + ' ' + m.name + '</div>' +
-      '<div class="ct-module-health" style="color:' + hc + '">' + m.health + '%</div>' +
-      '<div class="ct-module-prog"><div class="ct-module-prog-inner" style="width:' + m.health + '%;background:' + m.border + '"></div></div>' +
-      '<div class="ct-module-alerts">' + (m.alerts > 0 ? m.alerts + ' active alert' + (m.alerts > 1 ? 's' : '') : 'No active alerts') + '</div>' +
-      '<div class="ct-module-trend" style="color:' + tc + '">' + m.trend + ' vs last week</div>' +
+    return '<div class="ct-holo-card ' + statusClass + '" ' + clickAttr + '>' +
+      '<div class="ct-holo-card-name">' + m.icon + ' ' + m.name + '</div>' +
+      '<div class="ct-holo-card-pct ' + statusClass + '">' + m.health + '%</div>' +
+      '<div class="ct-holo-card-alerts">' + alertText + '</div>' +
+      '<div class="ct-holo-card-trend" style="color:' + trendColor + '">' + (m.trend || '') + '</div>' +
+      '<div class="ct-signal-dots">' +
+        '<span class="ct-signal-dot ' + d1 + '" title="Chain 1 — Virality"></span>' +
+        '<span class="ct-signal-dot ' + d2 + '" title="Chain 2 — Supply Risk"></span>' +
+        '<span class="ct-signal-dot ' + d3 + '" title="Chain 3 — Feedback Loop"></span>' +
+        '<span class="ct-signal-dot ' + d4 + '" title="Chain 4 — Transport Risk"></span>' +
+        '<span class="ct-signal-dot ' + d5 + '" title="Chain 5 — Cost Risk"></span>' +
+      '</div>' +
     '</div>';
   }).join('');
 }
