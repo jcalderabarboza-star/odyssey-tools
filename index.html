@@ -893,21 +893,35 @@
 
     /* ── E2E HOLOGRAPHIC TOP SECTION ─────────────────────────── */
     #panel-ct .ct-holo-wrapper {
-      background: radial-gradient(ellipse at 50% 40%, #0a1628 0%, #050810 70%);
+      background: radial-gradient(ellipse at 50% 30%, #0d2137 0%, #050810 65%);
       border-radius: 12px;
-      padding: 20px;
+      padding: 24px;
       margin-bottom: 20px;
       position: relative;
-      overflow: hidden;
     }
     #panel-ct .ct-holo-wrapper::before {
       content: '';
       position: absolute;
       inset: 0;
-      background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
-      background-size: 40px 40px;
-      opacity: 0.08;
+      border-radius: 12px;
+      background-image: radial-gradient(circle, rgba(0,180,216,0.2) 1px, transparent 1px);
+      background-size: 36px 36px;
+      opacity: 0.18;
       pointer-events: none;
+      z-index: 0;
+    }
+    #panel-ct .ct-holo-wrapper::after {
+      content: '';
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 300px;
+      background: radial-gradient(ellipse, rgba(0,180,216,0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      border-radius: 50%;
     }
     #panel-ct .ct-holo-status {
       display: flex;
@@ -938,6 +952,8 @@
     #panel-ct .ct-holo-grid-wrapper {
       perspective: 1200px;
       perspective-origin: 50% 30%;
+      position: relative;
+      z-index: 1;
     }
     #panel-ct .ct-holo-grid {
       display: grid;
@@ -951,15 +967,14 @@
       transform: rotateX(2deg);
     }
     #panel-ct .ct-holo-card {
-      background: rgba(17, 19, 24, 0.85);
+      background: rgba(17, 19, 24, 0.9);
       backdrop-filter: blur(12px);
       border-radius: 8px;
       border: 0.5px solid rgba(0,180,216,0.15);
-      padding: 12px 10px 10px;
+      padding: 16px 12px 12px;
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       position: relative;
-      overflow: hidden;
     }
     #panel-ct .ct-holo-card:hover {
       transform: translateY(-3px) scale(1.02);
@@ -989,12 +1004,13 @@
       text-overflow: ellipsis;
     }
     #panel-ct .ct-holo-card-pct {
-      font-size: 26px;
+      font-size: 36px;
       font-weight: 700;
       font-family: 'JetBrains Mono', 'Courier New', monospace;
       font-variant-numeric: tabular-nums;
       line-height: 1;
       margin-bottom: 6px;
+      letter-spacing: -0.02em;
     }
     #panel-ct .ct-holo-card-pct.status-healthy { color: #3fb950; }
     #panel-ct .ct-holo-card-pct.status-warning { color: #ffbe0b; }
