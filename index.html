@@ -61,7 +61,7 @@
       background: #e8f4ff18;
       color: #ffffff;
     }
-    .nav-item-icon { font-size: 15px; flex-shrink: 0; width: 20px; text-align: center; }
+    .nav-item-icon { font-size: 15px; flex-shrink: 0; width: 20px; text-align: center; display: flex; align-items: center; justify-content: center; }
     .nav-item-label { flex: 1; }
     .nav-item.disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
     .nav-soon {
@@ -1714,7 +1714,7 @@
     </div>
   </div>
   <button class="nav-item exec-view-nav-btn" id="nav-executive-view" onclick="switchTab('executive-view')">
-    <span class="nav-item-icon">📱</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg></span>
     <span class="nav-item-label">App Preview</span>
   </button>
   <button class="ct-hero-btn nav-item" id="nav-ct" onclick="switchTab('ct')">
@@ -1723,95 +1723,95 @@
     <span class="ct-hero-line3"><span class="ct-hero-green">●</span> 4 healthy &nbsp;<span class="ct-hero-amber">⚠</span> 2 warnings</span>
   </button>
   <button class="nav-item" id="nav-exec" onclick="switchTab('exec')">
-    <span class="nav-item-icon">📊</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
     <span class="nav-item-label">Executive Dashboard</span>
   </button>
   <div class="sidebar-section-divider"></div>
   <div class="sidebar-section-label">AI Agent</div>
   <button class="nav-item aria-nav-item" id="nav-aria-intelligence" onclick="switchTab('aria-intelligence')">
-    <span class="nav-item-icon">🤖</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313-12.454z"/><path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2"/><path d="M19 11h2m-1-1v2"/></svg></span>
     <span class="nav-item-label">ARIA Intelligence</span>
   </button>
   <button class="nav-item" id="nav-war-room" onclick="switchTab('war-room')">
-    <span class="nav-item-icon">🎯</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
     <span class="nav-item-label">War Room</span>
   </button>
   <div class="sidebar-section-divider"></div>
   <div class="sidebar-section-label">Plan</div>
   <button class="nav-item" id="nav-demand-supply-plan" onclick="switchTab('demand-supply-plan')">
-    <span class="nav-item-icon">📋</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></span>
     <span class="nav-item-label">Demand &amp; Supply Plan</span>
   </button>
   <div class="sidebar-section-divider"></div>
   <div class="sidebar-section-label">Upstream — Supply Side</div>
   <button class="nav-item" id="nav-suppliers" onclick="switchTab('suppliers')">
-    <span class="nav-item-icon">🤝</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-1"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></svg></span>
     <span class="nav-item-label">Suppliers Portal</span>
   </button>
   <button class="nav-item" id="nav-rmpm-inventory" onclick="switchTab('rmpm-inventory')">
-    <span class="nav-item-icon">🧪</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2v6l3 9H7l3-9V2"/><path d="M6 2h12"/><path d="M9 13H5"/></svg></span>
     <span class="nav-item-label">RM &amp; PM Inventory</span>
   </button>
   <button class="nav-item" id="nav-proc" onclick="switchTab('proc')">
-    <span class="nav-item-icon">🛒</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg></span>
     <span class="nav-item-label">Procurement &amp; Purchase</span>
   </button>
   <button class="nav-item" id="nav-mfg" onclick="switchTab('mfg')">
-    <span class="nav-item-icon">🏭</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg></span>
     <span class="nav-item-label">Manufacturing</span>
   </button>
   <div class="sidebar-section-divider"></div>
   <div class="sidebar-section-label">Operations — Physical Flow</div>
   <button class="nav-item active" id="nav-kpi" onclick="switchTab('kpi')">
-    <span class="nav-item-icon">📦</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35Z"/><path d="M6 18h12"/><path d="M12 2v20"/></svg></span>
     <span class="nav-item-label">Distribution &amp; Warehouse</span>
   </button>
   <button class="nav-item" id="nav-transport-3pl" onclick="switchToTransport3PL()">
-    <span class="nav-item-icon">🚛</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg></span>
     <span class="nav-item-label">Transport &amp; 3PL</span>
   </button>
   <div class="sidebar-section-divider"></div>
   <div class="sidebar-section-label">Finance</div>
   <button class="nav-item" id="nav-finance" onclick="switchTab('finance')">
-    <span class="nav-item-icon">💰</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 0 0 4H8"/><path d="M12 18V6"/></svg></span>
     <span class="nav-item-label">Finance</span>
   </button>
   <div class="sidebar-section-divider"></div>
   <div class="sidebar-section-label">Commercial — Demand Side</div>
   <button class="nav-item" id="nav-demand-sensing" onclick="switchTab('demand-sensing')">
-    <span class="nav-item-icon">📡</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg></span>
     <span class="nav-item-label">Demand Sensing</span>
   </button>
   <button class="nav-item" id="nav-commercial" onclick="switchTab('commercial')">
-    <span class="nav-item-icon">📊</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
     <span class="nav-item-label">Commercial</span>
   </button>
   <button class="nav-item" id="nav-marketing" onclick="switchTab('marketing')">
-    <span class="nav-item-icon">📣</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 19-9-9 19-2-8-8-2z"/></svg></span>
     <span class="nav-item-label">Marketing</span>
   </button>
   <button class="nav-item" id="nav-beauty-advisors" onclick="switchTab('beauty-advisors')">
-    <span class="nav-item-icon">💄</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
     <span class="nav-item-label">Beauty Advisors</span>
   </button>
   <button class="nav-item" id="nav-rd" onclick="switchTab('rd')">
-    <span class="nav-item-icon">🔬</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L4.72 20.28A1 1 0 0 0 5.6 22h12.8a1 1 0 0 0 .88-1.72L18 18"/><path d="M8 18h8"/><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 18"/><path d="M14 2v7.527a2 2 0 0 0 .211.896L19.28 18"/><path d="M10 2h4"/></svg></span>
     <span class="nav-item-label">R&amp;D</span>
   </button>
   <div class="sidebar-section-divider"></div>
   <div class="sidebar-section-label">Support Functions</div>
   <button class="nav-item" id="nav-it-systems" onclick="switchTab('it-systems')">
-    <span class="nav-item-icon">🖥️</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
     <span class="nav-item-label">IT / Systems</span>
   </button>
   <div class="sidebar-section-divider"></div>
   <div class="sidebar-section-label">Post-Delivery</div>
   <button class="nav-item" id="nav-customer-service" onclick="switchTab('customer-service')">
-    <span class="nav-item-icon">🎧</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></svg></span>
     <span class="nav-item-label">Customer Service</span>
   </button>
   <button class="nav-item" id="nav-returns-logistics" onclick="switchTab('returns-logistics')">
-    <span class="nav-item-icon">↩️</span>
+    <span class="nav-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></span>
     <span class="nav-item-label">Returns &amp; Reverse Logistics</span>
   </button>
   <div class="sidebar-footer">E2E Control Tower v2.0 — Odyssey Program</div>
